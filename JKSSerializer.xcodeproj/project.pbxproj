@@ -8,25 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		1F1E3F73180392ED00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
-		1F1E3F78180392ED00801509 /* JKSSerializer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F1E3F77180392ED00801509 /* JKSSerializer.h */; };
-		1F1E3F7A180392ED00801509 /* JKSSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSSerializer.m */; };
-		1F1E3F81180392ED00801509 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F80180392ED00801509 /* XCTest.framework */; };
-		1F1E3F82180392ED00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
-		1F1E3F84180392ED00801509 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F83180392ED00801509 /* UIKit.framework */; };
-		1F1E3F87180392ED00801509 /* libJKSSerializer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F6F180392ED00801509 /* libJKSSerializer.a */; };
-		1F1E3F8D180392ED00801509 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F1E3F8B180392ED00801509 /* InfoPlist.strings */; };
-		1F1E3F8F180392ED00801509 /* JKSSerializerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F8E180392ED00801509 /* JKSSerializerTests.m */; };
+		1F1E3F78180392ED00801509 /* JKSKeyValueSerializer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F1E3F77180392ED00801509 /* JKSKeyValueSerializer.h */; };
+		1F1E3F7A180392ED00801509 /* JKSKeyValueSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSKeyValueSerializer.m */; };
+		1F1E3F9E1803931D00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
+		1F1E3FA01803931D00801509 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F9F1803931D00801509 /* CoreGraphics.framework */; };
+		1F1E3FA61803931D00801509 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F1E3FA41803931D00801509 /* InfoPlist.strings */; };
+		1F1E3FA81803931D00801509 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FA71803931D00801509 /* main.m */; };
+		1F1E3FAC1803931D00801509 /* Cedar-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3FAB1803931D00801509 /* Cedar-iOS.framework */; };
+		1F1E3FB31803933700801509 /* JKSKeyValueSerializerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FB21803933700801509 /* JKSKeyValueSerializerSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1F1E3FB41803935900801509 /* JKSKeyValueSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSKeyValueSerializer.m */; };
+		1F1E3FBA1803966400801509 /* JKSPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FB91803966400801509 /* JKSPerson.m */; };
+		1F1E3FC11804EC4E00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
+		1F1E3FC71804EC4F00801509 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3FC61804EC4F00801509 /* Cedar.framework */; };
+		1F1E3FC91804EC4F00801509 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FC81804EC4F00801509 /* main.m */; };
+		1F1E3FCF1804EC5C00801509 /* JKSKeyValueSerializerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FB21803933700801509 /* JKSKeyValueSerializerSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1F1E3FD01804EC5E00801509 /* JKSPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FB91803966400801509 /* JKSPerson.m */; };
+		1F1E3FD11804EC6000801509 /* JKSKeyValueSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSKeyValueSerializer.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		1F1E3F85180392ED00801509 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1F1E3F67180392ED00801509 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F1E3F6E180392ED00801509;
-			remoteInfo = JKSSerializer;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		1F1E3F6D180392ED00801509 /* CopyFiles */ = {
@@ -35,7 +33,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				1F1E3F78180392ED00801509 /* JKSSerializer.h in CopyFiles */,
+				1F1E3F78180392ED00801509 /* JKSKeyValueSerializer.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,14 +43,24 @@
 		1F1E3F6F180392ED00801509 /* libJKSSerializer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJKSSerializer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F72180392ED00801509 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F1E3F76180392ED00801509 /* JKSSerializer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JKSSerializer-Prefix.pch"; sourceTree = "<group>"; };
-		1F1E3F77180392ED00801509 /* JKSSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSSerializer.h; sourceTree = "<group>"; };
-		1F1E3F79180392ED00801509 /* JKSSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKSSerializer.m; sourceTree = "<group>"; };
-		1F1E3F7F180392ED00801509 /* JKSSerializerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JKSSerializerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F1E3F80180392ED00801509 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		1F1E3F83180392ED00801509 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		1F1E3F8A180392ED00801509 /* JKSSerializerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JKSSerializerTests-Info.plist"; sourceTree = "<group>"; };
-		1F1E3F8C180392ED00801509 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1F1E3F8E180392ED00801509 /* JKSSerializerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKSSerializerTests.m; sourceTree = "<group>"; };
+		1F1E3F77180392ED00801509 /* JKSKeyValueSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSKeyValueSerializer.h; sourceTree = "<group>"; };
+		1F1E3F79180392ED00801509 /* JKSKeyValueSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKSKeyValueSerializer.m; sourceTree = "<group>"; };
+		1F1E3F9C1803931D00801509 /* Specs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Specs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1E3F9F1803931D00801509 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1F1E3FA31803931D00801509 /* Specs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Specs-Info.plist"; sourceTree = "<group>"; };
+		1F1E3FA51803931D00801509 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1F1E3FA71803931D00801509 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1F1E3FA91803931D00801509 /* Specs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Specs-Prefix.pch"; sourceTree = "<group>"; };
+		1F1E3FAA1803931D00801509 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
+		1F1E3FAB1803931D00801509 /* Cedar-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iOS.framework"; path = "Frameworks/Cedar-iOS.framework"; sourceTree = "<group>"; };
+		1F1E3FB21803933700801509 /* JKSKeyValueSerializerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JKSKeyValueSerializerSpec.mm; sourceTree = "<group>"; };
+		1F1E3FB81803966400801509 /* JKSPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSPerson.h; sourceTree = "<group>"; };
+		1F1E3FB91803966400801509 /* JKSPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSPerson.m; sourceTree = "<group>"; };
+		1F1E3FC01804EC4E00801509 /* OSXSpecs */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OSXSpecs; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1E3FC31804EC4E00801509 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
+		1F1E3FC51804EC4E00801509 /* OSXSpecs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSXSpecs-Prefix.pch"; sourceTree = "<group>"; };
+		1F1E3FC61804EC4F00801509 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = Frameworks/Cedar.framework; sourceTree = "<group>"; };
+		1F1E3FC81804EC4F00801509 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,14 +72,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1F1E3F7C180392ED00801509 /* Frameworks */ = {
+		1F1E3F991803931D00801509 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F1E3F81180392ED00801509 /* XCTest.framework in Frameworks */,
-				1F1E3F84180392ED00801509 /* UIKit.framework in Frameworks */,
-				1F1E3F87180392ED00801509 /* libJKSSerializer.a in Frameworks */,
-				1F1E3F82180392ED00801509 /* Foundation.framework in Frameworks */,
+				1F1E3FA01803931D00801509 /* CoreGraphics.framework in Frameworks */,
+				1F1E3FAC1803931D00801509 /* Cedar-iOS.framework in Frameworks */,
+				1F1E3F9E1803931D00801509 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F1E3FBE1804EC4E00801509 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F1E3FC71804EC4F00801509 /* Cedar.framework in Frameworks */,
+				1F1E3FC11804EC4E00801509 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				1F1E3F74180392ED00801509 /* JKSSerializer */,
-				1F1E3F88180392ED00801509 /* JKSSerializerTests */,
+				1F1E3FA11803931D00801509 /* Specs */,
+				1F1E3FC21804EC4E00801509 /* OSXSpecs */,
 				1F1E3F71180392ED00801509 /* Frameworks */,
 				1F1E3F70180392ED00801509 /* Products */,
 			);
@@ -92,7 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				1F1E3F6F180392ED00801509 /* libJKSSerializer.a */,
-				1F1E3F7F180392ED00801509 /* JKSSerializerTests.xctest */,
+				1F1E3F9C1803931D00801509 /* Specs.app */,
+				1F1E3FC01804EC4E00801509 /* OSXSpecs */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,8 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				1F1E3F72180392ED00801509 /* Foundation.framework */,
-				1F1E3F80180392ED00801509 /* XCTest.framework */,
-				1F1E3F83180392ED00801509 /* UIKit.framework */,
+				1F1E3F9F1803931D00801509 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -110,8 +127,7 @@
 		1F1E3F74180392ED00801509 /* JKSSerializer */ = {
 			isa = PBXGroup;
 			children = (
-				1F1E3F77180392ED00801509 /* JKSSerializer.h */,
-				1F1E3F79180392ED00801509 /* JKSSerializer.m */,
+				1F1E3FB51803959100801509 /* Public */,
 				1F1E3F75180392ED00801509 /* Supporting Files */,
 			);
 			path = JKSSerializer;
@@ -125,20 +141,70 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		1F1E3F88180392ED00801509 /* JKSSerializerTests */ = {
+		1F1E3FA11803931D00801509 /* Specs */ = {
 			isa = PBXGroup;
 			children = (
-				1F1E3F8E180392ED00801509 /* JKSSerializerTests.m */,
-				1F1E3F89180392ED00801509 /* Supporting Files */,
+				1F1E3FB71803962D00801509 /* Helpers */,
+				1F1E3FB61803959700801509 /* Public */,
+				1F1E3FAA1803931D00801509 /* Rakefile */,
+				1F1E3FAB1803931D00801509 /* Cedar-iOS.framework */,
+				1F1E3FA21803931D00801509 /* Supporting Files */,
 			);
-			path = JKSSerializerTests;
+			path = Specs;
 			sourceTree = "<group>";
 		};
-		1F1E3F89180392ED00801509 /* Supporting Files */ = {
+		1F1E3FA21803931D00801509 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1F1E3F8A180392ED00801509 /* JKSSerializerTests-Info.plist */,
-				1F1E3F8B180392ED00801509 /* InfoPlist.strings */,
+				1F1E3FA31803931D00801509 /* Specs-Info.plist */,
+				1F1E3FA41803931D00801509 /* InfoPlist.strings */,
+				1F1E3FA71803931D00801509 /* main.m */,
+				1F1E3FA91803931D00801509 /* Specs-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1F1E3FB51803959100801509 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				1F1E3F77180392ED00801509 /* JKSKeyValueSerializer.h */,
+				1F1E3F79180392ED00801509 /* JKSKeyValueSerializer.m */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		1F1E3FB61803959700801509 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				1F1E3FB21803933700801509 /* JKSKeyValueSerializerSpec.mm */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		1F1E3FB71803962D00801509 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1F1E3FB81803966400801509 /* JKSPerson.h */,
+				1F1E3FB91803966400801509 /* JKSPerson.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		1F1E3FC21804EC4E00801509 /* OSXSpecs */ = {
+			isa = PBXGroup;
+			children = (
+				1F1E3FC31804EC4E00801509 /* Rakefile */,
+				1F1E3FC61804EC4F00801509 /* Cedar.framework */,
+				1F1E3FC81804EC4F00801509 /* main.m */,
+				1F1E3FC41804EC4E00801509 /* Supporting Files */,
+			);
+			path = OSXSpecs;
+			sourceTree = "<group>";
+		};
+		1F1E3FC41804EC4E00801509 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1F1E3FC51804EC4E00801509 /* OSXSpecs-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -163,23 +229,39 @@
 			productReference = 1F1E3F6F180392ED00801509 /* libJKSSerializer.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		1F1E3F7E180392ED00801509 /* JKSSerializerTests */ = {
+		1F1E3F9B1803931D00801509 /* Specs */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1F1E3F95180392ED00801509 /* Build configuration list for PBXNativeTarget "JKSSerializerTests" */;
+			buildConfigurationList = 1F1E3FAF1803931D00801509 /* Build configuration list for PBXNativeTarget "Specs" */;
 			buildPhases = (
-				1F1E3F7B180392ED00801509 /* Sources */,
-				1F1E3F7C180392ED00801509 /* Frameworks */,
-				1F1E3F7D180392ED00801509 /* Resources */,
+				1F1E3F981803931D00801509 /* Sources */,
+				1F1E3F991803931D00801509 /* Frameworks */,
+				1F1E3F9A1803931D00801509 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1F1E3F86180392ED00801509 /* PBXTargetDependency */,
 			);
-			name = JKSSerializerTests;
-			productName = JKSSerializerTests;
-			productReference = 1F1E3F7F180392ED00801509 /* JKSSerializerTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
+			name = Specs;
+			productName = Specs;
+			productReference = 1F1E3F9C1803931D00801509 /* Specs.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1F1E3FBF1804EC4E00801509 /* OSXSpecs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F1E3FCC1804EC4F00801509 /* Build configuration list for PBXNativeTarget "OSXSpecs" */;
+			buildPhases = (
+				1F1E3FBC1804EC4E00801509 /* ShellScript */,
+				1F1E3FBD1804EC4E00801509 /* Sources */,
+				1F1E3FBE1804EC4E00801509 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OSXSpecs;
+			productName = OSXSpecs;
+			productReference = 1F1E3FC01804EC4E00801509 /* OSXSpecs */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -203,54 +285,77 @@
 			projectRoot = "";
 			targets = (
 				1F1E3F6E180392ED00801509 /* JKSSerializer */,
-				1F1E3F7E180392ED00801509 /* JKSSerializerTests */,
+				1F1E3F9B1803931D00801509 /* Specs */,
+				1F1E3FBF1804EC4E00801509 /* OSXSpecs */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		1F1E3F7D180392ED00801509 /* Resources */ = {
+		1F1E3F9A1803931D00801509 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F1E3F8D180392ED00801509 /* InfoPlist.strings in Resources */,
+				1F1E3FA61803931D00801509 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1F1E3FBC1804EC4E00801509 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -R \"${TARGET_NAME}\"/Frameworks/Cedar.framework \"${BUILT_PRODUCTS_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1F1E3F6B180392ED00801509 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F1E3F7A180392ED00801509 /* JKSSerializer.m in Sources */,
+				1F1E3F7A180392ED00801509 /* JKSKeyValueSerializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1F1E3F7B180392ED00801509 /* Sources */ = {
+		1F1E3F981803931D00801509 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F1E3F8F180392ED00801509 /* JKSSerializerTests.m in Sources */,
+				1F1E3FA81803931D00801509 /* main.m in Sources */,
+				1F1E3FBA1803966400801509 /* JKSPerson.m in Sources */,
+				1F1E3FB41803935900801509 /* JKSKeyValueSerializer.m in Sources */,
+				1F1E3FB31803933700801509 /* JKSKeyValueSerializerSpec.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F1E3FBD1804EC4E00801509 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F1E3FC91804EC4F00801509 /* main.m in Sources */,
+				1F1E3FD01804EC5E00801509 /* JKSPerson.m in Sources */,
+				1F1E3FD11804EC6000801509 /* JKSKeyValueSerializer.m in Sources */,
+				1F1E3FCF1804EC5C00801509 /* JKSKeyValueSerializerSpec.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		1F1E3F86180392ED00801509 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1F1E3F6E180392ED00801509 /* JKSSerializer */;
-			targetProxy = 1F1E3F85180392ED00801509 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		1F1E3F8B180392ED00801509 /* InfoPlist.strings */ = {
+		1F1E3FA41803931D00801509 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1F1E3F8C180392ED00801509 /* en */,
+				1F1E3FA51803931D00801509 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -284,6 +389,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -316,6 +422,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -352,41 +459,91 @@
 			};
 			name = Release;
 		};
-		1F1E3F96180392ED00801509 /* Debug */ = {
+		1F1E3FB01803931D00801509 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					/Users/jeff/workspace/JKSSerializer/Specs/Frameworks,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "JKSSerializer/JKSSerializer-Prefix.pch";
+				GCC_PREFIX_HEADER = "Specs/Specs-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "JKSSerializerTests/JKSSerializerTests-Info.plist";
+				INFOPLIST_FILE = "Specs/Specs-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+					"-lstdc++",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = xctest;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
-		1F1E3F97180392ED00801509 /* Release */ = {
+		1F1E3FB11803931D00801509 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					/Users/jeff/workspace/JKSSerializer/Specs/Frameworks,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "JKSSerializer/JKSSerializer-Prefix.pch";
-				INFOPLIST_FILE = "JKSSerializerTests/JKSSerializerTests-Info.plist";
+				GCC_PREFIX_HEADER = "Specs/Specs-Prefix.pch";
+				INFOPLIST_FILE = "Specs/Specs-Info.plist";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+					"-lstdc++",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = xctest;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		1F1E3FCD1804EC4F00801509 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jeff/workspace/JKSSerializer/OSXSpecs/Frameworks,
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OSXSpecs/OSXSpecs-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1F1E3FCE1804EC4F00801509 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jeff/workspace/JKSSerializer/OSXSpecs/Frameworks,
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OSXSpecs/OSXSpecs-Prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -410,11 +567,19 @@
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		1F1E3F95180392ED00801509 /* Build configuration list for PBXNativeTarget "JKSSerializerTests" */ = {
+		1F1E3FAF1803931D00801509 /* Build configuration list for PBXNativeTarget "Specs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1F1E3F96180392ED00801509 /* Debug */,
-				1F1E3F97180392ED00801509 /* Release */,
+				1F1E3FB01803931D00801509 /* Debug */,
+				1F1E3FB11803931D00801509 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1F1E3FCC1804EC4F00801509 /* Build configuration list for PBXNativeTarget "OSXSpecs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F1E3FCD1804EC4F00801509 /* Debug */,
+				1F1E3FCE1804EC4F00801509 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

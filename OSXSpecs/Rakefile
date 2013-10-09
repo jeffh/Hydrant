@@ -1,0 +1,78 @@
+require 'pathname'
+
+module OSXSpecs
+  SPECS_TARGET_NAME = "OSXSpecs"
+  CONFIGURATION = "Release"
+
+  PROJECT_ROOT = Pathname.new(File.dirname(__FILE__)).parent.to_s
+  BUILD_DIR = File.join(PROJECT_ROOT, "build")
+
+  FileUtils.mkdir_p(File.join(BUILD_DIR, CONFIGURATION))
+
+  class << self
+    def in_project_dir
+      original_dir = Dir.pwd
+      Dir.chdir(PROJECT_ROOT)
+
+      yield
+
+      ensure
+      Dir.chdir(original_dir)
+    end
+
+    def build_dir
+      File.join(BUILD_DIR, CONFIGURATION)
+    end
+
+    def system_or_exit(cmd, stdout = nil)
+      puts "Executing #{cmd}"
+      cmd += " >#{stdout}" if stdout
+      system(cmd) or raise "******** Build failed ********"
+    end
+
+    def with_env_vars(env_vars)
+      old_values = {}
+      env_vars.each do |key,new_value|
+        old_values[key] = ENV[key]
+        ENV[key] = new_value
+      end
+
+      yield
+
+      env_vars.each_key do |key|
+        ENV[key] = old_values[key]
+      end
+    end
+
+    def output_file(target)
+      output_dir = if ENV['IS_CI_BOX']
+        ENV['CC_BUILD_ARTIFACTS']
+      else
+        Dir.mkdir(BUILD_DIR) unless File.exists?(BUILD_DIR)
+        BUILD_DIR
+      end
+
+      output_file = File.join(output_dir, "#{target}.output")
+      puts "Output: #{output_file}"
+      output_file
+    end
+  end
+end
+
+desc "Clean build directory"
+task :clean_OSXSpecs do
+  OSXSpecs.system_or_exit "rm -rf #{OSXSpecs::BUILD_DIR}/*", OSXSpecs.output_file("clean")
+end
+
+desc "Build OSXSpecs Specs"
+task :build_OSXSpecs do
+  OSXSpecs.system_or_exit(%Q[pushd #{OSXSpecs::PROJECT_ROOT} ; xcodebuild -target #{OSXSpecs::SPECS_TARGET_NAME} -configuration #{OSXSpecs::CONFIGURATION} build SYMROOT=#{OSXSpecs::BUILD_DIR} ; popd ], OSXSpecs.output_file("OSXSpecs"))
+end
+
+desc "Run OSXSpecs Specs"
+task :OSXSpecs => :build_OSXSpecs do
+  OSXSpecs.with_env_vars("DYLD_FRAMEWORK_PATH" => OSXSpecs.build_dir, "CEDAR_REPORTER_CLASS" => "CDRColorizedReporter") do
+    OSXSpecs.system_or_exit(File.join(OSXSpecs.build_dir, OSXSpecs::SPECS_TARGET_NAME))
+  end
+end
+
