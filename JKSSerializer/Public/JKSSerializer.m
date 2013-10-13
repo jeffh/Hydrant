@@ -1,34 +1,6 @@
 #import "JKSSerializer.h"
 #import <objc/runtime.h>
-
-
-@interface JKSSerialization : NSObject
-@property (strong, nonatomic) Class sourceClass;
-@property (strong, nonatomic) Class destinationClass;
-@property (strong, nonatomic) NSDictionary *mapping;
-@end
-
-@implementation JKSSerialization
-
-- (id)initWithSourceClass:(Class)srcClass destinationClass:(Class)dstClass mapping:(NSDictionary *)mapping
-{
-    self = [super init];
-    if (self) {
-        self.sourceClass = srcClass;
-        self.destinationClass = dstClass;
-        self.mapping = mapping;
-    }
-    return self;
-}
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@: %p %@ -> %@> %@",
-            NSStringFromClass([self class]), self, self.sourceClass, self.destinationClass, self.mapping];
-}
-
-@end
-
+#import "JKSSerialization.h"
 
 @interface JKSSerializer ()
 @property (strong, nonatomic) NSMutableArray *classMapping;
@@ -101,66 +73,74 @@
 
 - (id)destinationObjectFromSourceObject:(id)sourceObject withSerialization:(JKSSerialization *)serialization
 {
-    id result = [self objectOfClass:serialization.destinationClass];
-
-    if ([result conformsToProtocol:@protocol(NSMutableCopying)]) {
-        result = [result mutableCopy];
-    }
+    id destinationObject = [self objectOfClass:serialization.destinationClass];
 
     for (NSString *sourceKeyPath in serialization.mapping) {
         id destinationInfo = serialization.mapping[sourceKeyPath];
-        id sourceValue = [self nilIfNullObject:[sourceObject valueForKeyPath:sourceKeyPath]];
+        id sourceValue = [self returnObject:nil ifObjectIsNull:[sourceObject valueForKeyPath:sourceKeyPath]];
 
-        NSString *destinationKeyPath = nil;
-        id destinationValue = nil;
+        NSString *destinationKeyPath = destinationInfo;
+        id destinationValue = sourceValue;
 
-        if ([destinationInfo isKindOfClass:[NSArray class]]) { // @[destinationKeyPath(, containerClass), srcClass, destClass]
-            Class srcClass = destinationInfo[1];
+        if ([destinationInfo isKindOfClass:[NSArray class]]) {
             Class destClass = [destinationInfo lastObject];
-            Class containerClass = nil;
+            destinationKeyPath = destinationInfo[0];
+
+            NSAssert([destinationInfo count] == 3 || [destinationInfo count] == 4,
+                     @"Arrays in serialization mapping can only be 3 or 4 elements:"
+                     @" in @[destinationKeyPath(, collectionClass), sourceClass, destinationClass]"
+                     @" form.");
+
             if ([destinationInfo count] == 4) {
-                srcClass = destinationInfo[2];
-                containerClass = destinationInfo[1];
-            }
-
-            if (containerClass) {
-                id collection = [self objectOfClass:containerClass];
-
-                NSUInteger index = 0;
-                for (id item in sourceValue) {
-                    [collection insertObject:[self objectOfClass:destClass fromObject:item]
-                                     atIndex:index++];
-                }
-                destinationValue = sourceValue ? collection : self.nullObject;
+                destinationValue = [self collectionOfClass:destinationInfo[1]
+                                          withItemsOfClass:destClass
+                                            fromCollection:sourceValue];
             } else if (sourceValue && sourceValue != [NSNull null]) {
                 destinationValue = [self objectOfClass:destClass fromObject:sourceValue];
             }
-
-            destinationKeyPath = destinationInfo[0];
-        } else {
-            destinationKeyPath = destinationInfo;
-            destinationValue = sourceValue;
         }
 
-        if (!destinationValue) {
-            destinationValue = self.nullObject;
-        }
+        destinationValue = [self returnObject:self.nullObject ifObjectIsNull:destinationValue];
 
-        NSArray *keyPaths = [destinationKeyPath componentsSeparatedByString:@"."];
-        NSMutableString *currentKeyPath = [NSMutableString new];
-        for (NSString *path in keyPaths) {
-            if (currentKeyPath.length) {
-                [currentKeyPath appendString:@"."];
-            }
-            [currentKeyPath appendString:path];
-
-            if (![result valueForKeyPath:currentKeyPath]) {
-                [result setValue:[self objectOfClass:serialization.destinationClass] forKeyPath:currentKeyPath];
-            }
-        }
-        [result setValue:destinationValue forKeyPath:destinationKeyPath];
+        [self setValue:destinationValue
+            forKeyPath:destinationKeyPath
+             forObject:destinationObject
+        objectsOfClass:serialization.destinationClass];
     }
-    return result;
+    return destinationObject;
+}
+
+- (id)collectionOfClass:(Class)collectionClass withItemsOfClass:(Class)itemClass fromCollection:(id)sourceCollection
+{
+    if (!sourceCollection) {
+        return self.nullObject;
+    }
+
+    id collection = [self objectOfClass:collectionClass];
+
+    NSUInteger index = 0;
+    for (id item in sourceCollection) {
+        [collection insertObject:[self objectOfClass:itemClass fromObject:item]
+                         atIndex:index++];
+    }
+    return collection;
+}
+
+- (void)setValue:(id)value forKeyPath:(NSString *)keyPath forObject:(id)object objectsOfClass:(Class)aClass
+{
+    NSArray *keyPaths = [keyPath componentsSeparatedByString:@"."];
+    NSMutableString *currentKeyPath = [NSMutableString new];
+    for (NSString *path in keyPaths) {
+        if (currentKeyPath.length) {
+            [currentKeyPath appendString:@"."];
+        }
+        [currentKeyPath appendString:path];
+
+        if (![object valueForKeyPath:currentKeyPath]) {
+            [object setValue:[self objectOfClass:aClass] forKeyPath:currentKeyPath];
+        }
+    }
+    [object setValue:value forKeyPath:keyPath];
 }
 
 - (id)objectOfClass:(Class)class
@@ -172,10 +152,10 @@
     return result;
 }
 
-- (id)nilIfNullObject:(id)object
+- (id)returnObject:(id)nilObject ifObjectIsNull:(id)object
 {
-    if (object == [NSNull null]) {
-        return nil;
+    if (!object || object == [NSNull null]) {
+        return nilObject;
     }
     return object;
 }
