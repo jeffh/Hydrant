@@ -1,18 +1,18 @@
-#import "JKSKeyValueSerializer.h"
+#import "JKSSerializer.h"
 #import <objc/runtime.h>
 #import "JKSMapper.h"
 #import "JKSKVCMapper.h"
 #import "JKSKVCRelation.h"
 #import "JKSKVCField.h"
 
-@interface JKSKeyValueSerializer () <JKSSerializer>
+@interface JKSSerializer () <JKSSerializer>
 @property (strong, nonatomic) NSMutableDictionary *classSerializers;
 @property (strong, nonatomic) NSMutableDictionary *classDeserializers;
 @end
 
-@implementation JKSKeyValueSerializer
+@implementation JKSSerializer
 
-static JKSKeyValueSerializer *serializer__;
+static JKSSerializer *serializer__;
 
 + (instancetype)sharedSerializer
 {

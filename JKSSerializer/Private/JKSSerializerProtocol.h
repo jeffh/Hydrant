@@ -8,7 +8,7 @@
 - (void)serializeToObject:(id)object fromObject:(id)sourceObject;
 - (void)deserializeToObject:(id)object fromObject:(id)sourceObject;
 
-- (id)serializeObjectOfClass:(Class)class fromSourceObject:(id)sourceObject;
-- (id)deserializeObjectOfClass:(Class)class fromSourceObject:(id)sourceObject;
+- (id)serializeObjectOfClass:(Class)aClass fromSourceObject:(id)sourceObject;
+- (id)deserializeObjectOfClass:(Class)aClass fromSourceObject:(id)sourceObject;
 
 @end

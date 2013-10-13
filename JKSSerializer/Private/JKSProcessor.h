@@ -1,4 +1,4 @@
-#import "JKSSerializer.h"
+#import "JKSSerializerProtocol.h"
 
 @protocol JKSProcessor <NSObject>
 

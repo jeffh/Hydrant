@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@interface JKSKeyValueSerializer : NSObject
+@interface JKSSerializer : NSObject
 
 @property (strong, nonatomic) id nullObject;
 

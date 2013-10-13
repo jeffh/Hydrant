@@ -1,18 +1,18 @@
-#import "JKSKeyValueSerializer.h"
+#import "JKSSerializer.h"
 #import "JKSPerson.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-SPEC_BEGIN(JKSKeyValueSerializerSpec)
+SPEC_BEGIN(JKSSerializerSpec)
 
-describe(@"JKSKeyValueSerializer", ^{
-    __block JKSKeyValueSerializer *serializer;
+describe(@"JKSSerializer", ^{
+    __block JKSSerializer *serializer;
     __block JKSPerson *person;
 
     beforeEach(^{
         person = [[[JKSPerson alloc] initWithFixtureData] autorelease];
-        serializer = [[[JKSKeyValueSerializer alloc] init] autorelease];
+        serializer = [[[JKSSerializer alloc] init] autorelease];
     });
 
     describe(@"different serialization / deserialization", ^{

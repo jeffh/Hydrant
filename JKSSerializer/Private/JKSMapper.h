@@ -1,4 +1,4 @@
-#import "JKSSerializer.h"
+#import "JKSSerializerProtocol.h"
 
 @protocol JKSMapper <NSObject>
 - (void)serializeToObject:(id)object
