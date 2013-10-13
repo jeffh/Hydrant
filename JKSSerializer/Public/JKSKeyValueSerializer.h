@@ -2,15 +2,17 @@
 
 @interface JKSKeyValueSerializer : NSObject
 
+@property (strong, nonatomic) id nullObject;
+
 + (instancetype)sharedSerializer;
 - (void)registerClass:(Class)aClass withMapping:(NSDictionary *)dictionary;
+- (void)registerClass:(Class)aClass withDeserializationMapping:(NSDictionary *)dictionary;
+- (void)registerClass:(Class)aClass withSerializationMapping:(NSDictionary *)dictionary;
 
 - (void)serializeToObject:(id)object
-               fromObject:(id)sourceObject
-               nullObject:(id)nullObject;
+               fromObject:(id)sourceObject;
 
 - (void)deserializeToObject:(id)object
-                 fromObject:(id)sourceObject
-                 nullObject:(id)nullObject;
+                 fromObject:(id)sourceObject;
 
 @end

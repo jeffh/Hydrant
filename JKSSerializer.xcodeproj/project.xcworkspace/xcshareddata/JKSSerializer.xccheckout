@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F601B25A-FDF8-42BC-B373-3AC316BA5F95</string>
+	<key>IDESourceControlProjectName</key>
+	<string>JKSSerializer</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F81E6B93-6131-4460-9FB7-AEC55CE2376F</key>
+		<string>ssh://github.com/jeffh/JKSSerializer.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>JKSSerializer.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F81E6B93-6131-4460-9FB7-AEC55CE2376F</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/jeffh/JKSSerializer.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F81E6B93-6131-4460-9FB7-AEC55CE2376F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F81E6B93-6131-4460-9FB7-AEC55CE2376F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>JKSSerializer</string>
+		</dict>
+	</array>
+</dict>
+</plist>

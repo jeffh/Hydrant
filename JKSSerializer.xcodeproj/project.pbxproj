@@ -24,6 +24,15 @@
 		1F1E3FCF1804EC5C00801509 /* JKSKeyValueSerializerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FB21803933700801509 /* JKSKeyValueSerializerSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1F1E3FD01804EC5E00801509 /* JKSPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FB91803966400801509 /* JKSPerson.m */; };
 		1F1E3FD11804EC6000801509 /* JKSKeyValueSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSKeyValueSerializer.m */; };
+		1FFE000D180A357A007BD0FA /* JKSKVCMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE000C180A357A007BD0FA /* JKSKVCMapper.m */; };
+		1FFE000E180A357A007BD0FA /* JKSKVCMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE000C180A357A007BD0FA /* JKSKVCMapper.m */; };
+		1FFE000F180A357A007BD0FA /* JKSKVCMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE000C180A357A007BD0FA /* JKSKVCMapper.m */; };
+		1FFE001E180A3CC0007BD0FA /* JKSKVCRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE001D180A3CC0007BD0FA /* JKSKVCRelation.m */; };
+		1FFE001F180A3CC0007BD0FA /* JKSKVCRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE001D180A3CC0007BD0FA /* JKSKVCRelation.m */; };
+		1FFE0020180A3CC0007BD0FA /* JKSKVCRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE001D180A3CC0007BD0FA /* JKSKVCRelation.m */; };
+		1FFE0023180A4E68007BD0FA /* JKSKVCField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE0022180A4E68007BD0FA /* JKSKVCField.m */; };
+		1FFE0024180A4E68007BD0FA /* JKSKVCField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE0022180A4E68007BD0FA /* JKSKVCField.m */; };
+		1FFE0025180A4E68007BD0FA /* JKSKVCField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE0022180A4E68007BD0FA /* JKSKVCField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,6 +70,15 @@
 		1F1E3FC51804EC4E00801509 /* OSXSpecs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSXSpecs-Prefix.pch"; sourceTree = "<group>"; };
 		1F1E3FC61804EC4F00801509 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = Frameworks/Cedar.framework; sourceTree = "<group>"; };
 		1F1E3FC81804EC4F00801509 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1FFE000B180A357A007BD0FA /* JKSKVCMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSKVCMapper.h; sourceTree = "<group>"; };
+		1FFE000C180A357A007BD0FA /* JKSKVCMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSKVCMapper.m; sourceTree = "<group>"; };
+		1FFE0010180A359E007BD0FA /* JKSMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSMapper.h; sourceTree = "<group>"; };
+		1FFE0016180A3904007BD0FA /* JKSSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSSerializer.h; sourceTree = "<group>"; };
+		1FFE001C180A3CC0007BD0FA /* JKSKVCRelation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSKVCRelation.h; sourceTree = "<group>"; };
+		1FFE001D180A3CC0007BD0FA /* JKSKVCRelation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSKVCRelation.m; sourceTree = "<group>"; };
+		1FFE0021180A4E68007BD0FA /* JKSKVCField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSKVCField.h; sourceTree = "<group>"; };
+		1FFE0022180A4E68007BD0FA /* JKSKVCField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSKVCField.m; sourceTree = "<group>"; };
+		1FFE0026180A4EF9007BD0FA /* JKSProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSProcessor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +145,7 @@
 		1F1E3F74180392ED00801509 /* JKSSerializer */ = {
 			isa = PBXGroup;
 			children = (
+				1FFE000A180A3539007BD0FA /* Private */,
 				1F1E3FB51803959100801509 /* Public */,
 				1F1E3F75180392ED00801509 /* Supporting Files */,
 			);
@@ -207,6 +226,22 @@
 				1F1E3FC51804EC4E00801509 /* OSXSpecs-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1FFE000A180A3539007BD0FA /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				1FFE0010180A359E007BD0FA /* JKSMapper.h */,
+				1FFE0016180A3904007BD0FA /* JKSSerializer.h */,
+				1FFE0026180A4EF9007BD0FA /* JKSProcessor.h */,
+				1FFE000B180A357A007BD0FA /* JKSKVCMapper.h */,
+				1FFE000C180A357A007BD0FA /* JKSKVCMapper.m */,
+				1FFE001C180A3CC0007BD0FA /* JKSKVCRelation.h */,
+				1FFE001D180A3CC0007BD0FA /* JKSKVCRelation.m */,
+				1FFE0021180A4E68007BD0FA /* JKSKVCField.h */,
+				1FFE0022180A4E68007BD0FA /* JKSKVCField.m */,
+			);
+			path = Private;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +358,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FFE000D180A357A007BD0FA /* JKSKVCMapper.m in Sources */,
+				1FFE0023180A4E68007BD0FA /* JKSKVCField.m in Sources */,
+				1FFE001E180A3CC0007BD0FA /* JKSKVCRelation.m in Sources */,
 				1F1E3F7A180392ED00801509 /* JKSKeyValueSerializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,8 +370,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F1E3FA81803931D00801509 /* main.m in Sources */,
+				1FFE0024180A4E68007BD0FA /* JKSKVCField.m in Sources */,
+				1FFE000E180A357A007BD0FA /* JKSKVCMapper.m in Sources */,
 				1F1E3FBA1803966400801509 /* JKSPerson.m in Sources */,
 				1F1E3FB41803935900801509 /* JKSKeyValueSerializer.m in Sources */,
+				1FFE001F180A3CC0007BD0FA /* JKSKVCRelation.m in Sources */,
 				1F1E3FB31803933700801509 /* JKSKeyValueSerializerSpec.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,8 +384,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F1E3FC91804EC4F00801509 /* main.m in Sources */,
+				1FFE0025180A4E68007BD0FA /* JKSKVCField.m in Sources */,
+				1FFE000F180A357A007BD0FA /* JKSKVCMapper.m in Sources */,
 				1F1E3FD01804EC5E00801509 /* JKSPerson.m in Sources */,
 				1F1E3FD11804EC6000801509 /* JKSKeyValueSerializer.m in Sources */,
+				1FFE0020180A3CC0007BD0FA /* JKSKVCRelation.m in Sources */,
 				1F1E3FCF1804EC5C00801509 /* JKSKeyValueSerializerSpec.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,6 +610,7 @@
 				1F1E3F94180392ED00801509 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F1E3FAF1803931D00801509 /* Build configuration list for PBXNativeTarget "Specs" */ = {
 			isa = XCConfigurationList;
@@ -574,6 +619,7 @@
 				1F1E3FB11803931D00801509 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F1E3FCC1804EC4F00801509 /* Build configuration list for PBXNativeTarget "OSXSpecs" */ = {
 			isa = XCConfigurationList;
@@ -582,6 +628,7 @@
 				1F1E3FCE1804EC4F00801509 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
