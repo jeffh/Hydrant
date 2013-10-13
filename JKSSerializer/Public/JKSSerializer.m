@@ -1,111 +1,184 @@
 #import "JKSSerializer.h"
 #import <objc/runtime.h>
-#import "JKSMapper.h"
-#import "JKSKVCMapper.h"
-#import "JKSKVCRelation.h"
-#import "JKSKVCField.h"
 
-@interface JKSSerializer () <JKSSerializer>
-@property (strong, nonatomic) NSMutableDictionary *classSerializers;
-@property (strong, nonatomic) NSMutableDictionary *classDeserializers;
+
+@interface JKSSerialization : NSObject
+@property (strong, nonatomic) Class sourceClass;
+@property (strong, nonatomic) Class destinationClass;
+@property (strong, nonatomic) NSDictionary *mapping;
+@end
+
+@implementation JKSSerialization
+
+- (id)initWithSourceClass:(Class)srcClass destinationClass:(Class)dstClass mapping:(NSDictionary *)mapping
+{
+    self = [super init];
+    if (self) {
+        self.sourceClass = srcClass;
+        self.destinationClass = dstClass;
+        self.mapping = mapping;
+    }
+    return self;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p %@ -> %@> %@",
+            NSStringFromClass([self class]), self, self.sourceClass, self.destinationClass, self.mapping];
+}
+
+@end
+
+
+@interface JKSSerializer ()
+@property (strong, nonatomic) NSMutableArray *classMapping;
 @end
 
 @implementation JKSSerializer
-
-static JKSSerializer *serializer__;
-
-+ (instancetype)sharedSerializer
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        serializer__ = [self new];
-    });
-    return serializer__;
-}
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        self.classSerializers = [NSMutableDictionary new];
-        self.classDeserializers = [NSMutableDictionary new];
+        self.classMapping = [NSMutableArray new];
     }
     return self;
 }
 
-- (void)registerClass:(Class)aClass withMapping:(NSDictionary *)dictionary
+- (void)serializeBetweenClass:(Class)srcClass andClass:(Class)dstClass withMapping:(NSDictionary *)mapping
 {
-    NSString *className = NSStringFromClass(aClass);
-    JKSKVCMapper *mapper = [JKSKVCMapper mapperWithDSLMapping:dictionary];
-    self.classSerializers[className] = mapper;
-    self.classDeserializers[className] = mapper;
-}
+    [self serializeClass:srcClass toClass:dstClass withMapping:mapping];
+    NSMutableDictionary *reverseMapping = [NSMutableDictionary new];
+    for (id key in mapping) {
+        id value = mapping[key];
+        if ([value isKindOfClass:[NSArray class]]) {
+            NSMutableArray *classMapping = [[value subarrayWithRange:NSMakeRange(1, [value count] - 1)] mutableCopy];
 
-- (void)registerClass:(Class)aClass withDeserializationMapping:(NSDictionary *)dictionary
-{
-    self.classDeserializers[NSStringFromClass(aClass)] = [JKSKVCMapper mapperWithDSLMapping:dictionary];
-}
+            id tmp = classMapping[classMapping.count - 2];
+            classMapping[classMapping.count - 2] = classMapping.lastObject;
+            classMapping[classMapping.count - 1] = tmp;
 
-- ( void)registerClass:(Class)aClass withSerializationMapping:(NSDictionary *)dictionary
-{
-    self.classSerializers[NSStringFromClass(aClass)] = [JKSKVCMapper mapperWithDSLMapping:dictionary];
-}
-
-#pragma mark - <JKSSerializer>
-
-- (BOOL)isNullObject:(id)object
-{
-    return object == nil || object == [NSNull null] || object == self.nullObject || [self.nullObject isEqual:object];
-}
-
-- (void)serializeToObject:(id)object fromObject:(id)sourceObject
-{
-    id<JKSMapper> mapper = self.classSerializers[NSStringFromClass([sourceObject class])];
-    [mapper serializeToObject:object fromObject:sourceObject serializer:self];
-}
-
-- (void)deserializeToObject:(id)object fromObject:(id)sourceObject
-{
-    id<JKSMapper> mapper = self.classDeserializers[NSStringFromClass([object class])];
-    [mapper deserializeToObject:object fromObject:sourceObject serializer:self];
-}
-
-- (id)serializeObjectOfClass:(Class)class fromSourceObject:(id)sourceObject
-{
-    if ([self isNullObject:sourceObject]) {
-        return self.nullObject;
-    } else {
-        id object = [class new];
-        [self serializeToObject:object fromObject:sourceObject];
-        return object;
+            reverseMapping[[value firstObject]] = [@[key] arrayByAddingObjectsFromArray:classMapping];
+        } else {
+            reverseMapping[value] = key;
+        }
     }
+    [self serializeClass:dstClass toClass:srcClass withMapping:reverseMapping];
 }
 
-- (id)deserializeObjectOfClass:(Class)class fromSourceObject:(id)sourceObject
+- (void)serializeClass:(Class)srcClass toClass:(Class)dstClass withMapping:(NSDictionary *)mapping
 {
-    if ([self isNullObject:sourceObject]) {
-        return self.nullObject;
-    } else {
-        id object = [class new];
-        [self deserializeToObject:object fromObject:sourceObject];
-        return object;
+    JKSSerialization *serialization = [[JKSSerialization alloc] initWithSourceClass:srcClass
+                                                                   destinationClass:dstClass
+                                                                            mapping:mapping];
+    [self.classMapping addObject:serialization];
+}
+
+- (id)objectFromObject:(id)srcObject
+{
+    return [self objectOfClass:nil fromObject:srcObject];
+}
+
+- (id)objectOfClass:(Class)dstClass fromObject:(id)srcObject
+{
+    JKSSerialization *theSerialization = nil;
+    for (JKSSerialization *serialization in self.classMapping) {
+        if ((!dstClass || serialization.destinationClass == dstClass) && [srcObject isKindOfClass:serialization.sourceClass]) {
+            theSerialization = serialization;
+            break;
+        }
     }
+
+    if (!theSerialization) {
+        [NSException raise:@"JKSSerializerMissingMapping"
+                    format:@"JKSSerializer does not know how to map %@ to %@", [srcObject class], dstClass ? dstClass : @"(Unknown Class)"];
+    }
+
+    return [self destinationObjectFromSourceObject:srcObject withSerialization:theSerialization];
 }
 
 #pragma mark - Private
 
-- (NSDictionary *)processMapping:(NSDictionary *)dictionary
+- (id)destinationObjectFromSourceObject:(id)sourceObject withSerialization:(JKSSerialization *)serialization
 {
-    NSMutableDictionary *mapping = [dictionary mutableCopy];
-    for (NSString *key in dictionary) {
-        id processorType = dictionary[key];
-        if ([processorType isKindOfClass:[NSArray class]]) {
-            mapping[key] = [JKSKVCRelation relationFromArray:processorType];
-        } else if ([processorType isKindOfClass:[NSString class]]) {
-            mapping[key] = [[JKSKVCField alloc] initWithName:dictionary[key]];
-        }
+    id result = [self objectOfClass:serialization.destinationClass];
+
+    if ([result conformsToProtocol:@protocol(NSMutableCopying)]) {
+        result = [result mutableCopy];
     }
-    return mapping;
+
+    for (NSString *sourceKeyPath in serialization.mapping) {
+        id destinationInfo = serialization.mapping[sourceKeyPath];
+        id sourceValue = [self nilIfNullObject:[sourceObject valueForKeyPath:sourceKeyPath]];
+
+        NSString *destinationKeyPath = nil;
+        id destinationValue = nil;
+
+        if ([destinationInfo isKindOfClass:[NSArray class]]) { // @[destinationKeyPath(, containerClass), srcClass, destClass]
+            Class srcClass = destinationInfo[1];
+            Class destClass = [destinationInfo lastObject];
+            Class containerClass = nil;
+            if ([destinationInfo count] == 4) {
+                srcClass = destinationInfo[2];
+                containerClass = destinationInfo[1];
+            }
+
+            if (containerClass) {
+                id collection = [self objectOfClass:containerClass];
+
+                NSUInteger index = 0;
+                for (id item in sourceValue) {
+                    [collection insertObject:[self objectOfClass:destClass fromObject:item]
+                                     atIndex:index++];
+                }
+                destinationValue = sourceValue ? collection : self.nullObject;
+            } else if (sourceValue && sourceValue != [NSNull null]) {
+                destinationValue = [self objectOfClass:destClass fromObject:sourceValue];
+            }
+
+            destinationKeyPath = destinationInfo[0];
+        } else {
+            destinationKeyPath = destinationInfo;
+            destinationValue = sourceValue;
+        }
+
+        if (!destinationValue) {
+            destinationValue = self.nullObject;
+        }
+
+        NSArray *keyPaths = [destinationKeyPath componentsSeparatedByString:@"."];
+        NSMutableString *currentKeyPath = [NSMutableString new];
+        for (NSString *path in keyPaths) {
+            if (currentKeyPath.length) {
+                [currentKeyPath appendString:@"."];
+            }
+            [currentKeyPath appendString:path];
+
+            if (![result valueForKeyPath:currentKeyPath]) {
+                [result setValue:[self objectOfClass:serialization.destinationClass] forKeyPath:currentKeyPath];
+            }
+        }
+        [result setValue:destinationValue forKeyPath:destinationKeyPath];
+    }
+    return result;
 }
+
+- (id)objectOfClass:(Class)class
+{
+    id result = [class new];
+    if ([result conformsToProtocol:@protocol(NSMutableCopying)]) {
+        result = [result mutableCopy];
+    }
+    return result;
+}
+
+- (id)nilIfNullObject:(id)object
+{
+    if (object == [NSNull null]) {
+        return nil;
+    }
+    return object;
+}
+
 
 @end

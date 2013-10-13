@@ -4,15 +4,12 @@
 
 @property (strong, nonatomic) id nullObject;
 
-+ (instancetype)sharedSerializer;
-- (void)registerClass:(Class)aClass withMapping:(NSDictionary *)dictionary;
-- (void)registerClass:(Class)aClass withDeserializationMapping:(NSDictionary *)dictionary;
-- (void)registerClass:(Class)aClass withSerializationMapping:(NSDictionary *)dictionary;
+- (id)init;
 
-- (void)serializeToObject:(id)object
-               fromObject:(id)sourceObject;
+- (void)serializeClass:(Class)srcClass toClass:(Class)dstClass withMapping:(NSDictionary *)mapping;
+- (void)serializeBetweenClass:(Class)srcClass andClass:(Class)dstClass withMapping:(NSDictionary *)mapping;
 
-- (void)deserializeToObject:(id)object
-                 fromObject:(id)sourceObject;
+- (id)objectFromObject:(id)srcObject;
+- (id)objectOfClass:(Class)dstClass fromObject:(id)srcObject;
 
 @end

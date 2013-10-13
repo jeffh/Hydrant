@@ -15,27 +15,25 @@ describe(@"JKSSerializer", ^{
         serializer = [[[JKSSerializer alloc] init] autorelease];
     });
 
-    describe(@"different serialization / deserialization", ^{
+    describe(@"deserialize nested structure as one", ^{
         beforeEach(^{
-            [serializer registerClass:[JKSPerson class] withSerializationMapping:@{@"firstName": @"first",
-                                                                                   @"lastName": @"last"}];
-            [serializer registerClass:[JKSPerson class] withDeserializationMapping:@{@"firstName": @"f",
-                                                                                     @"lastName": @"l"}];
+            [serializer serializeBetweenClass:[JKSPerson class]
+                                     andClass:[NSDictionary class]
+                                  withMapping:@{@"firstName": @"user.first",
+                                                @"lastName": @"user.last"}];
         });
 
         it(@"should serialize", ^{
-            NSMutableDictionary *output = [[NSMutableDictionary new] autorelease];
-            [serializer serializeToObject:output fromObject:person];
-            output should equal(@{@"first": @"John",
-                                  @"last": @"Doe"});
+            NSDictionary *output = [serializer objectFromObject:person];
+            output should be_instance_of([NSDictionary class]).or_any_subclass();
+            output should equal(@{@"user": @{@"first": @"John",
+                                             @"last": @"Doe"}});
         });
 
         it(@"should deserialize", ^{
-            NSDictionary *input = @{@"f": @"James",
-                                    @"l": @"Taylor"};
-            person = [[JKSPerson new] autorelease];
-
-            [serializer deserializeToObject:person fromObject:input];
+            NSDictionary *input = @{@"user": @{@"first": @"James",
+                                               @"last": @"Taylor"}};
+            person = [serializer objectOfClass:[JKSPerson class] fromObject:input];
 
             JKSPerson *expectedPerson = [[JKSPerson new] autorelease];
             expectedPerson.firstName = @"James";
@@ -44,19 +42,51 @@ describe(@"JKSSerializer", ^{
         });
     });
 
+    describe(@"different serialization / deserialization", ^{
+        beforeEach(^{
+            [serializer serializeClass:[JKSPerson class]
+                               toClass:[NSDictionary class]
+                           withMapping:@{@"firstName": @"first",
+                                         @"lastName": @"last"}];
+            [serializer serializeClass:[NSDictionary class]
+                               toClass:[JKSPerson class]
+                           withMapping:@{@"f": @"firstName",
+                                         @"l": @"lastName"}];
+        });
+
+        it(@"should serialize", ^{
+            NSMutableDictionary *output = [serializer objectFromObject:person];
+            output should equal(@{@"first": @"John",
+                                  @"last": @"Doe"});
+        });
+
+        it(@"should deserialize", ^{
+            NSDictionary *input = @{@"f": @"James",
+                                    @"l": @"Taylor"};
+            person = [serializer objectFromObject:input];
+
+            JKSPerson *expectedPerson = [[JKSPerson new] autorelease];
+            expectedPerson.firstName = @"James";
+            expectedPerson.lastName = @"Taylor";
+            person should be_instance_of([JKSPerson class]);
+            person should equal(expectedPerson);
+        });
+    });
+
     describe(@"basic serialization", ^{
         beforeEach(^{
-            [serializer registerClass:[JKSPerson class]
-                          withMapping:@{@"firstName": @"first",
-                                        @"lastName": @"last",
-                                        @"age": @"age",
-                                        @"parent": @"parent"}];
+            [serializer serializeBetweenClass:[JKSPerson class]
+                                     andClass:[NSDictionary class]
+                                  withMapping:@{@"firstName": @"first",
+                                                @"lastName": @"last",
+                                                @"age": @"age",
+                                                @"parent": @"parent"}];
         });
 
         it(@"should serialize basic properties", ^{
-            NSMutableDictionary *output = [[NSMutableDictionary new] autorelease];
-            [serializer serializeToObject:output fromObject:person];
+            NSMutableDictionary *output = [serializer objectFromObject:person];
 
+            output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"first": @"John",
                                   @"last": @"Doe",
                                   @"age": @23});
@@ -66,9 +96,9 @@ describe(@"JKSSerializer", ^{
             NSDictionary *input = @{@"first": @"John",
                                     @"last": @"Doe",
                                     @"age": @23};
-            JKSPerson *outputPerson = [[[JKSPerson alloc] init] autorelease];
-            [serializer deserializeToObject:outputPerson fromObject:input];
+            JKSPerson *outputPerson = [serializer objectFromObject:input];
 
+            outputPerson should be_instance_of([JKSPerson class]);
             outputPerson should equal(person);
         });
     });
@@ -77,28 +107,27 @@ describe(@"JKSSerializer", ^{
         beforeEach(^{
             person.siblings = @[[[[JKSPerson alloc] initWithFixtureData] autorelease],
                                 [[[JKSPerson alloc] initWithFixtureData] autorelease]];
-            [serializer registerClass:[JKSPerson class]
-                          withMapping:@{@"firstName": @"first",
-                                        @"siblings": @[@"siblings", @[[JKSPerson class]], [NSMutableDictionary class]]}];
+            serializer.nullObject = [NSNull null];
+            [serializer serializeBetweenClass:[JKSPerson class]
+                                     andClass:[NSDictionary class]
+                                  withMapping:@{@"firstName": @"first",
+                                                @"siblings": @[@"siblings", [NSArray class], [JKSPerson class], [NSDictionary class]]}];
         });
 
         it(@"should serialize collections", ^{
-            NSMutableDictionary *output = [[NSMutableDictionary new] autorelease];
-            serializer.nullObject = [NSNull null];
-            [serializer serializeToObject:output fromObject:person];
+            NSMutableDictionary *output = [serializer objectFromObject:person];
 
+            output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"first": @"John",
                                   @"siblings": @[@{@"first": @"John", @"siblings": [NSNull null]},
                                                  @{@"first": @"John", @"siblings": [NSNull null]}]});
         });
 
         it(@"should deserialize collections", ^{
-            JKSPerson *outputPerson = [[[JKSPerson alloc] init] autorelease];
-            serializer.nullObject = [NSNull null];
-            [serializer deserializeToObject:outputPerson
-                                 fromObject:@{@"first": @"John",
-                                              @"siblings": @[@{@"first": @"John", @"siblings": [NSNull null]},
-                                                             @{@"first": @"John", @"siblings": [NSNull null]}]}];
+            serializer.nullObject = nil;
+            JKSPerson *outputPerson = [serializer objectFromObject:@{@"first": @"John",
+                                                                     @"siblings": @[@{@"first": @"John", @"siblings": [NSNull null]},
+                                                                                    @{@"first": @"John", @"siblings": [NSNull null]}]}];
 
             JKSPerson *expectedPerson = [[[JKSPerson alloc] init] autorelease];
             expectedPerson.firstName = @"John";
@@ -121,17 +150,32 @@ describe(@"JKSSerializer", ^{
             parent.age = 11;
             person.parent = parent;
             serializer.nullObject = [NSNull null];
-            [serializer registerClass:[JKSPerson class]
-                          withMapping:@{@"firstName": @"first",
-                                        @"lastName": @"last",
-                                        @"age": @"age",
-                                        @"parent": @[@"aParent", [JKSPerson class], [NSMutableDictionary class]]}];
+            [serializer serializeBetweenClass:[JKSPerson class]
+                                     andClass:[NSDictionary class]
+                                  withMapping:@{@"firstName": @"first",
+                                                @"lastName": @"last",
+                                                @"age": @"age",
+                                                @"parent": @[@"aParent", [JKSPerson class], [NSDictionary class]]}];
+            /*
+            [serializer serializeClass:[JKSPerson class]
+                               toClass:[NSDictionary class]
+                           withMapping:@{@"firstName": @"first",
+                                         @"lastName": @"last",
+                                         @"age": @"age",
+                                         @"parent": @[@"aParent", [JKSPerson class], [NSDictionary class]]}];
+            [serializer serializeClass:[NSDictionary class]
+                               toClass:[JKSPerson class]
+                           withMapping:@{@"first": @"firstName",
+                                         @"last": @"lastName",
+                                         @"age": @"age",
+                                         @"aParent": @[@"parent", [NSDictionary class], [JKSPerson class]]}];
+             */
         });
 
         it(@"should recursively serialize", ^{
-            NSMutableDictionary *output = [[NSMutableDictionary new] autorelease];
-            [serializer serializeToObject:output fromObject:person];
+            NSMutableDictionary *output = [serializer objectFromObject:person];
 
+            output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"first": @"John",
                                   @"last": @"Doe",
                                   @"age": @23,
@@ -142,6 +186,7 @@ describe(@"JKSSerializer", ^{
         });
 
         it(@"should recursively deserialize", ^{
+            serializer.nullObject = nil;
             NSDictionary *input = @{@"first": @"John",
                                     @"last": @"Doe",
                                     @"age": @23,
@@ -149,9 +194,9 @@ describe(@"JKSSerializer", ^{
                                                   @"last": @"Taylor",
                                                   @"age": @11,
                                                   @"aParent": [NSNull null]}};
-            JKSPerson *outputPerson = [[[JKSPerson alloc] init] autorelease];
-            [serializer deserializeToObject:outputPerson fromObject:input];
+            JKSPerson *outputPerson = [serializer objectFromObject:input];
 
+            outputPerson should be_instance_of([JKSPerson class]);
             outputPerson should equal(person);
         });
     });
