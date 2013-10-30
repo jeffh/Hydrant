@@ -15,6 +15,9 @@ describe(@"JKSSerializer", ^{
         serializer = [[[JKSSerializer alloc] init] autorelease];
     });
 
+    // TODO: needs tests
+    it(@"should be able to parse multiple kinds of classes from a dictionary by its keys", PENDING);
+
     describe(@"deserialize nested structure as one", ^{
         beforeEach(^{
             [serializer serializeBetweenClass:[JKSPerson class]
@@ -84,18 +87,21 @@ describe(@"JKSSerializer", ^{
         });
 
         it(@"should serialize basic properties", ^{
+            serializer.nullObject = [NSNull null];
             NSMutableDictionary *output = [serializer objectFromObject:person];
 
             output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"first": @"John",
                                   @"last": @"Doe",
-                                  @"age": @23});
+                                  @"age": @23,
+                                  @"parent": [NSNull null]});
         });
 
         it(@"should deserialize basic properties", ^{
             NSDictionary *input = @{@"first": @"John",
                                     @"last": @"Doe",
-                                    @"age": @23};
+                                    @"age": @23,
+                                    @"parent": [NSNull null]};
             JKSPerson *outputPerson = [serializer objectFromObject:input];
 
             outputPerson should be_instance_of([JKSPerson class]);
@@ -111,7 +117,7 @@ describe(@"JKSSerializer", ^{
             [serializer serializeBetweenClass:[JKSPerson class]
                                      andClass:[NSDictionary class]
                                   withMapping:@{@"firstName": @"first",
-                                                @"siblings": @[@"siblings", [NSArray class], [JKSPerson class], [NSDictionary class]]}];
+                                                @"siblings": JKSArrayOf(@"siblings", [JKSPerson class], [NSDictionary class])}];
         });
 
         it(@"should serialize collections", ^{
@@ -144,7 +150,7 @@ describe(@"JKSSerializer", ^{
     describe(@"relationship serialization", ^{
         __block JKSPerson *parent;
         beforeEach(^{
-            parent = [[JKSPerson alloc] init];
+            parent = [[[JKSPerson alloc] init] autorelease];
             parent.firstName = @"James";
             parent.lastName = @"Taylor";
             parent.age = 11;
@@ -155,21 +161,7 @@ describe(@"JKSSerializer", ^{
                                   withMapping:@{@"firstName": @"first",
                                                 @"lastName": @"last",
                                                 @"age": @"age",
-                                                @"parent": @[@"aParent", [JKSPerson class], [NSDictionary class]]}];
-            /*
-            [serializer serializeClass:[JKSPerson class]
-                               toClass:[NSDictionary class]
-                           withMapping:@{@"firstName": @"first",
-                                         @"lastName": @"last",
-                                         @"age": @"age",
-                                         @"parent": @[@"aParent", [JKSPerson class], [NSDictionary class]]}];
-            [serializer serializeClass:[NSDictionary class]
-                               toClass:[JKSPerson class]
-                           withMapping:@{@"first": @"firstName",
-                                         @"last": @"lastName",
-                                         @"age": @"age",
-                                         @"aParent": @[@"parent", [NSDictionary class], [JKSPerson class]]}];
-             */
+                                                @"parent": JKSDictionaryRelation(@"aParent", [JKSPerson class])}];
         });
 
         it(@"should recursively serialize", ^{

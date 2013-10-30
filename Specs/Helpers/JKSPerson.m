@@ -9,6 +9,7 @@
         self.firstName = @"John";
         self.lastName = @"Doe";
         self.age = 23;
+        self.identifier = 5;
     }
     return self;
 }

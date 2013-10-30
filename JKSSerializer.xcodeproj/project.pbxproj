@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F06C036181A1D780017FDB4 /* JKSCollectionMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06C035181A1D780017FDB4 /* JKSCollectionMapper.m */; };
+		1F06C037181A1D780017FDB4 /* JKSCollectionMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06C035181A1D780017FDB4 /* JKSCollectionMapper.m */; };
+		1F06C038181A1D780017FDB4 /* JKSCollectionMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06C035181A1D780017FDB4 /* JKSCollectionMapper.m */; };
+		1F06C03B181A24950017FDB4 /* JKSRelationMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06C03A181A24950017FDB4 /* JKSRelationMapper.m */; };
+		1F06C03C181A24950017FDB4 /* JKSRelationMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06C03A181A24950017FDB4 /* JKSRelationMapper.m */; };
+		1F06C03D181A24950017FDB4 /* JKSRelationMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06C03A181A24950017FDB4 /* JKSRelationMapper.m */; };
 		1F1E3F73180392ED00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
 		1F1E3F78180392ED00801509 /* JKSSerializer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F1E3F77180392ED00801509 /* JKSSerializer.h */; };
 		1F1E3F7A180392ED00801509 /* JKSSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSSerializer.m */; };
@@ -24,6 +30,12 @@
 		1F1E3FCF1804EC5C00801509 /* JKSSerializerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FB21803933700801509 /* JKSSerializerSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1F1E3FD01804EC5E00801509 /* JKSPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3FB91803966400801509 /* JKSPerson.m */; };
 		1F1E3FD11804EC6000801509 /* JKSSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSSerializer.m */; };
+		1FDAC11A18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
+		1FDAC11B18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
+		1FDAC11C18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
+		1FDAC11D18121F6900846B44 /* JKSProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11918121F6900846B44 /* JKSProperty.m */; };
+		1FDAC11E18121F6900846B44 /* JKSProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11918121F6900846B44 /* JKSProperty.m */; };
+		1FDAC11F18121F6900846B44 /* JKSProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11918121F6900846B44 /* JKSProperty.m */; };
 		1FFE003D180B6478007BD0FA /* JKSSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE003C180B6478007BD0FA /* JKSSerialization.m */; };
 		1FFE003E180B6478007BD0FA /* JKSSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE003C180B6478007BD0FA /* JKSSerialization.m */; };
 		1FFE003F180B6478007BD0FA /* JKSSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFE003C180B6478007BD0FA /* JKSSerialization.m */; };
@@ -43,6 +55,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F06C033181A1CD60017FDB4 /* JKSMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSMapper.h; sourceTree = "<group>"; };
+		1F06C034181A1D780017FDB4 /* JKSCollectionMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSCollectionMapper.h; sourceTree = "<group>"; };
+		1F06C035181A1D780017FDB4 /* JKSCollectionMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSCollectionMapper.m; sourceTree = "<group>"; };
+		1F06C039181A24950017FDB4 /* JKSRelationMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSRelationMapper.h; sourceTree = "<group>"; };
+		1F06C03A181A24950017FDB4 /* JKSRelationMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSRelationMapper.m; sourceTree = "<group>"; };
+		1F06C03F181A2BB30017FDB4 /* JKSSerializerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSSerializerProtocol.h; sourceTree = "<group>"; };
+		1F06C040181A2DC90017FDB4 /* JKSBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSBase.h; sourceTree = "<group>"; };
 		1F1E3F6F180392ED00801509 /* libJKSSerializer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJKSSerializer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F72180392ED00801509 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F1E3F76180392ED00801509 /* JKSSerializer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JKSSerializer-Prefix.pch"; sourceTree = "<group>"; };
@@ -64,6 +83,10 @@
 		1F1E3FC51804EC4E00801509 /* OSXSpecs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSXSpecs-Prefix.pch"; sourceTree = "<group>"; };
 		1F1E3FC61804EC4F00801509 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = Frameworks/Cedar.framework; sourceTree = "<group>"; };
 		1F1E3FC81804EC4F00801509 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1FDAC11618121F6900846B44 /* JKSClassInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSClassInspector.h; sourceTree = "<group>"; };
+		1FDAC11718121F6900846B44 /* JKSClassInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSClassInspector.m; sourceTree = "<group>"; };
+		1FDAC11818121F6900846B44 /* JKSProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSProperty.h; sourceTree = "<group>"; };
+		1FDAC11918121F6900846B44 /* JKSProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSProperty.m; sourceTree = "<group>"; };
 		1FFE003B180B6478007BD0FA /* JKSSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSSerialization.h; sourceTree = "<group>"; };
 		1FFE003C180B6478007BD0FA /* JKSSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSSerialization.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -173,8 +196,15 @@
 		1F1E3FB51803959100801509 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				1F06C040181A2DC90017FDB4 /* JKSBase.h */,
+				1F06C03F181A2BB30017FDB4 /* JKSSerializerProtocol.h */,
+				1F06C033181A1CD60017FDB4 /* JKSMapper.h */,
 				1F1E3F77180392ED00801509 /* JKSSerializer.h */,
 				1F1E3F79180392ED00801509 /* JKSSerializer.m */,
+				1F06C034181A1D780017FDB4 /* JKSCollectionMapper.h */,
+				1F06C035181A1D780017FDB4 /* JKSCollectionMapper.m */,
+				1F06C039181A24950017FDB4 /* JKSRelationMapper.h */,
+				1F06C03A181A24950017FDB4 /* JKSRelationMapper.m */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -218,6 +248,10 @@
 		1FFE000A180A3539007BD0FA /* Private */ = {
 			isa = PBXGroup;
 			children = (
+				1FDAC11618121F6900846B44 /* JKSClassInspector.h */,
+				1FDAC11718121F6900846B44 /* JKSClassInspector.m */,
+				1FDAC11818121F6900846B44 /* JKSProperty.h */,
+				1FDAC11918121F6900846B44 /* JKSProperty.m */,
 				1FFE003B180B6478007BD0FA /* JKSSerialization.h */,
 				1FFE003C180B6478007BD0FA /* JKSSerialization.m */,
 			);
@@ -338,8 +372,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FDAC11D18121F6900846B44 /* JKSProperty.m in Sources */,
 				1F1E3F7A180392ED00801509 /* JKSSerializer.m in Sources */,
 				1FFE003D180B6478007BD0FA /* JKSSerialization.m in Sources */,
+				1F06C03B181A24950017FDB4 /* JKSRelationMapper.m in Sources */,
+				1F06C036181A1D780017FDB4 /* JKSCollectionMapper.m in Sources */,
+				1FDAC11A18121F6900846B44 /* JKSClassInspector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,9 +387,13 @@
 			files = (
 				1F1E3FA81803931D00801509 /* main.m in Sources */,
 				1F1E3FBA1803966400801509 /* JKSPerson.m in Sources */,
+				1FDAC11B18121F6900846B44 /* JKSClassInspector.m in Sources */,
+				1F06C03C181A24950017FDB4 /* JKSRelationMapper.m in Sources */,
 				1F1E3FB41803935900801509 /* JKSSerializer.m in Sources */,
 				1FFE003E180B6478007BD0FA /* JKSSerialization.m in Sources */,
 				1F1E3FB31803933700801509 /* JKSSerializerSpec.mm in Sources */,
+				1F06C037181A1D780017FDB4 /* JKSCollectionMapper.m in Sources */,
+				1FDAC11E18121F6900846B44 /* JKSProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,9 +403,13 @@
 			files = (
 				1F1E3FC91804EC4F00801509 /* main.m in Sources */,
 				1F1E3FD01804EC5E00801509 /* JKSPerson.m in Sources */,
+				1FDAC11C18121F6900846B44 /* JKSClassInspector.m in Sources */,
+				1F06C03D181A24950017FDB4 /* JKSRelationMapper.m in Sources */,
 				1F1E3FD11804EC6000801509 /* JKSSerializer.m in Sources */,
 				1FFE003F180B6478007BD0FA /* JKSSerialization.m in Sources */,
 				1F1E3FCF1804EC5C00801509 /* JKSSerializerSpec.mm in Sources */,
+				1F06C038181A1D780017FDB4 /* JKSCollectionMapper.m in Sources */,
+				1FDAC11F18121F6900846B44 /* JKSProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

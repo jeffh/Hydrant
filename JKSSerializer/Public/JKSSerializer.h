@@ -1,6 +1,9 @@
-#import <Foundation/Foundation.h>
+#import "JKSSerializerProtocol.h"
+#import "JKSMapper.h"
+#import "JKSCollectionMapper.h"
+#import "JKSRelationMapper.h"
 
-@interface JKSSerializer : NSObject
+@interface JKSSerializer : NSObject <JKSSerializer>
 
 @property (strong, nonatomic) id nullObject;
 

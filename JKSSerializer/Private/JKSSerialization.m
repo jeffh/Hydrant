@@ -1,4 +1,5 @@
 #import "JKSSerialization.h"
+#import "JKSClassInspector.h"
 
 @implementation JKSSerialization
 
@@ -11,6 +12,26 @@
         self.mapping = mapping;
     }
     return self;
+}
+
+- (BOOL)canDeserializeObject:(id)srcObject withClassHint:(Class)dstClass
+{
+    if (dstClass) {
+        return [dstClass isSubclassOfClass:self.destinationClass] && [srcObject isKindOfClass:self.sourceClass];
+    } else {
+        NSSet *srcKeys = [NSSet setWithArray:[self propertiesForObject:srcObject]];
+        NSSet *dstKeys = [NSSet setWithArray:self.mapping.allKeys];
+        return [dstKeys isSubsetOfSet:srcKeys];
+    }
+}
+
+- (NSArray *)propertiesForObject:(id)object
+{
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        return [object allKeys];
+    }
+    JKSClassInspector *inspector = [JKSClassInspector inspectorForClass:[object class]];
+    return [inspector.allProperties valueForKey:@"name"];
 }
 
 - (NSString *)description

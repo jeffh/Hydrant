@@ -7,6 +7,7 @@
 @property (assign, nonatomic) NSUInteger age;
 @property (strong, nonatomic) JKSPerson *parent;
 @property (strong, nonatomic) NSArray *siblings;
+@property (assign, nonatomic) NSInteger identifier;
 
 - (id)initWithFixtureData;
 

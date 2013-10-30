@@ -1,6 +1,7 @@
 #import "JKSSerializer.h"
 #import <objc/runtime.h>
 #import "JKSSerialization.h"
+#import "JKSMapper.h"
 
 @interface JKSSerializer ()
 @property (strong, nonatomic) NSMutableArray *classMapping;
@@ -23,14 +24,10 @@
     NSMutableDictionary *reverseMapping = [NSMutableDictionary new];
     for (id key in mapping) {
         id value = mapping[key];
-        if ([value isKindOfClass:[NSArray class]]) {
-            NSMutableArray *classMapping = [[value subarrayWithRange:NSMakeRange(1, [value count] - 1)] mutableCopy];
-
-            id tmp = classMapping[classMapping.count - 2];
-            classMapping[classMapping.count - 2] = classMapping.lastObject;
-            classMapping[classMapping.count - 1] = tmp;
-
-            reverseMapping[[value firstObject]] = [@[key] arrayByAddingObjectsFromArray:classMapping];
+        if ([value conformsToProtocol:@protocol(JKSMapper)]) {
+            id<JKSMapper> mapper = value;
+            NSString *srcKey = [mapper destinationKey];
+            reverseMapping[srcKey] = [mapper reverseMapperWithDestinationKey:key];
         } else {
             reverseMapping[value] = key;
         }
@@ -55,7 +52,7 @@
 {
     JKSSerialization *theSerialization = nil;
     for (JKSSerialization *serialization in self.classMapping) {
-        if ((!dstClass || serialization.destinationClass == dstClass) && [srcObject isKindOfClass:serialization.sourceClass]) {
+        if ([serialization canDeserializeObject:srcObject withClassHint:(Class)dstClass]){
             theSerialization = serialization;
             break;
         }
@@ -73,7 +70,7 @@
 
 - (id)destinationObjectFromSourceObject:(id)sourceObject withSerialization:(JKSSerialization *)serialization
 {
-    id destinationObject = [self objectOfClass:serialization.destinationClass];
+    id destinationObject = [self newObjectOfClass:serialization.destinationClass];
 
     for (NSString *sourceKeyPath in serialization.mapping) {
         id destinationInfo = serialization.mapping[sourceKeyPath];
@@ -82,22 +79,10 @@
         NSString *destinationKeyPath = destinationInfo;
         id destinationValue = sourceValue;
 
-        if ([destinationInfo isKindOfClass:[NSArray class]]) {
-            Class destClass = [destinationInfo lastObject];
-            destinationKeyPath = destinationInfo[0];
-
-            NSAssert([destinationInfo count] == 3 || [destinationInfo count] == 4,
-                     @"Arrays in serialization mapping can only be 3 or 4 elements:"
-                     @" in @[destinationKeyPath(, collectionClass), sourceClass, destinationClass]"
-                     @" form.");
-
-            if ([destinationInfo count] == 4) {
-                destinationValue = [self collectionOfClass:destinationInfo[1]
-                                          withItemsOfClass:destClass
-                                            fromCollection:sourceValue];
-            } else if (sourceValue && sourceValue != [NSNull null]) {
-                destinationValue = [self objectOfClass:destClass fromObject:sourceValue];
-            }
+        if ([destinationInfo conformsToProtocol:@protocol(JKSMapper)]) {
+            id<JKSMapper> mapper = destinationInfo;
+            destinationValue = [mapper objectFromSourceObject:sourceValue serializer:self];
+            destinationKeyPath = [mapper destinationKey];
         }
 
         destinationValue = [self returnObject:self.nullObject ifObjectIsNull:destinationValue];
@@ -116,7 +101,7 @@
         return self.nullObject;
     }
 
-    id collection = [self objectOfClass:collectionClass];
+    id collection = [self newObjectOfClass:collectionClass];
 
     NSUInteger index = 0;
     for (id item in sourceCollection) {
@@ -137,13 +122,14 @@
         [currentKeyPath appendString:path];
 
         if (![object valueForKeyPath:currentKeyPath]) {
-            [object setValue:[self objectOfClass:aClass] forKeyPath:currentKeyPath];
+            [object setValue:[self newObjectOfClass:aClass]
+                  forKeyPath:currentKeyPath];
         }
     }
     [object setValue:value forKeyPath:keyPath];
 }
 
-- (id)objectOfClass:(Class)class
+- (id)newObjectOfClass:(Class)class
 {
     id result = [class new];
     if ([result conformsToProtocol:@protocol(NSMutableCopying)]) {
