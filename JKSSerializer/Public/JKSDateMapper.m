@@ -18,17 +18,17 @@
 
 - (id)objectFromSourceObject:(id)sourceObject serializer:(id<JKSSerializer>)serializer
 {
-    if (self.convertsToString){
-        return [self.dateFormatter stringFromDate:sourceObject];
-    } else {
+    if (self.convertsToDate){
         return [self.dateFormatter dateFromString:sourceObject];
+    } else {
+        return [self.dateFormatter stringFromDate:sourceObject];
     }
 }
 
 - (instancetype)reverseMapperWithDestinationKey:(NSString *)destinationKey
 {
     JKSDateMapper *reversedMapper = [[JKSDateMapper alloc] initWithDestinationKey:destinationKey dateFormatter:self.dateFormatter];
-    reversedMapper.convertsToString = !self.convertsToString;
+    reversedMapper.convertsToDate = !self.convertsToDate;
     return reversedMapper;
 }
 

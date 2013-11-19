@@ -31,13 +31,13 @@ describe(@"JKSNumberMapper", ^{
             parsedObject = [mapper objectFromSourceObject:sourceObject serializer:nil];
         });
 
-        context(@"when a string is provided", ^{
+        context(@"when a number is provided", ^{
             beforeEach(^{
-                sourceObject = numberString;
+                sourceObject = number;
             });
 
-            it(@"should produce a number object", ^{
-                parsedObject should equal(number);
+            it(@"should produce a string object", ^{
+                parsedObject should equal(numberString);
             });
         });
 
@@ -71,13 +71,13 @@ describe(@"JKSNumberMapper", ^{
                 parsedObject = [reverseMapper objectFromSourceObject:sourceObject serializer:nil];
             });
 
-            context(@"when a number is provided", ^{
+            context(@"when a string is provided", ^{
                 beforeEach(^{
-                    sourceObject = number;
+                    sourceObject = numberString;
                 });
 
-                it(@"should produce a string object", ^{
-                    parsedObject should equal(numberString);
+                it(@"should produce a number object", ^{
+                    parsedObject should equal(number);
                 });
             });
 

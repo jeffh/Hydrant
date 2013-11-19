@@ -4,7 +4,7 @@
 @interface JKSNumberMapper : NSObject <JKSMapper>
 
 @property (strong, nonatomic) NSString *destinationKey;
-@property (assign, nonatomic) BOOL convertsToString;
+@property (assign, nonatomic) BOOL convertsToNumber;
 
 - (id)initWithDestinationKey:(NSString *)destinationKey numberFormatter:(NSNumberFormatter *)numberFormatter;
 

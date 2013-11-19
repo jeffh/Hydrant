@@ -109,6 +109,41 @@ describe(@"JKSSerializer", ^{
         });
     });
 
+    describe(@"date serialization", ^{
+        __block NSDate *date;
+        beforeEach(^{
+            NSDateComponents *components = [[NSDateComponents alloc] init];
+            components.calendar = [NSCalendar currentCalendar];
+            components.timeZone = [NSTimeZone defaultTimeZone];
+            components.year = 2012;
+            components.month = 2;
+            components.day = 1;
+            components.hour = 13;
+            components.minute = 30;
+            components.second = 45;
+            date = [components date];
+
+            serializer.nullObject = [NSNull null];
+            [serializer serializeBetweenClass:[JKSPerson class]
+                                     andClass:[NSDictionary class]
+                                  withMapping:@{@"birthDate": JKSDate(@"birthday", @"yyyy-MM-dd'T'HH:mm:ss'Z'")}];
+        });
+
+        it(@"should serialize dates", ^{
+            person.birthDate = date;
+            NSMutableDictionary *output = [serializer objectFromObject:person];
+
+            output should be_instance_of([NSDictionary class]).or_any_subclass();
+            output should equal(@{@"birthday": @"2012-02-01T13:30:45Z"});
+        });
+
+        it(@"should deserialize dates", ^{
+            serializer.nullObject = nil;
+            JKSPerson *outputPerson = [serializer objectFromObject:@{@"birthday": @"2012-02-01T13:30:45Z"}];
+            outputPerson.birthDate should equal(date);
+        });
+    });
+
     describe(@"collection serialization", ^{
         beforeEach(^{
             person.siblings = @[[[[JKSPerson alloc] initWithFixtureData] autorelease],

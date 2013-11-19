@@ -8,6 +8,7 @@
 @property (strong, nonatomic) JKSPerson *parent;
 @property (strong, nonatomic) NSArray *siblings;
 @property (assign, nonatomic) NSInteger identifier;
+@property (strong, nonatomic) NSDate *birthDate;
 
 - (id)initWithFixtureData;
 

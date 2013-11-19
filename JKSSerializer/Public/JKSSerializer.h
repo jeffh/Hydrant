@@ -1,7 +1,12 @@
 #import "JKSSerializerProtocol.h"
+
+// UNUSED, but useful for consumers of the library
 #import "JKSMapper.h"
 #import "JKSCollectionMapper.h"
 #import "JKSRelationMapper.h"
+#import "JKSDateMapper.h"
+#import "JKSNumberMapper.h"
+// end UNUSED
 
 /*! The public interface API to JKSSerializer.
  *

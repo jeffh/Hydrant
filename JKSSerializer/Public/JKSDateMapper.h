@@ -3,7 +3,7 @@
 
 @interface JKSDateMapper : NSObject <JKSMapper>
 @property (strong, nonatomic) NSString *destinationKey;
-@property (assign, nonatomic) BOOL convertsToString;
+@property (assign, nonatomic) BOOL convertsToDate;
 
 - (id)initWithDestinationKey:(NSString *)destinationKey dateFormatter:(NSDateFormatter *)dateFormatter;
 

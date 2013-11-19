@@ -38,17 +38,17 @@ describe(@"JKSDateMapper", ^{
             parsedObject = [mapper objectFromSourceObject:sourceObject serializer:nil];
         });
 
-        context(@"when given a string is given", ^{
+        context(@"when given a date", ^{
             beforeEach(^{
-                sourceObject = dateString;
+                sourceObject = date;
             });
 
-            it(@"should produce a date", ^{
-                parsedObject should equal(date);
+            it(@"should produce a string", ^{
+                parsedObject should equal(dateString);
             });
         });
 
-        context(@"when given a nil source object", ^{
+        context(@"when given nil", ^{
             beforeEach(^{
                 sourceObject = nil;
             });
@@ -78,13 +78,13 @@ describe(@"JKSDateMapper", ^{
                 parsedObject = [reverseMapper objectFromSourceObject:sourceObject serializer:nil];
             });
 
-            context(@"when a date is provided", ^{
+            context(@"when a string is provided", ^{
                 beforeEach(^{
-                    sourceObject = date;
+                    sourceObject = dateString;
                 });
 
-                it(@"should produce a string", ^{
-                    parsedObject should equal(dateString);
+                it(@"should produce a date", ^{
+                    parsedObject should equal(date);
                 });
             });
 

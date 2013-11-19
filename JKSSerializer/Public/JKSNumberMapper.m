@@ -18,17 +18,17 @@
 
 - (id)objectFromSourceObject:(id)sourceObject serializer:(id<JKSSerializer>)serializer
 {
-    if (self.convertsToString) {
-        return [self.numberFormatter stringFromNumber:sourceObject];
-    } else {
+    if (self.convertsToNumber) {
         return [self.numberFormatter numberFromString:sourceObject];
+    } else {
+        return [self.numberFormatter stringFromNumber:sourceObject];
     }
 }
 
 - (id<JKSMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
 {
     JKSNumberMapper *reverseMapper = [[JKSNumberMapper alloc] initWithDestinationKey:destinationKey numberFormatter:self.numberFormatter];
-    reverseMapper.convertsToString = !reverseMapper.convertsToString;
+    reverseMapper.convertsToNumber = !reverseMapper.convertsToNumber;
     return reverseMapper;
 }
 
