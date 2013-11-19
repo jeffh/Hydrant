@@ -6,6 +6,7 @@
 #import "JKSRelationMapper.h"
 #import "JKSDateMapper.h"
 #import "JKSNumberMapper.h"
+#import "JKSEnumMapper.h"
 // end UNUSED
 
 /*! The public interface API to JKSSerializer.

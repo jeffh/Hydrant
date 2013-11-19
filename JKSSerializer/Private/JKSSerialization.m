@@ -18,11 +18,12 @@
 {
     if (dstClass) {
         return [dstClass isSubclassOfClass:self.destinationClass] && [srcObject isKindOfClass:self.sourceClass];
-    } else {
+    } else if ([[srcObject class] isSubclassOfClass:self.sourceClass]) {
         NSSet *srcKeys = [NSSet setWithArray:[self propertiesForObject:srcObject]];
         NSSet *dstKeys = [NSSet setWithArray:self.mapping.allKeys];
         return [dstKeys isSubsetOfSet:srcKeys];
     }
+    return NO;
 }
 
 - (NSArray *)propertiesForObject:(id)object

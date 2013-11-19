@@ -23,6 +23,9 @@
 		1F0A8467183B1EA000EAA4E0 /* JKSNumberMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A8464183B1EA000EAA4E0 /* JKSNumberMapper.m */; };
 		1F0A8469183B1EAB00EAA4E0 /* JKSNumberMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A8468183B1EAB00EAA4E0 /* JKSNumberMapperSpec.mm */; };
 		1F0A846A183B1EAB00EAA4E0 /* JKSNumberMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A8468183B1EAB00EAA4E0 /* JKSNumberMapperSpec.mm */; };
+		1F0A846D183B32F300EAA4E0 /* JKSEnumMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A846C183B32F300EAA4E0 /* JKSEnumMapper.m */; };
+		1F0A846E183B32F300EAA4E0 /* JKSEnumMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A846C183B32F300EAA4E0 /* JKSEnumMapper.m */; };
+		1F0A846F183B32F300EAA4E0 /* JKSEnumMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A846C183B32F300EAA4E0 /* JKSEnumMapper.m */; };
 		1F1E3F73180392ED00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
 		1F1E3F78180392ED00801509 /* JKSSerializer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F1E3F77180392ED00801509 /* JKSSerializer.h */; };
 		1F1E3F7A180392ED00801509 /* JKSSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSSerializer.m */; };
@@ -78,6 +81,8 @@
 		1F0A8463183B1EA000EAA4E0 /* JKSNumberMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSNumberMapper.h; sourceTree = "<group>"; };
 		1F0A8464183B1EA000EAA4E0 /* JKSNumberMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSNumberMapper.m; sourceTree = "<group>"; };
 		1F0A8468183B1EAB00EAA4E0 /* JKSNumberMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JKSNumberMapperSpec.mm; sourceTree = "<group>"; };
+		1F0A846B183B32F300EAA4E0 /* JKSEnumMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSEnumMapper.h; sourceTree = "<group>"; };
+		1F0A846C183B32F300EAA4E0 /* JKSEnumMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSEnumMapper.m; sourceTree = "<group>"; };
 		1F1E3F6F180392ED00801509 /* libJKSSerializer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJKSSerializer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F72180392ED00801509 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F1E3F76180392ED00801509 /* JKSSerializer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JKSSerializer-Prefix.pch"; sourceTree = "<group>"; };
@@ -225,6 +230,8 @@
 				1F0A845C183B120D00EAA4E0 /* JKSDateMapper.m */,
 				1F0A8463183B1EA000EAA4E0 /* JKSNumberMapper.h */,
 				1F0A8464183B1EA000EAA4E0 /* JKSNumberMapper.m */,
+				1F0A846B183B32F300EAA4E0 /* JKSEnumMapper.h */,
+				1F0A846C183B32F300EAA4E0 /* JKSEnumMapper.m */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -396,6 +403,7 @@
 			files = (
 				1F0A845D183B120D00EAA4E0 /* JKSDateMapper.m in Sources */,
 				1FDAC11D18121F6900846B44 /* JKSProperty.m in Sources */,
+				1F0A846D183B32F300EAA4E0 /* JKSEnumMapper.m in Sources */,
 				1F0A8465183B1EA000EAA4E0 /* JKSNumberMapper.m in Sources */,
 				1F1E3F7A180392ED00801509 /* JKSSerializer.m in Sources */,
 				1FFE003D180B6478007BD0FA /* JKSSerialization.m in Sources */,
@@ -418,6 +426,7 @@
 				1FFE003E180B6478007BD0FA /* JKSSerialization.m in Sources */,
 				1F1E3FB31803933700801509 /* JKSSerializerSpec.mm in Sources */,
 				1F06C037181A1D780017FDB4 /* JKSCollectionMapper.m in Sources */,
+				1F0A846E183B32F300EAA4E0 /* JKSEnumMapper.m in Sources */,
 				1F0A8461183B127300EAA4E0 /* JKSDateMapperSpec.mm in Sources */,
 				1FDAC11E18121F6900846B44 /* JKSProperty.m in Sources */,
 				1F0A8466183B1EA000EAA4E0 /* JKSNumberMapper.m in Sources */,
@@ -438,6 +447,7 @@
 				1FFE003F180B6478007BD0FA /* JKSSerialization.m in Sources */,
 				1F1E3FCF1804EC5C00801509 /* JKSSerializerSpec.mm in Sources */,
 				1F06C038181A1D780017FDB4 /* JKSCollectionMapper.m in Sources */,
+				1F0A846F183B32F300EAA4E0 /* JKSEnumMapper.m in Sources */,
 				1F0A8462183B127300EAA4E0 /* JKSDateMapperSpec.mm in Sources */,
 				1FDAC11F18121F6900846B44 /* JKSProperty.m in Sources */,
 				1F0A8467183B1EA000EAA4E0 /* JKSNumberMapper.m in Sources */,

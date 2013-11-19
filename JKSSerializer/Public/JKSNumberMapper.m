@@ -6,6 +6,8 @@
 
 @implementation JKSNumberMapper
 
+#pragma mark - <JKSMapper>
+
 - (id)initWithDestinationKey:(NSString *)destinationKey numberFormatter:(NSNumberFormatter *)numberFormatter
 {
     self = [super init];

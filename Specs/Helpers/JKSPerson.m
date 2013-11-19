@@ -21,12 +21,13 @@
         self.age == [object age] &&
         (self.parent == (JKSPerson *)[object parent] || [self.parent isEqual:[object parent]]) &&
         (self.siblings == (NSArray *)[object siblings] || [self.siblings isEqual:[object siblings]]) &&
-        (self.birthDate == [object birthDate] || [self.birthDate isEqual:[object birthDate]]);
+        (self.birthDate == [object birthDate] || [self.birthDate isEqual:[object birthDate]]) &&
+        (self.gender == [object gender]);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@>",
+    return [NSString stringWithFormat:@"<%@: %p firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%u>",
             NSStringFromClass([self class]),
             self,
             self.firstName,
@@ -34,7 +35,8 @@
             (unsigned long)self.age,
             self.parent,
             self.siblings,
-            self.birthDate];
+            self.birthDate,
+            self.gender];
 }
 
 @end

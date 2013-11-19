@@ -1,6 +1,8 @@
 #import "JKSSerializer.h"
 #import "JKSPerson.h"
 
+// DO NOT any other library headers here to simulate an API user.
+
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
@@ -109,8 +111,86 @@ describe(@"JKSSerializer", ^{
         });
     });
 
+    describe(@"enum serialization", ^{
+        context(@"as their native types", ^{
+            beforeEach(^{
+                serializer.nullObject = [NSNull null];
+                [serializer serializeBetweenClass:[JKSPerson class]
+                                         andClass:[NSDictionary class]
+                                      withMapping:@{@"gender": @"gender"}];
+            });
+
+            it(@"should serialize enums", ^{
+                person.gender = JKSPersonGenderMale;
+                NSMutableDictionary *output = [serializer objectFromObject:person];
+
+                output should be_instance_of([NSDictionary class]).or_any_subclass();
+                output should equal(@{@"gender": @1});
+            });
+
+            it(@"should deserialize enums", ^{
+                serializer.nullObject = nil;
+                JKSPerson *outputPerson = [serializer objectFromObject:@{@"gender": @1}];
+                outputPerson.gender should equal(JKSPersonGenderMale);
+            });
+        });
+
+        context(@"as a custom mapping", ^{
+            beforeEach(^{
+                serializer.nullObject = [NSNull null];
+                [serializer serializeBetweenClass:[JKSPerson class]
+                                         andClass:[NSDictionary class]
+                                      withMapping:@{@"gender": JKSEnum(@"gender", @{@(JKSPersonGenderUnknown): @"unknown",
+                                                                                    @(JKSPersonGenderMale): @"male",
+                                                                                    @(JKSPersonGenderFemale): @"female"})}];
+            });
+
+            it(@"should serialize enums", ^{
+                person.gender = JKSPersonGenderMale;
+                NSMutableDictionary *output = [serializer objectFromObject:person];
+
+                output should be_instance_of([NSDictionary class]).or_any_subclass();
+                output should equal(@{@"gender": @"male"});
+            });
+
+            it(@"should deserialize enums", ^{
+                serializer.nullObject = nil;
+                JKSPerson *outputPerson = [serializer objectFromObject:@{@"gender": @"male"}];
+                outputPerson.gender should equal(JKSPersonGenderMale);
+            });
+        });
+    });
+
+    describe(@"number serialization", ^{
+        __block NSString *numberString;
+
+        beforeEach(^{
+            person.age = 1234567;
+            numberString = [NSNumberFormatter localizedStringFromNumber:@(person.age) numberStyle:NSNumberFormatterScientificStyle];
+
+            serializer.nullObject = [NSNull null];
+            [serializer serializeBetweenClass:[JKSPerson class]
+                                     andClass:[NSDictionary class]
+                                  withMapping:@{@"age": JKSNumberStyle(@"age", NSNumberFormatterScientificStyle)}];
+        });
+
+        it(@"should serialize dates", ^{
+            NSMutableDictionary *output = [serializer objectFromObject:person];
+
+            output should be_instance_of([NSDictionary class]).or_any_subclass();
+            output should equal(@{@"age": numberString});
+        });
+
+        it(@"should deserialize dates", ^{
+            serializer.nullObject = nil;
+            JKSPerson *outputPerson = [serializer objectFromObject:@{@"age": numberString}];
+            outputPerson.age should equal(person.age);
+        });
+    });
+
     describe(@"date serialization", ^{
         __block NSDate *date;
+
         beforeEach(^{
             NSDateComponents *components = [[NSDateComponents alloc] init];
             components.calendar = [NSCalendar currentCalendar];

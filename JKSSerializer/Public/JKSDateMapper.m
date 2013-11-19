@@ -6,6 +6,8 @@
 
 @implementation JKSDateMapper
 
+#pragma mark - <JKSMapper>
+
 - (id)initWithDestinationKey:(NSString *)destinationKey dateFormatter:(NSDateFormatter *)dateFormatter
 {
     self = [super init];
