@@ -9,6 +9,16 @@
 
 @implementation JKSSerializer
 
++ (instancetype)sharedInstance
+{
+    static JKSSerializer *serializer__;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        serializer__ = [[self alloc] init];
+    });
+    return serializer__;
+}
+
 - (id)init
 {
     self = [super init];
