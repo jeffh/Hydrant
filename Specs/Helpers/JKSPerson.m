@@ -27,7 +27,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%u>",
+    return [NSString stringWithFormat:@"<%@: %p firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%lu>",
             NSStringFromClass([self class]),
             self,
             self.firstName,
@@ -36,7 +36,7 @@
             self.parent,
             self.siblings,
             self.birthDate,
-            self.gender];
+            (unsigned long)self.gender];
 }
 
 @end
