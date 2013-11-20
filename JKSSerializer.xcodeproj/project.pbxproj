@@ -50,8 +50,7 @@
 		1FA994A9183C97A8001E9F2E /* JKSDateMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A845B183B120D00EAA4E0 /* JKSDateMapper.h */; };
 		1FA994AA183C97A8001E9F2E /* JKSNumberMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A8463183B1EA000EAA4E0 /* JKSNumberMapper.h */; };
 		1FA994AB183C97A8001E9F2E /* JKSEnumMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A846B183B32F300EAA4E0 /* JKSEnumMapper.h */; };
-		1FA994AC183C97B5001E9F2E /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99487183B4A17001E9F2E /* Cedar.framework */; };
-		1FA994AD183C97DF001E9F2E /* Cedar.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A847F183B48DD00EAA4E0 /* Cedar.framework */; };
+		1FA994C8183CA9EF001E9F2E /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA994B8183CA3B3001E9F2E /* Cedar.framework */; };
 		1FDAC11A18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
 		1FDAC11B18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
 		1FDAC11C18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
@@ -134,7 +133,7 @@
 			remoteGlobalIDString = AEEE222811DC2B0600029872;
 			remoteInfo = "Cedar-StaticLib";
 		};
-		1FA99498183C91D3001E9F2E /* PBXContainerItemProxy */ = {
+		1FA994C9183CA9F2001E9F2E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
 			proxyType = 1;
@@ -161,16 +160,6 @@
 				1F1E3F78180392ED00801509 /* JKSSerializer.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1FA9948B183C6EAD001E9F2E /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				1FA994AD183C97DF001E9F2E /* Cedar.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -210,8 +199,8 @@
 		1F1E3FC31804EC4E00801509 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
 		1F1E3FC51804EC4E00801509 /* OSXSpecs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSXSpecs-Prefix.pch"; sourceTree = "<group>"; };
 		1F1E3FC81804EC4F00801509 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1FA99487183B4A17001E9F2E /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = ../../DerivedData/Nimbus/Build/Products/Debug/Cedar.framework; sourceTree = "<group>"; };
 		1FA99489183B4A20001E9F2E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		1FA994B8183CA3B3001E9F2E /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = ../../DerivedData/Nimbus/Build/Products/Debug/Cedar.framework; sourceTree = "<group>"; };
 		1FDAC11618121F6900846B44 /* JKSClassInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSClassInspector.h; sourceTree = "<group>"; };
 		1FDAC11718121F6900846B44 /* JKSClassInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSClassInspector.m; sourceTree = "<group>"; };
 		1FDAC11818121F6900846B44 /* JKSProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSProperty.h; sourceTree = "<group>"; };
@@ -243,7 +232,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FA994AC183C97B5001E9F2E /* Cedar.framework in Frameworks */,
+				1FA994C8183CA9EF001E9F2E /* Cedar.framework in Frameworks */,
 				1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,8 +289,8 @@
 		1F1E3F71180392ED00801509 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FA994B8183CA3B3001E9F2E /* Cedar.framework */,
 				1FA99489183B4A20001E9F2E /* Foundation.framework */,
-				1FA99487183B4A17001E9F2E /* Cedar.framework */,
 				1F1E3F72180392ED00801509 /* Foundation.framework */,
 				1F1E3F9F1803931D00801509 /* CoreGraphics.framework */,
 			);
@@ -464,12 +453,11 @@
 			buildPhases = (
 				1F1E3FBD1804EC4E00801509 /* Sources */,
 				1F1E3FBE1804EC4E00801509 /* Frameworks */,
-				1FA9948B183C6EAD001E9F2E /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1FA99499183C91D3001E9F2E /* PBXTargetDependency */,
+				1FA994CA183CA9F2001E9F2E /* PBXTargetDependency */,
 			);
 			name = OSXSpecs;
 			productName = OSXSpecs;
@@ -654,10 +642,10 @@
 			name = "Cedar-StaticLib";
 			targetProxy = 1FA9947F183B4920001E9F2E /* PBXContainerItemProxy */;
 		};
-		1FA99499183C91D3001E9F2E /* PBXTargetDependency */ = {
+		1FA994CA183CA9F2001E9F2E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Cedar;
-			targetProxy = 1FA99498183C91D3001E9F2E /* PBXContainerItemProxy */;
+			targetProxy = 1FA994C9183CA9F2001E9F2E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
