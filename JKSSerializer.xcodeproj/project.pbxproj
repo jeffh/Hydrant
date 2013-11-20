@@ -42,7 +42,16 @@
 		1F1E3FD11804EC6000801509 /* JKSSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E3F79180392ED00801509 /* JKSSerializer.m */; };
 		1FA99484183B49FA001E9F2E /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A8485183B48DD00EAA4E0 /* libCedar-StaticLib.a */; };
 		1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99489183B4A20001E9F2E /* Foundation.framework */; };
-		1FA9948E183C918E001E9F2E /* Cedar.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A847F183B48DD00EAA4E0 /* Cedar.framework */; };
+		1FA994A4183C97A8001E9F2E /* JKSBase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C040181A2DC90017FDB4 /* JKSBase.h */; };
+		1FA994A5183C97A8001E9F2E /* JKSSerializerProtocol.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C03F181A2BB30017FDB4 /* JKSSerializerProtocol.h */; };
+		1FA994A6183C97A8001E9F2E /* JKSMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C033181A1CD60017FDB4 /* JKSMapper.h */; };
+		1FA994A7183C97A8001E9F2E /* JKSCollectionMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C034181A1D780017FDB4 /* JKSCollectionMapper.h */; };
+		1FA994A8183C97A8001E9F2E /* JKSRelationMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C039181A24950017FDB4 /* JKSRelationMapper.h */; };
+		1FA994A9183C97A8001E9F2E /* JKSDateMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A845B183B120D00EAA4E0 /* JKSDateMapper.h */; };
+		1FA994AA183C97A8001E9F2E /* JKSNumberMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A8463183B1EA000EAA4E0 /* JKSNumberMapper.h */; };
+		1FA994AB183C97A8001E9F2E /* JKSEnumMapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A846B183B32F300EAA4E0 /* JKSEnumMapper.h */; };
+		1FA994AC183C97B5001E9F2E /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99487183B4A17001E9F2E /* Cedar.framework */; };
+		1FA994AD183C97DF001E9F2E /* Cedar.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F0A847F183B48DD00EAA4E0 /* Cedar.framework */; };
 		1FDAC11A18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
 		1FDAC11B18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
 		1FDAC11C18121F6900846B44 /* JKSClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JKSClassInspector.m */; };
@@ -141,19 +150,27 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				1FA994A4183C97A8001E9F2E /* JKSBase.h in CopyFiles */,
+				1FA994A5183C97A8001E9F2E /* JKSSerializerProtocol.h in CopyFiles */,
+				1FA994A6183C97A8001E9F2E /* JKSMapper.h in CopyFiles */,
+				1FA994A7183C97A8001E9F2E /* JKSCollectionMapper.h in CopyFiles */,
+				1FA994A8183C97A8001E9F2E /* JKSRelationMapper.h in CopyFiles */,
+				1FA994A9183C97A8001E9F2E /* JKSDateMapper.h in CopyFiles */,
+				1FA994AA183C97A8001E9F2E /* JKSNumberMapper.h in CopyFiles */,
+				1FA994AB183C97A8001E9F2E /* JKSEnumMapper.h in CopyFiles */,
 				1F1E3F78180392ED00801509 /* JKSSerializer.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1FA9948B183C6EAD001E9F2E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1FA9948E183C918E001E9F2E /* Cedar.framework in CopyFiles */,
+				1FA994AD183C97DF001E9F2E /* Cedar.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -226,6 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FA994AC183C97B5001E9F2E /* Cedar.framework in Frameworks */,
 				1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
