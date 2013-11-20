@@ -1,2 +1,3 @@
 language: objective-c
+before_install: brew install ios-sim
 script: rake
