@@ -11,17 +11,17 @@ describe(@"JKSDateMapper", ^{
     __block NSString *dateString;
 
     beforeEach(^{
-        NSDateComponents *components = [[NSDateComponents alloc] init];
-        components.year = 2012;
-        components.month = 2;
-        components.day = 1;
-        components.hour = 12;
-        components.minute = 30;
-        components.second = 45;
-        components.calendar = [NSCalendar currentCalendar];
-        components.timeZone = [NSTimeZone defaultTimeZone];
-        date = [components date];
-        dateString = @"2012-02-01 at 12:30:45";
+        NSDateComponents *referenceDateComponents = [[NSDateComponents alloc] init];
+        referenceDateComponents.year = 2012;
+        referenceDateComponents.month = 2;
+        referenceDateComponents.day = 1;
+        referenceDateComponents.hour = 14;
+        referenceDateComponents.minute = 30;
+        referenceDateComponents.second = 45;
+        referenceDateComponents.calendar = [NSCalendar currentCalendar];
+        referenceDateComponents.timeZone = [NSTimeZone defaultTimeZone];
+        date = [referenceDateComponents date];
+        dateString = @"2012-02-01 at 14:30:45";
 
         mapper = JKSDate(@"dateKey", @"yyyy-MM-dd 'at' HH:mm:ss");
     });
