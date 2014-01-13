@@ -6,7 +6,7 @@
 
 @implementation JKSNumberMapper
 
-#pragma mark - <JKSMapper>
+#pragma mark - <JKSFieldMapper>
 
 - (id)initWithDestinationKey:(NSString *)destinationKey numberFormatter:(NSNumberFormatter *)numberFormatter
 {
@@ -18,13 +18,22 @@
     return self;
 }
 
-- (id)objectFromSourceObject:(id)sourceObject serializer:(id<JKSSerializer>)serializer
+- (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
     if (self.convertsToNumber) {
         return [self.numberFormatter numberFromString:sourceObject];
     } else {
         return [self.numberFormatter stringFromNumber:sourceObject];
     }
+}
+
+- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
+{
+    return [self objectFromSourceObject:srcObject error:error];
+}
+
+- (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
+{
 }
 
 - (id<JKSMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey

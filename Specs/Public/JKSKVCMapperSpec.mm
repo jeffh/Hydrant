@@ -6,15 +6,17 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-SPEC_BEGIN(JKSSerializerSpec)
+SPEC_BEGIN(JKSKVCMapperSpec)
 
-describe(@"JKSSerializer", ^{
-    __block JKSSerializer *serializer;
+describe(@"JKSKVCMapper", ^{
+    __block JKSKVCMapper *serializer;
     __block JKSPerson *person;
+    __block NSError *error;
 
     beforeEach(^{
+        error = nil;
         person = [[[JKSPerson alloc] initWithFixtureData] autorelease];
-        serializer = [[[JKSSerializer alloc] init] autorelease];
+        serializer = [[[JKSKVCMapper alloc] init] autorelease];
     });
 
     // TODO: needs tests
@@ -29,7 +31,8 @@ describe(@"JKSSerializer", ^{
         });
 
         it(@"should serialize", ^{
-            NSDictionary *output = [serializer objectFromObject:person];
+            NSDictionary *output = [serializer objectFromSourceObject:person error:&error];
+            error should be_nil;
             output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"user": @{@"first": @"John",
                                              @"last": @"Doe"}});
@@ -38,8 +41,9 @@ describe(@"JKSSerializer", ^{
         it(@"should deserialize", ^{
             NSDictionary *input = @{@"user": @{@"first": @"James",
                                                @"last": @"Taylor"}};
-            person = [serializer objectOfClass:[JKSPerson class] fromObject:input];
+            person = [serializer objectFromSourceObject:input toClass:[JKSPerson class] error:&error];
 
+            error should be_nil;
             JKSPerson *expectedPerson = [[JKSPerson new] autorelease];
             expectedPerson.firstName = @"James";
             expectedPerson.lastName = @"Taylor";
@@ -60,7 +64,8 @@ describe(@"JKSSerializer", ^{
         });
 
         it(@"should serialize", ^{
-            NSMutableDictionary *output = [serializer objectFromObject:person];
+            NSMutableDictionary *output = [serializer objectFromSourceObject:person error:&error];
+            error should be_nil;
             output should equal(@{@"first": @"John",
                                   @"last": @"Doe"});
         });
@@ -68,8 +73,9 @@ describe(@"JKSSerializer", ^{
         it(@"should deserialize", ^{
             NSDictionary *input = @{@"f": @"James",
                                     @"l": @"Taylor"};
-            person = [serializer objectFromObject:input];
+            person = [serializer objectFromSourceObject:input error:&error];
 
+            error should be_nil;
             JKSPerson *expectedPerson = [[JKSPerson new] autorelease];
             expectedPerson.firstName = @"James";
             expectedPerson.lastName = @"Taylor";
@@ -90,8 +96,9 @@ describe(@"JKSSerializer", ^{
 
         it(@"should serialize basic properties", ^{
             serializer.nullObject = [NSNull null];
-            NSMutableDictionary *output = [serializer objectFromObject:person];
+            NSMutableDictionary *output = [serializer objectFromSourceObject:person error:&error];
 
+            error should be_nil;
             output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"first": @"John",
                                   @"last": @"Doe",
@@ -104,7 +111,7 @@ describe(@"JKSSerializer", ^{
                                     @"last": @"Doe",
                                     @"age": @23,
                                     @"parent": [NSNull null]};
-            JKSPerson *outputPerson = [serializer objectFromObject:input];
+            JKSPerson *outputPerson = [serializer objectFromSourceObject:input error:&error];
 
             outputPerson should be_instance_of([JKSPerson class]);
             outputPerson should equal(person);
@@ -122,15 +129,17 @@ describe(@"JKSSerializer", ^{
 
             it(@"should serialize enums", ^{
                 person.gender = JKSPersonGenderMale;
-                NSMutableDictionary *output = [serializer objectFromObject:person];
+                NSMutableDictionary *output = [serializer objectFromSourceObject:person error:&error];
 
+                error should be_nil;
                 output should be_instance_of([NSDictionary class]).or_any_subclass();
                 output should equal(@{@"gender": @1});
             });
 
             it(@"should deserialize enums", ^{
                 serializer.nullObject = nil;
-                JKSPerson *outputPerson = [serializer objectFromObject:@{@"gender": @1}];
+                JKSPerson *outputPerson = [serializer objectFromSourceObject:@{@"gender" : @1} error:&error];
+                error should be_nil;
                 outputPerson.gender should equal(JKSPersonGenderMale);
             });
         });
@@ -147,15 +156,17 @@ describe(@"JKSSerializer", ^{
 
             it(@"should serialize enums", ^{
                 person.gender = JKSPersonGenderMale;
-                NSMutableDictionary *output = [serializer objectFromObject:person];
+                NSMutableDictionary *output = [serializer objectFromSourceObject:person error:&error];
 
+                error should be_nil;
                 output should be_instance_of([NSDictionary class]).or_any_subclass();
                 output should equal(@{@"gender": @"male"});
             });
 
             it(@"should deserialize enums", ^{
                 serializer.nullObject = nil;
-                JKSPerson *outputPerson = [serializer objectFromObject:@{@"gender": @"male"}];
+                JKSPerson *outputPerson = [serializer objectFromSourceObject:@{@"gender" : @"male"} error:&error];
+                error should be_nil;
                 outputPerson.gender should equal(JKSPersonGenderMale);
             });
         });
@@ -175,15 +186,16 @@ describe(@"JKSSerializer", ^{
         });
 
         it(@"should serialize dates", ^{
-            NSMutableDictionary *output = [serializer objectFromObject:person];
-
+            NSMutableDictionary *output = [serializer objectFromSourceObject:person error:&error];
+            error should be_nil;
             output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"age": numberString});
         });
 
         it(@"should deserialize dates", ^{
             serializer.nullObject = nil;
-            JKSPerson *outputPerson = [serializer objectFromObject:@{@"age": numberString}];
+            JKSPerson *outputPerson = [serializer objectFromSourceObject:@{@"age" : numberString} error:&error];
+            error should be_nil;
             outputPerson.age should equal(person.age);
         });
     });
@@ -211,15 +223,17 @@ describe(@"JKSSerializer", ^{
 
         it(@"should serialize dates", ^{
             person.birthDate = date;
-            NSMutableDictionary *output = [serializer objectFromObject:person];
+            NSMutableDictionary *output = [serializer objectFromSourceObject:person error:&error];
 
+            error should be_nil;
             output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"birthday": @"2012-02-01T13:30:45Z"});
         });
 
         it(@"should deserialize dates", ^{
             serializer.nullObject = nil;
-            JKSPerson *outputPerson = [serializer objectFromObject:@{@"birthday": @"2012-02-01T13:30:45Z"}];
+            JKSPerson *outputPerson = [serializer objectFromSourceObject:@{@"birthday" : @"2012-02-01T13:30:45Z"} error:&error];
+            error should be_nil;
             outputPerson.birthDate should equal(date);
         });
     });
@@ -236,8 +250,8 @@ describe(@"JKSSerializer", ^{
         });
 
         it(@"should serialize collections", ^{
-            NSMutableDictionary *output = [serializer objectFromObject:person];
-
+            NSMutableDictionary *output = [serializer objectFromSourceObject:person error:&error];
+            error should be_nil;
             output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"first": @"John",
                                   @"siblings": @[@{@"first": @"John", @"siblings": [NSNull null]},
@@ -246,10 +260,11 @@ describe(@"JKSSerializer", ^{
 
         it(@"should deserialize collections", ^{
             serializer.nullObject = nil;
-            JKSPerson *outputPerson = [serializer objectFromObject:@{@"first": @"John",
-                                                                     @"siblings": @[@{@"first": @"John", @"siblings": [NSNull null]},
-                                                                                    @{@"first": @"John", @"siblings": [NSNull null]}]}];
-
+            JKSPerson *outputPerson = [serializer objectFromSourceObject:@{@"first" : @"John",
+                                                                           @"siblings" : @[@{@"first" : @"John", @"siblings" : [NSNull null]},
+                                                                                           @{@"first" : @"John", @"siblings" : [NSNull null]}]}
+                                                                   error:&error];
+            error should be_nil;
             JKSPerson *expectedPerson = [[[JKSPerson alloc] init] autorelease];
             expectedPerson.firstName = @"John";
             JKSPerson *sibling1 = [[[JKSPerson alloc] init] autorelease];
@@ -280,8 +295,9 @@ describe(@"JKSSerializer", ^{
         });
 
         it(@"should recursively serialize", ^{
-            NSMutableDictionary *output = [serializer objectFromObject:person];
+            NSMutableDictionary *output = [serializer objectFromSourceObject:person error:&error];
 
+            error should be_nil;
             output should be_instance_of([NSDictionary class]).or_any_subclass();
             output should equal(@{@"first": @"John",
                                   @"last": @"Doe",
@@ -301,8 +317,9 @@ describe(@"JKSSerializer", ^{
                                                   @"last": @"Taylor",
                                                   @"age": @11,
                                                   @"aParent": [NSNull null]}};
-            JKSPerson *outputPerson = [serializer objectFromObject:input];
+            JKSPerson *outputPerson = [serializer objectFromSourceObject:input error:&error];
 
+            error should be_nil;
             outputPerson should be_instance_of([JKSPerson class]);
             outputPerson should equal(person);
         });

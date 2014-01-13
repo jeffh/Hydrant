@@ -1,5 +1,5 @@
 #import "JKSCollectionMapper.h"
-#import "JKSSerializerProtocol.h"
+#import "JKSFactory.h"
 
 
 @interface JKSCollectionMapper ()
@@ -7,6 +7,8 @@
 @property (strong, nonatomic) Class dstItemClass;
 @property (strong, nonatomic) Class srcCollectionClass;
 @property (strong, nonatomic) Class dstCollectionClass;
+@property (strong, nonatomic) id<JKSFactory> factory;
+@property (weak, nonatomic) id<JKSMapper> mapper;
 @end
 
 @implementation JKSCollectionMapper
@@ -41,20 +43,40 @@
 
 #pragma mark - <JKSMapper>
 
-- (id)objectFromSourceObject:(id)sourceObject serializer:(id<JKSSerializer>)serializer
+- (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
     if (!sourceObject) {
         return nil;
     }
 
-    id collection = [serializer newObjectOfClass:self.dstCollectionClass];
+    id collection = [self.factory newObjectOfClass:self.dstCollectionClass];
 
     NSUInteger index = 0;
     for (id item in sourceObject) {
-        [collection insertObject:[serializer objectOfClass:self.dstItemClass fromObject:item]
+        [collection insertObject:[self.mapper objectFromSourceObject:item toClass:self.dstItemClass error:error]
                          atIndex:index++];
     }
     return collection;
+}
+
+- (id)objectFromSourceObject:(id)sourceObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
+{
+    id result = [self objectFromSourceObject:sourceObject error:error];
+    if (*error) {
+        return nil;
+    }
+
+    if (![sourceObject isKindOfClass:dstClass]) {
+        *error = [NSError errorWithDomain:@"TODO" code:4 userInfo:nil];
+        return nil;
+    }
+    return result;
+}
+
+- (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
+{
+    self.mapper = mapper;
+    self.factory = factory;
 }
 
 - (instancetype)reverseMapperWithDestinationKey:(NSString *)destinationKey

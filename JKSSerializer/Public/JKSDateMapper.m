@@ -1,5 +1,8 @@
 #import "JKSDateMapper.h"
+#import "JKSError.h"
 
+// TODO: convert this class into two classes
+// date->string and string->date
 @interface JKSDateMapper ()
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @end
@@ -18,13 +21,41 @@
     return self;
 }
 
-- (id)objectFromSourceObject:(id)sourceObject serializer:(id<JKSSerializer>)serializer
+- (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
+    id value = nil;
     if (self.convertsToDate){
-        return [self.dateFormatter dateFromString:sourceObject];
+        value = [self.dateFormatter dateFromString:[sourceObject description]];
     } else {
-        return [self.dateFormatter stringFromDate:sourceObject];
+        value = [self.dateFormatter stringFromDate:sourceObject];
     }
+
+    if (!value && sourceObject) {
+        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectValue
+                                   sourceObject:sourceObject
+                                       byMapper:self];
+    }
+    return value;
+}
+
+- (id)objectFromSourceObject:(id)sourceObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
+{
+    id value = [self objectFromSourceObject:sourceObject error:error];
+    if (*error) {
+        return nil;
+    }
+
+    if (value && ![[value class] isSubclassOfClass:dstClass]) {
+        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidResultingObjectType
+                                   sourceObject:sourceObject
+                                       byMapper:self];
+        return nil;
+    }
+    return value;
+}
+
+- (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
+{
 }
 
 - (instancetype)reverseMapperWithDestinationKey:(NSString *)destinationKey

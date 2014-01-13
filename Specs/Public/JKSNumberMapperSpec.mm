@@ -9,8 +9,11 @@ describe(@"JKSNumberMapper", ^{
     __block JKSNumberMapper *mapper;
     __block NSString *numberString;
     __block NSNumber *number;
+    __block NSError *error;
 
     beforeEach(^{
+        error = nil;
+
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         formatter.numberStyle = NSNumberFormatterDecimalStyle;
         number = @(1235555);
@@ -28,7 +31,7 @@ describe(@"JKSNumberMapper", ^{
         __block id parsedObject;
 
         subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject serializer:nil];
+            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
         });
 
         context(@"when a number is provided", ^{
@@ -68,7 +71,7 @@ describe(@"JKSNumberMapper", ^{
             __block id parsedObject;
 
             subjectAction(^{
-                parsedObject = [reverseMapper objectFromSourceObject:sourceObject serializer:nil];
+                parsedObject = [reverseMapper objectFromSourceObject:sourceObject error:&error];
             });
 
             context(@"when a string is provided", ^{

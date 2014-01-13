@@ -1,4 +1,5 @@
 #import "JKSEnumMapper.h"
+#import "JKSError.h"
 
 @interface JKSEnumMapper ()
 @property (strong, nonatomic) NSDictionary *mapping;
@@ -18,9 +19,24 @@
     return self;
 }
 
-- (id)objectFromSourceObject:(id)sourceObject serializer:(id<JKSSerializer>)serializer
+- (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
-    return self.mapping[sourceObject];
+    id result = self.mapping[sourceObject];
+    if (!result) {
+        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectValue
+                                   sourceObject:sourceObject
+                                       byMapper:self];
+    }
+    return result;
+}
+
+- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
+{
+    return [self objectFromSourceObject:srcObject error:error];
+}
+
+- (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
+{
 }
 
 - (instancetype)reverseMapperWithDestinationKey:(NSString *)destinationKey

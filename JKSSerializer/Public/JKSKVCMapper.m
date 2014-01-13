@@ -1,29 +1,21 @@
-#import "JKSSerializer.h"
+#import "JKSKVCMapper.h"
 #import <objc/runtime.h>
 #import "JKSSerialization.h"
-#import "JKSMapper.h"
+#import "JKSObjectFactory.h"
 
-@interface JKSSerializer ()
+@interface JKSKVCMapper ()
 @property (strong, nonatomic) NSMutableArray *classMapping;
+@property (strong, nonatomic) id<JKSFactory> factory;
 @end
 
-@implementation JKSSerializer
-
-+ (instancetype)sharedInstance
-{
-    static JKSSerializer *serializer__;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        serializer__ = [[self alloc] init];
-    });
-    return serializer__;
-}
+@implementation JKSKVCMapper
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        self.classMapping = [NSMutableArray new];
+        self.classMapping = [NSMutableArray array];
+        self.factory = [[JKSObjectFactory alloc] init];
     }
     return self;
 }
@@ -53,13 +45,14 @@
     [self.classMapping addObject:serialization];
 }
 
-- (id)objectFromObject:(id)srcObject
+#pragma mark - <JKSMapper>
+
+- (id)objectFromSourceObject:(id)srcObject error:(NSError *__autoreleasing *)error
 {
-    return [self objectOfClass:nil fromObject:srcObject];
+    return [self objectFromSourceObject:srcObject toClass:nil error:error];
 }
 
-- (id)objectOfClass:(Class)dstClass fromObject:(id)srcObject
-{
+- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error {
     JKSSerialization *theSerialization = nil;
     for (JKSSerialization *serialization in self.classMapping) {
         if ([serialization canDeserializeObject:srcObject withClassHint:(Class)dstClass]){
@@ -70,15 +63,30 @@
 
     if (!theSerialization) {
         [NSException raise:@"JKSSerializerMissingMapping"
-                    format:@"JKSSerializer does not know how to map %@ to %@", [srcObject class], dstClass ? dstClass : @"(Unknown Class)"];
+                    format:@"JKSKVCMapper does not know how to map %@ to %@", [srcObject class], dstClass ? dstClass : @"(Unknown Class)"];
     }
 
-    return [self destinationObjectFromSourceObject:srcObject withSerialization:theSerialization];
+    return [self destinationObjectFromSourceObject:srcObject withSerialization:theSerialization error:error];
+}
+
+- (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
+{
+
+}
+
+- (NSString *)destinationKey
+{
+    return nil;
+}
+
+- (id<JKSMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+{
+    return nil;
 }
 
 #pragma mark - Private
 
-- (id)destinationObjectFromSourceObject:(id)sourceObject withSerialization:(JKSSerialization *)serialization
+- (id)destinationObjectFromSourceObject:(id)sourceObject withSerialization:(JKSSerialization *)serialization error:(NSError *__autoreleasing *)error
 {
     id destinationObject = [self newObjectOfClass:serialization.destinationClass];
 
@@ -91,7 +99,8 @@
 
         if ([destinationInfo conformsToProtocol:@protocol(JKSMapper)]) {
             id<JKSMapper> mapper = destinationInfo;
-            destinationValue = [mapper objectFromSourceObject:sourceValue serializer:self];
+            [mapper setupAsChildMapperWithMapper:self factory:self.factory];
+            destinationValue = [mapper objectFromSourceObject:sourceValue error:error];
             destinationKeyPath = [mapper destinationKey];
         }
 
@@ -105,7 +114,7 @@
     return destinationObject;
 }
 
-- (id)collectionOfClass:(Class)collectionClass withItemsOfClass:(Class)itemClass fromCollection:(id)sourceCollection
+- (id)collectionOfClass:(Class)collectionClass withItemsOfClass:(Class)itemClass fromCollection:(id)sourceCollection error:(NSError *__autoreleasing *)error
 {
     if (!sourceCollection) {
         return self.nullObject;
@@ -115,7 +124,7 @@
 
     NSUInteger index = 0;
     for (id item in sourceCollection) {
-        [collection insertObject:[self objectOfClass:itemClass fromObject:item]
+        [collection insertObject:[self objectFromSourceObject:item toClass:itemClass error:error]
                          atIndex:index++];
     }
     return collection;

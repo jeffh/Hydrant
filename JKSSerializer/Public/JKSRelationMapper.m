@@ -1,9 +1,11 @@
 #import "JKSRelationMapper.h"
-#import "JKSSerializerProtocol.h"
+#import "JKSMapper.h"
 
 @interface JKSRelationMapper ()
 @property (strong, nonatomic) Class srcClass;
 @property (strong, nonatomic) Class dstClass;
+@property (strong, nonatomic) id<JKSFactory> factory;
+@property (weak, nonatomic) id<JKSMapper> mapper;
 @end
 
 @implementation JKSRelationMapper
@@ -21,13 +23,29 @@
 
 #pragma mark - <JKSMapper>
 
-- (id)objectFromSourceObject:(id)sourceObject serializer:(id<JKSSerializer>)serializer
+- (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
     if (!sourceObject) {
         return nil;
     }
-    return [serializer objectOfClass:self.dstClass
-                          fromObject:sourceObject];
+    if (!self.mapper) {
+        *error = [NSError errorWithDomain:NSInternalInconsistencyException
+                                     code:101
+                                 userInfo:@{NSLocalizedDescriptionKey: @"JKSRelationMapper cannot be used standalone"}];
+        return nil;
+    }
+    return [self.mapper objectFromSourceObject:sourceObject toClass:self.dstClass error:error];
+}
+
+- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
+{
+    return [self objectFromSourceObject:srcObject error:error];
+}
+
+- (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
+{
+    self.mapper = mapper;
+    self.factory = factory;
 }
 
 - (instancetype)reverseMapperWithDestinationKey:(NSString *)destinationKey
