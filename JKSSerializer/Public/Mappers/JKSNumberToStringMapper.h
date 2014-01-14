@@ -1,7 +1,7 @@
 #import "JKSBase.h"
 #import "JKSMapper.h"
 
-@interface JKSNumberMapper : NSObject <JKSMapper>
+@interface JKSNumberToStringMapper : NSObject <JKSMapper>
 
 @property (strong, nonatomic) NSString *destinationKey;
 @property (assign, nonatomic) BOOL convertsToNumber;
@@ -11,4 +11,4 @@
 @end
 
 JKS_EXTERN
-JKSNumberMapper* JKSNumberStyle(NSString *destKey, NSNumberFormatterStyle numberFormatStyle);
+JKSNumberToStringMapper *JKSNumberToString(NSString *destKey, NSNumberFormatterStyle numberFormatStyle);

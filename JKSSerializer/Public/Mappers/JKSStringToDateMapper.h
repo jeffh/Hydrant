@@ -1,13 +1,13 @@
-#import "JKSBase.h"
 #import "JKSMapper.h"
+#import "JKSBase.h"
 
-@interface JKSDateMapper : NSObject <JKSMapper>
+
+@interface JKSStringToDateMapper : NSObject <JKSMapper>
 @property (strong, nonatomic) NSString *destinationKey;
-@property (assign, nonatomic) BOOL convertsToDate;
 
 - (id)initWithDestinationKey:(NSString *)destinationKey dateFormatter:(NSDateFormatter *)dateFormatter;
 
 @end
 
 JKS_EXTERN
-JKSDateMapper* JKSDate(NSString *dstKey, NSString *formatString);
+JKSStringToDateMapper *JKSStringToDate(NSString *dstKey, NSString *formatString);

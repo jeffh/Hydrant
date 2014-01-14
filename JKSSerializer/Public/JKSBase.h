@@ -3,6 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define JKS_EXTERN FOUNDATION_EXTERN
+#define JKS_EXTERN OBJC_EXPORT
 
 #endif

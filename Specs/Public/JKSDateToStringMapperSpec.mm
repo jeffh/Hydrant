@@ -1,13 +1,14 @@
-#import "JKSDateMapper.h"
+#import "JKSDateToStringMapper.h"
 #import "JKSError.h"
+#import "JKSStringToDateMapper.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-SPEC_BEGIN(JKSDateMapperSpec)
+SPEC_BEGIN(JKSDateToStringMapperSpec)
 
-describe(@"JKSDateMapper", ^{
-    __block JKSDateMapper *mapper;
+describe(@"JKSDateToStringMapper", ^{
+    __block JKSDateToStringMapper *mapper;
     __block NSDate *date;
     __block NSString *dateString;
     __block NSError *error;
@@ -29,7 +30,7 @@ describe(@"JKSDateMapper", ^{
         date = [referenceDateComponents date];
         dateString = @"2012-02-01 at 14:30:45";
 
-        mapper = JKSDate(@"dateKey", @"yyyy-MM-dd 'at' HH:mm:ss");
+        mapper = JKSDateToString(@"dateKey", @"yyyy-MM-dd 'at' HH:mm:ss");
     });
 
     it(@"should have the same destination key it was given", ^{
@@ -117,7 +118,7 @@ describe(@"JKSDateMapper", ^{
     });
 
     describe(@"reverse mapper", ^{
-        __block JKSDateMapper *reverseMapper;
+        __block JKSStringToDateMapper *reverseMapper;
         beforeEach(^{
             reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
         });
@@ -126,85 +127,15 @@ describe(@"JKSDateMapper", ^{
             reverseMapper.destinationKey should equal(@"otherKey");
         });
 
-        void (^itShouldConvertStringsToDates)() = ^{
-            context(@"when a string is provided", ^{
-                beforeEach(^{
-                    sourceObject = dateString;
-                });
+        it(@"should be the inverse of the current mapper", ^{
+            sourceObject = date;
+            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+            error should be_nil;
 
-                it(@"should not produce an error", ^{
-                    error should be_nil;
-                });
+            id result = [reverseMapper objectFromSourceObject:parsedObject error:&error];
+            error should be_nil;
 
-                it(@"should produce a date", ^{
-                    parsedObject should equal(date);
-                });
-            });
-
-            context(@"when given another object", ^{
-                beforeEach(^{
-                    sourceObject = [NSDate date];
-                });
-
-                it(@"should produce an error with the original error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidSourceObjectValue);
-                });
-
-                it(@"should return nil", ^{
-                    parsedObject should be_nil;
-                });
-            });
-
-            context(@"when nil is provided", ^{
-                beforeEach(^{
-                    sourceObject = nil;
-                });
-
-                it(@"should not produce an error", ^{
-                    error should be_nil;
-                });
-
-                it(@"should produce nil", ^{
-                    parsedObject should be_nil;
-                });
-            });
-        };
-
-        describe(@"parsing the source object", ^{
-            subjectAction(^{
-                parsedObject = [reverseMapper objectFromSourceObject:sourceObject error:&error];
-            });
-
-            itShouldConvertStringsToDates();
-        });
-
-        describe(@"parsing the source object with type checking", ^{
-            __block Class type;
-
-            subjectAction(^{
-                parsedObject = [reverseMapper objectFromSourceObject:sourceObject toClass:type error:&error];
-            });
-
-            context(@"when the type is NSDate", ^{
-                beforeEach(^{
-                    type = [NSDate class];
-                });
-
-                itShouldConvertStringsToDates();
-            });
-
-            context(@"when it is any other type", ^{
-                beforeEach(^{
-                    type = [NSString class];
-                    sourceObject = dateString;
-                });
-
-                it(@"should return an error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidResultingObjectType);
-                });
-            });
+            result should equal(sourceObject);
         });
     });
 });

@@ -1,13 +1,12 @@
-#import "JKSDateMapper.h"
+#import "JKSDateToStringMapper.h"
 #import "JKSError.h"
+#import "JKSStringToDateMapper.h"
 
-// TODO: convert this class into two classes
-// date->string and string->date
-@interface JKSDateMapper ()
+@interface JKSDateToStringMapper ()
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @end
 
-@implementation JKSDateMapper
+@implementation JKSDateToStringMapper
 
 #pragma mark - <JKSMapper>
 
@@ -23,12 +22,7 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
-    id value = nil;
-    if (self.convertsToDate){
-        value = [self.dateFormatter dateFromString:[sourceObject description]];
-    } else {
-        value = [self.dateFormatter stringFromDate:sourceObject];
-    }
+    id value = [self.dateFormatter stringFromDate:sourceObject];
 
     if (!value && sourceObject) {
         *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectValue
@@ -58,19 +52,17 @@
 {
 }
 
-- (instancetype)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<JKSMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
 {
-    JKSDateMapper *reversedMapper = [[JKSDateMapper alloc] initWithDestinationKey:destinationKey dateFormatter:self.dateFormatter];
-    reversedMapper.convertsToDate = !self.convertsToDate;
-    return reversedMapper;
+    return [[JKSStringToDateMapper alloc] initWithDestinationKey:destinationKey dateFormatter:self.dateFormatter];
 }
 
 @end
 
 
-JKSDateMapper* JKSDate(NSString *dstKey, NSString *formatString)
+JKSDateToStringMapper *JKSDateToString(NSString *dstKey, NSString *formatString)
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = formatString;
-    return [[JKSDateMapper alloc] initWithDestinationKey:dstKey dateFormatter:dateFormatter];
+    return [[JKSDateToStringMapper alloc] initWithDestinationKey:dstKey dateFormatter:dateFormatter];
 }

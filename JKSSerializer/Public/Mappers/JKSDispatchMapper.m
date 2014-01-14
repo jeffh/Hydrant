@@ -1,14 +1,14 @@
-#import "JKSKVCMapper.h"
+#import "JKSDispatchMapper.h"
 #import <objc/runtime.h>
 #import "JKSSerialization.h"
 #import "JKSObjectFactory.h"
 
-@interface JKSKVCMapper ()
+@interface JKSDispatchMapper ()
 @property (strong, nonatomic) NSMutableArray *classMapping;
 @property (strong, nonatomic) id<JKSFactory> factory;
 @end
 
-@implementation JKSKVCMapper
+@implementation JKSDispatchMapper
 
 - (id)init
 {
@@ -63,7 +63,7 @@
 
     if (!theSerialization) {
         [NSException raise:@"JKSSerializerMissingMapping"
-                    format:@"JKSKVCMapper does not know how to map %@ to %@", [srcObject class], dstClass ? dstClass : @"(Unknown Class)"];
+                    format:@"JKSDispatchMapper does not know how to map %@ to %@", [srcObject class], dstClass ? dstClass : @"(Unknown Class)"];
     }
 
     return [self destinationObjectFromSourceObject:srcObject withSerialization:theSerialization error:error];

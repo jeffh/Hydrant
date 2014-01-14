@@ -182,7 +182,7 @@ describe(@"JKSKVCMapper", ^{
             serializer.nullObject = [NSNull null];
             [serializer serializeBetweenClass:[JKSPerson class]
                                      andClass:[NSDictionary class]
-                                  withMapping:@{@"age": JKSNumberStyle(@"age", NSNumberFormatterScientificStyle)}];
+                                  withMapping:@{@"age": JKSNumberToString(@"age", NSNumberFormatterScientificStyle)}];
         });
 
         it(@"should serialize dates", ^{
@@ -218,7 +218,7 @@ describe(@"JKSKVCMapper", ^{
             serializer.nullObject = [NSNull null];
             [serializer serializeBetweenClass:[JKSPerson class]
                                      andClass:[NSDictionary class]
-                                  withMapping:@{@"birthDate": JKSDate(@"birthday", @"yyyy-MM-dd'T'HH:mm:ss'Z'")}];
+                                  withMapping:@{@"birthDate": JKSDateToString(@"birthday", @"yyyy-MM-dd'T'HH:mm:ss'Z'")}];
         });
 
         it(@"should serialize dates", ^{

@@ -23,18 +23,18 @@
  *  @param error If the source object could not be converted, an error is filled here.
  *  @returns A newly created object to be assigned to an object by teh `destinationKey` method.
  */
-- (id)objectFromSourceObject:(id)sourceObject error:(NSError **)error;
+- (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error;
 
 /*! Creates a newly created object from a sourceObject using the specified class mapping.
  *
  *  Unlike `-[objectFromSourceObject:]` the specifically defined serialization strategy is used.
  *
- *  @param srcObject the source object to serialize.
+ *  @param sourceObject the source object to serialize.
  *  @param dstClass The class of the object to produce after serialization.
  *  @param error If the source object could not be converted, an error is filled here.
- *  @returns An instance of `dstClass` with the serializing values of `srcObject` transferred to it.
+ *  @returns An instance of `dstClass` with the serializing values of `sourceObject` transferred to it.
  */
-- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError **)error;
+- (id)objectFromSourceObject:(id)sourceObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error;
 
 #pragma mark - Mapper Composition
 

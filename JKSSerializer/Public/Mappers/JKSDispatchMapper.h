@@ -8,7 +8,7 @@
  *  After constructing this object, you'll define the mapping of classes for the serializer to be aware about.
  *  See `-[serializeClass:toClass:withMapping:]` and `-[serializeBetweenClass:andClass:withMapping:]`
  */
-@interface JKSKVCMapper : NSObject <JKSMapper>
+@interface JKSDispatchMapper : NSObject <JKSMapper>
 
 /*! The object that represents a nil/null value. You can provide [NSNull null] to default to NSNull objects instead
  *  of nil. This is useful when serializing to dictionaries (which do not accept nil).
