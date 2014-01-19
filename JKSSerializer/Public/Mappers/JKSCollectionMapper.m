@@ -73,20 +73,6 @@
     return collection;
 }
 
-- (id)objectFromSourceObject:(id)sourceObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
-{
-    id result = [self objectFromSourceObject:sourceObject error:error];
-    if (*error) {
-        return nil;
-    }
-
-    if (![sourceObject isKindOfClass:dstClass]) {
-        *error = [NSError errorWithDomain:@"TODO" code:4 userInfo:nil];
-        return nil;
-    }
-    return result;
-}
-
 - (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
 {
     self.mapper = mapper;

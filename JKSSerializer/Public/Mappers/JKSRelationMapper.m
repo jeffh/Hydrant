@@ -42,11 +42,6 @@
     return [self.mapper objectFromSourceObject:sourceObject error:error];
 }
 
-- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
-{
-    return [self objectFromSourceObject:srcObject error:error];
-}
-
 - (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
 {
     self.mapper = mapper;

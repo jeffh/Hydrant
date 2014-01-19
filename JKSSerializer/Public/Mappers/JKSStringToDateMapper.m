@@ -38,11 +38,6 @@
     return value;
 }
 
-- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError **)error
-{
-    return nil;
-}
-
 - (void)setupAsChildMapperWithMapper:(id <JKSMapper>)mapper factory:(id <JKSFactory>)factory
 {
 }
