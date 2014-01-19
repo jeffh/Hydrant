@@ -1,14 +1,15 @@
 #import "JKSCollectionMapper.h"
 #import "JKSFactory.h"
-
+#import "JKSObjectFactory.h"
+#import "JKSMutableCollection.h"
+#import "JKSError.h"
 
 @interface JKSCollectionMapper ()
-@property (strong, nonatomic) Class srcItemClass;
-@property (strong, nonatomic) Class dstItemClass;
-@property (strong, nonatomic) Class srcCollectionClass;
-@property (strong, nonatomic) Class dstCollectionClass;
+@property (strong, nonatomic) Class sourceCollectionClass;
+@property (strong, nonatomic) Class destinationCollectionClass;
+@property (strong, nonatomic) id<JKSMapper> wrappedMapper;
 @property (strong, nonatomic) id<JKSFactory> factory;
-@property (weak, nonatomic) id<JKSMapper> mapper;
+@property (weak, nonatomic) id<JKSMapper> rootMapper;
 @end
 
 @implementation JKSCollectionMapper
@@ -19,92 +20,94 @@
     return nil;
 }
 
-- (id)initWithDestinationKey:(NSString *)destinationKey
-            fromItemsOfClass:(Class)srcClass
-              toItemsOfClass:(Class)dstClass
-       fromCollectionOfClass:(Class)srcCollectionClass
-         toCollectionOfClass:(Class)dstCollectionClass
+- (id)initWithItemMapper:(id<JKSMapper>)wrappedMapper sourceCollectionClass:(Class)sourceCollectionClass destinationCollectionClass:(Class)destinationCollectionClass
 {
     self = [super init];
     if (self) {
-        self.destinationKey = destinationKey;
-        self.srcCollectionClass = srcCollectionClass;
-        self.dstCollectionClass = dstCollectionClass;
-        self.srcItemClass = srcClass;
-        self.dstItemClass = dstClass;
+        self.sourceCollectionClass = sourceCollectionClass;
+        self.destinationCollectionClass = destinationCollectionClass;
+        self.wrappedMapper = wrappedMapper;
+        self.factory = [[JKSObjectFactory alloc] init];
+        self.rootMapper = self;
     }
     return self;
 }
 
-- (id)initWithDestinationKey:(NSString *)destinationKey
-            fromItemsOfClass:(Class)srcClass
-              toItemsOfClass:(Class)dstClass
-{
-    return [self initWithDestinationKey:destinationKey
-                       fromItemsOfClass:srcClass
-                         toItemsOfClass:dstClass
-                  fromCollectionOfClass:[NSArray class]
-                    toCollectionOfClass:[NSArray class]];
-}
-
 #pragma mark - <JKSMapper>
 
-- (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing JKSError **)error
+- (NSString *)destinationKey
 {
-    if (!sourceObject) {
+    return [self.wrappedMapper destinationKey];
+}
+
+- (id)objectFromSourceObject:(id)sourceCollection error:(__autoreleasing JKSError **)error
+{
+    *error = nil;
+    if (!sourceCollection) {
         return nil;
     }
 
-    id collection = [self.factory newObjectOfClass:self.dstCollectionClass];
-
-    NSUInteger index = 0;
-    for (id sourceItem in sourceObject) {
-        id item = [self.mapper objectFromSourceObject:sourceItem error:error];
-        if (*error) {
-            return nil;
-        }
-
-        if (item && ![[item class] isSubclassOfClass:self.dstItemClass]) {
-            return nil;
-        }
-
-        [collection insertObject:item atIndex:index++];
+    if (![sourceCollection conformsToProtocol:@protocol(NSFastEnumeration)]) {
+        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceCollection byMapper:self];
+        return nil;
     }
-    return collection;
+
+    id<JKSMutableCollection> resultingCollection = [self.factory newObjectOfClass:self.destinationCollectionClass];
+
+    [self.wrappedMapper setupAsChildMapperWithMapper:self.rootMapper factory:self.factory];
+
+    BOOL hasFatalError = NO;
+    NSMutableArray *errors = [NSMutableArray array];
+    NSUInteger index = 0;
+    for (id sourceObject in sourceCollection) {
+        ++index;
+
+        JKSError *itemError = nil;
+        id object = [self.wrappedMapper objectFromSourceObject:sourceObject error:&itemError];
+
+        if (itemError) {
+            [errors addObject:@{@"index": @(index-1),
+                                @"error": itemError}];
+            hasFatalError = hasFatalError || itemError.isFatal;
+            continue;
+        }
+
+        [resultingCollection addObject:(object ?: [NSNull null])];
+    }
+
+    if (errors.count) {
+        *error = [JKSError wrapErrors:errors
+                             intoCode:(hasFatalError ?  JKSErrorInvalidSourceObjectValue : JKSErrorOptionalMappingFailed)
+                         sourceObject:sourceCollection byMapper:self];
+    }
+
+    return (hasFatalError ? nil : resultingCollection);
 }
 
 - (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory
 {
-    self.mapper = mapper;
+    self.rootMapper = mapper;
     self.factory = factory;
 }
 
 - (instancetype)reverseMapperWithDestinationKey:(NSString *)destinationKey
 {
-    return [[[self class] alloc] initWithDestinationKey:destinationKey
-                                       fromItemsOfClass:self.dstItemClass
-                                         toItemsOfClass:self.srcItemClass
-                                  fromCollectionOfClass:self.dstCollectionClass
-                                    toCollectionOfClass:self.srcCollectionClass];
+    id<JKSMapper> reverseChildMapper = [self.wrappedMapper reverseMapperWithDestinationKey:destinationKey];
+    return [[[self class] alloc] initWithItemMapper:reverseChildMapper
+                              sourceCollectionClass:self.destinationCollectionClass
+                         destinationCollectionClass:self.sourceCollectionClass];
 }
 
 @end
 
-
 JKS_EXTERN
-JKSCollectionMapper* JKSArrayOf(NSString *dstKey, Class srcClass, Class dstClass)
+JKSCollectionMapper * JKSArrayOf(id<JKSMapper> itemMapper)
 {
-    return [[JKSCollectionMapper alloc] initWithDestinationKey:dstKey
-                                              fromItemsOfClass:srcClass
-                                                toItemsOfClass:dstClass];
+    return [[JKSCollectionMapper alloc] initWithItemMapper:itemMapper sourceCollectionClass:[NSArray class] destinationCollectionClass:[NSArray class]];
 }
 
 JKS_EXTERN
-JKSCollectionMapper* JKSCollection(NSString *dstKey, Class srcCollectionClass, Class srcClass, Class dstCollectionClass, Class dstClass)
+JKSCollectionMapper * JKSSetOf(id<JKSMapper> itemMapper)
 {
-    return [[JKSCollectionMapper alloc] initWithDestinationKey:dstKey
-                                              fromItemsOfClass:srcCollectionClass
-                                                toItemsOfClass:dstCollectionClass
-                                         fromCollectionOfClass:srcClass
-                                           toCollectionOfClass:dstClass];
+    return [[JKSCollectionMapper alloc] initWithItemMapper:itemMapper sourceCollectionClass:[NSSet class] destinationCollectionClass:[NSSet class]];
 }

@@ -1,7 +1,7 @@
-#import "JKSKeyValuePathMapper.h"
+// DO NOT any other library headers here to simulate an API user.
+#import "JKSSerializer.h"
 #import "JKSPerson.h"
-#import "JKSObjectFactory.h"
-#import "JKSError.h"
+#import "JKSFakeMapper.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -15,7 +15,7 @@ describe(@"JKSKeyValuePathMapper", ^{
     __block NSDictionary *validSourceObject;
     __block id sourceObject;
     __block id parsedObject;
-    __block id<JKSMapper> childMapper;
+    __block JKSFakeMapper *childMapper;
 
     beforeEach(^{
         expectedPerson = [[JKSPerson alloc] initWithFixtureData];
@@ -24,14 +24,8 @@ describe(@"JKSKeyValuePathMapper", ^{
                               @"age": @23,
                               @"identifier": @5};
 
-        childMapper = nice_fake_for(@protocol(JKSMapper));
-        childMapper stub_method(@selector(destinationKey)).and_return(@"identifier");
-        childMapper stub_method(@selector(objectFromSourceObject:error:)).and_do(^(NSInvocation *invocation) {
-            id value = nil;
-            [invocation getArgument:&value atIndex:2];
-            [invocation setReturnValue:&value];
-        });
-        childMapper stub_method(@selector(reverseMapperWithDestinationKey:)).and_return(childMapper);
+        childMapper = [[JKSFakeMapper alloc] initWithDestinationKey:@"identifier"];
+        childMapper.objectsToReturn = @[@5];
 
         mapper = JKSMapKeyValuePathsTo(@"destinationKey",
                                        [NSDictionary class],
@@ -58,7 +52,8 @@ describe(@"JKSKeyValuePathMapper", ^{
                 });
 
                 it(@"should setup child mappers with itself as the root mapper", ^{
-                    childMapper should have_received(@selector(setupAsChildMapperWithMapper:factory:)).with(mapper, Arguments::any([JKSObjectFactory class]));
+                    childMapper.rootMapperReceived should equal(mapper);
+                    childMapper.factoryReceived should conform_to(@protocol(JKSFactory));
                 });
 
                 it(@"should not have any error", ^{
@@ -123,7 +118,8 @@ describe(@"JKSKeyValuePathMapper", ^{
                 });
 
                 it(@"should propagate the mapping to its children", ^{
-                    childMapper should have_received(@selector(setupAsChildMapperWithMapper:factory:)).with(parentMapper, factory);
+                    childMapper.rootMapperReceived should equal(parentMapper);
+                    childMapper.factoryReceived should be_same_instance_as(factory);
                 });
 
                 it(@"should not have any error", ^{
@@ -173,8 +169,13 @@ describe(@"JKSKeyValuePathMapper", ^{
 
     describe(@"reverse mapping", ^{
         __block id<JKSMapper> reverseMapper;
+        __block JKSFakeMapper *reverseChildMapper;
 
         beforeEach(^{
+            reverseChildMapper = [[JKSFakeMapper alloc] initWithDestinationKey:@"identifier"];
+            childMapper.reverseMapperToReturn = reverseChildMapper;
+            reverseChildMapper.objectsToReturn = @[@5];
+
             reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
         });
 

@@ -20,6 +20,15 @@ const NSInteger JKSErrorOptionalMappingFailed = 100;
                                    @"destinationKey": [mapper destinationKey] ?: [NSNull null]}];
 }
 
++ (instancetype)wrapErrors:(NSArray *)errors intoCode:(NSInteger)code sourceObject:(id)sourceObject byMapper:(id<JKSMapper>)mapper
+{
+    return [self errorWithDomain:JKSErrorDomain
+                            code:code
+                        userInfo:@{@"errors": errors,
+                                   @"isFatal": @(code != JKSErrorOptionalMappingFailed),
+                                   @"sourceObject": sourceObject ?: [NSNull null]}];
+}
+
 + (instancetype)wrapError:(JKSError *)error intoCode:(NSInteger)code byMapper:(id<JKSMapper>)mapper
 {
     return [self errorWithDomain:JKSErrorDomain

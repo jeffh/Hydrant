@@ -1,7 +1,5 @@
-#import "JKSOptionalMapper.h"
-#import "JKSError.h"
-#import "JKSFactory.h"
-#import "JKSObjectFactory.h"
+// DO NOT any other library headers here to simulate an API user.
+#import "JKSSerializer.h"
 #import "JKSFakeMapper.h"
 
 using namespace Cedar::Matchers;
@@ -35,12 +33,12 @@ describe(@"JKSOptionalMapper", ^{
             context(@"when the source object is valid to the child mapper", ^{
                 beforeEach(^{
                     sourceObject = @"valid";
-                    childMapper.errorToReturn = nil;
-                    childMapper.objectToReturn = @1;
+                    childMapper.errorsToReturn = @[[NSNull null]];
+                    childMapper.objectsToReturn = @[@1];
                 });
 
                 it(@"should tell its child mappers that it is the current root mapper", ^{
-                    childMapper.sourceObjectReceived should be_same_instance_as(sourceObject);
+                    childMapper.sourceObjectsReceived[0] should be_same_instance_as(sourceObject);
                 });
 
                 it(@"should not produce an error", ^{
@@ -55,7 +53,7 @@ describe(@"JKSOptionalMapper", ^{
             context(@"when the source object produces a fatal error to the child mapper", ^{
                 beforeEach(^{
                     sourceObject = @"invalid";
-                    childMapper.errorToReturn = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper];
+                    childMapper.errorsToReturn = @[[JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper]];
                 });
 
                 it(@"should tell its child mappers that it is the current root mapper", ^{
@@ -88,7 +86,7 @@ describe(@"JKSOptionalMapper", ^{
             context(@"when the source object is valid to the child mapper", ^{
                 beforeEach(^{
                     sourceObject = @"valid";
-                    childMapper.objectToReturn = @1;
+                    childMapper.objectsToReturn = @[@1];
                 });
 
                 it(@"should tell its child mappers the root mapper", ^{
@@ -108,7 +106,7 @@ describe(@"JKSOptionalMapper", ^{
             context(@"when the source object is invalid to the child mapper", ^{
                 beforeEach(^{
                     sourceObject = @"invalid";
-                    childMapper.errorToReturn = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper];
+                    childMapper.errorsToReturn = @[[JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper]];
                 });
 
                 it(@"should tell its child mappers the root mapper", ^{
@@ -146,8 +144,8 @@ describe(@"JKSOptionalMapper", ^{
 
         context(@"with a good source object", ^{
             beforeEach(^{
-                reverseChildMapper.objectToReturn = sourceObject;
-                childMapper.objectToReturn = @1;
+                reverseChildMapper.objectsToReturn = @[sourceObject];
+                childMapper.objectsToReturn = @[@1];
             });
 
             it(@"should be in the inverse of the current mapper", ^{
@@ -162,7 +160,7 @@ describe(@"JKSOptionalMapper", ^{
 
         context(@"with a bad source object", ^{
             beforeEach(^{
-                reverseChildMapper.errorToReturn = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@1 byMapper:reverseChildMapper];
+                reverseChildMapper.errorsToReturn = @[[JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@1 byMapper:reverseChildMapper]];
                 parsedObject = [reverseMapper objectFromSourceObject:@1 error:&error];
             });
 

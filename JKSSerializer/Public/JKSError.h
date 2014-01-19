@@ -13,6 +13,7 @@ JKS_EXTERN const NSInteger JKSErrorOptionalMappingFailed;
 @interface JKSError : NSError
 
 + (instancetype)mappingErrorWithCode:(NSInteger)code sourceObject:(id)sourceObject byMapper:(id<JKSMapper>)mapper;
++ (instancetype)wrapErrors:(NSArray *)errors intoCode:(NSInteger)code sourceObject:(id)sourceObject byMapper:(id<JKSMapper>)mapper;
 + (instancetype)wrapError:(JKSError *)error intoCode:(NSInteger)code byMapper:(id<JKSMapper>)mapper;
 
 - (BOOL)isFatal;

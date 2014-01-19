@@ -1,6 +1,6 @@
-#import "JKSEnumMapper.h"
+// DO NOT any other library headers here to simulate an API user.
+#import "JKSSerializer.h"
 #import "JKSPerson.h"
-#import "JKSError.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;

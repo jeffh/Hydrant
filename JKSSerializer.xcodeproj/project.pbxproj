@@ -23,6 +23,8 @@
 		1F12175E188B9BDF00B1CBD1 /* JKSFakeMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F12175C188B9BDF00B1CBD1 /* JKSFakeMapper.m */; };
 		1F121760188BE88500B1CBD1 /* JKSIdentityMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F12175F188BE88500B1CBD1 /* JKSIdentityMapperSpec.mm */; };
 		1F121761188BE88500B1CBD1 /* JKSIdentityMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F12175F188BE88500B1CBD1 /* JKSIdentityMapperSpec.mm */; };
+		1F121766188BF0A600B1CBD1 /* JKSCollectionMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F121765188BF0A600B1CBD1 /* JKSCollectionMapperSpec.mm */; };
+		1F121767188BF0A600B1CBD1 /* JKSCollectionMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F121765188BF0A600B1CBD1 /* JKSCollectionMapperSpec.mm */; };
 		1F1E3F73180392ED00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
 		1F1E3F9E1803931D00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
 		1F1E3FA01803931D00801509 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F9F1803931D00801509 /* CoreGraphics.framework */; };
@@ -212,6 +214,8 @@
 		1F12175B188B9BDF00B1CBD1 /* JKSFakeMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSFakeMapper.h; sourceTree = "<group>"; };
 		1F12175C188B9BDF00B1CBD1 /* JKSFakeMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSFakeMapper.m; sourceTree = "<group>"; };
 		1F12175F188BE88500B1CBD1 /* JKSIdentityMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JKSIdentityMapperSpec.mm; sourceTree = "<group>"; };
+		1F121765188BF0A600B1CBD1 /* JKSCollectionMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JKSCollectionMapperSpec.mm; sourceTree = "<group>"; };
+		1F121771188BF3DA00B1CBD1 /* JKSMutableCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSMutableCollection.h; sourceTree = "<group>"; };
 		1F1E3F6F180392ED00801509 /* libJKSSerializer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJKSSerializer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F72180392ED00801509 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F1E3F76180392ED00801509 /* JKSSerializer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JKSSerializer-Prefix.pch"; sourceTree = "<group>"; };
@@ -330,13 +334,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1F121732188A9BD300B1CBD1 /* Fields */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Fields;
-			sourceTree = "<group>";
-		};
 		1F1E3F66180392ED00801509 = {
 			isa = PBXGroup;
 			children = (
@@ -413,7 +410,6 @@
 		1F1E3FB51803959100801509 /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				1F121732188A9BD300B1CBD1 /* Fields */,
 				1F06C040181A2DC90017FDB4 /* JKSBase.h */,
 				1FB0F65F1883DCDD00120ABC /* JKSError.h */,
 				1FB0F6601883DCDD00120ABC /* JKSError.m */,
@@ -422,6 +418,7 @@
 				1F3D815A1883CDC2006C0CC4 /* JKSObjectFactory.h */,
 				1F3D815B1883CDC2006C0CC4 /* JKSObjectFactory.m */,
 				1F3D813F1883A632006C0CC4 /* JKSSerializer.h */,
+				1F121771188BF3DA00B1CBD1 /* JKSMutableCollection.h */,
 				1FB0F6691883F9C600120ABC /* Mappers */,
 			);
 			path = Public;
@@ -430,17 +427,18 @@
 		1F1E3FB61803959700801509 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				1F121765188BF0A600B1CBD1 /* JKSCollectionMapperSpec.mm */,
 				1F0A8460183B127300EAA4E0 /* JKSDateToStringMapperSpec.mm */,
 				1F1E3FB21803933700801509 /* JKSDispatchMapperSpec.mm */,
 				1FB0F6531883DADF00120ABC /* JKSEnumMapperSpec.mm */,
+				1F12175F188BE88500B1CBD1 /* JKSIdentityMapperSpec.mm */,
 				31B739139176EC5E65A3E3A3 /* JKSKeyValueMapperSpec.mm */,
 				31B732DC62BCED064691FF05 /* JKSKeyValuePathMapperSpec.mm */,
 				1F0A8468183B1EAB00EAA4E0 /* JKSNumberToStringMapperSpec.mm */,
+				1F121758188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm */,
 				31B73873C0FADDB763250D29 /* JKSStringToDateMapperSpec.mm */,
 				31B73FE6581BAB5FAA65E756 /* JKSStringToNumberMapperSpec.mm */,
 				1FB0F6B718850BA000120ABC /* JKSTypedMapperSpec.mm */,
-				1F121758188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm */,
-				1F12175F188BE88500B1CBD1 /* JKSIdentityMapperSpec.mm */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -732,6 +730,7 @@
 				1F121756188B76B100B1CBD1 /* JKSOptionalMapper.m in Sources */,
 				1FDAC11B18121F6900846B44 /* JKSClassInspector.m in Sources */,
 				1FB0F67D1883F9FD00120ABC /* JKSEnumMapper.m in Sources */,
+				1F121766188BF0A600B1CBD1 /* JKSCollectionMapperSpec.mm in Sources */,
 				1FB0F6621883DCDD00120ABC /* JKSError.m in Sources */,
 				1FB0F6861883F9FD00120ABC /* JKSRelationMapper.m in Sources */,
 				1FB0F6B518850B9400120ABC /* JKSTypedMapper.m in Sources */,
@@ -771,6 +770,7 @@
 				1F121757188B76B100B1CBD1 /* JKSOptionalMapper.m in Sources */,
 				1FDAC11C18121F6900846B44 /* JKSClassInspector.m in Sources */,
 				1FB0F67E1883F9FD00120ABC /* JKSEnumMapper.m in Sources */,
+				1F121767188BF0A600B1CBD1 /* JKSCollectionMapperSpec.mm in Sources */,
 				1FB0F6631883DCDD00120ABC /* JKSError.m in Sources */,
 				1FB0F6871883F9FD00120ABC /* JKSRelationMapper.m in Sources */,
 				1FB0F6B618850B9400120ABC /* JKSTypedMapper.m in Sources */,

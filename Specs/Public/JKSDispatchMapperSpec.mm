@@ -1,7 +1,8 @@
+// DO NOT any other library headers here to simulate an API user.
 #import "JKSSerializer.h"
 #import "JKSPerson.h"
 
-// DO NOT any other library headers here to simulate an API user.
+#ifdef COMMENT
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -327,3 +328,5 @@ xdescribe(@"JKSDispatchMapper", ^{
 });
 
 SPEC_END
+
+#endif
