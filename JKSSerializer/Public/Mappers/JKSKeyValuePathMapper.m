@@ -48,7 +48,7 @@
 
 #pragma mark - <JKSMapper>
 
-- (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing NSError **)error
+- (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing JKSError **)error
 {
     if (!sourceObject) {
         *error = nil;
@@ -64,7 +64,9 @@
         id<JKSMapper> mapper = self.mapping[sourceKey];
 
         if (![self hasKeyPath:sourceKey onObject:sourceObject]) {
-            *error = [JKSError errorWithDomain:JKSErrorDomain code:JKSErrorInvalidSourceObjectType userInfo:@{}];
+            *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType
+                                       sourceObject:sourceObject
+                                           byMapper:self];
             return nil;
         }
 

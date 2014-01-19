@@ -10,7 +10,7 @@ describe(@"JKSNumberToStringMapper", ^{
     __block JKSNumberToStringMapper *mapper;
     __block NSString *numberString;
     __block NSNumber *number;
-    __block NSError *error;
+    __block JKSError *error;
     __block id sourceObject;
     __block id parsedObject;
 
@@ -49,9 +49,10 @@ describe(@"JKSNumberToStringMapper", ^{
                 sourceObject = [NSDate date];
             });
 
-            it(@"should provide an error", ^{
+            it(@"should provide a fatal error", ^{
                 error.domain should equal(JKSErrorDomain);
                 error.code should equal(JKSErrorInvalidSourceObjectValue);
+                error.isFatal should be_truthy;
             });
 
             it(@"should return nil", ^{
@@ -71,7 +72,7 @@ describe(@"JKSNumberToStringMapper", ^{
     });
 
     describe(@"reverse mapper", ^{
-        __block JKSNumberToStringMapper *reverseMapper;
+        __block id<JKSMapper> reverseMapper;
 
         beforeEach(^{
             reverseMapper = [mapper reverseMapperWithDestinationKey:@"anotherKey"];

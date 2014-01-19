@@ -11,7 +11,7 @@ describe(@"JKSDateToStringMapper", ^{
     __block JKSDateToStringMapper *mapper;
     __block NSDate *date;
     __block NSString *dateString;
-    __block NSError *error;
+    __block JKSError *error;
     __block id sourceObject;
     __block id parsedObject;
 
@@ -57,7 +57,8 @@ describe(@"JKSDateToStringMapper", ^{
                 sourceObject = @"Yo";
             });
 
-            it(@"should produce an error", ^{
+            it(@"should produce a fatal error", ^{
+                error.isFatal should be_truthy;
                 error.domain should equal(JKSErrorDomain);
                 error.code should equal(JKSErrorInvalidSourceObjectValue);
             });

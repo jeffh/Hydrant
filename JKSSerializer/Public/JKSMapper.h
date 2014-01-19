@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol JKSFactory;
+@class JKSError;
 
 /*! The Protocol for object mapping.
  *
@@ -19,11 +20,25 @@
  *  If you wish to dynamically or recursively construct an object.
  *  Use the methods available on the serializer.
  *
- *  @param sourceObject The received object to convert. This should generally assume a JSON-compatible object on default construction.
- *  @param error If the source object could not be converted, an error is filled here.
- *  @returns A newly created object to be assigned to an object by teh `destinationKey` method.
+ *  It is acceptable to return an object AND error. This indicates
+ *  there was a partial error parsing the sourceObject, but
+ *  recoverable enough to parse an object. The error should contain
+ *  details of abnormal parsing behavior (eg - JKSOptionalMapper).
+ *
+ *  To truly know if the provided source object is valid, consulting
+ *  the error object's -[JKSError failedToParse] boolean is necessary
+ *
+ *  @param sourceObject The received object to convert. This should
+ *                      generally assume a JSON-compatible object
+ *                      on default construction.
+ *  @param error If the source object could not be converted without
+ *               any errors it is filled in here. Note the object
+ *               returned may still not be nil.
+ *  @returns A newly created object to be assigned to an object by
+ *           the `destinationKey` method. A nil-returned value
+ *           either indicates an error.
  */
-- (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing NSError **)error;
+- (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing JKSError **)error;
 
 #pragma mark - Mapper Composition
 

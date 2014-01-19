@@ -18,7 +18,7 @@
 
 #pragma mark - <JKSMapper>
 
-- (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing NSError **)error
+- (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing JKSError **)error
 {
     return sourceObject;
 }

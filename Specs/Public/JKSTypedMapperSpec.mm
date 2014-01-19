@@ -10,7 +10,7 @@ SPEC_BEGIN(JKSTypedMapperSpec)
 describe(@"JKSTypedMapper", ^{
     __block JKSTypedMapper *mapper;
     __block id<JKSMapper> innerMapper;
-    __block NSError *error;
+    __block JKSError *error;
     __block id sourceObject;
     __block id parsedObject;
 
@@ -72,6 +72,7 @@ describe(@"JKSTypedMapper", ^{
                 it(@"should produce a type error", ^{
                     error.domain should equal(JKSErrorDomain);
                     error.code should equal(JKSErrorInvalidSourceObjectType);
+                    error.isFatal should be_truthy;
                 });
             });
 
@@ -121,9 +122,10 @@ describe(@"JKSTypedMapper", ^{
                     innerMapper should have_received(@selector(setupAsChildMapperWithMapper:factory:)).with(parentMapper, factory);
                 });
 
-                it(@"should error with invalid return type", ^{
+                it(@"should produce a fatal error with invalid return type", ^{
                     error.domain should equal(JKSErrorDomain);
                     error.code should equal(JKSErrorInvalidResultingObjectType);
+                    error.isFatal should be_truthy;
                 });
 
                 it(@"should return nil", ^{
@@ -187,9 +189,10 @@ describe(@"JKSTypedMapper", ^{
                     innerMapper should_not have_received(@selector(objectFromSourceObject:error:));
                 });
 
-                it(@"should produce a type error", ^{
+                it(@"should produce a fatal type error", ^{
                     error.domain should equal(JKSErrorDomain);
                     error.code should equal(JKSErrorInvalidSourceObjectType);
+                    error.isFatal should be_truthy;
                 });
             });
 
@@ -239,9 +242,10 @@ describe(@"JKSTypedMapper", ^{
                     innerMapper should have_received(@selector(setupAsChildMapperWithMapper:factory:)).with(mapper, Arguments::any([JKSObjectFactory class]));
                 });
 
-                it(@"should error with invalid return type", ^{
+                it(@"should produce a fatal error with invalid return type", ^{
                     error.domain should equal(JKSErrorDomain);
                     error.code should equal(JKSErrorInvalidResultingObjectType);
+                    error.isFatal should be_truthy;
                 });
 
                 it(@"should return nil", ^{

@@ -27,7 +27,7 @@
 
 #pragma mark - <JKSMapper>
 
-- (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing*)error
+- (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing JKSError **)error
 {
     id value = [self.dateFormatter dateFromString:[sourceObject description]];
     if (!value && sourceObject) {

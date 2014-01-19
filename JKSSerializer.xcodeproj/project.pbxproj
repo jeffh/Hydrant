@@ -14,6 +14,13 @@
 		1F121743188AA3CB00B1CBD1 /* JKSIdentityMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F121742188AA3CB00B1CBD1 /* JKSIdentityMapper.m */; };
 		1F121744188AA3CB00B1CBD1 /* JKSIdentityMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F121742188AA3CB00B1CBD1 /* JKSIdentityMapper.m */; };
 		1F121745188AA3CB00B1CBD1 /* JKSIdentityMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F121742188AA3CB00B1CBD1 /* JKSIdentityMapper.m */; };
+		1F121755188B76B100B1CBD1 /* JKSOptionalMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F121754188B76B100B1CBD1 /* JKSOptionalMapper.m */; };
+		1F121756188B76B100B1CBD1 /* JKSOptionalMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F121754188B76B100B1CBD1 /* JKSOptionalMapper.m */; };
+		1F121757188B76B100B1CBD1 /* JKSOptionalMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F121754188B76B100B1CBD1 /* JKSOptionalMapper.m */; };
+		1F121759188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F121758188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm */; };
+		1F12175A188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F121758188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm */; };
+		1F12175D188B9BDF00B1CBD1 /* JKSFakeMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F12175C188B9BDF00B1CBD1 /* JKSFakeMapper.m */; };
+		1F12175E188B9BDF00B1CBD1 /* JKSFakeMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F12175C188B9BDF00B1CBD1 /* JKSFakeMapper.m */; };
 		1F1E3F73180392ED00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
 		1F1E3F9E1803931D00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
 		1F1E3FA01803931D00801509 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F9F1803931D00801509 /* CoreGraphics.framework */; };
@@ -197,6 +204,11 @@
 		1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cedar.xcodeproj; path = cedar/Cedar.xcodeproj; sourceTree = "<group>"; };
 		1F121741188AA3CB00B1CBD1 /* JKSIdentityMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSIdentityMapper.h; sourceTree = "<group>"; };
 		1F121742188AA3CB00B1CBD1 /* JKSIdentityMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSIdentityMapper.m; sourceTree = "<group>"; };
+		1F121753188B76B100B1CBD1 /* JKSOptionalMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSOptionalMapper.h; sourceTree = "<group>"; };
+		1F121754188B76B100B1CBD1 /* JKSOptionalMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSOptionalMapper.m; sourceTree = "<group>"; };
+		1F121758188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JKSOptionalMapperSpec.mm; sourceTree = "<group>"; };
+		1F12175B188B9BDF00B1CBD1 /* JKSFakeMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSFakeMapper.h; sourceTree = "<group>"; };
+		1F12175C188B9BDF00B1CBD1 /* JKSFakeMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSFakeMapper.m; sourceTree = "<group>"; };
 		1F1E3F6F180392ED00801509 /* libJKSSerializer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJKSSerializer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F72180392ED00801509 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F1E3F76180392ED00801509 /* JKSSerializer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JKSSerializer-Prefix.pch"; sourceTree = "<group>"; };
@@ -424,6 +436,7 @@
 				31B73873C0FADDB763250D29 /* JKSStringToDateMapperSpec.mm */,
 				31B73FE6581BAB5FAA65E756 /* JKSStringToNumberMapperSpec.mm */,
 				1FB0F6B718850BA000120ABC /* JKSTypedMapperSpec.mm */,
+				1F121758188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -433,6 +446,8 @@
 			children = (
 				1F1E3FB81803966400801509 /* JKSPerson.h */,
 				1F1E3FB91803966400801509 /* JKSPerson.m */,
+				1F12175B188B9BDF00B1CBD1 /* JKSFakeMapper.h */,
+				1F12175C188B9BDF00B1CBD1 /* JKSFakeMapper.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -482,6 +497,8 @@
 				31B737744BE9031CD99DDA10 /* JKSStringToNumberMapper.m */,
 				1FB0F6B218850B9400120ABC /* JKSTypedMapper.h */,
 				1FB0F6B318850B9400120ABC /* JKSTypedMapper.m */,
+				1F121753188B76B100B1CBD1 /* JKSOptionalMapper.h */,
+				1F121754188B76B100B1CBD1 /* JKSOptionalMapper.m */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -692,6 +709,7 @@
 				31B73E03A89B6BF05AA7716C /* JKSStringToDateMapper.m in Sources */,
 				31B736E10B8F10FBD0AE0C56 /* JKSStringToNumberMapper.m in Sources */,
 				1F121743188AA3CB00B1CBD1 /* JKSIdentityMapper.m in Sources */,
+				1F121755188B76B100B1CBD1 /* JKSOptionalMapper.m in Sources */,
 				31B73FAEA24ABA44CEDA2E00 /* JKSKeyValueMapper.m in Sources */,
 				31B738DA7CF0492BD0A91C3C /* JKSKeyValuePathMapper.m in Sources */,
 			);
@@ -706,6 +724,7 @@
 				1FB0F6831883F9FD00120ABC /* JKSNumberToStringMapper.m in Sources */,
 				1F121744188AA3CB00B1CBD1 /* JKSIdentityMapper.m in Sources */,
 				1F1E3FBA1803966400801509 /* JKSPerson.m in Sources */,
+				1F121756188B76B100B1CBD1 /* JKSOptionalMapper.m in Sources */,
 				1FDAC11B18121F6900846B44 /* JKSClassInspector.m in Sources */,
 				1FB0F67D1883F9FD00120ABC /* JKSEnumMapper.m in Sources */,
 				1FB0F6621883DCDD00120ABC /* JKSError.m in Sources */,
@@ -726,6 +745,8 @@
 				1FB0F6B818850BA000120ABC /* JKSTypedMapperSpec.mm in Sources */,
 				31B73C2C67CC7B8E1441CA64 /* JKSStringToNumberMapperSpec.mm in Sources */,
 				31B73D782BEB6F571FAC0EFC /* JKSKeyValueMapper.m in Sources */,
+				1F121759188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm in Sources */,
+				1F12175D188B9BDF00B1CBD1 /* JKSFakeMapper.m in Sources */,
 				31B733BE6C9A8854443FFA4B /* JKSKeyValueMapperSpec.mm in Sources */,
 				31B733DE3773FD43EC62DD9C /* JKSKeyValuePathMapper.m in Sources */,
 				31B73B1C6C449B79B747139A /* JKSKeyValuePathMapperSpec.mm in Sources */,
@@ -741,6 +762,7 @@
 				1FB0F6841883F9FD00120ABC /* JKSNumberToStringMapper.m in Sources */,
 				1F121745188AA3CB00B1CBD1 /* JKSIdentityMapper.m in Sources */,
 				1F1E3FD01804EC5E00801509 /* JKSPerson.m in Sources */,
+				1F121757188B76B100B1CBD1 /* JKSOptionalMapper.m in Sources */,
 				1FDAC11C18121F6900846B44 /* JKSClassInspector.m in Sources */,
 				1FB0F67E1883F9FD00120ABC /* JKSEnumMapper.m in Sources */,
 				1FB0F6631883DCDD00120ABC /* JKSError.m in Sources */,
@@ -761,6 +783,8 @@
 				1FB0F6B918850BA000120ABC /* JKSTypedMapperSpec.mm in Sources */,
 				31B738DA8FF90737A99972EB /* JKSStringToNumberMapperSpec.mm in Sources */,
 				31B7365D62EBCFF4EF78C9D3 /* JKSKeyValueMapper.m in Sources */,
+				1F12175A188B789C00B1CBD1 /* JKSOptionalMapperSpec.mm in Sources */,
+				1F12175E188B9BDF00B1CBD1 /* JKSFakeMapper.m in Sources */,
 				31B73351059C92CB4783067E /* JKSKeyValueMapperSpec.mm in Sources */,
 				31B733BC97C34F13C06DDF63 /* JKSKeyValuePathMapper.m in Sources */,
 				31B73E085AED83D893A6C4AF /* JKSKeyValuePathMapperSpec.mm in Sources */,

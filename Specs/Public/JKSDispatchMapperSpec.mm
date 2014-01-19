@@ -11,7 +11,7 @@ SPEC_BEGIN(JKSDispatchMapperSpec)
 xdescribe(@"JKSDispatchMapper", ^{
     __block JKSDispatchMapper *serializer;
     __block JKSPerson *person;
-    __block NSError *error;
+    __block JKSError *error;
 
     beforeEach(^{
         error = nil;

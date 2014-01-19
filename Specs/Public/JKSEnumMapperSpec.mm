@@ -9,7 +9,7 @@ SPEC_BEGIN(JKSEnumMapperSpec)
 
 describe(@"JKSEnumMapper", ^{
     __block JKSEnumMapper *mapper;
-    __block NSError *error;
+    __block JKSError *error;
 
     beforeEach(^{
         error = nil;
@@ -49,7 +49,8 @@ describe(@"JKSEnumMapper", ^{
                 sourceObject = @(99);
             });
 
-            it(@"should produce an error", ^{
+            it(@"should produce a fatal error", ^{
+                error.isFatal should be_truthy;
                 error.domain should equal(JKSErrorDomain);
                 error.code should equal(JKSErrorInvalidSourceObjectValue);
             });
@@ -106,7 +107,8 @@ describe(@"JKSEnumMapper", ^{
                     sourceObject = @"Pizza";
                 });
 
-                it(@"should produce an error", ^{
+                it(@"should produce a fatal error", ^{
+                    error.isFatal should be_truthy;
                     error.domain should equal(JKSErrorDomain);
                     error.code should equal(JKSErrorInvalidSourceObjectValue);
                 });

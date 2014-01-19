@@ -12,7 +12,7 @@ describe(@"JKSStringToDateMapper", ^{
     __block NSDate *date;
     __block id parsedObject;
     __block id sourceObject;
-    __block NSError *error;
+    __block JKSError *error;
 
     beforeEach(^{
         error = nil;
@@ -60,9 +60,14 @@ describe(@"JKSStringToDateMapper", ^{
                 sourceObject = [NSDate date];
             });
 
-            it(@"should produe an error", ^{
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+
+            it(@"should produce a fatal error", ^{
                 error.domain should equal(JKSErrorDomain);
                 error.code should equal(JKSErrorInvalidSourceObjectValue);
+                error.isFatal should be_truthy;
             });
         });
 
@@ -78,6 +83,28 @@ describe(@"JKSStringToDateMapper", ^{
             it(@"should return nil", ^{
                 parsedObject should be_nil;
             });
+        });
+    });
+
+    describe(@"reverse mapper", ^{
+        __block id<JKSMapper> reverseMapper;
+
+        beforeEach(^{
+            reverseMapper = [mapper reverseMapperWithDestinationKey:@"key"];
+        });
+
+        it(@"should return the given destination key", ^{
+            reverseMapper.destinationKey should equal(@"key");
+        });
+
+        it(@"should be the inverse of the current mapper", ^{
+            sourceObject = dateString;
+            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+            error should be_nil;
+
+            id result = [reverseMapper objectFromSourceObject:parsedObject error:&error];
+            error should be_nil;
+            result should equal(sourceObject);
         });
     });
 });

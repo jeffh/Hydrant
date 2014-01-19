@@ -35,54 +35,6 @@ static NSMutableDictionary *inspectors__;
     return self;
 }
 
-- (NSUInteger)hashObject:(id)object byPropertyNames:(NSArray *)propertyNames
-{
-    // http://stackoverflow.com/questions/254281/best-practices-for-overriding-isequal-and-hash
-    NSUInteger prime = 31;
-    NSUInteger result = 1;
-    for (NSString *propertyName in propertyNames){
-        result = prime * result + [[object valueForKey:propertyName] hash];
-    }
-    return result;
-}
-
-- (BOOL)isObject:(id)object1 equalToObject:(id)object2 byPropertyNames:(NSArray *)propertyNames
-{
-    if (object1 == object2){
-        return YES;
-    }
-
-    for (NSString *name in propertyNames) {
-        id value = [object1 valueForKey:name];
-        id otherValue = [object2 valueForKey:name];
-        if (value != otherValue && ![value isEqual:otherValue]){
-            return NO;
-        }
-    }
-    return YES;
-}
-
-- (id)copyToObject:(id)targetObject
-        fromObject:(id)object
-            inZone:(NSZone *)zone
-     propertyNames:(NSArray *)identityPropertyNames
- weakPropertyNames:(NSArray *)assignPropertyNames
-{
-    for (NSString *name in identityPropertyNames) {
-        id value = [object valueForKey:name];
-        if ([value conformsToProtocol:@protocol(NSMutableCopying)]) {
-            [targetObject setValue:[value mutableCopyWithZone:zone] forKey:name];
-        } else {
-            [targetObject setValue:value forKey:name];
-        }
-    }
-    for (NSString *name in assignPropertyNames) {
-        [targetObject setValue:[object valueForKey:name] forKey:name];
-    }
-
-    return targetObject;
-}
-
 - (NSString *)descriptionForObject:(id)object withProperties:(NSArray *)properties
 {
     NSMutableString *string = [NSMutableString new];

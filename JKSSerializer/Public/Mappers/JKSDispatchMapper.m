@@ -2,6 +2,7 @@
 #import <objc/runtime.h>
 #import "JKSSerialization.h"
 #import "JKSObjectFactory.h"
+#import "JKSError.h"
 
 @interface JKSDispatchMapper ()
 @property (strong, nonatomic) NSMutableArray *classMapping;
@@ -47,12 +48,12 @@
 
 #pragma mark - <JKSMapper>
 
-- (id)objectFromSourceObject:(id)srcObject error:(NSError *__autoreleasing *)error
+- (id)objectFromSourceObject:(id)srcObject error:(__autoreleasing JKSError **)error
 {
     return [self objectFromSourceObject:srcObject toClass:nil error:error];
 }
 
-- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error {
+- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(__autoreleasing JKSError **)error {
     JKSSerialization *theSerialization = nil;
     for (JKSSerialization *serialization in self.classMapping) {
         if ([serialization canDeserializeObject:srcObject withClassHint:(Class)dstClass]){
@@ -86,7 +87,7 @@
 
 #pragma mark - Private
 
-- (id)destinationObjectFromSourceObject:(id)sourceObject withSerialization:(JKSSerialization *)serialization error:(NSError *__autoreleasing *)error
+- (id)destinationObjectFromSourceObject:(id)sourceObject withSerialization:(JKSSerialization *)serialization error:(__autoreleasing JKSError **)error
 {
     id destinationObject = [self newObjectOfClass:serialization.destinationClass];
 
@@ -114,7 +115,7 @@
     return destinationObject;
 }
 
-- (id)collectionOfClass:(Class)collectionClass withItemsOfClass:(Class)itemClass fromCollection:(id)sourceCollection error:(NSError *__autoreleasing *)error
+- (id)collectionOfClass:(Class)collectionClass withItemsOfClass:(Class)itemClass fromCollection:(id)sourceCollection error:(__autoreleasing JKSError **)error
 {
     if (!sourceCollection) {
         return self.nullObject;

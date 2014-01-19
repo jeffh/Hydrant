@@ -2,6 +2,7 @@
 #import "JKSPerson.h"
 #import "JKSFactory.h"
 #import "JKSObjectFactory.h"
+#import "JKSError.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -10,7 +11,7 @@ SPEC_BEGIN(JKSKeyValueMapperSpec)
 
 describe(@"JKSKeyValueMapper", ^{
     __block JKSKeyValueMapper *mapper;
-    __block NSError *error;
+    __block JKSError *error;
     __block JKSPerson *expectedPerson;
     __block NSDictionary *validSourceObject;
     __block id sourceObject;
@@ -81,8 +82,10 @@ describe(@"JKSKeyValueMapper", ^{
                                      @"id": @5};
                 });
 
-                it(@"should have a parse error", ^{
-                    error should_not be_nil;
+                it(@"should have a fatal error", ^{
+                    error.domain should equal(JKSErrorDomain);
+                    error.code should equal(JKSErrorInvalidSourceObjectType);
+                    error.isFatal should be_truthy;
                 });
 
                 it(@"should return nil", ^{

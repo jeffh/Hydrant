@@ -11,7 +11,7 @@ describe(@"JKSStringToNumberMapper", ^{
     __block JKSStringToNumberMapper *mapper;
     __block NSString *numberString;
     __block NSNumber *number;
-    __block NSError *error;
+    __block JKSError *error;
     __block id sourceObject;
     __block id parsedObject;
 
@@ -50,9 +50,10 @@ describe(@"JKSStringToNumberMapper", ^{
                 sourceObject = @"LULZ";
             });
 
-            it(@"should provide an error", ^{
+            it(@"should provide a fatal error", ^{
                 error.domain should equal(JKSErrorDomain);
                 error.code should equal(JKSErrorInvalidSourceObjectValue);
+                error.isFatal should be_truthy;
             });
 
             it(@"should return nil", ^{
