@@ -33,9 +33,3 @@
 }
 
 @end
-
-JKS_EXTERN
-JKSIdentityMapper *JKSIdentity(NSString *destinationKey)
-{
-    return [[JKSIdentityMapper alloc] initWithDestinationKey:destinationKey];
-}

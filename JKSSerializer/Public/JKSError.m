@@ -15,9 +15,9 @@ const NSInteger JKSErrorOptionalMappingFailed = 100;
     return [self errorWithDomain:JKSErrorDomain
                             code:code
                         userInfo:@{@"sourceObject": (sourceObject ?: [NSNull null]),
-                                   @"mapper": mapper,
+                                   @"mapper": NSStringFromClass([mapper class]),
                                    @"isFatal": @(code != JKSErrorOptionalMappingFailed),
-                                   @"destinationKey": [mapper destinationKey]}];
+                                   @"destinationKey": [mapper destinationKey] ?: [NSNull null]}];
 }
 
 + (instancetype)wrapError:(JKSError *)error intoCode:(NSInteger)code byMapper:(id<JKSMapper>)mapper
@@ -26,7 +26,7 @@ const NSInteger JKSErrorOptionalMappingFailed = 100;
                             code:code
                         userInfo:@{@"originalError": error,
                                    @"isFatal": @(code != JKSErrorOptionalMappingFailed),
-                                   @"wrappingMapper": mapper}];
+                                   @"wrappingMapper": NSStringFromClass([mapper class])}];
 }
 
 - (BOOL)isFatal

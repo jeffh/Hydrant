@@ -162,7 +162,7 @@ describe(@"JKSOptionalMapper", ^{
 
         context(@"with a bad source object", ^{
             beforeEach(^{
-                reverseChildMapper.errorToReturn = [NSError errorWithDomain:@"asdf.com" code:42 userInfo:nil];
+                reverseChildMapper.errorToReturn = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@1 byMapper:reverseChildMapper];
                 parsedObject = [reverseMapper objectFromSourceObject:@1 error:&error];
             });
 

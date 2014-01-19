@@ -40,7 +40,7 @@
         if ([value conformsToProtocol:@protocol(JKSMapper)]) {
             normalizedMapping[key] = value;
         } else if ([value isKindOfClass:[NSString class]]) {
-            normalizedMapping[key] = JKSIdentity(value);
+            normalizedMapping[key] = [[JKSIdentityMapper alloc] initWithDestinationKey:value];
         }
     }
     self.mapping = [normalizedMapping copy];
