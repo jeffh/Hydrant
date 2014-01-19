@@ -22,14 +22,18 @@ describe(@"JKSNumberToStringMapper", ^{
         number = @(1235555);
         numberString = [formatter stringFromNumber:number];
 
-        mapper = JKSNumberToString(@"numberKey", NSNumberFormatterDecimalStyle);
+        mapper = JKSNumberToStringByFormat(@"numberKey", NSNumberFormatterDecimalStyle);
     });
 
     it(@"should preserve its destination key", ^{
         mapper.destinationKey should equal(@"numberKey");
     });
 
-    void (^itShouldConvertNumbersToStrings)() = ^{
+    describe(@"parsing the source object", ^{
+        subjectAction(^{
+            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+        });
+
         context(@"when a number is provided", ^{
             beforeEach(^{
                 sourceObject = number;
@@ -61,46 +65,6 @@ describe(@"JKSNumberToStringMapper", ^{
             });
 
             it(@"should produce nil", ^{
-                parsedObject should be_nil;
-            });
-        });
-    };
-
-    describe(@"parsing the source object", ^{
-        subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
-        });
-
-        itShouldConvertNumbersToStrings();
-    });
-
-    describe(@"parsing the source object with type checking", ^{
-        __block Class type;
-
-        subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject toClass:type error:&error];
-        });
-
-        context(@"when the expected return type is NSString", ^{
-            beforeEach(^{
-                type = [NSString class];
-            });
-
-            itShouldConvertNumbersToStrings();
-        });
-
-        context(@"when the expected return type is something else", ^{
-            beforeEach(^{
-                sourceObject = number;
-                type = [NSDate class];
-            });
-
-            it(@"should provide an error", ^{
-                error.domain should equal(JKSErrorDomain);
-                error.code should equal(JKSErrorInvalidResultingObjectType);
-            });
-
-            it(@"should return nil", ^{
                 parsedObject should be_nil;
             });
         });

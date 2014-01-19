@@ -13,6 +13,12 @@
 
 @implementation JKSCollectionMapper
 
+- (id)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 - (id)initWithDestinationKey:(NSString *)destinationKey
             fromItemsOfClass:(Class)srcClass
               toItemsOfClass:(Class)dstClass
@@ -52,9 +58,17 @@
     id collection = [self.factory newObjectOfClass:self.dstCollectionClass];
 
     NSUInteger index = 0;
-    for (id item in sourceObject) {
-        [collection insertObject:[self.mapper objectFromSourceObject:item toClass:self.dstItemClass error:error]
-                         atIndex:index++];
+    for (id sourceItem in sourceObject) {
+        id item = [self.mapper objectFromSourceObject:sourceItem error:error];
+        if (*error) {
+            return nil;
+        }
+
+        if (item && ![[item class] isSubclassOfClass:self.dstItemClass]) {
+            return nil;
+        }
+
+        [collection insertObject:item atIndex:index++];
     }
     return collection;
 }

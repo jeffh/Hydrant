@@ -4,7 +4,8 @@
 NSString * JKSErrorDomain = @"JKSErrorDomain";
 const NSInteger JKSErrorInvalidSourceObjectValue = 1;
 const NSInteger JKSErrorInvalidSourceObjectType = 2;
-const NSInteger JKSErrorInvalidResultingObjectType = 3;
+const NSInteger JKSErrorInvalidSourceObjectField = 3;
+const NSInteger JKSErrorInvalidResultingObjectType = 4;
 
 @implementation JKSError
 

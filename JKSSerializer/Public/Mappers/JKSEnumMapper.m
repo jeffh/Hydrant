@@ -7,7 +7,11 @@
 
 @implementation JKSEnumMapper
 
-#pragma mark - <JKSMapper>
+- (id)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
 
 - (id)initWithDestinationKey:(NSString *)destinationKey mapping:(NSDictionary *)mapping
 {
@@ -19,6 +23,8 @@
     return self;
 }
 
+#pragma mark - <JKSMapper>
+
 - (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
     id result = self.mapping[sourceObject];
@@ -28,11 +34,6 @@
                                        byMapper:self];
     }
     return result;
-}
-
-- (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
-{
-    return [self objectFromSourceObject:srcObject error:error];
 }
 
 - (void)setupAsChildMapperWithMapper:(id<JKSMapper>)mapper factory:(id<JKSFactory>)factory

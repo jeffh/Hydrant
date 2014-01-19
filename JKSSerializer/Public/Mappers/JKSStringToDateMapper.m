@@ -9,6 +9,12 @@
 
 @implementation JKSStringToDateMapper
 
+- (id)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 - (id)initWithDestinationKey:(NSString *)destinationKey dateFormatter:(NSDateFormatter *)dateFormatter
 {
     self = [super init];
@@ -48,6 +54,8 @@
 
 @end
 
+
+JKS_EXTERN
 JKSStringToDateMapper *JKSStringToDate(NSString *dstKey, NSString *formatString)
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

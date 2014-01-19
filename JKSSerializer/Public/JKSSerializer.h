@@ -4,5 +4,5 @@
 #import "JKSDateToStringMapper.h"
 #import "JKSNumberToStringMapper.h"
 #import "JKSEnumMapper.h"
-#import "JKSKVCMapper.h"
+#import "JKSDispatchMapper.h"
 #import "JKSError.h"

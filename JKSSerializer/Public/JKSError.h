@@ -3,6 +3,7 @@
 JKS_EXTERN NSString * JKSErrorDomain;
 JKS_EXTERN const NSInteger JKSErrorInvalidSourceObjectValue;
 JKS_EXTERN const NSInteger JKSErrorInvalidSourceObjectType;
+JKS_EXTERN const NSInteger JKSErrorInvalidSourceObjectField;
 JKS_EXTERN const NSInteger JKSErrorInvalidResultingObjectType;
 
 

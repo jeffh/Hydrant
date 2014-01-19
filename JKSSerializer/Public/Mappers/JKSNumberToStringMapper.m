@@ -8,7 +8,11 @@
 
 @implementation JKSNumberToStringMapper
 
-#pragma mark - <JKSFieldMapper>
+- (id)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
 
 - (id)initWithDestinationKey:(NSString *)destinationKey numberFormatter:(NSNumberFormatter *)numberFormatter
 {
@@ -20,6 +24,8 @@
     return self;
 }
 
+#pragma mark - <JKSMapper>
+
 - (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
     id value = [self.numberFormatter stringFromNumber:sourceObject];
@@ -28,18 +34,6 @@
         *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectValue
                                    sourceObject:sourceObject
                                        byMapper:self];
-    }
-    return value;
-}
-
-- (id)objectFromSourceObject:(id)sourceObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
-{
-    id value = [self objectFromSourceObject:sourceObject error:error];
-    if (value && ![[value class] isSubclassOfClass:dstClass]) {
-        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidResultingObjectType
-                                   sourceObject:sourceObject
-                                       byMapper:self];
-        return nil;
     }
     return value;
 }
@@ -57,9 +51,21 @@
 
 
 JKS_EXTERN
-JKSNumberToStringMapper *JKSNumberToString(NSString *destKey, NSNumberFormatterStyle numberFormatStyle)
+JKSNumberToStringMapper *JKSNumberToString(NSString *destKey)
+{
+    return JKSNumberToStringByFormat(destKey, NSNumberFormatterDecimalStyle);
+}
+
+JKS_EXTERN
+JKSNumberToStringMapper *JKSNumberToStringByFormat(NSString *destKey, NSNumberFormatterStyle numberFormatStyle)
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     numberFormatter.numberStyle = numberFormatStyle;
+    return [[JKSNumberToStringMapper alloc] initWithDestinationKey:destKey numberFormatter:numberFormatter];
+}
+
+JKS_EXTERN
+JKSNumberToStringMapper *JKSNumberToStringByFormatter(NSString *destKey, NSNumberFormatter *numberFormatter)
+{
     return [[JKSNumberToStringMapper alloc] initWithDestinationKey:destKey numberFormatter:numberFormatter];
 }

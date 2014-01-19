@@ -9,4 +9,10 @@
 @end
 
 JKS_EXTERN
-JKSStringToNumberMapper *JKSStringToNumber(NSString *dstKey, NSNumberFormatterStyle numberFormatterStyle);
+JKSStringToNumberMapper *JKSStringToNumber(NSString *dstKey);
+
+JKS_EXTERN
+JKSStringToNumberMapper *JKSStringToNumberByFormat(NSString *dstKey, NSNumberFormatterStyle numberFormatterStyle);
+
+JKS_EXTERN
+JKSStringToNumberMapper *JKSStringToNumberByFormatter(NSString *dstKey, NSNumberFormatter *formatter);

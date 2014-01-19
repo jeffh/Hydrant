@@ -9,6 +9,12 @@
 
 @implementation JKSStringToNumberMapper
 
+- (id)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 - (id)initWithDestinationKey:(NSString *)destinationKey numberFormatter:(NSNumberFormatter *)numberFormatter
 {
     self = [super init];
@@ -61,9 +67,21 @@
 @end
 
 JKS_EXTERN
-JKSStringToNumberMapper *JKSStringToNumber(NSString *destKey, NSNumberFormatterStyle numberFormaterStyle)
+JKSStringToNumberMapper *JKSStringToNumber(NSString *destKey)
+{
+    return JKSStringToNumberByFormat(destKey, NSNumberFormatterDecimalStyle);
+}
+
+JKS_EXTERN
+JKSStringToNumberMapper *JKSStringToNumberByFormat(NSString *destKey, NSNumberFormatterStyle numberFormaterStyle)
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     numberFormatter.numberStyle = numberFormaterStyle;
+    return [[JKSStringToNumberMapper alloc] initWithDestinationKey:destKey numberFormatter:numberFormatter];
+}
+
+JKS_EXTERN
+JKSStringToNumberMapper *JKSStringToNumberByFormatter(NSString *destKey, NSNumberFormatter *numberFormatter)
+{
     return [[JKSStringToNumberMapper alloc] initWithDestinationKey:destKey numberFormatter:numberFormatter];
 }

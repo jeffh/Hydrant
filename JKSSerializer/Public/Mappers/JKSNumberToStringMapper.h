@@ -11,4 +11,10 @@
 @end
 
 JKS_EXTERN
-JKSNumberToStringMapper *JKSNumberToString(NSString *destKey, NSNumberFormatterStyle numberFormatStyle);
+JKSNumberToStringMapper *JKSNumberToString(NSString *destKey);
+
+JKS_EXTERN
+JKSNumberToStringMapper *JKSNumberToStringByFormat(NSString *destKey, NSNumberFormatterStyle numberFormatStyle);
+
+JKS_EXTERN
+JKSNumberToStringMapper *JKSNumberToStringByFormatter(NSString *destKey, NSNumberFormatter *numberFormatter);

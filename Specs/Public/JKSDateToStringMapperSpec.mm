@@ -90,33 +90,6 @@ describe(@"JKSDateToStringMapper", ^{
         itShouldConvertDatesToStrings();
     });
 
-    describe(@"parsing the source object with type checking", ^{
-        __block Class type;
-        subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject toClass:type error:&error];
-        });
-
-        context(@"when the type is NSString", ^{
-            beforeEach(^{
-                type = [NSString class];
-            });
-
-            itShouldConvertDatesToStrings();
-        });
-
-        context(@"when it is any other type", ^{
-            beforeEach(^{
-                type = [NSDate class];
-                sourceObject = [NSDate date];
-            });
-
-            it(@"should return an error", ^{
-                error.domain should equal(JKSErrorDomain);
-                error.code should equal(JKSErrorInvalidResultingObjectType);
-            });
-        });
-    });
-
     describe(@"reverse mapper", ^{
         __block JKSStringToDateMapper *reverseMapper;
         beforeEach(^{

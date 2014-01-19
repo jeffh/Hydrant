@@ -1,5 +1,4 @@
 #import "JKSRelationMapper.h"
-#import "JKSMapper.h"
 
 @interface JKSRelationMapper ()
 @property (strong, nonatomic) Class srcClass;
@@ -9,6 +8,12 @@
 @end
 
 @implementation JKSRelationMapper
+
+- (id)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
 
 - (id)initWithDestinationKey:(NSString *)dstKey sourceClass:(Class)srcClass destinationClass:(Class)dstClass
 {
@@ -34,7 +39,7 @@
                                  userInfo:@{NSLocalizedDescriptionKey: @"JKSRelationMapper cannot be used standalone"}];
         return nil;
     }
-    return [self.mapper objectFromSourceObject:sourceObject toClass:self.dstClass error:error];
+    return [self.mapper objectFromSourceObject:sourceObject error:error];
 }
 
 - (id)objectFromSourceObject:(id)srcObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error

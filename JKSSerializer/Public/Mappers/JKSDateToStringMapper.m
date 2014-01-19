@@ -8,7 +8,11 @@
 
 @implementation JKSDateToStringMapper
 
-#pragma mark - <JKSMapper>
+- (id)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
 
 - (id)initWithDestinationKey:(NSString *)destinationKey dateFormatter:(NSDateFormatter *)dateFormatter
 {
@@ -20,6 +24,8 @@
     return self;
 }
 
+#pragma mark - <JKSMapper>
+
 - (id)objectFromSourceObject:(id)sourceObject error:(NSError *__autoreleasing *)error
 {
     id value = [self.dateFormatter stringFromDate:sourceObject];
@@ -28,22 +34,6 @@
         *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectValue
                                    sourceObject:sourceObject
                                        byMapper:self];
-    }
-    return value;
-}
-
-- (id)objectFromSourceObject:(id)sourceObject toClass:(Class)dstClass error:(NSError *__autoreleasing *)error
-{
-    id value = [self objectFromSourceObject:sourceObject error:error];
-    if (*error) {
-        return nil;
-    }
-
-    if (value && ![[value class] isSubclassOfClass:dstClass]) {
-        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidResultingObjectType
-                                   sourceObject:sourceObject
-                                       byMapper:self];
-        return nil;
     }
     return value;
 }

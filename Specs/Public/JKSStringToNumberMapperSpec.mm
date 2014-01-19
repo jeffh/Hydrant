@@ -23,7 +23,7 @@ describe(@"JKSStringToNumberMapper", ^{
         number = @(1235555);
         numberString = [formatter stringFromNumber:number];
 
-        mapper = JKSStringToNumber(@"destKey", NSNumberFormatterDecimalStyle);
+        mapper = JKSStringToNumberByFormat(@"destKey", NSNumberFormatterDecimalStyle);
     });
 
     it(@"should preserve its destination key", ^{
@@ -81,38 +81,6 @@ describe(@"JKSStringToNumberMapper", ^{
         });
 
         itShouldConvertStringsToNumbers();
-    });
-
-    describe(@"parsing the source object with type checking", ^{
-        __block Class type;
-
-        subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject toClass:type error:&error];
-        });
-
-        context(@"when the expected return type is NSNumber", ^{
-            beforeEach(^{
-                type = [NSNumber class];
-            });
-
-            itShouldConvertStringsToNumbers();
-        });
-
-        context(@"when the expected return type is not an NSNumber", ^{
-            beforeEach(^{
-                sourceObject = numberString;
-                type = [NSString class];
-            });
-
-            it(@"should produce an error", ^{
-                error.domain should equal(JKSErrorDomain);
-                error.code should equal(JKSErrorInvalidResultingObjectType);
-            });
-
-            it(@"should return nil", ^{
-                parsedObject should be_nil;
-            });
-        });
     });
 
     describe(@"reverse mapper", ^{
