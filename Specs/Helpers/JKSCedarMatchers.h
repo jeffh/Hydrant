@@ -4,7 +4,7 @@
 
 class BeAnError : public Cedar::Matchers::Base<> {
 public:
-    BeAnError() : Base<>(), checkErrorCode(false), expectedDomain(nil), userInfoSubset(nil), checkFatality(false) {};
+    BeAnError() : Base<>(), checkErrorCode(false), expectedDomain(nil), userInfoSubset(nil), checkFatality(false) {}
     ~BeAnError(){}
 
     bool matches(const JKSError *) const;

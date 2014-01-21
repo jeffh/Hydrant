@@ -101,8 +101,9 @@ describe(@"JKSKeyValueMapper", ^{
 
                 it(@"should wrap all the emitted errors in a fatal error", ^{
                     error should be_a_fatal_error().with_code(JKSErrorMultipleErrors);
-                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[childMapperError1,
-                                                                          childMapperError2]);
+                    [error.userInfo[JKSUnderlyingErrorsKey] count] should equal(2);
+                    error.userInfo[JKSUnderlyingErrorsKey] should contain(childMapperError1);
+                    error.userInfo[JKSUnderlyingErrorsKey] should contain(childMapperError2);
                 });
             });
 
@@ -132,8 +133,9 @@ describe(@"JKSKeyValueMapper", ^{
 
                 it(@"should wrap all the emitted errors in a non-fatal error", ^{
                     error should be_a_non_fatal_error().with_code(JKSErrorMultipleErrors);
-                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[childMapperError1,
-                                                                          childMapperError2]);
+                    [error.userInfo[JKSUnderlyingErrorsKey] count] should equal(2);
+                    error.userInfo[JKSUnderlyingErrorsKey] should contain(childMapperError1);
+                    error.userInfo[JKSUnderlyingErrorsKey] should contain(childMapperError2);
                 });
 
                 it(@"should return a parsed object", ^{

@@ -48,7 +48,13 @@
     }
 
     if (![sourceCollection conformsToProtocol:@protocol(NSFastEnumeration)]) {
-        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceCollection sourceKey:nil destinationObject:nil destinationKey:self.destinationKey isFatal:YES underlyingErrors:nil ];
+        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType
+                            sourceObject:sourceCollection
+                               sourceKey:nil
+                       destinationObject:nil
+                          destinationKey:self.destinationKey
+                                 isFatal:YES
+                        underlyingErrors:nil];
         return nil;
     }
 
@@ -66,9 +72,10 @@
         id object = [self.wrappedMapper objectFromSourceObject:sourceObject error:&itemError];
 
         if (itemError) {
+            NSString *indexString = [NSString stringWithFormat:@"%lu", (unsigned long)(index-1)];
             [errors addObject:[JKSError errorFromError:itemError
-                                   prependingSourceKey:[NSString stringWithFormat:@"%lu", index-1]
-                                     andDestinationKey:[NSString stringWithFormat:@"%lu", index-1]
+                                   prependingSourceKey:indexString
+                                     andDestinationKey:indexString
                                replacementSourceObject:sourceObject
                                                isFatal:itemError.isFatal]];
             hasFatalError = hasFatalError || itemError.isFatal;

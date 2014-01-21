@@ -1,5 +1,6 @@
 #import "JKSError.h"
 #import "JKSMapper.h"
+#import "JKSFunctions.h"
 
 NSString * JKSErrorDomain = @"JKSErrorDomain";
 const NSInteger JKSErrorInvalidSourceObjectValue = 1;
@@ -34,12 +35,10 @@ NSString * JKSDestinationKeyPathKey = @"JKSDestinationKeyPath";
         userInfo[NSUnderlyingErrorKey] = underlyingErrors[0];
         userInfo[JKSUnderlyingErrorsKey] = underlyingErrors;
     }
-    if (sourceKey) {
-        userInfo[JKSSourceKeyPathKey] = sourceKey;
-    }
-    if (destinationKey) {
-        userInfo[JKSDestinationKeyPathKey] = destinationKey;
-    }
+
+    JKSSetValueForKeyIfNotNil(userInfo, JKSSourceKeyPathKey, sourceKey);
+    JKSSetValueForKeyIfNotNil(userInfo, JKSDestinationKeyPathKey, destinationKey);
+
     if (underlyingErrors.count) {
         NSMutableString *details = [NSMutableString stringWithFormat:@"Multiple errors occurred:\n"];
         for (JKSError *error in underlyingErrors) {
@@ -58,18 +57,17 @@ NSString * JKSDestinationKeyPathKey = @"JKSDestinationKeyPath";
        replacementSourceObject:(id)sourceObject
                        isFatal:(BOOL)isFatal
 {
-    if (sourceKey && error.sourceKey) {
-        sourceKey = [NSString stringWithFormat:@"%@.%@", sourceKey, error.sourceKey];
-    } else {
-        sourceKey = sourceKey ?: error.sourceKey;
-    }
-    if (destinationKey && error.destinationKey) {
-        destinationKey = [NSString stringWithFormat:@"%@.%@", destinationKey, error.destinationKey];
-    } else {
-        destinationKey = destinationKey ?: error.destinationKey;
-    }
+    sourceKey = JKSJoinedStringFromKeyPaths(sourceKey, error.sourceKey);
+    destinationKey = JKSJoinedStringFromKeyPaths(destinationKey, error.destinationKey);
+
     sourceObject = (sourceObject ?: error.sourceObject);
-    return [self errorWithCode:error.code sourceObject:sourceObject sourceKey:sourceKey destinationObject:nil destinationKey:destinationKey isFatal:isFatal underlyingErrors:error.userInfo[JKSUnderlyingErrorsKey]];
+    return [self errorWithCode:error.code
+                  sourceObject:sourceObject
+                     sourceKey:sourceKey
+             destinationObject:nil
+                destinationKey:destinationKey
+                       isFatal:isFatal
+              underlyingErrors:error.userInfo[JKSUnderlyingErrorsKey]];
 }
 
 + (instancetype)errorFromErrors:(NSArray *)errors
