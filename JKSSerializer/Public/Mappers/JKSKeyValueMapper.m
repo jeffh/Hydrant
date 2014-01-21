@@ -68,12 +68,7 @@
         JKSError *innerError = nil;
 
         if (![self hasKey:sourceKey onObject:sourceObject]) {
-            innerError = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType
-                                    sourceObject:sourceObject
-                                       sourceKey:sourceKey
-                                  destinationKey:[NSString stringWithFormat:@"%@.%@", self.destinationKey, mapper.destinationKey]
-                                         isFatal:YES
-                                underlyingErrors:nil];
+            innerError = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject sourceKey:sourceKey destinationObject:nil destinationKey:[NSString stringWithFormat:@"%@.%@", self.destinationKey, mapper.destinationKey] isFatal:YES underlyingErrors:nil ];
             hasFatalError = YES;
             [errors addObject:innerError];
             continue;
@@ -93,12 +88,7 @@
     }
 
     if (errors.count) {
-        *error = [JKSError errorWithCode:(hasFatalError ? JKSErrorMultipleErrors : JKSErrorMultipleOptionalErrors)
-                            sourceObject:sourceObject
-                               sourceKey:nil
-                          destinationKey:self.destinationKey
-                                 isFatal:hasFatalError
-                        underlyingErrors:errors];
+        *error = [JKSError errorWithCode:JKSErrorMultipleErrors sourceObject:sourceObject sourceKey:nil destinationObject:nil destinationKey:self.destinationKey isFatal:hasFatalError underlyingErrors:errors];
     }
     if (hasFatalError) {
         return nil;

@@ -7,7 +7,7 @@ using namespace Cedar::Doubles;
 
 SPEC_BEGIN(JKSMapperCompositionSpec)
 
-xdescribe(@"Mapper Composition", ^{
+describe(@"Mapper Composition", ^{
     __block id<JKSMapper> mapper;
     __block JKSPerson *expectedObjectGraph;
     __block NSDictionary *expectedObjectStructure;
@@ -55,12 +55,26 @@ xdescribe(@"Mapper Composition", ^{
         });
 
         it(@"should not error", ^{
-            NSLog(@"================> %@", error);
             error should be_nil;
         });
 
-        it(@"should map json correctly", ^{
+        it(@"should build the object graph correctly", ^{
             parsedObject should equal(expectedObjectGraph);
+        });
+    });
+
+    describe(@"mapping from object graph to dictionaries using the reverse mapper", ^{
+        beforeEach(^{
+            id<JKSMapper> reverseMapper = [mapper reverseMapperWithDestinationKey:nil];
+            parsedObject = [reverseMapper objectFromSourceObject:expectedObjectGraph error:&error];
+        });
+
+        it(@"should not error", ^{
+            error should be_nil;
+        });
+
+        it(@"should build the json correctly", ^{
+            parsedObject should equal(expectedObjectStructure);
         });
     });
 

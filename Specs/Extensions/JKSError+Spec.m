@@ -4,22 +4,12 @@
 
 + (instancetype)fatalError
 {
-    return [self errorWithCode:JKSErrorInvalidSourceObjectType
-                  sourceObject:@"sourceObject"
-                     sourceKey:@"sourceKey"
-                destinationKey:@"destinationKey"
-                       isFatal:YES
-              underlyingErrors:nil];
+    return [self errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@"sourceObject" sourceKey:@"sourceKey" destinationObject:nil destinationKey:@"destinationKey" isFatal:YES underlyingErrors:nil ];
 }
 
 + (instancetype)nonFatalError
 {
-    return [self errorWithCode:JKSErrorOptionalMappingFailed
-                  sourceObject:@"sourceObject"
-                     sourceKey:@"sourceKey"
-                destinationKey:@"destinationKey"
-                       isFatal:NO
-              underlyingErrors:nil];
+    return [self errorWithCode:JKSErrorInvalidSourceObjectValue sourceObject:@"sourceObject" sourceKey:@"sourceKey" destinationObject:nil destinationKey:@"destinationKey" isFatal:NO underlyingErrors:nil ];
 }
 
 @end

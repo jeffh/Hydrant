@@ -47,6 +47,9 @@ static NSRegularExpression *dateRegExpr__;
 - (NSString *)stringFromDate:(NSDate *)date
 {
     NSString *timeZone = [super stringForObjectValue:date];
+    if ([timeZone isEqualToString:@"+0000"]) {
+        timeZone = @"";
+    }
     NSTimeInterval milliseconds = date.timeIntervalSince1970 * 1000.0;
     return [NSString stringWithFormat:@"/Date(%1.0f%@)/", milliseconds, timeZone];
 }

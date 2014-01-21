@@ -66,7 +66,11 @@
         if (![self hasKeyPath:sourceKey onObject:sourceObject]) {
             *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType
                                 sourceObject:sourceObject
-                                    byMapper:self];
+                                   sourceKey:nil
+                           destinationObject:nil
+                              destinationKey:self.destinationKey
+                                     isFatal:YES
+                            underlyingErrors:nil];
             return nil;
         }
 

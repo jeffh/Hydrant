@@ -48,7 +48,7 @@
     }
 
     if (![sourceCollection conformsToProtocol:@protocol(NSFastEnumeration)]) {
-        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceCollection byMapper:self];
+        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceCollection sourceKey:nil destinationObject:nil destinationKey:self.destinationKey isFatal:YES underlyingErrors:nil ];
         return nil;
     }
 
@@ -66,8 +66,11 @@
         id object = [self.wrappedMapper objectFromSourceObject:sourceObject error:&itemError];
 
         if (itemError) {
-            [errors addObject:@{@"index": @(index-1),
-                                @"error": itemError}];
+            [errors addObject:[JKSError errorFromError:itemError
+                                   prependingSourceKey:[NSString stringWithFormat:@"%lu", index-1]
+                                     andDestinationKey:[NSString stringWithFormat:@"%lu", index-1]
+                               replacementSourceObject:sourceObject
+                                               isFatal:itemError.isFatal]];
             hasFatalError = hasFatalError || itemError.isFatal;
             continue;
         }
@@ -76,9 +79,12 @@
     }
 
     if (errors.count) {
-        *error = [JKSError wrapErrors:errors
-                             intoCode:(hasFatalError ?  JKSErrorInvalidSourceObjectValue : JKSErrorOptionalMappingFailed)
-                         sourceObject:sourceCollection byMapper:self];
+        *error = [JKSError errorFromErrors:errors
+                              sourceObject:sourceCollection
+                                 sourceKey:nil
+                         destinationObject:resultingCollection
+                            destinationKey:self.destinationKey
+                                   isFatal:hasFatalError];
     }
 
     return (hasFatalError ? nil : resultingCollection);

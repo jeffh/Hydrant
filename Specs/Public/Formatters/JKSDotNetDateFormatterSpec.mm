@@ -73,7 +73,7 @@ describe(@"JKSDotNetDateFormatter", ^{
             });
 
             it(@"should work", ^{
-                parsedObject should equal(@"/Date(1390186634595+0000)/");
+                parsedObject should equal(@"/Date(1390186634595)/");
             });
         });
 
@@ -83,7 +83,7 @@ describe(@"JKSDotNetDateFormatter", ^{
             });
 
             it(@"should work", ^{
-                parsedObject should equal(@"/Date(-5000+0000)/");
+                parsedObject should equal(@"/Date(-5000)/");
             });
         });
 

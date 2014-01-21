@@ -2,6 +2,7 @@
 #import "JKSSerializer.h"
 #import "JKSPerson.h"
 #import "JKSFakeMapper.h"
+#import "JKSError+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -90,19 +91,23 @@ describe(@"JKSCollectionMapper", ^{
 
             context(@"when the source object's item makes the child mapper produce a fatal error", ^{
                 __block JKSError *expectedError;
+
                 beforeEach(^{
-                    expectedError = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@1 byMapper:childMapper];
+                    expectedError = [JKSError fatalError];
                     sourceObject = @[@1, @2];
                     childMapper.objectsToReturn = @[[NSNull null], @2];
                     childMapper.errorsToReturn = @[expectedError, [NSNull null]];
                 });
 
                 it(@"should wrap the fatal error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidSourceObjectValue);
-                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[@{@"index": @0,
-                                                                            @"error": expectedError}]);
-                    error.isFatal should be_truthy;
+                    error should be_a_fatal_error().with_code(JKSErrorMultipleErrors);
+
+                    JKSError *wrappedError = [JKSError errorFromError:expectedError
+                                                  prependingSourceKey:@"0"
+                                                    andDestinationKey:@"0"
+                                              replacementSourceObject:@1
+                                                              isFatal:YES];
+                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[wrappedError]);
                 });
 
                 it(@"should return nil", ^{
@@ -112,8 +117,9 @@ describe(@"JKSCollectionMapper", ^{
 
             context(@"when the source object's item makes the child mapper produce a non-fatal error", ^{
                 __block JKSError *expectedError;
+
                 beforeEach(^{
-                    expectedError = [JKSError errorWithCode:JKSErrorOptionalMappingFailed sourceObject:@1 byMapper:childMapper];
+                    expectedError = [JKSError nonFatalError];
                     sourceObject = @[@1, @2];
                     childMapper.objectsToReturn = @[[NSNull null], @2];
                     childMapper.errorsToReturn = @[expectedError, [NSNull null]];
@@ -125,11 +131,14 @@ describe(@"JKSCollectionMapper", ^{
                 });
 
                 it(@"should wrap the non-fatal error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorOptionalMappingFailed);
-                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[@{@"index": @0,
-                                                                            @"error": expectedError}]);
-                    error.isFatal should_not be_truthy;
+                    error should be_a_non_fatal_error().with_code(JKSErrorMultipleErrors);
+                    
+                    JKSError *wrappedError = [JKSError errorFromError:expectedError
+                                                  prependingSourceKey:@"0"
+                                                    andDestinationKey:@"0"
+                                              replacementSourceObject:@1
+                                                              isFatal:NO];
+                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[wrappedError]);
                 });
 
                 it(@"should return the collection without the non-fatal object", ^{
@@ -224,18 +233,20 @@ describe(@"JKSCollectionMapper", ^{
                 __block JKSError *expectedError;
 
                 beforeEach(^{
-                    expectedError = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@1 byMapper:childMapper];
+                    expectedError = [JKSError fatalError];
                     sourceObject = @[@1, @2];
                     childMapper.objectsToReturn = @[[NSNull null], @2];
                     childMapper.errorsToReturn = @[expectedError, [NSNull null]];
                 });
 
                 it(@"should wrap the fatal error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidSourceObjectValue);
-                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[@{@"index": @0,
-                                                                            @"error": expectedError}]);
-                    error.isFatal should be_truthy;
+                    error should be_a_fatal_error().with_code(JKSErrorMultipleErrors);
+                    JKSError *wrappedError = [JKSError errorFromError:expectedError
+                                                  prependingSourceKey:@"0"
+                                                    andDestinationKey:@"0"
+                                              replacementSourceObject:@1
+                                                              isFatal:YES];
+                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[wrappedError]);
                 });
 
                 it(@"should return nil", ^{
@@ -247,7 +258,7 @@ describe(@"JKSCollectionMapper", ^{
                 __block JKSError *expectedError;
 
                 beforeEach(^{
-                    expectedError = [JKSError errorWithCode:JKSErrorOptionalMappingFailed sourceObject:@1 byMapper:childMapper];
+                    expectedError = [JKSError nonFatalError];
                     sourceObject = @[@1, @2];
                     childMapper.objectsToReturn = @[[NSNull null], @2];
                     childMapper.errorsToReturn = @[expectedError, [NSNull null]];
@@ -259,12 +270,13 @@ describe(@"JKSCollectionMapper", ^{
                 });
 
                 it(@"should wrap the non-fatal error", ^{
-                    error should be_a_non_fatal_error().with_code(JKSErrorOptionalMappingFailed);
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorOptionalMappingFailed);
-                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[@{@"index": @0,
-                                                                            @"error": expectedError}]);
-                    error.isFatal should_not be_truthy;
+                    error should be_a_non_fatal_error().with_code(JKSErrorMultipleErrors);
+                    JKSError *wrappedError = [JKSError errorFromError:expectedError
+                                                  prependingSourceKey:@"0"
+                                                    andDestinationKey:@"0"
+                                              replacementSourceObject:@1
+                                                              isFatal:NO];
+                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[wrappedError]);
                 });
 
                 it(@"should return the collection without the non-fatal object", ^{

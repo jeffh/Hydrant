@@ -31,9 +31,7 @@
     id value = [self.numberFormatter stringFromNumber:sourceObject];
 
     if (!value && sourceObject) {
-        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectValue
-                            sourceObject:sourceObject
-                                byMapper:self];
+        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectValue sourceObject:sourceObject sourceKey:nil destinationObject:nil destinationKey:self.destinationKey isFatal:YES underlyingErrors:nil ];
     }
     return value;
 }

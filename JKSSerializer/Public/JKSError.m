@@ -5,18 +5,15 @@ NSString * JKSErrorDomain = @"JKSErrorDomain";
 const NSInteger JKSErrorInvalidSourceObjectValue = 1;
 const NSInteger JKSErrorInvalidSourceObjectType = 2;
 const NSInteger JKSErrorInvalidResultingObjectType = 3;
-const NSInteger JKSErrorOptionalMappingFailed = 4;
-const NSInteger JKSErrorMultipleErrors = 5;
-const NSInteger JKSErrorMultipleOptionalErrors = 6;
+const NSInteger JKSErrorMultipleErrors = 4;
 
 
 NSString * JKSIsFatalKey = @"JKSIsFatal";
-NSString * JKSIsDecoratorKey = @"JKSIsDecorator";
 NSString * JKSUnderlyingErrorsKey = @"JKSUnderlyingErrors";
 NSString * JKSSourceObjectKey = @"JKSSourceObject";
 NSString * JKSSourceKeyPathKey = @"JKSSourceKeyPath";
+NSString * JKSDestinationObjectKey = @"JKSDestinationObjectPath";
 NSString * JKSDestinationKeyPathKey = @"JKSDestinationKeyPath";
-NSString * JKSMapperClassKey = @"JKSMapperClass";
 
 
 @implementation JKSError
@@ -24,14 +21,15 @@ NSString * JKSMapperClassKey = @"JKSMapperClass";
 + (instancetype)errorWithCode:(NSInteger)code
                  sourceObject:(id)sourceObject
                     sourceKey:(NSString *)sourceKey
+            destinationObject:(id)destinationObject
                destinationKey:(NSString *)destinationKey
                       isFatal:(BOOL)isFatal
              underlyingErrors:(NSArray *)underlyingErrors
 {
     underlyingErrors = [NSArray arrayWithArray:underlyingErrors];
     NSMutableDictionary *userInfo = [@{JKSSourceObjectKey: (sourceObject ?: [NSNull null]),
+            JKSDestinationObjectKey: (destinationObject ?: [NSNull null]),
             JKSIsFatalKey: @(isFatal),
-            JKSIsDecoratorKey: @(destinationKey == nil),
             JKSUnderlyingErrorsKey: underlyingErrors} mutableCopy];
     if (underlyingErrors.count) {
         userInfo[NSUnderlyingErrorKey] = underlyingErrors[0];
@@ -45,43 +43,32 @@ NSString * JKSMapperClassKey = @"JKSMapperClass";
     return [self errorWithDomain:JKSErrorDomain code:code userInfo:userInfo];
 }
 
-+ (instancetype)errorWithCode:(NSInteger)code sourceObject:(id)sourceObject byMapper:(id<JKSMapper>)mapper
++ (instancetype)errorFromError:(JKSError *)error
+           prependingSourceKey:(NSString *)sourceKey
+             andDestinationKey:(NSString *)destinationKey
+       replacementSourceObject:(id)sourceObject
+                       isFatal:(BOOL)isFatal
 {
-    return [self errorWithDomain:JKSErrorDomain
-                            code:code
-                        userInfo:@{JKSSourceObjectKey: (sourceObject ?: [NSNull null]),
-                                   JKSMapperClassKey: NSStringFromClass([mapper class]),
-                                   JKSIsFatalKey: @(code != JKSErrorOptionalMappingFailed),
-                                   JKSDestinationKeyPathKey: [mapper destinationKey] ?: [NSNull null],
-                                   JKSIsDecoratorKey: @NO}];
+    sourceKey = (sourceKey ? [NSString stringWithFormat:@"%@.%@", sourceKey, error.sourceKey] : error.sourceKey);
+    destinationKey = (destinationKey ? [NSString stringWithFormat:@"%@.%@", destinationKey, error.destinationKey] : error.destinationKey);
+    sourceObject = (sourceObject ?: error.sourceObject);
+    return [self errorWithCode:error.code sourceObject:sourceObject sourceKey:sourceKey destinationObject:nil destinationKey:destinationKey isFatal:isFatal underlyingErrors:error.userInfo[JKSUnderlyingErrorsKey]];
 }
 
-+ (instancetype)wrapErrors:(NSArray *)errors
-                  intoCode:(NSInteger)code
-              sourceObject:(id)sourceObject
-                  byMapper:(id<JKSMapper>)mapper
++ (instancetype)errorFromErrors:(NSArray *)errors
+                   sourceObject:(id)sourceObject
+                      sourceKey:(NSString *)sourceKey
+              destinationObject:(id)destinationObject
+                 destinationKey:(NSString *)destinationKey
+                        isFatal:(BOOL)isFatal
 {
-    return [self errorWithDomain:JKSErrorDomain
-                            code:code
-                        userInfo:@{JKSUnderlyingErrorsKey: errors,
-                                   NSUnderlyingErrorKey: errors[0],
-                                   JKSIsFatalKey: @(code != JKSErrorOptionalMappingFailed),
-                                   JKSSourceObjectKey: (sourceObject ?: [NSNull null]),
-                                   JKSIsDecoratorKey: @NO,
-                                   JKSMapperClassKey: NSStringFromClass([mapper class]),
-                                   JKSDestinationKeyPathKey: [mapper destinationKey] ?: [NSNull null]}];
-}
-
-+ (instancetype)wrapError:(JKSError *)error intoCode:(NSInteger)code byMapper:(id<JKSMapper>)mapper
-{
-    return [self errorWithDomain:JKSErrorDomain
-                            code:code
-                        userInfo:@{NSUnderlyingErrorKey: error,
-                                   JKSUnderlyingErrorsKey: @[error],
-                                   JKSIsFatalKey: @(code != JKSErrorOptionalMappingFailed),
-                                   JKSMapperClassKey: NSStringFromClass([mapper class]),
-                                   JKSDestinationKeyPathKey: [mapper destinationKey],
-                                   JKSIsDecoratorKey: @YES}];
+    return [self errorWithCode:JKSErrorMultipleErrors
+                  sourceObject:sourceObject
+                     sourceKey:sourceKey
+             destinationObject:destinationObject
+                destinationKey:destinationKey
+                       isFatal:isFatal
+              underlyingErrors:errors];
 }
 
 - (BOOL)isFatal
@@ -89,9 +76,19 @@ NSString * JKSMapperClassKey = @"JKSMapperClass";
     return [self.userInfo[JKSIsFatalKey] boolValue];
 }
 
-- (BOOL)isDecorator
+- (NSString *)sourceKey
 {
-    return [self.userInfo[JKSIsDecoratorKey] boolValue];
+    return self.userInfo[JKSSourceKeyPathKey];
+}
+
+- (NSString *)destinationKey
+{
+    return self.userInfo[JKSDestinationKeyPathKey];
+}
+
+- (id)sourceObject
+{
+    return self.userInfo[JKSSourceObjectKey];
 }
 
 - (NSArray *)errorKeyPaths
@@ -100,12 +97,7 @@ NSString * JKSMapperClassKey = @"JKSMapperClass";
     if ([self.userInfo[JKSUnderlyingErrorsKey] count]) {
         for (JKSError *error in self.userInfo[JKSUnderlyingErrorsKey]) {
             for (NSString *keyPath in [error errorKeyPaths]) {
-                NSString *path = nil;
-                if (self.isDecorator) {
-                    path = keyPath;
-                } else {
-                    path = [NSString stringWithFormat:@"%@.%@", self.userInfo[JKSDestinationKeyPathKey], keyPath];
-                }
+                NSString *path = [NSString stringWithFormat:@"%@.%@", self.userInfo[JKSDestinationKeyPathKey], keyPath];
                 [errorKeyPaths addObject:path];
             }
         }

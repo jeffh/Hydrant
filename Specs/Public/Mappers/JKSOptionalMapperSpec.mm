@@ -1,6 +1,7 @@
 // DO NOT any other library headers here to simulate an API user.
 #import "JKSSerializer.h"
 #import "JKSFakeMapper.h"
+#import "JKSError+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -53,7 +54,7 @@ describe(@"JKSOptionalMapper", ^{
             context(@"when the source object produces a fatal error to the child mapper", ^{
                 beforeEach(^{
                     sourceObject = @"invalid";
-                    childMapper.errorsToReturn = @[[JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper]];
+                    childMapper.errorsToReturn = @[[JKSError fatalError]];
                 });
 
                 it(@"should tell its child mappers that it is the current root mapper", ^{
@@ -66,9 +67,7 @@ describe(@"JKSOptionalMapper", ^{
                 });
 
                 it(@"should report a non-fatal error", ^{
-                    error.isFatal should_not be_truthy;
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorOptionalMappingFailed);
+                    error should be_a_non_fatal_error().with_code(JKSErrorInvalidSourceObjectType);
                 });
             });
         });
@@ -106,7 +105,7 @@ describe(@"JKSOptionalMapper", ^{
             context(@"when the source object is invalid to the child mapper", ^{
                 beforeEach(^{
                     sourceObject = @"invalid";
-                    childMapper.errorsToReturn = @[[JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper]];
+                    childMapper.errorsToReturn = @[[JKSError fatalError]];
                 });
 
                 it(@"should tell its child mappers the root mapper", ^{
@@ -119,7 +118,7 @@ describe(@"JKSOptionalMapper", ^{
                 });
 
                 it(@"should report an optional error", ^{
-                    error should be_a_non_fatal_error().with_code(JKSErrorOptionalMappingFailed);
+                    error should be_a_non_fatal_error().with_code(JKSErrorInvalidSourceObjectType);
                 });
             });
         });
@@ -159,12 +158,12 @@ describe(@"JKSOptionalMapper", ^{
 
         context(@"with a bad source object", ^{
             beforeEach(^{
-                reverseChildMapper.errorsToReturn = @[[JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@1 byMapper:reverseChildMapper]];
+                reverseChildMapper.errorsToReturn = @[[JKSError fatalError]];
                 parsedObject = [reverseMapper objectFromSourceObject:@1 error:&error];
             });
 
             it(@"should emit a non-fatal error", ^{
-                error should be_a_non_fatal_error().with_code(JKSErrorOptionalMappingFailed);
+                error should be_a_non_fatal_error().with_code(JKSErrorInvalidSourceObjectType);
             });
 
             it(@"should return the default value", ^{

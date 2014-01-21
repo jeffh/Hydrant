@@ -45,7 +45,11 @@
     id resultingObject = [self.wrappedMapper objectFromSourceObject:sourceObject error:error];
 
     if (*error){
-        *error = [JKSError wrapError:*error intoCode:JKSErrorOptionalMappingFailed byMapper:self];
+        *error = [JKSError errorFromError:*error
+                      prependingSourceKey:nil
+                        andDestinationKey:nil
+                  replacementSourceObject:nil
+                                  isFatal:NO];
         return self.defaultValue;
     }
 

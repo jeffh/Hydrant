@@ -29,9 +29,7 @@
 {
     id result = self.mapping[sourceObject];
     if (!result) {
-        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectValue
-                            sourceObject:sourceObject
-                                byMapper:self];
+        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectValue sourceObject:sourceObject sourceKey:nil destinationObject:nil destinationKey:self.destinationKey isFatal:YES underlyingErrors:nil ];
         return nil;
     }
     return result;

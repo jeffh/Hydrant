@@ -34,7 +34,11 @@
     if (!value && sourceObject) {
         *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectValue
                             sourceObject:sourceObject
-                                byMapper:self];
+                               sourceKey:nil
+                       destinationObject:nil
+                          destinationKey:self.destinationKey
+                                 isFatal:YES
+                        underlyingErrors:nil];
     }
     return value;
 }
