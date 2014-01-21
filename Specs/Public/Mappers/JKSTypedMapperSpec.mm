@@ -1,5 +1,6 @@
 // DO NOT any other library headers here to simulate an API user.
 #import "JKSSerializer.h"
+#import "JKSError+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -128,12 +129,10 @@ describe(@"JKSTypedMapper", ^{
                 });
             });
 
-            context(@"when the object is causes an error to the inner mapper", ^{
+            context(@"when the object causes a fatal error to the inner mapper", ^{
                 __block NSError *innerMapperError;
                 beforeEach(^{
-                    innerMapperError = [NSError errorWithDomain:JKSErrorDomain
-                                                           code:JKSErrorInvalidSourceObjectValue
-                                                       userInfo:@{}];
+                    innerMapperError = [JKSError fatalError];
 
                     innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_do(^(NSInvocation *invocation) {
                         id returnObject = nil;
@@ -247,10 +246,7 @@ describe(@"JKSTypedMapper", ^{
             context(@"when the object is causes an error to the inner mapper", ^{
                 __block NSError *innerMapperError;
                 beforeEach(^{
-                    innerMapperError = [NSError errorWithDomain:JKSErrorDomain
-                                                           code:JKSErrorInvalidSourceObjectValue
-                                                       userInfo:@{}];
-
+                    innerMapperError = [JKSError fatalError];
                     innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_do(^(NSInvocation *invocation) {
                         id returnObject = nil;
                         NSError __autoreleasing **errorPtr = nil;

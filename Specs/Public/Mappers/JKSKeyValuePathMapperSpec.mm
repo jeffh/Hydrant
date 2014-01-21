@@ -27,13 +27,13 @@ describe(@"JKSKeyValuePathMapper", ^{
         childMapper = [[JKSFakeMapper alloc] initWithDestinationKey:@"identifier"];
         childMapper.objectsToReturn = @[@5];
 
-        mapper = JKSMapKeyValuePathsTo(@"destinationKey",
-                                       [NSDictionary class],
-                                       [JKSPerson class],
-                                       @{@"name.first": @"firstName",
-                                         @"name.last": @"lastName",
-                                         @"age": @"age",
-                                         @"identifier": childMapper});
+        mapper = JKSMapObjectPath(@"destinationKey",
+                [NSDictionary class],
+                [JKSPerson class],
+                @{@"name.first" : @"firstName",
+                        @"name.last" : @"lastName",
+                        @"age" : @"age",
+                        @"identifier" : childMapper});
     });
 
     it(@"should return the same destination key it was provided", ^{
@@ -77,9 +77,7 @@ describe(@"JKSKeyValuePathMapper", ^{
                 });
 
                 it(@"should have a fatal error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidSourceObjectType);
-                    error.isFatal should be_truthy;
+                    error should be_a_fatal_error().with_code(JKSErrorMultipleErrors);
                 });
 
                 it(@"should return nil", ^{

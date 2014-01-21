@@ -15,4 +15,4 @@
 @end
 
 JKS_EXTERN
-JKSKeyValueMapper *JKSMapKeyValuesTo(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping);
+JKSKeyValueMapper *JKSMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping);

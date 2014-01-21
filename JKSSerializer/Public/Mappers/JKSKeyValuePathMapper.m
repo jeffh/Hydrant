@@ -59,32 +59,58 @@
         [childMapper setupAsChildMapperWithMapper:self.rootMapper factory:self.factory];
     }
 
+    NSMutableArray *errors = [NSMutableArray array];
+    BOOL hasFatalError = NO;
+
     id destinationObject = [self.factory newObjectOfClass:self.destinationClass];
     for (NSString *sourceKey in self.mapping) {
         id<JKSMapper> mapper = self.mapping[sourceKey];
+        JKSError *innerError = nil;
 
         if (![self hasKeyPath:sourceKey onObject:sourceObject]) {
-            *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType
-                                sourceObject:sourceObject
-                                   sourceKey:nil
-                           destinationObject:nil
-                              destinationKey:self.destinationKey
-                                     isFatal:YES
-                            underlyingErrors:nil];
-            return nil;
+            innerError = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType
+                                    sourceObject:nil
+                                       sourceKey:sourceKey
+                               destinationObject:nil
+                                  destinationKey:[mapper destinationKey]
+                                         isFatal:YES
+                                underlyingErrors:nil];
+            hasFatalError = YES;
+            [errors addObject:innerError];
+            continue;
         }
-
         id sourceValue = [sourceObject valueForKeyPath:sourceKey];
         id destinationValue = [mapper objectFromSourceObject:sourceValue error:error];
 
-        if ([*error isFatal]) {
-            return nil;
+        if (innerError) {
+            hasFatalError = hasFatalError || [innerError isFatal];
+            [errors addObject:[JKSError errorFromError:innerError
+                                   prependingSourceKey:sourceKey
+                                     andDestinationKey:nil
+                               replacementSourceObject:sourceValue
+                                               isFatal:innerError.isFatal]];
+            continue;
         }
 
         [self recursivelySetValue:destinationValue
                        forKeyPath:mapper.destinationKey
                          onObject:destinationObject];
     }
+
+    if (errors.count) {
+        *error = [JKSError errorWithCode:JKSErrorMultipleErrors
+                            sourceObject:sourceObject
+                               sourceKey:nil
+                       destinationObject:nil
+                          destinationKey:self.destinationKey
+                                 isFatal:hasFatalError
+                        underlyingErrors:errors];
+    }
+    if (hasFatalError) {
+        return nil;
+    }
+
+
     return destinationObject;
 }
 
@@ -162,7 +188,7 @@
 
 
 JKS_EXTERN
-JKSKeyValuePathMapper *JKSMapKeyValuePathsTo(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+JKSKeyValuePathMapper *JKSMapObjectPath(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
     JKSKeyValuePathMapper *mapper = [[JKSKeyValuePathMapper alloc] initWithDestinationKey:destinationKey
                                                                                 fromClass:sourceClass

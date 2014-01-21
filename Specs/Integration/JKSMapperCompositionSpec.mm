@@ -17,17 +17,17 @@ describe(@"Mapper Composition", ^{
     beforeEach(^{
         JKSDotNetDateFormatter *dotNetDateFormatter = [[JKSDotNetDateFormatter alloc] init];
 
-        mapper = JKSMapKeyValuesTo(nil, [NSDictionary class], [JKSPerson class],
-                                   @{@"person": JKSMapKeyValuePathsTo(@"parent", [NSDictionary class], [JKSPerson class],
-                                                                      @{@"id": @"identifier",
-                                                                        @"name.first": @"firstName",
-                                                                        @"name.last": @"lastName",
-                                                                        @"age": JKSStringToNumber(@"age"),
-                                                                        @"birth_date": JKSStringToDateWithFormatter(@"birthDate", dotNetDateFormatter)}),
-                                     @"identifier": JKSOptional([[JKSIdentityMapper alloc] initWithDestinationKey:@"identifier"]),
-                                     @"gender": JKSEnum(@"gender", @{@"unknown": @(JKSPersonGenderUnknown),
-                                                                     @"male": @(JKSPersonGenderMale),
-                                                                     @"female": @(JKSPersonGenderFemale)})});
+        mapper = JKSMapObject(nil, [NSDictionary class], [JKSPerson class],
+                              @{@"person" : JKSMapObjectPath(@"parent", [NSDictionary class], [JKSPerson class],
+                                      @{@"id" : @"identifier",
+                                              @"name.first" : @"firstName",
+                                              @"name.last" : @"lastName",
+                                              @"age" : JKSStringToNumber(@"age"),
+                                              @"birth_date" : JKSStringToDateWithFormatter(@"birthDate", dotNetDateFormatter)}),
+                                @"identifier" : JKSOptional([[JKSIdentityMapper alloc] initWithDestinationKey:@"identifier"]),
+                                @"gender" : JKSEnum(@"gender", @{@"unknown" : @(JKSPersonGenderUnknown),
+                                                                 @"male" : @(JKSPersonGenderMale),
+                                                                 @"female" : @(JKSPersonGenderFemale)})});
         expectedObjectStructure = @{@"person": @{@"id": @1,
                                                  @"name": @{@"first": @"John",
                                                             @"last": @"Doe"},
@@ -68,16 +68,16 @@ describe(@"Mapper Composition", ^{
             id<JKSMapper> reverseMapper = [mapper reverseMapperWithDestinationKey:nil];
             parsedObject = [reverseMapper objectFromSourceObject:expectedObjectGraph error:&error];
         });
-
+        
         it(@"should not error", ^{
             error should be_nil;
         });
-
+        
         it(@"should build the json correctly", ^{
             parsedObject should equal(expectedObjectStructure);
         });
     });
-
+    
 });
 
 SPEC_END

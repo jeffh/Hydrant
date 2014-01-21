@@ -42,6 +42,6 @@ JKS_EXTERN NSString * JKSDestinationKeyPathKey;
 - (NSString *)sourceKey;
 - (NSString *)destinationKey;
 - (id)sourceObject;
-- (NSArray *)errorKeyPaths;
+- (id)destinationObject;
 
 @end

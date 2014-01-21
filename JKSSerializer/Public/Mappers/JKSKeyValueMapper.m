@@ -68,7 +68,13 @@
         JKSError *innerError = nil;
 
         if (![self hasKey:sourceKey onObject:sourceObject]) {
-            innerError = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject sourceKey:sourceKey destinationObject:nil destinationKey:[NSString stringWithFormat:@"%@.%@", self.destinationKey, mapper.destinationKey] isFatal:YES underlyingErrors:nil ];
+            innerError = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType
+                                    sourceObject:nil
+                                       sourceKey:sourceKey
+                               destinationObject:nil
+                                  destinationKey:[mapper destinationKey]
+                                         isFatal:YES
+                                underlyingErrors:nil];
             hasFatalError = YES;
             [errors addObject:innerError];
             continue;
@@ -79,7 +85,11 @@
 
         if (innerError) {
             hasFatalError = hasFatalError || [innerError isFatal];
-            [errors addObject:innerError];
+            [errors addObject:[JKSError errorFromError:innerError
+                                   prependingSourceKey:sourceKey
+                                     andDestinationKey:nil
+                               replacementSourceObject:sourceValue
+                                               isFatal:innerError.isFatal]];
             continue;
         }
 
@@ -88,7 +98,13 @@
     }
 
     if (errors.count) {
-        *error = [JKSError errorWithCode:JKSErrorMultipleErrors sourceObject:sourceObject sourceKey:nil destinationObject:nil destinationKey:self.destinationKey isFatal:hasFatalError underlyingErrors:errors];
+        *error = [JKSError errorWithCode:JKSErrorMultipleErrors
+                            sourceObject:sourceObject
+                               sourceKey:nil
+                       destinationObject:nil
+                          destinationKey:self.destinationKey
+                                 isFatal:hasFatalError
+                        underlyingErrors:errors];
     }
     if (hasFatalError) {
         return nil;
@@ -139,7 +155,7 @@
 @end
 
 JKS_EXTERN
-JKSKeyValueMapper *JKSMapKeyValuesTo(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+JKSKeyValueMapper *JKSMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
     return [[JKSKeyValueMapper alloc] initWithDestinationKey:destinationKey
                                                    fromClass:sourceClass

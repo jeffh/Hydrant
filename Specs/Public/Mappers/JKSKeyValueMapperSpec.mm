@@ -31,13 +31,13 @@ describe(@"JKSKeyValueMapper", ^{
         childMapper2 = [[JKSFakeMapper alloc] initWithDestinationKey:@"firstName"];
         childMapper2.objectsToReturn = @[@"John"];
 
-        mapper = JKSMapKeyValuesTo(@"destinationKey",
-                                   [NSDictionary class],
-                                   [JKSPerson class],
-                                   @{@"first_name": childMapper2,
-                                     @"last_name": @"lastName",
-                                     @"age": @"age",
-                                     @"identifier": childMapper1});
+        mapper = JKSMapObject(@"destinationKey",
+                [NSDictionary class],
+                [JKSPerson class],
+                @{@"first_name" : childMapper2,
+                        @"last_name" : @"lastName",
+                        @"age" : @"age",
+                        @"identifier" : childMapper1});
     });
 
     it(@"should return the same destination key it was provided", ^{
@@ -86,6 +86,17 @@ describe(@"JKSKeyValueMapper", ^{
                     childMapper1.errorsToReturn = @[childMapperError1];
                     childMapper2.objectsToReturn = nil;
                     childMapper2.errorsToReturn = @[childMapperError2];
+
+                    childMapperError1 = [JKSError errorFromError:childMapperError1
+                                             prependingSourceKey:@"identifier"
+                                               andDestinationKey:nil
+                                         replacementSourceObject:@"transforms"
+                                                         isFatal:YES];
+                    childMapperError2 = [JKSError errorFromError:childMapperError2
+                                             prependingSourceKey:@"first_name"
+                                               andDestinationKey:nil
+                                         replacementSourceObject:@"John"
+                                                         isFatal:YES];
                 });
 
                 it(@"should wrap all the emitted errors in a fatal error", ^{
@@ -106,6 +117,17 @@ describe(@"JKSKeyValueMapper", ^{
                     childMapper1.errorsToReturn = @[childMapperError1];
                     childMapper2.objectsToReturn = nil;
                     childMapper2.errorsToReturn = @[childMapperError2];
+
+                    childMapperError1 = [JKSError errorFromError:childMapperError1
+                                             prependingSourceKey:@"identifier"
+                                               andDestinationKey:nil
+                                         replacementSourceObject:@"transforms"
+                                                         isFatal:NO];
+                    childMapperError2 = [JKSError errorFromError:childMapperError2
+                                             prependingSourceKey:@"first_name"
+                                               andDestinationKey:nil
+                                         replacementSourceObject:@"John"
+                                                         isFatal:NO];
                 });
 
                 it(@"should wrap all the emitted errors in a non-fatal error", ^{

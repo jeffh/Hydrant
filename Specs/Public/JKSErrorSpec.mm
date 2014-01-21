@@ -38,10 +38,6 @@ xdescribe(@"JKSError", ^{
         it(@"should store the destination key", ^{
             fatalError.userInfo[JKSDestinationKeyPathKey] should equal(@"Yo");
         });
-
-        it(@"should be able to report the errorous keypaths", ^{
-            [fatalError errorKeyPaths] should equal(@[@"Yo"]);
-        });
     });
 
     context(@"a non-fatal error", ^{
@@ -59,10 +55,6 @@ xdescribe(@"JKSError", ^{
 
         it(@"should store the destination key", ^{
             nonFatalError.userInfo[JKSDestinationKeyPathKey] should equal(@"Ya");
-        });
-
-        it(@"should be able to report all the errorous keypaths (decorators do not report)", ^{
-            [nonFatalError errorKeyPaths] should equal(@[@"Yo"]);
         });
     });
 
@@ -91,10 +83,6 @@ xdescribe(@"JKSError", ^{
 
         it(@"should store the current destination key", ^{
             errorList.userInfo[JKSDestinationKeyPathKey] should equal(@"Ya");
-        });
-
-        it(@"should be able to report all the errorous keypaths", ^{
-            [errorList errorKeyPaths] should equal(@[@"Ya.Yo", @"Ya.Yo"]);
         });
     });
 });

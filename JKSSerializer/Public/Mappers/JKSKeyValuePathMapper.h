@@ -14,4 +14,4 @@
 @end
 
 JKS_EXTERN
-JKSKeyValuePathMapper *JKSMapKeyValuePathsTo(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping);
+JKSKeyValuePathMapper *JKSMapObjectPath(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping);

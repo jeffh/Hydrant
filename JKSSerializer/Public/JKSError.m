@@ -26,19 +26,28 @@ NSString * JKSDestinationKeyPathKey = @"JKSDestinationKeyPath";
                       isFatal:(BOOL)isFatal
              underlyingErrors:(NSArray *)underlyingErrors
 {
-    underlyingErrors = [NSArray arrayWithArray:underlyingErrors];
     NSMutableDictionary *userInfo = [@{JKSSourceObjectKey: (sourceObject ?: [NSNull null]),
-            JKSDestinationObjectKey: (destinationObject ?: [NSNull null]),
-            JKSIsFatalKey: @(isFatal),
-            JKSUnderlyingErrorsKey: underlyingErrors} mutableCopy];
+                                       JKSDestinationObjectKey: (destinationObject ?: [NSNull null]),
+                                       JKSIsFatalKey: @(isFatal)} mutableCopy];
+    underlyingErrors = [NSArray arrayWithArray:underlyingErrors];
     if (underlyingErrors.count) {
         userInfo[NSUnderlyingErrorKey] = underlyingErrors[0];
+        userInfo[JKSUnderlyingErrorsKey] = underlyingErrors;
     }
     if (sourceKey) {
         userInfo[JKSSourceKeyPathKey] = sourceKey;
     }
     if (destinationKey) {
         userInfo[JKSDestinationKeyPathKey] = destinationKey;
+    }
+    if (underlyingErrors.count) {
+        NSMutableString *details = [NSMutableString stringWithFormat:@"Multiple errors occurred:\n"];
+        for (JKSError *error in underlyingErrors) {
+            [details appendFormat:@" - %@", [error underlyingErrorsDescription]];
+        }
+        userInfo[NSLocalizedDescriptionKey] = details;
+    } else {
+        userInfo[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"Could not map from '%@' to '%@'", sourceKey, destinationKey];
     }
     return [self errorWithDomain:JKSErrorDomain code:code userInfo:userInfo];
 }
@@ -49,8 +58,16 @@ NSString * JKSDestinationKeyPathKey = @"JKSDestinationKeyPath";
        replacementSourceObject:(id)sourceObject
                        isFatal:(BOOL)isFatal
 {
-    sourceKey = (sourceKey ? [NSString stringWithFormat:@"%@.%@", sourceKey, error.sourceKey] : error.sourceKey);
-    destinationKey = (destinationKey ? [NSString stringWithFormat:@"%@.%@", destinationKey, error.destinationKey] : error.destinationKey);
+    if (sourceKey && error.sourceKey) {
+        sourceKey = [NSString stringWithFormat:@"%@.%@", sourceKey, error.sourceKey];
+    } else {
+        sourceKey = sourceKey ?: error.sourceKey;
+    }
+    if (destinationKey && error.destinationKey) {
+        destinationKey = [NSString stringWithFormat:@"%@.%@", destinationKey, error.destinationKey];
+    } else {
+        destinationKey = destinationKey ?: error.destinationKey;
+    }
     sourceObject = (sourceObject ?: error.sourceObject);
     return [self errorWithCode:error.code sourceObject:sourceObject sourceKey:sourceKey destinationObject:nil destinationKey:destinationKey isFatal:isFatal underlyingErrors:error.userInfo[JKSUnderlyingErrorsKey]];
 }
@@ -69,6 +86,13 @@ NSString * JKSDestinationKeyPathKey = @"JKSDestinationKeyPath";
                 destinationKey:destinationKey
                        isFatal:isFatal
               underlyingErrors:errors];
+}
+
+- (NSString *)description
+{
+    return [[[super description]
+             stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"]
+            stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
 }
 
 - (BOOL)isFatal
@@ -91,20 +115,23 @@ NSString * JKSDestinationKeyPathKey = @"JKSDestinationKeyPath";
     return self.userInfo[JKSSourceObjectKey];
 }
 
-- (NSArray *)errorKeyPaths
+- (id)destinationObject
 {
-    NSMutableArray *errorKeyPaths = [NSMutableArray array];
-    if ([self.userInfo[JKSUnderlyingErrorsKey] count]) {
-        for (JKSError *error in self.userInfo[JKSUnderlyingErrorsKey]) {
-            for (NSString *keyPath in [error errorKeyPaths]) {
-                NSString *path = [NSString stringWithFormat:@"%@.%@", self.userInfo[JKSDestinationKeyPathKey], keyPath];
-                [errorKeyPaths addObject:path];
-            }
+    return self.userInfo[JKSDestinationObjectKey];
+}
+
+- (NSString *)underlyingErrorsDescription
+{
+    NSArray *underlyingErrors = self.userInfo[JKSUnderlyingErrorsKey];
+    if (underlyingErrors.count) {
+        NSMutableString *string = [NSMutableString string];
+        for (JKSError *error in underlyingErrors) {
+            [string appendFormat:@"%@\n", [error underlyingErrorsDescription]];
         }
+        return string;
     } else {
-        [errorKeyPaths addObject:self.userInfo[JKSDestinationKeyPathKey]];
+        return [self localizedDescription];
     }
-    return errorKeyPaths;
 }
 
 @end
