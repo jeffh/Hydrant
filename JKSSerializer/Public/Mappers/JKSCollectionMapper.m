@@ -48,7 +48,7 @@
     }
 
     if (![sourceCollection conformsToProtocol:@protocol(NSFastEnumeration)]) {
-        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceCollection byMapper:self];
+        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceCollection byMapper:self];
         return nil;
     }
 

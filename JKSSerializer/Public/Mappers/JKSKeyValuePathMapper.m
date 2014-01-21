@@ -64,15 +64,22 @@
         id<JKSMapper> mapper = self.mapping[sourceKey];
 
         if (![self hasKeyPath:sourceKey onObject:sourceObject]) {
-            *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType
-                                       sourceObject:sourceObject
-                                           byMapper:self];
+            *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType
+                                sourceObject:sourceObject
+                                    byMapper:self];
             return nil;
         }
 
-        id value = [sourceObject valueForKeyPath:sourceKey];
+        id sourceValue = [sourceObject valueForKeyPath:sourceKey];
+        id destinationValue = [mapper objectFromSourceObject:sourceValue error:error];
 
-        [self recursivelySetValue:value forKeyPath:mapper.destinationKey onObject:destinationObject];
+        if ([*error isFatal]) {
+            return nil;
+        }
+
+        [self recursivelySetValue:destinationValue
+                       forKeyPath:mapper.destinationKey
+                         onObject:destinationObject];
     }
     return destinationObject;
 }

@@ -4,15 +4,15 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-SPEC_BEGIN(JKSDateToStringMapperSpec)
+SPEC_BEGIN(JKSStringToDateMapperSpec)
 
-describe(@"JKSDateToStringMapper", ^{
-    __block JKSDateToStringMapper *mapper;
-    __block NSDate *date;
+describe(@"JKSStringToDateMapper", ^{
+    __block JKSStringToDateMapper *mapper;
     __block NSString *dateString;
-    __block JKSError *error;
-    __block id sourceObject;
+    __block NSDate *date;
     __block id parsedObject;
+    __block id sourceObject;
+    __block JKSError *error;
 
     beforeEach(^{
         error = nil;
@@ -29,41 +29,43 @@ describe(@"JKSDateToStringMapper", ^{
         date = [referenceDateComponents date];
         dateString = @"2012-02-01 at 14:30:45";
 
-        mapper = JKSDateToString(@"dateKey", @"yyyy-MM-dd 'at' HH:mm:ss");
+        mapper = JKSStringToDate(@"destinationKey", @"yyyy-MM-dd 'at' HH:mm:ss");
     });
 
     it(@"should have the same destination key it was given", ^{
-        mapper.destinationKey should equal(@"dateKey");
+        mapper.destinationKey should equal(@"destinationKey");
     });
 
-    void (^itShouldConvertDatesToStrings)() = ^{
-        context(@"when given a date", ^{
+    describe(@"when parsing the source object", ^{
+        subjectAction(^{
+            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+        });
+
+        context(@"when given a date string", ^{
             beforeEach(^{
-                sourceObject = date;
+                sourceObject = dateString;
             });
 
             it(@"should not produce an error", ^{
                 error should be_nil;
             });
 
-            it(@"should produce a string", ^{
-                parsedObject should equal(dateString);
+            it(@"should produce a date", ^{
+                parsedObject should equal(date);
             });
         });
 
-        context(@"when given another object", ^{
+        context(@"when a non-string is provided", ^{
             beforeEach(^{
-                sourceObject = @"Yo";
-            });
-
-            it(@"should produce a fatal error", ^{
-                error.isFatal should be_truthy;
-                error.domain should equal(JKSErrorDomain);
-                error.code should equal(JKSErrorInvalidSourceObjectValue);
+                sourceObject = [NSDate date];
             });
 
             it(@"should return nil", ^{
                 parsedObject should be_nil;
+            });
+
+            it(@"should produce a fatal error", ^{
+                error should be_a_fatal_error().with_code(JKSErrorInvalidSourceObjectValue);
             });
         });
 
@@ -76,38 +78,30 @@ describe(@"JKSDateToStringMapper", ^{
                 error should be_nil;
             });
 
-            it(@"should produce nil", ^{
+            it(@"should return nil", ^{
                 parsedObject should be_nil;
             });
         });
-    };
-
-    describe(@"parsing the source object", ^{
-        subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
-        });
-
-        itShouldConvertDatesToStrings();
     });
 
     describe(@"reverse mapper", ^{
-        __block JKSStringToDateMapper *reverseMapper;
+        __block id<JKSMapper> reverseMapper;
+
         beforeEach(^{
-            reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
+            reverseMapper = [mapper reverseMapperWithDestinationKey:@"key"];
         });
 
-        it(@"should have the given key as its new destination key", ^{
-            reverseMapper.destinationKey should equal(@"otherKey");
+        it(@"should return the given destination key", ^{
+            reverseMapper.destinationKey should equal(@"key");
         });
 
         it(@"should be the inverse of the current mapper", ^{
-            sourceObject = date;
+            sourceObject = dateString;
             parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
             error should be_nil;
 
             id result = [reverseMapper objectFromSourceObject:parsedObject error:&error];
             error should be_nil;
-
             result should equal(sourceObject);
         });
     });

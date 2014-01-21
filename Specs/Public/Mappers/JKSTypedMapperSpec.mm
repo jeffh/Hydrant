@@ -69,9 +69,7 @@ describe(@"JKSTypedMapper", ^{
                 });
 
                 it(@"should produce a type error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidSourceObjectType);
-                    error.isFatal should be_truthy;
+                    error should be_a_fatal_error().with_code(JKSErrorInvalidSourceObjectType);
                 });
             });
 
@@ -122,9 +120,7 @@ describe(@"JKSTypedMapper", ^{
                 });
 
                 it(@"should produce a fatal error with invalid return type", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidResultingObjectType);
-                    error.isFatal should be_truthy;
+                    error should be_a_fatal_error().with_code(JKSErrorInvalidResultingObjectType);
                 });
 
                 it(@"should return nil", ^{
@@ -189,9 +185,7 @@ describe(@"JKSTypedMapper", ^{
                 });
 
                 it(@"should produce a fatal type error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidSourceObjectType);
-                    error.isFatal should be_truthy;
+                    error should be_a_fatal_error().with_code(JKSErrorInvalidSourceObjectType);
                 });
             });
 
@@ -242,9 +236,7 @@ describe(@"JKSTypedMapper", ^{
                 });
 
                 it(@"should produce a fatal error with invalid return type", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidResultingObjectType);
-                    error.isFatal should be_truthy;
+                    error should be_a_fatal_error().with_code(JKSErrorInvalidResultingObjectType);
                 });
 
                 it(@"should return nil", ^{

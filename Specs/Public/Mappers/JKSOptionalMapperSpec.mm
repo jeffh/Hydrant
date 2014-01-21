@@ -53,7 +53,7 @@ describe(@"JKSOptionalMapper", ^{
             context(@"when the source object produces a fatal error to the child mapper", ^{
                 beforeEach(^{
                     sourceObject = @"invalid";
-                    childMapper.errorsToReturn = @[[JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper]];
+                    childMapper.errorsToReturn = @[[JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper]];
                 });
 
                 it(@"should tell its child mappers that it is the current root mapper", ^{
@@ -106,7 +106,7 @@ describe(@"JKSOptionalMapper", ^{
             context(@"when the source object is invalid to the child mapper", ^{
                 beforeEach(^{
                     sourceObject = @"invalid";
-                    childMapper.errorsToReturn = @[[JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper]];
+                    childMapper.errorsToReturn = @[[JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:childMapper]];
                 });
 
                 it(@"should tell its child mappers the root mapper", ^{
@@ -119,8 +119,7 @@ describe(@"JKSOptionalMapper", ^{
                 });
 
                 it(@"should report an optional error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorOptionalMappingFailed);
+                    error should be_a_non_fatal_error().with_code(JKSErrorOptionalMappingFailed);
                 });
             });
         });
@@ -131,7 +130,7 @@ describe(@"JKSOptionalMapper", ^{
         __block JKSFakeMapper *reverseChildMapper;
 
         beforeEach(^{
-            reverseChildMapper = [[JKSFakeMapper alloc] init];
+            reverseChildMapper = [[JKSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
             childMapper.reverseMapperToReturn = reverseChildMapper;
             sourceObject = @"valid";
 
@@ -160,14 +159,12 @@ describe(@"JKSOptionalMapper", ^{
 
         context(@"with a bad source object", ^{
             beforeEach(^{
-                reverseChildMapper.errorsToReturn = @[[JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@1 byMapper:reverseChildMapper]];
+                reverseChildMapper.errorsToReturn = @[[JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:@1 byMapper:reverseChildMapper]];
                 parsedObject = [reverseMapper objectFromSourceObject:@1 error:&error];
             });
 
             it(@"should emit a non-fatal error", ^{
-                error.domain should equal(JKSErrorDomain);
-                error.code should equal(JKSErrorOptionalMappingFailed);
-                error.isFatal should_not be_truthy;
+                error should be_a_non_fatal_error().with_code(JKSErrorOptionalMappingFailed);
             });
 
             it(@"should return the default value", ^{

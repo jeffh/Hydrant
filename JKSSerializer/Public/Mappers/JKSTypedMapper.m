@@ -52,7 +52,7 @@
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing JKSError **)error
 {
     if (![self isObject:sourceObject aSubclassOfAnyClasses:self.allowedInputClasses]) {
-        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:self];
+        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType sourceObject:sourceObject byMapper:self];
         return nil;
     }
 
@@ -63,7 +63,7 @@
     }
 
     if (![self isObject:object aSubclassOfAnyClasses:self.allowedOutputClasses]) {
-        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidResultingObjectType sourceObject:sourceObject byMapper:self];
+        *error = [JKSError errorWithCode:JKSErrorInvalidResultingObjectType sourceObject:sourceObject byMapper:self];
         return nil;
     }
 

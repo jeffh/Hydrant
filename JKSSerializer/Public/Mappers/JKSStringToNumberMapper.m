@@ -32,9 +32,9 @@
     id value = [self.numberFormatter numberFromString:[sourceObject description]];
 
     if (!value && sourceObject) {
-        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectValue
-                                   sourceObject:sourceObject
-                                       byMapper:self];
+        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectValue
+                            sourceObject:sourceObject
+                                byMapper:self];
     }
     return value;
 }

@@ -59,21 +59,51 @@
         [childMapper setupAsChildMapperWithMapper:self.rootMapper factory:self.factory];
     }
 
+    NSMutableArray *errors = [NSMutableArray array];
+    BOOL hasFatalError = NO;
+
     id destinationObject = [self.factory newObjectOfClass:self.destinationClass];
     for (NSString *sourceKey in self.mapping) {
         id<JKSMapper> mapper = self.mapping[sourceKey];
+        JKSError *innerError = nil;
 
         if (![self hasKey:sourceKey onObject:sourceObject]) {
-            *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectType
-                                       sourceObject:sourceObject
-                                           byMapper:self];
-            return nil;
+            innerError = [JKSError errorWithCode:JKSErrorInvalidSourceObjectType
+                                    sourceObject:sourceObject
+                                       sourceKey:sourceKey
+                                  destinationKey:[NSString stringWithFormat:@"%@.%@", self.destinationKey, mapper.destinationKey]
+                                         isFatal:YES
+                                underlyingErrors:nil];
+            hasFatalError = YES;
+            [errors addObject:innerError];
+            continue;
         }
 
-        id value = [sourceObject valueForKey:sourceKey];
-        [destinationObject setValue:value
+        id sourceValue = [sourceObject valueForKey:sourceKey];
+        id transformedValue = [mapper objectFromSourceObject:sourceValue error:&innerError];
+
+        if (innerError) {
+            hasFatalError = hasFatalError || [innerError isFatal];
+            [errors addObject:innerError];
+            continue;
+        }
+
+        [destinationObject setValue:transformedValue
                              forKey:mapper.destinationKey];
     }
+
+    if (errors.count) {
+        *error = [JKSError errorWithCode:(hasFatalError ? JKSErrorMultipleErrors : JKSErrorMultipleOptionalErrors)
+                            sourceObject:sourceObject
+                               sourceKey:nil
+                          destinationKey:self.destinationKey
+                                 isFatal:hasFatalError
+                        underlyingErrors:errors];
+    }
+    if (hasFatalError) {
+        return nil;
+    }
+
     return destinationObject;
 }
 

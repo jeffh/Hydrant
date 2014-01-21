@@ -31,9 +31,9 @@
     id value = [self.dateFormatter stringFromDate:sourceObject];
 
     if (!value && sourceObject) {
-        *error = [JKSError mappingErrorWithCode:JKSErrorInvalidSourceObjectValue
-                                   sourceObject:sourceObject
-                                       byMapper:self];
+        *error = [JKSError errorWithCode:JKSErrorInvalidSourceObjectValue
+                            sourceObject:sourceObject
+                                byMapper:self];
     }
     return value;
 }
@@ -49,10 +49,16 @@
 
 @end
 
-
+JKS_EXTERN
 JKSDateToStringMapper *JKSDateToString(NSString *dstKey, NSString *formatString)
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = formatString;
+    return JKSDateToStringWithFormatter(dstKey, dateFormatter);
+}
+
+JKS_EXTERN
+JKSDateToStringMapper *JKSDateToStringWithFormatter(NSString *dstKey, NSDateFormatter *dateFormatter)
+{
     return [[JKSDateToStringMapper alloc] initWithDestinationKey:dstKey dateFormatter:dateFormatter];
 }

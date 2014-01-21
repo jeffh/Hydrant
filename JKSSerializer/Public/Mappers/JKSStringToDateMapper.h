@@ -11,3 +11,6 @@
 
 JKS_EXTERN
 JKSStringToDateMapper *JKSStringToDate(NSString *dstKey, NSString *formatString);
+
+JKS_EXTERN
+JKSStringToDateMapper *JKSStringToDateWithFormatter(NSString *dstKey, NSDateFormatter *dateFormatter);

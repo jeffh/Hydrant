@@ -4,10 +4,10 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-SPEC_BEGIN(JKSNumberToStringMapperSpec)
+SPEC_BEGIN(JKSStringToNumberMapperSpec)
 
-describe(@"JKSNumberToStringMapper", ^{
-    __block JKSNumberToStringMapper *mapper;
+describe(@"JKSStringToNumberMapper", ^{
+    __block JKSStringToNumberMapper *mapper;
     __block NSString *numberString;
     __block NSNumber *number;
     __block JKSError *error;
@@ -22,37 +22,35 @@ describe(@"JKSNumberToStringMapper", ^{
         number = @(1235555);
         numberString = [formatter stringFromNumber:number];
 
-        mapper = JKSNumberToStringByFormat(@"numberKey", NSNumberFormatterDecimalStyle);
+        mapper = JKSStringToNumberByFormat(@"destKey", NSNumberFormatterDecimalStyle);
     });
 
     it(@"should preserve its destination key", ^{
-        mapper.destinationKey should equal(@"numberKey");
+        mapper.destinationKey should equal(@"destKey");
     });
 
-    describe(@"parsing the source object", ^{
-        subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
-        });
-
-        context(@"when a number is provided", ^{
+    void (^itShouldConvertStringsToNumbers)() = ^{
+        context(@"when a numeric string is provided", ^{
             beforeEach(^{
-                sourceObject = number;
+                sourceObject = numberString;
             });
 
-            it(@"should produce a string object", ^{
-                parsedObject should equal(numberString);
+            it(@"should not provide an error", ^{
+                error should be_nil;
+            });
+
+            it(@"should return the numeric value", ^{
+                parsedObject should equal(number);
             });
         });
 
-        context(@"when another type of object is provided", ^{
+        context(@"when another value is provided", ^{
             beforeEach(^{
-                sourceObject = [NSDate date];
+                sourceObject = @"LULZ";
             });
 
             it(@"should provide a fatal error", ^{
-                error.domain should equal(JKSErrorDomain);
-                error.code should equal(JKSErrorInvalidSourceObjectValue);
-                error.isFatal should be_truthy;
+                error should be_a_fatal_error().with_code(JKSErrorInvalidSourceObjectValue);
             });
 
             it(@"should return nil", ^{
@@ -60,30 +58,42 @@ describe(@"JKSNumberToStringMapper", ^{
             });
         });
 
-        context(@"when nil is provided", ^{
+        context(@"when the source object is nil", ^{
             beforeEach(^{
                 sourceObject = nil;
             });
 
-            it(@"should produce nil", ^{
+            it(@"should not provide an error", ^{
+                error should be_nil;
+            });
+
+            it(@"should return nil", ^{
                 parsedObject should be_nil;
             });
         });
+    };
+
+    describe(@"parsing the source object", ^{
+        subjectAction(^{
+            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+        });
+
+        itShouldConvertStringsToNumbers();
     });
 
     describe(@"reverse mapper", ^{
-        __block id<JKSMapper> reverseMapper;
+        __block JKSNumberToStringMapper *reverseMapper;
 
         beforeEach(^{
-            reverseMapper = [mapper reverseMapperWithDestinationKey:@"anotherKey"];
+            reverseMapper = [mapper reverseMapperWithDestinationKey:@"key"];
         });
 
-        it(@"should return the given key", ^{
-            reverseMapper.destinationKey should equal(@"anotherKey");
+        it(@"should return the given destination key", ^{
+            reverseMapper.destinationKey should equal(@"key");
         });
 
         it(@"should be the inverse of the current mapper", ^{
-            sourceObject = number;
+            sourceObject = numberString;
             parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
             error should be_nil;
 

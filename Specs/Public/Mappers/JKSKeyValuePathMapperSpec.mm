@@ -22,7 +22,7 @@ describe(@"JKSKeyValuePathMapper", ^{
         validSourceObject = @{@"name": @{@"first": @"John",
                                          @"last": @"Doe"},
                               @"age": @23,
-                              @"identifier": @5};
+                              @"identifier": @"transforms"};
 
         childMapper = [[JKSFakeMapper alloc] initWithDestinationKey:@"identifier"];
         childMapper.objectsToReturn = @[@5];
@@ -174,7 +174,7 @@ describe(@"JKSKeyValuePathMapper", ^{
         beforeEach(^{
             reverseChildMapper = [[JKSFakeMapper alloc] initWithDestinationKey:@"identifier"];
             childMapper.reverseMapperToReturn = reverseChildMapper;
-            reverseChildMapper.objectsToReturn = @[@5];
+            reverseChildMapper.objectsToReturn = @[@"transforms"];
 
             reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
         });

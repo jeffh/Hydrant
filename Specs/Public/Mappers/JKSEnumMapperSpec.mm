@@ -50,9 +50,7 @@ describe(@"JKSEnumMapper", ^{
             });
 
             it(@"should produce a fatal error", ^{
-                error.isFatal should be_truthy;
-                error.domain should equal(JKSErrorDomain);
-                error.code should equal(JKSErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error().with_code(JKSErrorInvalidSourceObjectValue);
             });
         });
 

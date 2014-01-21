@@ -1,6 +1,8 @@
 // DO NOT any other library headers here to simulate an API user.
 #import "JKSSerializer.h"
 #import "JKSPerson.h"
+#import "JKSFakeMapper.h"
+#import "JKSError+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -14,31 +16,28 @@ describe(@"JKSKeyValueMapper", ^{
     __block NSDictionary *validSourceObject;
     __block id sourceObject;
     __block id parsedObject;
-    __block id<JKSMapper> childMapper;
+    __block JKSFakeMapper *childMapper1;
+    __block JKSFakeMapper *childMapper2;
 
     beforeEach(^{
         expectedPerson = [[JKSPerson alloc] initWithFixtureData];
         validSourceObject = @{@"first_name": @"John",
                               @"last_name": @"Doe",
                               @"age": @23,
-                              @"identifier": @5};
+                              @"identifier": @"transforms"};
 
-        childMapper = nice_fake_for(@protocol(JKSMapper));
-        childMapper stub_method(@selector(destinationKey)).and_return(@"identifier");
-        childMapper stub_method(@selector(objectFromSourceObject:error:)).and_do(^(NSInvocation *invocation) {
-            id value = nil;
-            [invocation getArgument:&value atIndex:2];
-            [invocation setReturnValue:&value];
-        });
-        childMapper stub_method(@selector(reverseMapperWithDestinationKey:)).and_return(childMapper);
+        childMapper1 = [[JKSFakeMapper alloc] initWithDestinationKey:@"identifier"];
+        childMapper1.objectsToReturn = @[@5];
+        childMapper2 = [[JKSFakeMapper alloc] initWithDestinationKey:@"firstName"];
+        childMapper2.objectsToReturn = @[@"John"];
 
         mapper = JKSMapKeyValuesTo(@"destinationKey",
                                    [NSDictionary class],
                                    [JKSPerson class],
-                                   @{@"first_name": @"firstName",
+                                   @{@"first_name": childMapper2,
                                      @"last_name": @"lastName",
                                      @"age": @"age",
-                                     @"identifier": childMapper});
+                                     @"identifier": childMapper1});
     });
 
     it(@"should return the same destination key it was provided", ^{
@@ -57,7 +56,10 @@ describe(@"JKSKeyValueMapper", ^{
                 });
 
                 it(@"should setup child mappers with itself as the root mapper", ^{
-                    childMapper should have_received(@selector(setupAsChildMapperWithMapper:factory:)).with(mapper, Arguments::any([JKSObjectFactory class]));
+                    childMapper1.rootMapperReceived should be_same_instance_as(mapper);
+                    childMapper1.factoryReceived should conform_to(@protocol(JKSFactory));
+                    childMapper2.rootMapperReceived should be_same_instance_as(mapper);
+                    childMapper2.factoryReceived should conform_to(@protocol(JKSFactory));
                 });
 
                 it(@"should not have any error", ^{
@@ -73,6 +75,52 @@ describe(@"JKSKeyValueMapper", ^{
                 });
             });
 
+            context(@"when child mappers returns fatal errors", ^{
+                __block JKSError *childMapperError1;
+                __block JKSError *childMapperError2;
+
+                beforeEach(^{
+                    childMapperError1 = [JKSError fatalError];
+                    childMapperError2 = [JKSError fatalError];
+                    childMapper1.objectsToReturn = nil;
+                    childMapper1.errorsToReturn = @[childMapperError1];
+                    childMapper2.objectsToReturn = nil;
+                    childMapper2.errorsToReturn = @[childMapperError2];
+                });
+
+                it(@"should wrap all the emitted errors in a fatal error", ^{
+                    error should be_a_fatal_error().with_code(JKSErrorMultipleErrors);
+                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[childMapperError1,
+                                                                          childMapperError2]);
+                });
+            });
+
+            context(@"when child mappers returns non-fatal errors", ^{
+                __block JKSError *childMapperError1;
+                __block JKSError *childMapperError2;
+
+                beforeEach(^{
+                    childMapperError1 = [JKSError nonFatalError];
+                    childMapperError2 = [JKSError nonFatalError];
+                    childMapper1.objectsToReturn = nil;
+                    childMapper1.errorsToReturn = @[childMapperError1];
+                    childMapper2.objectsToReturn = nil;
+                    childMapper2.errorsToReturn = @[childMapperError2];
+                });
+
+                it(@"should wrap all the emitted errors in a non-fatal error", ^{
+                    error should be_a_non_fatal_error().with_code(JKSErrorMultipleOptionalErrors);
+                    error.userInfo[JKSUnderlyingErrorsKey] should equal(@[childMapperError1,
+                                                                          childMapperError2]);
+                });
+
+                it(@"should return a parsed object", ^{
+                    expectedPerson.firstName = nil;
+                    expectedPerson.identifier = nil;
+                    parsedObject should equal(expectedPerson);
+                });
+            });
+
             context(@"when a field is missing in the provided source object", ^{
                 beforeEach(^{
                     sourceObject = @{@"first_name": @"John",
@@ -81,9 +129,7 @@ describe(@"JKSKeyValueMapper", ^{
                 });
 
                 it(@"should have a fatal error", ^{
-                    error.domain should equal(JKSErrorDomain);
-                    error.code should equal(JKSErrorInvalidSourceObjectType);
-                    error.isFatal should be_truthy;
+                    error should be_a_fatal_error().with_code(JKSErrorMultipleErrors);
                 });
 
                 it(@"should return nil", ^{
@@ -122,7 +168,8 @@ describe(@"JKSKeyValueMapper", ^{
                 });
 
                 it(@"should propagate the mapping to its children", ^{
-                    childMapper should have_received(@selector(setupAsChildMapperWithMapper:factory:)).with(parentMapper, factory);
+                    childMapper1.rootMapperReceived should be_same_instance_as(parentMapper);
+                    childMapper1.factoryReceived should be_same_instance_as(factory);
                 });
 
                 it(@"should not have any error", ^{
@@ -172,8 +219,18 @@ describe(@"JKSKeyValueMapper", ^{
 
     describe(@"reverse mapping", ^{
         __block id<JKSMapper> reverseMapper;
+        __block JKSFakeMapper *reverseChildMapper1;
+        __block JKSFakeMapper *reverseChildMapper2;
 
         beforeEach(^{
+            reverseChildMapper1 = [[JKSFakeMapper alloc] initWithDestinationKey:@"identifier"];
+            reverseChildMapper1.objectsToReturn = @[@"transforms"];
+            childMapper1.reverseMapperToReturn = reverseChildMapper1;
+
+            reverseChildMapper2 = [[JKSFakeMapper alloc] initWithDestinationKey:@"first_name"];
+            reverseChildMapper2.objectsToReturn = @[@"John"];
+            childMapper2.reverseMapperToReturn = reverseChildMapper2;
+
             reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
         });
 
