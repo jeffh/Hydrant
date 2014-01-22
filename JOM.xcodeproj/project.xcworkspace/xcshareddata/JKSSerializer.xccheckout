@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0E286102-07B9-42E8-938D-CCB472E83981</string>
+	<key>IDESourceControlProjectName</key>
+	<string>JOM</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1A76F738-F07C-46DC-A9B6-71376042E291</key>
+		<string>ssh://github.com/jeffh/JOM.git</string>
+		<key>436C83D0-6E95-4172-9606-2B01F9106082</key>
+		<string>https://github.com/pivotal/cedar.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>JOM.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1A76F738-F07C-46DC-A9B6-71376042E291</key>
+		<string>../..</string>
+		<key>436C83D0-6E95-4172-9606-2B01F9106082</key>
+		<string>../../Externals/cedar</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/jeffh/JOM.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1A76F738-F07C-46DC-A9B6-71376042E291</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>436C83D0-6E95-4172-9606-2B01F9106082</string>
+			<key>IDESourceControlWCCName</key>
+			<string>cedar</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1A76F738-F07C-46DC-A9B6-71376042E291</string>
+			<key>IDESourceControlWCCName</key>
+			<string>JOM</string>
+		</dict>
+	</array>
+</dict>
+</plist>

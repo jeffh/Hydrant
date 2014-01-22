@@ -1,7 +1,7 @@
 # rename this file to thrust.yml
 thrust_version: 0.1
-project_name: JKSSerializer
-app_name: JKSSerializer
+project_name: JOM
+app_name: JOM
 identity: iOS Signing Identity
 
 sim_binary: 'ios-sim' # or 'Specs/bin/waxim'
