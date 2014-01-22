@@ -36,7 +36,12 @@ describe(@"JOMDateToStringMapper", ^{
         mapper.destinationKey should equal(@"dateKey");
     });
 
-    void (^itShouldConvertDatesToStrings)() = ^{
+    describe(@"parsing the source object", ^{
+        subjectAction(^{
+            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+        });
+
+
         context(@"when given a date", ^{
             beforeEach(^{
                 sourceObject = date;
@@ -78,14 +83,6 @@ describe(@"JOMDateToStringMapper", ^{
                 parsedObject should be_nil;
             });
         });
-    };
-
-    describe(@"parsing the source object", ^{
-        subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
-        });
-
-        itShouldConvertDatesToStrings();
     });
 
     describe(@"reverse mapper", ^{

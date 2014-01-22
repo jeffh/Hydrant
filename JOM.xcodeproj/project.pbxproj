@@ -69,6 +69,8 @@
 		1F3D815C1883CDC2006C0CC4 /* JOMObjectFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D815B1883CDC2006C0CC4 /* JOMObjectFactory.m */; };
 		1F3D815D1883CDC2006C0CC4 /* JOMObjectFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D815B1883CDC2006C0CC4 /* JOMObjectFactory.m */; };
 		1F3D815E1883CDC2006C0CC4 /* JOMObjectFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D815B1883CDC2006C0CC4 /* JOMObjectFactory.m */; };
+		1F46F1C0188FBF5400E8D6ED /* JOMStringToURLMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F46F1BF188FBF5400E8D6ED /* JOMStringToURLMapperSpec.mm */; };
+		1F46F1C1188FBF5400E8D6ED /* JOMStringToURLMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F46F1BF188FBF5400E8D6ED /* JOMStringToURLMapperSpec.mm */; };
 		1FA99484183B49FA001E9F2E /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A8485183B48DD00EAA4E0 /* libCedar-StaticLib.a */; };
 		1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99489183B4A20001E9F2E /* Foundation.framework */; };
 		1FA994A4183C97A8001E9F2E /* JOMBase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C040181A2DC90017FDB4 /* JOMBase.h */; };
@@ -91,6 +93,9 @@
 		1FB0F6B418850B9400120ABC /* JOMTypedMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6B318850B9400120ABC /* JOMTypedMapper.m */; };
 		1FB0F6B518850B9400120ABC /* JOMTypedMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6B318850B9400120ABC /* JOMTypedMapper.m */; };
 		1FB0F6B618850B9400120ABC /* JOMTypedMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6B318850B9400120ABC /* JOMTypedMapper.m */; };
+		1FBB1679188FBDFC00B31490 /* JOMStringToURLMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBB1678188FBDFC00B31490 /* JOMStringToURLMapper.m */; };
+		1FBB167A188FBDFC00B31490 /* JOMStringToURLMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBB1678188FBDFC00B31490 /* JOMStringToURLMapper.m */; };
+		1FBB167B188FBDFC00B31490 /* JOMStringToURLMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBB1678188FBDFC00B31490 /* JOMStringToURLMapper.m */; };
 		1FDAC11A18121F6900846B44 /* JOMClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JOMClassInspector.m */; };
 		1FDAC11B18121F6900846B44 /* JOMClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JOMClassInspector.m */; };
 		1FDAC11C18121F6900846B44 /* JOMClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* JOMClassInspector.m */; };
@@ -271,6 +276,7 @@
 		1F3D813F1883A632006C0CC4 /* JOM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOM.h; sourceTree = "<group>"; };
 		1F3D815A1883CDC2006C0CC4 /* JOMObjectFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOMObjectFactory.h; sourceTree = "<group>"; };
 		1F3D815B1883CDC2006C0CC4 /* JOMObjectFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOMObjectFactory.m; sourceTree = "<group>"; };
+		1F46F1BF188FBF5400E8D6ED /* JOMStringToURLMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JOMStringToURLMapperSpec.mm; sourceTree = "<group>"; };
 		1FA99489183B4A20001E9F2E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		1FA994B8183CA3B3001E9F2E /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = ../../DerivedData/Nimbus/Build/Products/Debug/Cedar.framework; sourceTree = "<group>"; };
 		1FB0F65F1883DCDD00120ABC /* JOMError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOMError.h; sourceTree = "<group>"; };
@@ -285,6 +291,8 @@
 		1FB0F6731883F9FD00120ABC /* JOMNumberToStringMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOMNumberToStringMapper.m; sourceTree = "<group>"; };
 		1FB0F6B218850B9400120ABC /* JOMTypedMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOMTypedMapper.h; sourceTree = "<group>"; };
 		1FB0F6B318850B9400120ABC /* JOMTypedMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOMTypedMapper.m; sourceTree = "<group>"; };
+		1FBB1677188FBDFC00B31490 /* JOMStringToURLMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOMStringToURLMapper.h; sourceTree = "<group>"; };
+		1FBB1678188FBDFC00B31490 /* JOMStringToURLMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOMStringToURLMapper.m; sourceTree = "<group>"; };
 		1FDAC11618121F6900846B44 /* JOMClassInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOMClassInspector.h; sourceTree = "<group>"; };
 		1FDAC11718121F6900846B44 /* JOMClassInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOMClassInspector.m; sourceTree = "<group>"; };
 		1FDAC11818121F6900846B44 /* JOMProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOMProperty.h; sourceTree = "<group>"; };
@@ -376,6 +384,7 @@
 				1F12177F188C94BD00B1CBD1 /* JOMStringToDateMapperSpec.mm */,
 				1F121780188C94BD00B1CBD1 /* JOMStringToNumberMapperSpec.mm */,
 				1F121781188C94BD00B1CBD1 /* JOMTypedMapperSpec.mm */,
+				1F46F1BF188FBF5400E8D6ED /* JOMStringToURLMapperSpec.mm */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -577,6 +586,8 @@
 				31B737744BE9031CD99DDA10 /* JOMStringToNumberMapper.m */,
 				1FB0F6B218850B9400120ABC /* JOMTypedMapper.h */,
 				1FB0F6B318850B9400120ABC /* JOMTypedMapper.m */,
+				1FBB1677188FBDFC00B31490 /* JOMStringToURLMapper.h */,
+				1FBB1678188FBDFC00B31490 /* JOMStringToURLMapper.m */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -787,6 +798,7 @@
 				1F1217B4188CC5D700B1CBD1 /* JOMDotNetDateFormatter.m in Sources */,
 				1FDAC11A18121F6900846B44 /* JOMClassInspector.m in Sources */,
 				1FB0F6B418850B9400120ABC /* JOMTypedMapper.m in Sources */,
+				1FBB1679188FBDFC00B31490 /* JOMStringToURLMapper.m in Sources */,
 				31B73E03A89B6BF05AA7716C /* JOMStringToDateMapper.m in Sources */,
 				31B736E10B8F10FBD0AE0C56 /* JOMStringToNumberMapper.m in Sources */,
 				1F121743188AA3CB00B1CBD1 /* JOMIdentityMapper.m in Sources */,
@@ -834,9 +846,11 @@
 				1F1217B5188CC5D700B1CBD1 /* JOMDotNetDateFormatter.m in Sources */,
 				31B73D782BEB6F571FAC0EFC /* JOMKeyValueMapper.m in Sources */,
 				1F121798188C94BD00B1CBD1 /* JOMTypedMapperSpec.mm in Sources */,
+				1F46F1C0188FBF5400E8D6ED /* JOMStringToURLMapperSpec.mm in Sources */,
 				1F121782188C94BD00B1CBD1 /* JOMCollectionMapperSpec.mm in Sources */,
 				1F12179B188C94FF00B1CBD1 /* JOMErrorSpec.mm in Sources */,
 				1F121790188C94BD00B1CBD1 /* JOMNumberToStringMapperSpec.mm in Sources */,
+				1FBB167A188FBDFC00B31490 /* JOMStringToURLMapper.m in Sources */,
 				1F12175D188B9BDF00B1CBD1 /* JOMFakeMapper.m in Sources */,
 				1F1217D7188F88B500B1CBD1 /* JOMFirstMapper.m in Sources */,
 				1F1217DA188F88E600B1CBD1 /* JOMFirstMapperSpec.mm in Sources */,
@@ -881,9 +895,11 @@
 				1F1217B6188CC5D700B1CBD1 /* JOMDotNetDateFormatter.m in Sources */,
 				31B7365D62EBCFF4EF78C9D3 /* JOMKeyValueMapper.m in Sources */,
 				1F121799188C94BD00B1CBD1 /* JOMTypedMapperSpec.mm in Sources */,
+				1F46F1C1188FBF5400E8D6ED /* JOMStringToURLMapperSpec.mm in Sources */,
 				1F121783188C94BD00B1CBD1 /* JOMCollectionMapperSpec.mm in Sources */,
 				1F12179C188C94FF00B1CBD1 /* JOMErrorSpec.mm in Sources */,
 				1F121791188C94BD00B1CBD1 /* JOMNumberToStringMapperSpec.mm in Sources */,
+				1FBB167B188FBDFC00B31490 /* JOMStringToURLMapper.m in Sources */,
 				1F12175E188B9BDF00B1CBD1 /* JOMFakeMapper.m in Sources */,
 				1F1217D8188F88B500B1CBD1 /* JOMFirstMapper.m in Sources */,
 				1F1217DB188F88E600B1CBD1 /* JOMFirstMapperSpec.mm in Sources */,

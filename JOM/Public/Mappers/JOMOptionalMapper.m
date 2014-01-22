@@ -5,8 +5,8 @@
 
 @interface JOMOptionalMapper ()
 @property (strong, nonatomic) id<JOMMapper> wrappedMapper;
-@property (strong, nonatomic) id defaultValue;
-@property (strong, nonatomic) id reverseDefaultValue;
+@property (strong, nonatomic) JOMValueBlock defaultValueBlock;
+@property (strong, nonatomic) JOMValueBlock reverseDefaultValueBlock;
 @property (strong, nonatomic) id<JOMFactory> factory;
 @property (weak, nonatomic) id<JOMMapper> rootMapper;
 @end
@@ -19,13 +19,13 @@
     return nil;
 }
 
-- (id)initWithMapper:(id<JOMMapper>)mapper defaultValue:(id)defaultValue reverseDefaultValue:(id)reverseDefaultValue
+- (id)initWithMapper:(id<JOMMapper>)mapper defaultValue:(JOMValueBlock)defaultValue reverseDefaultValue:(JOMValueBlock)reverseDefaultValue
 {
     self = [super init];
     if (self) {
         self.wrappedMapper = mapper;
-        self.defaultValue = defaultValue;
-        self.reverseDefaultValue = reverseDefaultValue;
+        self.defaultValueBlock = defaultValue;
+        self.reverseDefaultValueBlock = reverseDefaultValue;
         self.rootMapper = self;
         self.factory = [[JOMObjectFactory alloc] init];
     }
@@ -51,7 +51,7 @@
                         andDestinationKey:nil
                   replacementSourceObject:nil
                                   isFatal:NO];
-        return self.defaultValue;
+        return self.defaultValueBlock();
     }
 
     return resultingObject;
@@ -67,8 +67,8 @@
 {
     id<JOMMapper> reverseWrappedMapper = [self.wrappedMapper reverseMapperWithDestinationKey:destinationKey];
     return [[[self class] alloc] initWithMapper:reverseWrappedMapper
-                                   defaultValue:self.reverseDefaultValue
-                            reverseDefaultValue:self.defaultValue];
+                                   defaultValue:self.reverseDefaultValueBlock
+                            reverseDefaultValue:self.defaultValueBlock];
 }
 
 
@@ -93,9 +93,15 @@ JOMOptionalMapper *JOMOptionalWithDefault(id<JOMMapper> mapper, id defaultValue)
 }
 
 JOM_EXTERN
+JOMOptionalMapper *JOMOptionalFieldWithDefault(NSString *destinationKey, id defaultValue)
+{
+    return JOMOptionalWithDefault(JOMIdentity(destinationKey), defaultValue);
+}
+
+JOM_EXTERN
 JOMOptionalMapper *JOMOptionalWithDefaultAndReversedDefault(id<JOMMapper> mapper, id defaultValue, id reversedDefault)
 {
     return [[JOMOptionalMapper alloc] initWithMapper:mapper
-                                        defaultValue:defaultValue
-                                 reverseDefaultValue:reversedDefault];
+                                        defaultValue:^{ return defaultValue; }
+                                 reverseDefaultValue:^{ return reversedDefault; }];
 }

@@ -175,6 +175,9 @@ describe(@"JOMFirstMapper", ^{
             itShouldBehaveLike(@"a mapper that tries all the mapper");
         });
     });
+
+    xdescribe(@"reverse mapping", ^{
+    });
 });
 
 SPEC_END

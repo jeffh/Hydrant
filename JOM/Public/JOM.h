@@ -9,15 +9,18 @@
 // formatters
 #import "JOMDotNetDateFormatter.h"
 
-// mappers
+// container mappers
 #import "JOMCollectionMapper.h"
+#import "JOMTypedMapper.h"
+#import "JOMKeyValueMapper.h"
+#import "JOMKeyValuePathMapper.h"
+#import "JOMOptionalMapper.h"
+
+// standalone mappers
 #import "JOMDateToStringMapper.h"
 #import "JOMNumberToStringMapper.h"
 #import "JOMStringToDateMapper.h"
 #import "JOMStringToNumberMapper.h"
 #import "JOMEnumMapper.h"
-#import "JOMTypedMapper.h"
 #import "JOMIdentityMapper.h"
-#import "JOMKeyValueMapper.h"
-#import "JOMKeyValuePathMapper.h"
-#import "JOMOptionalMapper.h"
+#import "JOMStringToURLMapper.h"
