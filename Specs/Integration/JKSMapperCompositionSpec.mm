@@ -19,12 +19,12 @@ describe(@"Mapper Composition", ^{
 
         mapper = JKSMapObject(nil, [NSDictionary class], [JKSPerson class],
                               @{@"person" : JKSMapObjectPath(@"parent", [NSDictionary class], [JKSPerson class],
-                                      @{@"id" : @"identifier",
-                                              @"name.first" : @"firstName",
-                                              @"name.last" : @"lastName",
-                                              @"age" : JKSStringToNumber(@"age"),
-                                              @"birth_date" : JKSStringToDateWithFormatter(@"birthDate", dotNetDateFormatter)}),
-                                @"identifier" : JKSOptional([[JKSIdentityMapper alloc] initWithDestinationKey:@"identifier"]),
+                                                             @{@"id" : @"identifier",
+                                                               @"name.first" : @"firstName",
+                                                               @"name.last" : @"lastName",
+                                                               @"age" : JKSStringToNumber(@"age"),
+                                                               @"birth_date" : JKSStringToDateWithFormatter(@"birthDate", dotNetDateFormatter)}),
+                                @"identifier" : JKSOptional(JKSIdentity(@"identifier")),
                                 @"gender" : JKSEnum(@"gender", @{@"unknown" : @(JKSPersonGenderUnknown),
                                                                  @"male" : @(JKSPersonGenderMale),
                                                                  @"female" : @(JKSPersonGenderFemale)})});
@@ -68,11 +68,11 @@ describe(@"Mapper Composition", ^{
             id<JKSMapper> reverseMapper = [mapper reverseMapperWithDestinationKey:nil];
             parsedObject = [reverseMapper objectFromSourceObject:expectedObjectGraph error:&error];
         });
-        
+
         it(@"should not error", ^{
             error should be_nil;
         });
-        
+
         it(@"should build the json correctly", ^{
             parsedObject should equal(expectedObjectStructure);
         });

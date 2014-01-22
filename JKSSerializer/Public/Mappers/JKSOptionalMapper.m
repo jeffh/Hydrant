@@ -1,6 +1,7 @@
 #import "JKSOptionalMapper.h"
 #import "JKSError.h"
 #import "JKSObjectFactory.h"
+#import "JKSIdentityMapper.h"
 
 @interface JKSOptionalMapper ()
 @property (strong, nonatomic) id<JKSMapper> wrappedMapper;
@@ -77,6 +78,12 @@ JKS_EXTERN
 JKSOptionalMapper *JKSOptional(id<JKSMapper> mapper)
 {
     return JKSOptionalWithDefault(mapper, nil);
+}
+
+JKS_EXTERN
+JKSOptionalMapper *JKSOptionalField(NSString *destinationKey)
+{
+    return JKSOptional(JKSIdentity(destinationKey));
 }
 
 JKS_EXTERN

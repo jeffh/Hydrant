@@ -8,3 +8,6 @@
 - (id)initWithDestinationKey:(NSString *)destinationKey;
 
 @end
+
+JKS_EXTERN
+JKSIdentityMapper *JKSIdentity(NSString *destinationKey);

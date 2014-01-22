@@ -21,6 +21,3 @@
 #import "JKSKeyValueMapper.h"
 #import "JKSKeyValuePathMapper.h"
 #import "JKSOptionalMapper.h"
-
-// deprecated
-#import "JKSDispatchMapper.h"

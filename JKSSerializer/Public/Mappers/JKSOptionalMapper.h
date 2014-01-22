@@ -13,6 +13,9 @@ JKS_EXTERN
 JKSOptionalMapper *JKSOptional(id<JKSMapper> mapper);
 
 JKS_EXTERN
+JKSOptionalMapper *JKSOptionalField(NSString *destinationKey);
+
+JKS_EXTERN
 JKSOptionalMapper *JKSOptionalWithDefault(id<JKSMapper> mapper, id defaultValue);
 
 JKS_EXTERN
