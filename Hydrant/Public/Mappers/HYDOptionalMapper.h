@@ -9,8 +9,6 @@ typedef id(^HYDValueBlock)();
 
 @interface HYDOptionalMapper : NSObject <HYDMapper>
 
-@property (strong, nonatomic) id<HYDFactory> factory;
-
 - (id)initWithMapper:(id<HYDMapper>)mapper defaultValue:(HYDValueBlock)defaultValue reverseDefaultValue:(HYDValueBlock)reverseDefaultValue;
 
 @end

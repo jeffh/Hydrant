@@ -4,8 +4,6 @@
 
 @interface HYDTypedMapper : NSObject <HYDMapper>
 
-@property (strong, nonatomic) id<HYDFactory> factory;
-
 - (id)initWithMapper:(id<HYDMapper>)mapper inputClasses:(NSArray *)inputClasses outputClasses:(NSArray *)outputClasses;
 
 @end

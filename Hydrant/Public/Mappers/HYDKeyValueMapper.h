@@ -8,7 +8,6 @@
 @interface HYDKeyValueMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) NSString *destinationKey;
-@property (strong, nonatomic) id<HYDFactory> factory;
 
 - (id)initWithDestinationKey:(NSString *)destinationKey
                    fromClass:(Class)sourceClass

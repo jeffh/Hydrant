@@ -1,6 +1,5 @@
 #import "HYDFirstMapper.h"
 #import "HYDError.h"
-#import "HYDObjectFactory.h"
 
 
 @interface HYDFirstMapper ()
@@ -17,7 +16,6 @@
     self = [super init];
     if (self) {
         self.mappers = mappers;
-        self.factory = [[HYDObjectFactory alloc] init];
     }
     return self;
 }

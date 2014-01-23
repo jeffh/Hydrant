@@ -9,6 +9,7 @@
 @property (strong, nonatomic) id<HYDMapper> wrappedMapper;
 @property (strong, nonatomic) HYDValueBlock defaultValueBlock;
 @property (strong, nonatomic) HYDValueBlock reverseDefaultValueBlock;
+@property (strong, nonatomic) id<HYDFactory> factory;
 
 @end
 

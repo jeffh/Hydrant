@@ -12,6 +12,7 @@
 @property (strong, nonatomic) Class sourceClass;
 @property (strong, nonatomic) Class destinationClass;
 @property (strong, nonatomic) NSDictionary *mapping;
+@property (strong, nonatomic) id<HYDFactory> factory;
 
 @end
 

@@ -3,7 +3,6 @@
 
 
 @interface HYDFirstMapper : NSObject <HYDMapper>
-@property (strong, nonatomic) id<HYDFactory> factory;
 
 - (id)initWithMappers:(NSArray *)mappers;
 

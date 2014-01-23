@@ -27,7 +27,6 @@
         self.wrappedMapper = mapper;
         self.allowedInputClasses = inputClasses;
         self.allowedOutputClasses = outputClasses;
-        self.factory = [[HYDObjectFactory alloc] init];
     }
     return self;
 }

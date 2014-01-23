@@ -28,7 +28,7 @@ static NSRegularExpression *dateRegExpr__;
 
 #pragma mark - NSFormatter
 
-- (BOOL)getObjectValue:(out __autoreleasing id *)obj forString:(NSString *)string errorDescription:(out NSString *__autoreleasing *)error
+- (BOOL)getObjectValue:(out __autoreleasing id *)obj forString:(NSString *)string errorDescription:(out __autoreleasing NSString **)error
 {
     NSTextCheckingResult *result = [dateRegExpr__ firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
     if (!result) {
