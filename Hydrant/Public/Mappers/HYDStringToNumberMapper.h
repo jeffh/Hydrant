@@ -2,10 +2,14 @@
 
 
 HYD_EXTERN
+HYD_OVERLOADED
 HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *dstKey);
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDStringToNumberByFormat(NSString *dstKey, NSNumberFormatterStyle numberFormatterStyle);
+HYD_OVERLOADED
+HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *dstKey, NSNumberFormatterStyle numberFormatterStyle);
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDStringToNumberByFormatter(NSString *dstKey, NSNumberFormatter *formatter);
+HYD_OVERLOADED
+HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *dstKey, NSNumberFormatter *formatter)
+HYD_REQUIRE_NON_NIL(2);

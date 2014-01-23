@@ -19,4 +19,5 @@
 
 
 HYD_EXTERN
-HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping);
+HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYD_REQUIRE_NON_NIL(2,3,4);

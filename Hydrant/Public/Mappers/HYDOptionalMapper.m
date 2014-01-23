@@ -69,25 +69,29 @@
 
 
 HYD_EXTERN
+HYD_OVERLOADED
 HYDOptionalMapper *HYDOptional(id<HYDMapper> mapper)
 {
     return HYDOptionalWithDefault(mapper, nil);
 }
 
 HYD_EXTERN
-HYDOptionalMapper *HYDOptionalField(NSString *destinationKey)
+HYD_OVERLOADED
+HYDOptionalMapper *HYDOptional(NSString *destinationKey)
 {
     return HYDOptional(HYDIdentity(destinationKey));
 }
 
 HYD_EXTERN
+HYD_OVERLOADED
 HYDOptionalMapper *HYDOptionalWithDefault(id<HYDMapper> mapper, id defaultValue)
 {
     return HYDOptionalWithDefaultAndReversedDefault(mapper, defaultValue, defaultValue);
 }
 
 HYD_EXTERN
-HYDOptionalMapper *HYDOptionalFieldWithDefault(NSString *destinationKey, id defaultValue)
+HYD_OVERLOADED
+HYDOptionalMapper *HYDOptionalWithDefault(NSString *destinationKey, id defaultValue)
 {
     return HYDOptionalWithDefault(HYDIdentity(destinationKey), defaultValue);
 }

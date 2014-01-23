@@ -23,7 +23,7 @@ describe(@"Mapper Composition", ^{
                                                                @"name.first" : @"firstName",
                                                                @"name.last" : @"lastName",
                                                                @"age" : HYDStringToNumber(@"age"),
-                                                               @"birth_date" : HYDStringToDateWithFormatter(@"birthDate", dotNetDateFormatter)}),
+                                                               @"birth_date" : HYDStringToDate(@"birthDate", dotNetDateFormatter)}),
                                 @"identifier" : HYDOptional(HYDIdentity(@"identifier")),
                                 @"gender" : HYDEnum(@"gender", @{@"unknown" : @(HYDPersonGenderUnknown),
                                                                  @"male" : @(HYDPersonGenderMale),

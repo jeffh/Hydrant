@@ -3,15 +3,17 @@
 
 
 HYD_EXTERN
+HYD_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDDateToString(NSString *dstKey, NSString *formatString)
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = formatString;
-    return HYDDateToStringWithFormatter(dstKey, dateFormatter);
+    return HYDDateToString(dstKey, dateFormatter);
 }
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDDateToStringWithFormatter(NSString *dstKey, NSDateFormatter *dateFormatter)
+HYD_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDDateToString(NSString *dstKey, NSDateFormatter *dateFormatter)
 {
     return HYDObjectToStringWithFormatter(dstKey, dateFormatter);
 }

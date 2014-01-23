@@ -12,7 +12,9 @@
 
 
 HYD_EXTERN
-HYDCollectionMapper *HYDArrayOf(id<HYDMapper> itemMapper);
+HYDCollectionMapper *HYDArrayOf(id<HYDMapper> itemMapper)
+HYD_REQUIRE_NON_NIL(1);
 
 HYD_EXTERN
-HYDCollectionMapper *HYDSetOf(id<HYDMapper> itemMapper);
+HYDCollectionMapper *HYDSetOf(id<HYDMapper> itemMapper)
+HYD_REQUIRE_NON_NIL(1);

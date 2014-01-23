@@ -11,4 +11,5 @@
 @end
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDObjectToStringWithFormatter(NSString *destinationKey, NSFormatter *formatter);
+HYDObjectToStringFormatterMapper *HYDObjectToStringWithFormatter(NSString *destinationKey, NSFormatter *formatter)
+HYD_REQUIRE_NON_NIL(2);

@@ -17,16 +17,25 @@ typedef id(^HYDValueBlock)();
 
 
 HYD_EXTERN
-HYDOptionalMapper *HYDOptional(id<HYDMapper> mapper);
+HYD_OVERLOADED
+HYDOptionalMapper *HYDOptional(id<HYDMapper> mapper)
+HYD_REQUIRE_NON_NIL(1);
 
 HYD_EXTERN
-HYDOptionalMapper *HYDOptionalField(NSString *destinationKey);
+HYD_OVERLOADED
+HYDOptionalMapper *HYDOptional(NSString *destinationKey)
+HYD_REQUIRE_NON_NIL(1);
 
 HYD_EXTERN
-HYDOptionalMapper *HYDOptionalWithDefault(id<HYDMapper> mapper, id defaultValue);
+HYD_OVERLOADED
+HYDOptionalMapper *HYDOptionalWithDefault(id<HYDMapper> mapper, id defaultValue)
+HYD_REQUIRE_NON_NIL(1);
 
 HYD_EXTERN
-HYDOptionalMapper *HYDOptionalFieldWithDefault(NSString *destinationKey, id defaultValue);
+HYD_OVERLOADED
+HYDOptionalMapper *HYDOptionalWithDefault(NSString *destinationKey, id defaultValue)
+HYD_REQUIRE_NON_NIL(1);
 
 HYD_EXTERN
-HYDOptionalMapper *HYDOptionalWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reversedDefault);
+HYDOptionalMapper *HYDOptionalWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reversedDefault)
+HYD_REQUIRE_NON_NIL(1);

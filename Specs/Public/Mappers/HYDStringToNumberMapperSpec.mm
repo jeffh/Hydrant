@@ -15,7 +15,7 @@ describe(@"HYDStringToNumberMapper", ^{
         NSNumber *number = @(1235555);
         NSString *numberString = [formatter stringFromNumber:number];
 
-        mapper = HYDStringToNumberByFormat(@"destKey", NSNumberFormatterDecimalStyle);
+        mapper = HYDStringToNumber(@"destKey", NSNumberFormatterDecimalStyle);
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = numberString;
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = [NSDate date];

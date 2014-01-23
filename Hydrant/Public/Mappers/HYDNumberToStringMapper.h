@@ -3,10 +3,14 @@
 
 
 HYD_EXTERN
+HYD_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destKey);
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDNumberToStringByFormat(NSString *destKey, NSNumberFormatterStyle numberFormatStyle);
+HYD_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destKey, NSNumberFormatterStyle numberFormatStyle);
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDNumberToStringByFormatter(NSString *destKey, NSNumberFormatter *numberFormatter);
+HYD_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destKey, NSNumberFormatter *numberFormatter)
+HYD_REQUIRE_NON_NIL(2);

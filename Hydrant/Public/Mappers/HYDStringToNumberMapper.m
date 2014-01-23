@@ -2,21 +2,24 @@
 
 
 HYD_EXTERN
+HYD_OVERLOADED
 HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *destKey)
 {
-    return HYDStringToNumberByFormat(destKey, NSNumberFormatterDecimalStyle);
+    return HYDStringToNumber(destKey, NSNumberFormatterDecimalStyle);
 }
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDStringToNumberByFormat(NSString *destKey, NSNumberFormatterStyle numberFormaterStyle)
+HYD_OVERLOADED
+HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *destKey, NSNumberFormatterStyle numberFormaterStyle)
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     numberFormatter.numberStyle = numberFormaterStyle;
-    return HYDStringToNumberByFormatter(destKey, numberFormatter);
+    return HYDStringToNumber(destKey, numberFormatter);
 }
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDStringToNumberByFormatter(NSString *destKey, NSNumberFormatter *numberFormatter)
+HYD_OVERLOADED
+HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *destKey, NSNumberFormatter *numberFormatter)
 {
     return HYDStringToObjectWithFormatter(destKey, numberFormatter);
 }

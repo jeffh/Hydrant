@@ -16,4 +16,5 @@ HYD_EXTERN
 HYDStringToURLMapper *HYDStringToURL(NSString *destinationKey);
 
 HYD_EXTERN
-HYDStringToURLMapper *HYDStringToURLOfScheme(NSString *destinationKey, NSArray *allowedSchemes);
+HYDStringToURLMapper *HYDStringToURLOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+HYD_REQUIRE_NON_NIL(2);
