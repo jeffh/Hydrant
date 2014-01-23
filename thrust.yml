@@ -6,16 +6,27 @@ identity: iOS Signing Identity
 
 sim_binary: 'ios-sim' # or 'Specs/bin/waxim'
 spec_targets:
-  specs:
+  specs7:
     name: Specs # Name of the spec build target (used in the description of the generated rake task)
     configuration: Release # or whichever iOS configuration you want to run specs under
     target: Specs # Name of the spec build target
     sdk: 7.0  # SDK version to build/run the specs with
-  osxspecs:
+  osxspecs108:
     name: OSXSpecs # Name of the spec build target (used in the description of the generated rake task)
     configuration: Release # or whichever iOS configuration you want to run specs under
     target: OSXSpecs # Name of the spec build target
     sdk: 10.8  # SDK version to build/run the specs with
+    os: macosx
+  specs6:
+    name: Specs # Name of the spec build target (used in the description of the generated rake task)
+    configuration: Release # or whichever iOS configuration you want to run specs under
+    target: Specs # Name of the spec build target
+    sdk: 6.1  # SDK version to build/run the specs with
+  osxspecs107:
+    name: OSXSpecs # Name of the spec build target (used in the description of the generated rake task)
+    configuration: Release # or whichever iOS configuration you want to run specs under
+    target: OSXSpecs # Name of the spec build target
+    sdk: 10.7  # SDK version to build/run the specs with
     os: macosx
 
 #  integration:
