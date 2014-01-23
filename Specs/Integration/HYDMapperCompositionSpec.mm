@@ -77,7 +77,6 @@ describe(@"Mapper Composition", ^{
             parsedObject should equal(expectedObjectStructure);
         });
     });
-    
 });
 
 SPEC_END
