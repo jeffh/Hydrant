@@ -68,11 +68,11 @@ describe(@"Mapper Composition", ^{
             id<HYDMapper> reverseMapper = [mapper reverseMapperWithDestinationKey:nil];
             parsedObject = [reverseMapper objectFromSourceObject:expectedObjectGraph error:&error];
         });
-        
+
         it(@"should not error", ^{
             error should be_nil;
         });
-        
+
         it(@"should build the json correctly", ^{
             parsedObject should equal(expectedObjectStructure);
         });
