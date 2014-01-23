@@ -20,10 +20,5 @@
 // standalone mappers
 #import "HYDStringToObjectFormatterMapper.h"
 #import "HYDObjectToStringFormatterMapper.h"
-#import "HYDDateToStringMapper.h"
-#import "HYDNumberToStringMapper.h"
-#import "HYDStringToDateMapper.h"
-#import "HYDStringToNumberMapper.h"
 #import "HYDEnumMapper.h"
 #import "HYDIdentityMapper.h"
-#import "HYDStringToURLMapper.h"

@@ -106,17 +106,17 @@ HYDObjectToStringFormatterMapper *HYDDateToString(NSString *dstKey, NSDateFormat
 #pragma mark - URLFormatter Constructors
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDURLToString(NSString *destinationKey)
+HYDObjectToStringFormatterMapper *HYDURLToString(NSString *destinationKey)
 {
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] init];
-    return HYDStringToObjectWithFormatter(destinationKey, formatter);
+    return HYDObjectToStringWithFormatter(destinationKey, formatter);
 }
 
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+HYDObjectToStringFormatterMapper *HYDURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
 {
     NSSet *schemes = [NSSet setWithArray:[allowedSchemes valueForKey:@"lowercaseString"]];
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] initWithAllowedSchemes:schemes];
-    return HYDStringToObjectWithFormatter(destinationKey, formatter);
+    return HYDObjectToStringWithFormatter(destinationKey, formatter);
 }

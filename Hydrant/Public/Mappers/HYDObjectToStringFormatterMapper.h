@@ -48,8 +48,8 @@ HYD_REQUIRE_NON_NIL(2);
 #pragma mark - URLFormatter Constructors
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDURLToString(NSString *destinationKey);
+HYDObjectToStringFormatterMapper *HYDURLToString(NSString *destinationKey);
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+HYDObjectToStringFormatterMapper *HYDURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
 HYD_REQUIRE_NON_NIL(2);
