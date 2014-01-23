@@ -145,33 +145,19 @@ describe(@"HYDCollectionMapper", ^{
         });
     });
 
-    describe(@"reverse mapping", ^{
-        __block id<HYDMapper> reverseMapper;
-        __block HYDFakeMapper *reverseChildMapper;
-
+    describe(@"reverse mapper", ^{
         beforeEach(^{
-            reverseChildMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDFakeMapper *reverseChildMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
             childMapper.reverseMapperToReturn = reverseChildMapper;
             childMapper.objectsToReturn = @[@2];
             reverseChildMapper.objectsToReturn = @[@1];
-            
-            reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
+
+            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @[@1];
+            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper];
         });
 
-        it(@"should pass the new destination key to the reverse mapper", ^{
-            childMapper.reverseMapperDestinationKeyReceived should equal(@"otherKey");
-            [reverseMapper destinationKey] should equal(@"otherKey");
-        });
-
-        it(@"should produce an inverse mapper", ^{
-            sourceObject = @[@1];
-            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
-            error should be_nil;
-
-            id result = [reverseMapper objectFromSourceObject:parsedObject error:&error];
-            error should be_nil;
-            result should equal(sourceObject);
-        });
+        itShouldBehaveLike(@"a mapper that does the inverse of the original");
     });
 });
 

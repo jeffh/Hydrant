@@ -1,7 +1,6 @@
 #import "HYDDotNetDateFormatter.h"
+#import "HYDFunctions.h"
 
-@interface HYDDotNetDateFormatter ()
-@end
 
 @implementation HYDDotNetDateFormatter
 
@@ -29,23 +28,26 @@ static NSRegularExpression *dateRegExpr__;
 
 #pragma mark - NSFormatter
 
-// TODO: support NSFormatter methods
-- (BOOL)getObjectValue:(out __autoreleasing id *)obj forString:(NSString *)string range:(inout NSRange *)rangep error:(out NSError *__autoreleasing *)error
+- (BOOL)getObjectValue:(out __autoreleasing id *)obj forString:(NSString *)string errorDescription:(out NSString *__autoreleasing *)error
 {
-    [self doesNotRecognizeSelector:_cmd];
-    return NO;
+    NSTextCheckingResult *result = [dateRegExpr__ firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
+    if (!result) {
+        *error = HYDLocalizedStringFormat(@"The value '%@' is not a valid .net date", string);
+        return NO;
+    }
+    NSString *epochTimeInMilliseconds = [string substringWithRange:[result rangeAtIndex:1]];
+    *obj = [NSDate dateWithTimeIntervalSince1970:epochTimeInMilliseconds.doubleValue / 1000.0];
+    return YES;
 }
 
 - (NSString *)stringForObjectValue:(id)obj
 {
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
+    if (![obj isKindOfClass:[NSDate class]]) {
+        return nil;
+    }
 
-#pragma mark - NSDateFormatter
+    NSDate *date = obj;
 
-- (NSString *)stringFromDate:(NSDate *)date
-{
     NSString *timeZone = [super stringForObjectValue:date];
     if ([timeZone isEqualToString:@"+0000"]) {
         timeZone = @"";
@@ -53,16 +55,5 @@ static NSRegularExpression *dateRegExpr__;
     NSTimeInterval milliseconds = date.timeIntervalSince1970 * 1000.0;
     return [NSString stringWithFormat:@"/Date(%1.0f%@)/", milliseconds, timeZone];
 }
-
-- (NSDate *)dateFromString:(NSString *)string
-{
-    NSTextCheckingResult *result = [dateRegExpr__ firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
-    if (!result) {
-        return nil;
-    }
-    NSString *epochTimeInMilliseconds = [string substringWithRange:[result rangeAtIndex:1]];
-    return [NSDate dateWithTimeIntervalSince1970:epochTimeInMilliseconds.doubleValue / 1000.0];
-}
-
 
 @end

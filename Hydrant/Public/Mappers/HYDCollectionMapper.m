@@ -4,11 +4,15 @@
 #import "HYDMutableCollection.h"
 #import "HYDError.h"
 
+
 @interface HYDCollectionMapper ()
+
 @property (strong, nonatomic) Class sourceCollectionClass;
 @property (strong, nonatomic) Class destinationCollectionClass;
 @property (strong, nonatomic) id<HYDMapper> wrappedMapper;
+
 @end
+
 
 @implementation HYDCollectionMapper
 
@@ -30,7 +34,7 @@
     return self;
 }
 
-#pragma mark - <JOMMapper>
+#pragma mark - <HYDMapper>
 
 - (NSString *)destinationKey
 {
@@ -102,11 +106,13 @@
 
 @end
 
+
 HYD_EXTERN
 HYDCollectionMapper *HYDArrayOf(id<HYDMapper> itemMapper)
 {
     return [[HYDCollectionMapper alloc] initWithItemMapper:itemMapper sourceCollectionClass:[NSArray class] destinationCollectionClass:[NSArray class]];
 }
+
 
 HYD_EXTERN
 HYDCollectionMapper *HYDSetOf(id<HYDMapper> itemMapper)

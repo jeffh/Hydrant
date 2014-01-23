@@ -2,9 +2,13 @@
 #import "HYDError.h"
 #import "HYDObjectFactory.h"
 
+
 @interface HYDFirstMapper ()
+
 @property (strong, nonatomic) NSArray *mappers;
+
 @end
+
 
 @implementation HYDFirstMapper
 
@@ -18,7 +22,7 @@
     return self;
 }
 
-#pragma mark - <JOMMapper>
+#pragma mark - <HYDMapper>
 
 - (NSString *)destinationKey
 {
@@ -70,8 +74,9 @@
 
 @end
 
+
 HYD_EXTERN
-HYDFirstMapper *HYDFirstArray(NSArray *mappers)
+HYDFirstMapper *HYDFirstInMapperArray(NSArray *mappers)
 {
     return [[HYDFirstMapper alloc] initWithMappers:mappers];
 }

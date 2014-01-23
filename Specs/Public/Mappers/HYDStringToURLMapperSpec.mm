@@ -121,7 +121,13 @@ describe(@"HYDStringToURLMapper", ^{
         });
     });
 
-    xdescribe(@"reverse mapping", ^{
+    xdescribe(@"reverse mapper", ^{
+        beforeEach(^{
+            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"http://jeffhui.net";
+        });
+
+        itShouldBehaveLike(@"a mapper that does the inverse of the original");
     });
 });
 

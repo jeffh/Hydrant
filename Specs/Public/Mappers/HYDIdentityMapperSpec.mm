@@ -33,30 +33,14 @@ describe(@"HYDIdentityMapper", ^{
         });
     });
 
-    describe(@"reverse mapping", ^{
-        __block id<HYDMapper> reverseMapper;
 
+    describe(@"reverse mapper", ^{
         beforeEach(^{
-            reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
+            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @1;
         });
 
-        it(@"should pass the destination key to the reverse mapper", ^{
-            [reverseMapper destinationKey] should equal(@"otherKey");
-        });
-
-        describe(@"parsing an object", ^{
-            beforeEach(^{
-                parsedObject = [reverseMapper objectFromSourceObject:@1 error:&error];
-            });
-
-            it(@"should never produce an error", ^{
-                error should be_nil;
-            });
-
-            it(@"should return the same value it was given", ^{
-                parsedObject should equal(@1);
-            });
-        });
+        itShouldBehaveLike(@"a mapper that does the inverse of the original");
     });
 });
 

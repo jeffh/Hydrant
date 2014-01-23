@@ -2,11 +2,15 @@
 #import "HYDError.h"
 #import "HYDObjectFactory.h"
 
+
 @interface HYDTypedMapper ()
+
 @property (strong, nonatomic) id<HYDMapper> wrappedMapper;
 @property (copy, nonatomic) NSArray *allowedInputClasses;
 @property (copy, nonatomic) NSArray *allowedOutputClasses;
+
 @end
+
 
 @implementation HYDTypedMapper
 
@@ -44,7 +48,7 @@
     return NO;
 }
 
-#pragma mark - <JOMMapper>
+#pragma mark - <HYDMapper>
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {

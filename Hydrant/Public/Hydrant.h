@@ -18,6 +18,8 @@
 #import "HYDOptionalMapper.h"
 
 // standalone mappers
+#import "HYDStringToObjectFormatterMapper.h"
+#import "HYDObjectToStringFormatterMapper.h"
 #import "HYDDateToStringMapper.h"
 #import "HYDNumberToStringMapper.h"
 #import "HYDStringToDateMapper.h"

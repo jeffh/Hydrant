@@ -17,17 +17,17 @@ describe(@"Mapper Composition", ^{
     beforeEach(^{
         HYDDotNetDateFormatter *dotNetDateFormatter = [[HYDDotNetDateFormatter alloc] init];
 
-        mapper = HYDMapObject(nil, [NSDictionary class], [HYDPerson class],
-                @{@"person" : HYDMapObjectPath(@"parent", [NSDictionary class], [HYDPerson class],
-                        @{@"id" : @"identifier",
-                                @"name.first" : @"firstName",
-                                @"name.last" : @"lastName",
-                                @"age" : HYDStringToNumber(@"age"),
-                                @"birth_date" : HYDStringToDateWithFormatter(@"birthDate", dotNetDateFormatter)}),
-                        @"identifier" : HYDOptional(HYDIdentity(@"identifier")),
-                        @"gender" : HYDEnum(@"gender", @{@"unknown" : @(HYDPersonGenderUnknown),
-                        @"male" : @(HYDPersonGenderMale),
-                        @"female" : @(HYDPersonGenderFemale)})});
+        mapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [HYDPerson class],
+                              @{@"person" : HYDMapObjectPath(@"parent", [NSDictionary class], [HYDPerson class],
+                                                             @{@"id" : @"identifier",
+                                                               @"name.first" : @"firstName",
+                                                               @"name.last" : @"lastName",
+                                                               @"age" : HYDStringToNumber(@"age"),
+                                                               @"birth_date" : HYDStringToDateWithFormatter(@"birthDate", dotNetDateFormatter)}),
+                                @"identifier" : HYDOptional(HYDIdentity(@"identifier")),
+                                @"gender" : HYDEnum(@"gender", @{@"unknown" : @(HYDPersonGenderUnknown),
+                                                                 @"male" : @(HYDPersonGenderMale),
+                                                                 @"female" : @(HYDPersonGenderFemale)})});
         expectedObjectStructure = @{@"person": @{@"id": @1,
                                                  @"name": @{@"first": @"John",
                                                             @"last": @"Doe"},
@@ -68,11 +68,11 @@ describe(@"Mapper Composition", ^{
             id<HYDMapper> reverseMapper = [mapper reverseMapperWithDestinationKey:nil];
             parsedObject = [reverseMapper objectFromSourceObject:expectedObjectGraph error:&error];
         });
-
+        
         it(@"should not error", ^{
             error should be_nil;
         });
-
+        
         it(@"should build the json correctly", ^{
             parsedObject should equal(expectedObjectStructure);
         });

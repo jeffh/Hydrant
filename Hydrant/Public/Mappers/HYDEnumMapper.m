@@ -1,9 +1,13 @@
 #import "HYDEnumMapper.h"
 #import "HYDError.h"
 
+
 @interface HYDEnumMapper ()
+
 @property (strong, nonatomic) NSDictionary *mapping;
+
 @end
+
 
 @implementation HYDEnumMapper
 
@@ -23,7 +27,7 @@
     return self;
 }
 
-#pragma mark - <JOMMapper>
+#pragma mark - <HYDMapper>
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
@@ -52,6 +56,7 @@
 }
 
 @end
+
 
 HYD_EXTERN
 HYDEnumMapper *HYDEnum(NSString *dstKey, NSDictionary *mapping)

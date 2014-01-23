@@ -41,8 +41,12 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
 
     if (underlyingErrors.count) {
         NSMutableString *details = [NSMutableString stringWithFormat:@"Multiple errors occurred:\n"];
-        for (HYDError *error in underlyingErrors) {
-            [details appendFormat:@" - %@", [error underlyingErrorsDescription]];
+        for (NSError *error in underlyingErrors) {
+            if ([error respondsToSelector:@selector(underlyingErrorsDescription)]) {
+                [details appendFormat:@" - %@", [(HYDError *)error underlyingErrorsDescription]];
+            } else {
+                [details appendFormat:@" - %@", [error description]];
+            }
         }
         userInfo[NSLocalizedDescriptionKey] = details;
     } else {
@@ -123,8 +127,12 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
     NSArray *underlyingErrors = self.userInfo[HYDUnderlyingErrorsKey];
     if (underlyingErrors.count) {
         NSMutableString *string = [NSMutableString string];
-        for (HYDError *error in underlyingErrors) {
-            [string appendFormat:@"%@\n", [error underlyingErrorsDescription]];
+        for (NSError *error in underlyingErrors) {
+            if ([error respondsToSelector:@selector(underlyingErrorsDescription)]) {
+                [string appendFormat:@"%@\n", [(HYDError *)error underlyingErrorsDescription]];
+            } else {
+                [string appendFormat:@"%@\n", [error description]];
+            }
         }
         return string;
     } else {

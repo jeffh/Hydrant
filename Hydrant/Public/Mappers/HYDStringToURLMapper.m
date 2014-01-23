@@ -1,6 +1,7 @@
 #import "HYDStringToURLMapper.h"
 #import "HYDError.h"
 
+
 @implementation HYDStringToURLMapper
 
 - (id)init
@@ -24,7 +25,7 @@
     return self;
 }
 
-#pragma mark - <JOMMapper>
+#pragma mark - <HYDMapper>
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
@@ -62,6 +63,7 @@
 }
 
 @end
+
 
 HYD_EXTERN
 HYDStringToURLMapper *HYDStringToURL(NSString *destinationKey)

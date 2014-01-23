@@ -6,11 +6,15 @@
 #import "HYDClassInspector.h"
 #import "HYDProperty.h"
 
+
 @interface HYDKeyValueMapper ()
+
 @property (strong, nonatomic) Class sourceClass;
 @property (strong, nonatomic) Class destinationClass;
 @property (strong, nonatomic) NSDictionary *mapping;
+
 @end
+
 
 @implementation HYDKeyValueMapper
 
@@ -43,7 +47,7 @@
     self.mapping = [normalizedMapping copy];
 }
 
-#pragma mark - <JOMMapper>
+#pragma mark - <HYDMapper>
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
@@ -140,6 +144,7 @@
 }
 
 @end
+
 
 HYD_EXTERN
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)

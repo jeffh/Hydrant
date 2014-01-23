@@ -14,8 +14,8 @@ describe(@"HYDEnumMapper", ^{
     beforeEach(^{
         error = nil;
         mapper = HYDEnum(@"dest", @{@(HYDPersonGenderUnknown) : @"Unknown",
-                @(HYDPersonGenderMale) : @"Male",
-                @(HYDPersonGenderFemale) : @"Female"});
+                                    @(HYDPersonGenderMale) : @"Male",
+                                    @(HYDPersonGenderFemale) : @"Female"});
     });
 
     it(@"should have the destination key equal to what it was given", ^{
@@ -71,60 +71,31 @@ describe(@"HYDEnumMapper", ^{
 
     describe(@"reverse mapper", ^{
         beforeEach(^{
-            mapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
+            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
         });
 
-        it(@"should have its given key as its new destination key", ^{
-            mapper.destinationKey should equal(@"otherKey");
+        context(@"with a female value", ^{
+            beforeEach(^{
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDPersonGenderFemale);
+            });
+
+            itShouldBehaveLike(@"a mapper that does the inverse of the original");
         });
 
-        describe(@"parsing the source object", ^{
-            __block id sourceObject;
-            __block id parsedObject;
-
-            subjectAction(^{
-                parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+        context(@"with a male value", ^{
+            beforeEach(^{
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDPersonGenderMale);
             });
 
-            context(@"when an enumerable value is provided", ^{
-                beforeEach(^{
-                    sourceObject = @"Female";
-                });
+            itShouldBehaveLike(@"a mapper that does the inverse of the original");
+        });
 
-                it(@"should not have any error", ^{
-                    error should be_nil;
-                });
-
-                it(@"should produce the string equivalent", ^{
-                    parsedObject should equal(@(HYDPersonGenderFemale));
-                });
+        context(@"with an unknown value", ^{
+            beforeEach(^{
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDPersonGenderUnknown);
             });
 
-            context(@"when an unknown value is provided", ^{
-                beforeEach(^{
-                    sourceObject = @"Pizza";
-                });
-
-                it(@"should produce a fatal error", ^{
-                    error.isFatal should be_truthy;
-                    error.domain should equal(HYDErrorDomain);
-                    error.code should equal(HYDErrorInvalidSourceObjectValue);
-                });
-            });
-
-            context(@"when nil is provided", ^{
-                beforeEach(^{
-                    sourceObject = nil;
-                });
-
-                it(@"should not have any error", ^{
-                    error should_not be_nil;
-                });
-                
-                it(@"should produce nil", ^{
-                    parsedObject should be_nil;
-                });
-            });
+            itShouldBehaveLike(@"a mapper that does the inverse of the original");
         });
     });
 });

@@ -1,6 +1,7 @@
 #import "HYDMapper.h"
 #import "HYDBase.h"
 
+
 @interface HYDFirstMapper : NSObject <HYDMapper>
 @property (strong, nonatomic) id<HYDFactory> factory;
 
@@ -8,7 +9,8 @@
 
 @end
 
-HYD_EXTERN
-HYDFirstMapper *HYDFirstArray(NSArray *mappers);
 
-#define HYDFirst(...) (HYDFirstArray(@[ __VA_ARGS__ ]))
+HYD_EXTERN
+HYDFirstMapper *HYDFirstInMapperArray(NSArray *mappers);
+
+#define HYDFirst(...) (HYDFirstInMapperArray(@[ __VA_ARGS__ ]))

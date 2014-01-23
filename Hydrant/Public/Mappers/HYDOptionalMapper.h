@@ -1,16 +1,20 @@
 #import "HYDMapper.h"
 #import "HYDBase.h"
 
+
 @class HYDObjectFactory;
 
 typedef id(^HYDValueBlock)();
 
+
 @interface HYDOptionalMapper : NSObject <HYDMapper>
+
 @property (strong, nonatomic) id<HYDFactory> factory;
 
 - (id)initWithMapper:(id<HYDMapper>)mapper defaultValue:(HYDValueBlock)defaultValue reverseDefaultValue:(HYDValueBlock)reverseDefaultValue;
 
 @end
+
 
 HYD_EXTERN
 HYDOptionalMapper *HYDOptional(id<HYDMapper> mapper);

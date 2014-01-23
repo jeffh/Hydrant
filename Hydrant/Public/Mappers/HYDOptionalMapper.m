@@ -3,11 +3,15 @@
 #import "HYDObjectFactory.h"
 #import "HYDIdentityMapper.h"
 
+
 @interface HYDOptionalMapper ()
+
 @property (strong, nonatomic) id<HYDMapper> wrappedMapper;
 @property (strong, nonatomic) HYDValueBlock defaultValueBlock;
 @property (strong, nonatomic) HYDValueBlock reverseDefaultValueBlock;
+
 @end
+
 
 @implementation HYDOptionalMapper
 
@@ -29,7 +33,7 @@
     return self;
 }
 
-#pragma mark - <JOMMapper>
+#pragma mark - <HYDMapper>
 
 - (NSString *)destinationKey
 {
@@ -62,6 +66,7 @@
 
 
 @end
+
 
 HYD_EXTERN
 HYDOptionalMapper *HYDOptional(id<HYDMapper> mapper)

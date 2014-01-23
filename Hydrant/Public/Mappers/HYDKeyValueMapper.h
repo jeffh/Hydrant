@@ -1,7 +1,9 @@
 #import "HYDMapper.h"
 #import "HYDBase.h"
 
+
 @class HYDClassInspector;
+
 
 @interface HYDKeyValueMapper : NSObject <HYDMapper>
 
@@ -14,6 +16,7 @@
                      mapping:(NSDictionary *)mapping;
 
 @end
+
 
 HYD_EXTERN
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping);
