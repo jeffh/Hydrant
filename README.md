@@ -1,5 +1,5 @@
-JOM
-===
+Hydrant
+=======
 
 A simple object data mapper for Objective-C.
 
@@ -30,6 +30,7 @@ But then you need to handle error cases. You don't want your app to crash, so:
  - Use a default value if any of the above cases fail
  - Do partial recovery, like excluding an object in an array of JSON objects if that one object is invalid.
 
+Of course, if you can fully control the API you hit, this library isn't much of a big deal.
 
 Installation
 ------------
@@ -37,7 +38,7 @@ Installation
 Currently installation is by git submodule add this project and adding it
 to your XCodeProject (for now).
 
-Add the JOM static library for your dependencies or use the source directly.
+Add the Hydrant static library for your dependencies or use the source directly.
 
 Usage
 -----
