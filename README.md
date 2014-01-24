@@ -85,7 +85,7 @@ We build a tree of mappers to handle this:
 ```
 #import <Hydrant.h>
 
-@interface Person // assuming implementation
+@interface Person : NSObject // assuming implementation
 @property (assign, nonatomic) NSInteger identifier;
 @property (copy, nonatomic) NSString *firstName;
 @property (copy, nonatomic) NSArray *friends;
