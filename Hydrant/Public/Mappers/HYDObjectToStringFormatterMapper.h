@@ -15,22 +15,22 @@
 #pragma mark - Base Constructor
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDObjectToStringWithFormatter(NSString *destinationKey, NSFormatter *formatter)
+HYDObjectToStringFormatterMapper *HYDMapObjectToStringByFormatter(NSString *destinationKey, NSFormatter *formatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - NumberFormatter Constructors
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destinationKey);
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destinationKey, NSNumberFormatterStyle numberFormatStyle);
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey, NSNumberFormatterStyle numberFormatStyle);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destinationKey, NSNumberFormatter *numberFormatter)
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey, NSNumberFormatter *numberFormatter)
 HYD_REQUIRE_NON_NIL(2);
 
 
@@ -38,18 +38,18 @@ HYD_REQUIRE_NON_NIL(2);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDDateToString(NSString *dstKey, NSString *formatString);
+HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *dstKey, NSString *formatString);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDDateToString(NSString *dstKey, NSDateFormatter *dateFormatter)
+HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *dstKey, NSDateFormatter *dateFormatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - URLFormatter Constructors
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDURLToString(NSString *destinationKey);
+HYDObjectToStringFormatterMapper *HYDMapURLToString(NSString *destinationKey);
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
 HYD_REQUIRE_NON_NIL(2);

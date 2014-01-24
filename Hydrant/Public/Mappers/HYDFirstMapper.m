@@ -74,7 +74,7 @@
 
 
 HYD_EXTERN
-HYDFirstMapper *HYDFirstInMapperArray(NSArray *mappers)
+HYDFirstMapper *HYDMapFirstInMapperArray(NSArray *mappers)
 {
     return [[HYDFirstMapper alloc] initWithMappers:mappers];
 }

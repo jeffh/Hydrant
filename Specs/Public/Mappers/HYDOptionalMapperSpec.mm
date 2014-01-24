@@ -18,7 +18,7 @@ describe(@"HYDOptionalMapper", ^{
     beforeEach(^{
         childMapper = [[HYDFakeMapper alloc] init];
         childMapper.destinationKey = @"destinationKey";
-        mapper = HYDOptionalWithDefault(childMapper, @42);
+        mapper = HYDMapOptionallyWithDefault(childMapper, @42);
     });
 
     it(@"should ask the child mapper for the destination key", ^{

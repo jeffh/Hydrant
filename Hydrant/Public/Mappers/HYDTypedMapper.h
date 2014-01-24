@@ -10,9 +10,9 @@
 
 
 HYD_EXTERN
-HYDTypedMapper *HYDEnforceType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
+HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
 HYD_REQUIRE_NON_NIL(1,2,3);
 
 HYD_EXTERN
-HYDTypedMapper *HYDEnforceTypes(id<HYDMapper> mapperToWrap, NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
+HYDTypedMapper *HYDMapTypes(id<HYDMapper> mapperToWrap, NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
 HYD_REQUIRE_NON_NIL(1,2,3);

@@ -20,7 +20,7 @@ describe(@"HYDTypedMapper", ^{
         innerMapper = nice_fake_for(@protocol(HYDMapper));
         innerMapper stub_method(@selector(destinationKey)).and_return(@"mah-key");
 
-        mapper = HYDEnforceTypes(innerMapper,
+        mapper = HYDMapTypes(innerMapper,
                 @[[NSString class], [NSArray class]],
                 @[[NSNumber class], [NSArray class]]);
     });

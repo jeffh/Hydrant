@@ -13,9 +13,9 @@ describe(@"HYDEnumMapper", ^{
 
     beforeEach(^{
         error = nil;
-        mapper = HYDEnum(@"dest", @{@(HYDPersonGenderUnknown) : @"Unknown",
-                                    @(HYDPersonGenderMale) : @"Male",
-                                    @(HYDPersonGenderFemale) : @"Female"});
+        mapper = HYDMapEnum(@"dest", @{@(HYDPersonGenderUnknown) : @"Unknown",
+                @(HYDPersonGenderMale) : @"Male",
+                @(HYDPersonGenderFemale) : @"Female"});
     });
 
     it(@"should have the destination key equal to what it was given", ^{

@@ -12,4 +12,4 @@
 
 
 HYD_EXTERN
-HYDIdentityMapper *HYDIdentity(NSString *destinationKey);
+HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey);

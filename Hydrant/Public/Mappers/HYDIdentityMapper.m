@@ -33,7 +33,7 @@
 
 
 HYD_EXTERN
-HYDIdentityMapper *HYDIdentity(NSString *destinationKey)
+HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
 {
     return [[HYDIdentityMapper alloc] initWithDestinationKey:destinationKey];
 }

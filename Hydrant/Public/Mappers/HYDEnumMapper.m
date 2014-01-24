@@ -59,7 +59,7 @@
 
 
 HYD_EXTERN
-HYDEnumMapper *HYDEnum(NSString *dstKey, NSDictionary *mapping)
+HYDEnumMapper *HYDMapEnum(NSString *dstKey, NSDictionary *mapping)
 {
     return [[HYDEnumMapper alloc] initWithDestinationKey:dstKey mapping:mapping];
 }

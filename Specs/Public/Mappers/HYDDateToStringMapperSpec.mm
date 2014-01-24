@@ -22,7 +22,7 @@ describe(@"HYDDateToStringMapper", ^{
         NSDate *date = [referenceDateComponents date];
         NSString *dateString = @"2012-02-01 at 14:30:45";
 
-        mapper = HYDDateToString(@"dateKey", @"yyyy-MM-dd 'at' HH:mm:ss");
+        mapper = HYDMapDateToString(@"dateKey", @"yyyy-MM-dd 'at' HH:mm:ss");
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = date;
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";

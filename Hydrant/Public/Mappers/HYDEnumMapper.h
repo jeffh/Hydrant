@@ -12,5 +12,5 @@
 
 
 HYD_EXTERN
-HYDEnumMapper *HYDEnum(NSString *dstKey, NSDictionary *mapping)
+HYDEnumMapper *HYDMapEnum(NSString *dstKey, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2);

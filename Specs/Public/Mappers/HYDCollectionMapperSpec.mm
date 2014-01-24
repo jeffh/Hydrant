@@ -18,7 +18,7 @@ describe(@"HYDCollectionMapper", ^{
 
     beforeEach(^{
         childMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"key"];
-        mapper = HYDArrayOf(childMapper);
+        mapper = HYDMapArrayOf(childMapper);
     });
 
     it(@"should return the destination key of its child mapper", ^{

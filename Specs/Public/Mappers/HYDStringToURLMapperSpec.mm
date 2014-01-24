@@ -11,7 +11,7 @@ describe(@"HYDStringToURLMapper", ^{
     __block id<HYDMapper> mapper;
 
     beforeEach(^{
-        mapper = HYDStringToURL(@"destinationKey");
+        mapper = HYDMapStringToURL(@"destinationKey");
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @"http://jeffhui.net";
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @1;

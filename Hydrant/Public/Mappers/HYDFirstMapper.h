@@ -10,6 +10,6 @@
 
 
 HYD_EXTERN
-HYDFirstMapper *HYDFirstInMapperArray(NSArray *mappers);
+HYDFirstMapper *HYDMapFirstInMapperArray(NSArray *mappers);
 
-#define HYDFirst(...) (HYDFirstInMapperArray(@[ __VA_ARGS__ ]))
+#define HYDMapFirst(...) (HYDMapFirstInMapperArray(@[ __VA_ARGS__ ]))

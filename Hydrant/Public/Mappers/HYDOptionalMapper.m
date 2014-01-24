@@ -71,34 +71,34 @@
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDOptionalMapper *HYDOptional(id<HYDMapper> mapper)
+HYDOptionalMapper *HYDMapOptionally(id<HYDMapper> mapper)
 {
-    return HYDOptionalWithDefault(mapper, nil);
+    return HYDMapOptionallyWithDefault(mapper, nil);
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDOptionalMapper *HYDOptional(NSString *destinationKey)
+HYDOptionalMapper *HYDMapOptionally(NSString *destinationKey)
 {
-    return HYDOptional(HYDIdentity(destinationKey));
+    return HYDMapOptionally(HYDMapIdentity(destinationKey));
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDOptionalMapper *HYDOptionalWithDefault(id<HYDMapper> mapper, id defaultValue)
+HYDOptionalMapper *HYDMapOptionallyWithDefault(id<HYDMapper> mapper, id defaultValue)
 {
-    return HYDOptionalWithDefaultAndReversedDefault(mapper, defaultValue, defaultValue);
+    return HYDMapOptionallyWithDefaultAndReversedDefault(mapper, defaultValue, defaultValue);
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDOptionalMapper *HYDOptionalWithDefault(NSString *destinationKey, id defaultValue)
+HYDOptionalMapper *HYDMapOptionallyWithDefault(NSString *destinationKey, id defaultValue)
 {
-    return HYDOptionalWithDefault(HYDIdentity(destinationKey), defaultValue);
+    return HYDMapOptionallyWithDefault(HYDMapIdentity(destinationKey), defaultValue);
 }
 
 HYD_EXTERN
-HYDOptionalMapper *HYDOptionalWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reversedDefault)
+HYDOptionalMapper *HYDMapOptionallyWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reversedDefault)
 {
     return [[HYDOptionalMapper alloc] initWithMapper:mapper
                                         defaultValue:^{ return defaultValue; }

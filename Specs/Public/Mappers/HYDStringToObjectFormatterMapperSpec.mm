@@ -14,7 +14,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
 
     beforeEach(^{
         formatter = [[HYDFakeFormatter alloc] init];
-        mapper = HYDStringToObjectWithFormatter(@"destinationKey", formatter);
+        mapper = HYDMapStringToObjectByFormatter(@"destinationKey", formatter);
     });
 
     it(@"should return the same destination key it was given", ^{

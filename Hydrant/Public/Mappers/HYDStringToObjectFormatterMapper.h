@@ -14,40 +14,40 @@
 #pragma mark - Base Constructor
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDStringToObjectWithFormatter(NSString *destinationKey, NSFormatter *formatter)
+HYDStringToObjectFormatterMapper *HYDMapStringToObjectByFormatter(NSString *destinationKey, NSFormatter *formatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - NumberFormatter Constructors
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *dstKey);
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *dstKey);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *dstKey, NSNumberFormatterStyle numberFormatterStyle);
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *dstKey, NSNumberFormatterStyle numberFormatterStyle);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDStringToNumber(NSString *dstKey, NSNumberFormatter *formatter)
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *dstKey, NSNumberFormatter *formatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - DateFormatter Constructors
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDStringToDate(NSString *dstKey, NSString *formatString);
+HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *dstKey, NSString *formatString);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDStringToDate(NSString *dstKey, NSDateFormatter *dateFormatter)
+HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *dstKey, NSDateFormatter *dateFormatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - URLFormatter Constructors
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDStringToURL(NSString *destinationKey);
+HYDStringToObjectFormatterMapper *HYDMapStringToURL(NSString *destinationKey);
 
 HYD_EXTERN
-HYDStringToObjectFormatterMapper *HYDStringToURLOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+HYDStringToObjectFormatterMapper *HYDMapStringToURLOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
 HYD_REQUIRE_NON_NIL(2);

@@ -55,7 +55,7 @@
 #pragma mark - Base Constructor
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDObjectToStringWithFormatter(NSString *destinationKey, NSFormatter *formatter)
+HYDObjectToStringFormatterMapper *HYDMapObjectToStringByFormatter(NSString *destinationKey, NSFormatter *formatter)
 {
     return [[HYDObjectToStringFormatterMapper alloc] initWithDestinationKey:destinationKey formatter:formatter];
 }
@@ -64,59 +64,59 @@ HYDObjectToStringFormatterMapper *HYDObjectToStringWithFormatter(NSString *desti
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destinationKey)
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey)
 {
-    return HYDNumberToString(destinationKey, NSNumberFormatterDecimalStyle);
+    return HYDMapNumberToString(destinationKey, NSNumberFormatterDecimalStyle);
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destinationKey, NSNumberFormatterStyle numberFormatStyle)
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey, NSNumberFormatterStyle numberFormatStyle)
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     numberFormatter.numberStyle = numberFormatStyle;
-    return HYDNumberToString(destinationKey, numberFormatter);
+    return HYDMapNumberToString(destinationKey, numberFormatter);
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDNumberToString(NSString *destinationKey, NSNumberFormatter *numberFormatter)
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey, NSNumberFormatter *numberFormatter)
 {
-    return HYDObjectToStringWithFormatter(destinationKey, numberFormatter);
+    return HYDMapObjectToStringByFormatter(destinationKey, numberFormatter);
 }
 
 #pragma mark - DateFormatter Constructors
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDDateToString(NSString *dstKey, NSString *formatString)
+HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *dstKey, NSString *formatString)
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = formatString;
-    return HYDDateToString(dstKey, dateFormatter);
+    return HYDMapDateToString(dstKey, dateFormatter);
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDDateToString(NSString *dstKey, NSDateFormatter *dateFormatter)
+HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *dstKey, NSDateFormatter *dateFormatter)
 {
-    return HYDObjectToStringWithFormatter(dstKey, dateFormatter);
+    return HYDMapObjectToStringByFormatter(dstKey, dateFormatter);
 }
 
 #pragma mark - URLFormatter Constructors
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDURLToString(NSString *destinationKey)
+HYDObjectToStringFormatterMapper *HYDMapURLToString(NSString *destinationKey)
 {
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] init];
-    return HYDObjectToStringWithFormatter(destinationKey, formatter);
+    return HYDMapObjectToStringByFormatter(destinationKey, formatter);
 }
 
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
 {
     NSSet *schemes = [NSSet setWithArray:[allowedSchemes valueForKey:@"lowercaseString"]];
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] initWithAllowedSchemes:schemes];
-    return HYDObjectToStringWithFormatter(destinationKey, formatter);
+    return HYDMapObjectToStringByFormatter(destinationKey, formatter);
 }

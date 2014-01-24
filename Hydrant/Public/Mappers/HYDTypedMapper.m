@@ -97,13 +97,13 @@
 
 
 HYD_EXTERN
-HYDTypedMapper *HYDEnforceType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
+HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
 {
-    return HYDEnforceTypes(mapperToWrap, @[expectedInputClass], @[expectedOutputClass]);
+    return HYDMapTypes(mapperToWrap, @[expectedInputClass], @[expectedOutputClass]);
 }
 
 HYD_EXTERN
-HYDTypedMapper *HYDEnforceTypes(id<HYDMapper> mapperToWrap, NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
+HYDTypedMapper *HYDMapTypes(id<HYDMapper> mapperToWrap, NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
 {
     return [[HYDTypedMapper alloc] initWithMapper:mapperToWrap
                                      inputClasses:expectedInputClasses

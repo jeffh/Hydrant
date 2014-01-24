@@ -22,7 +22,7 @@ describe(@"HYDFirstMapper", ^{
         child1 = [[HYDFakeMapper alloc] initWithDestinationKey:nil];
         child2 = [[HYDFakeMapper alloc] initWithDestinationKey:@"LOL"];
         child3 = [[HYDFakeMapper alloc] initWithDestinationKey:@"OK"];
-        mapper = HYDFirst(child1, child2, child3);
+        mapper = HYDMapFirst(child1, child2, child3);
     });
 
     it(@"should return the first non-nil destination key as its destination key", ^{

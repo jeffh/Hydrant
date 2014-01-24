@@ -13,7 +13,7 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
 
     beforeEach(^{
         formatter = nice_fake_for([NSFormatter class]);
-        mapper = HYDObjectToStringWithFormatter(@"destinationKey", formatter);
+        mapper = HYDMapObjectToStringByFormatter(@"destinationKey", formatter);
     });
 
     it(@"should return the same destination key it was given", ^{
