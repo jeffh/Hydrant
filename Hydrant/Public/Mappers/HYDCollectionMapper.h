@@ -15,8 +15,6 @@
  */
 @interface HYDCollectionMapper : NSObject <HYDMapper>
 
-@property (strong, nonatomic) id<HYDFactory> factory;
-
 - (id)initWithItemMapper:(id<HYDMapper>)wrappedMapper
    sourceCollectionClass:(Class)sourceCollectionClass
 destinationCollectionClass:(Class)destinationCollectionClass;

@@ -10,6 +10,7 @@
 @property (strong, nonatomic) Class sourceCollectionClass;
 @property (strong, nonatomic) Class destinationCollectionClass;
 @property (strong, nonatomic) id<HYDMapper> wrappedMapper;
+@property (strong, nonatomic) id<HYDFactory> factory;
 
 @end
 
