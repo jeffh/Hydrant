@@ -27,12 +27,19 @@ describe(@"Mapper Composition", ^{
                                 @"identifier" : HYDOptional(HYDIdentity(@"identifier")),
                                 @"gender" : HYDEnum(@"gender", @{@"unknown" : @(HYDPersonGenderUnknown),
                                                                  @"male" : @(HYDPersonGenderMale),
-                                                                 @"female" : @(HYDPersonGenderFemale)})});
+                                                                 @"female" : @(HYDPersonGenderFemale)}),
+                                @"children": HYDArrayOf(HYDMapObject(@"siblings", [NSDictionary class], [HYDPerson class],
+                                                                     @{@"first": @"firstName",
+                                                                       @"homepage": HYDStringToURL(@"homepage")}))});
         expectedObjectStructure = @{@"person": @{@"id": @1,
                                                  @"name": @{@"first": @"John",
                                                             @"last": @"Doe"},
                                                  @"age": @"22",
                                                  @"birth_date": @"/Date(1390186634595)/"},
+                                    @"children": @[@{@"first": @"Bob",
+                                                     @"homepage": @"http://example.com"},
+                                                   @{@"first": @"David",
+                                                     @"homepage": @"http://google.com"}],
                                     @"identifier": @42,
                                     @"gender": @"male"};
         expectedObjectGraph = [[HYDPerson alloc] init];
@@ -46,6 +53,16 @@ describe(@"Mapper Composition", ^{
             parent.age = 22;
             parent.birthDate = [NSDate dateWithTimeIntervalSince1970:1390186634.595];
             parent;
+        });
+        expectedObjectGraph.siblings = ({
+            HYDPerson *person1 = [[HYDPerson alloc] init];
+            person1.firstName = @"Bob";
+            person1.homepage = [NSURL URLWithString:@"http://example.com"];
+            HYDPerson *person2 = [[HYDPerson alloc] init];
+            person2.firstName = @"David";
+            person2.homepage = [NSURL URLWithString:@"http://google.com"];
+            NSArray *items = @[person1, person2];
+            items;
         });
     });
 

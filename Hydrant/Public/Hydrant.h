@@ -1,10 +1,8 @@
 // protocols
 #import "HYDMapper.h"
-#import "HYDFactory.h"
 
 // helpers
 #import "HYDError.h"
-#import "HYDObjectFactory.h"
 #import "HYDConstants.h"
 
 // formatters

@@ -22,8 +22,9 @@
 - (BOOL)getObjectValue:(out __autoreleasing id *)obj forString:(NSString *)string errorDescription:(out __autoreleasing NSString **)error
 {
     *obj = [NSURL URLWithString:string];
-    if (!*obj) {
+    if (![*obj scheme]) {
         *error = HYDLocalizedStringFormat(@"The value '%@' is not a valid URL", string);
+        *obj = nil;
         return NO;
     }
 

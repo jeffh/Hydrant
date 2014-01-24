@@ -130,7 +130,7 @@ describe(@"HYDURLFormatter", ^{
 
         context(@"when an invalid url string is given", ^{
             beforeEach(^{
-                sourceObject = @"!:\n";
+                sourceObject = @"!!";
             });
 
             it(@"should return nil", ^{
@@ -139,7 +139,7 @@ describe(@"HYDURLFormatter", ^{
 
             it(@"should report an error", ^{
                 success should_not be_truthy;
-                errorDescription should equal(@"The value '!:\n' is not a valid URL");
+                errorDescription should equal(@"The value '!!' is not a valid URL");
             });
         });
     });

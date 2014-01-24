@@ -403,8 +403,8 @@
 			children = (
 				1F1217B2188CC5D700B1CBD1 /* HYDDotNetDateFormatter.h */,
 				1F1217B3188CC5D700B1CBD1 /* HYDDotNetDateFormatter.m */,
-				31B7397D313A6898E4176400 /* HYDURLFormatter.m */,
 				31B73577D16E5682DD477EED /* HYDURLFormatter.h */,
+				31B7397D313A6898E4176400 /* HYDURLFormatter.m */,
 			);
 			path = Formatters;
 			sourceTree = "<group>";
