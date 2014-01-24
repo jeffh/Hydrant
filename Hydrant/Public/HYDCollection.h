@@ -3,15 +3,15 @@
 /*! A placeholder protocol that is used to indicate which methods
  *  are used by the HYDCollectionMapper, such as HYDMapArrayOf or HYDMapSetOf.
  *
- *  These aren't enforced when passed through to the mapper, but you can
+ *  These aren't enforced when passed through to the HYDCollectionMapper,
  *  but you can support this interface to ensure you support the required
  *  methods in your own collections.
  *
- *  Reading collections simply requires <HYDMutableCollection> protocol,
- *  where as writing requires this protocol.
+ *  Reading collections requires this protocol, writing requires
+ *  <HYDMutableCollection> protocol.
+ *
+ *  @see HYDMutableCollection
+ *  @see HYDCollectionMapper
  */
-@protocol HYDMutableCollection <NSObject>
-
-- (void)addObject:(id)object;
-
+@protocol HYDCollection <NSFastEnumeration>
 @end

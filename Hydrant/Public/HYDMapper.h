@@ -3,13 +3,16 @@
 @protocol HYDFactory;
 @class HYDError;
 
-/*! The Protocol for object mapping.
+/*! The Protocol for Hydrant's object mapping system.
  *
  *  HYDMapper defines a protocol to translate between one object and
  *  another.
  *
  *  HYDMapper are also designed to be composable, so a HYDMapper can
  *  map between two objects using a collection of JOMMappers.
+ *
+ *  @see HYDObjectToStringFormatterMapper for a simple mapper implementation.
+ *  @see HYDKeyValueMapper for a complex mapper implementation.
  */
 @protocol HYDMapper<NSObject>
 

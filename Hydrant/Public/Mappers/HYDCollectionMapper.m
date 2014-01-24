@@ -112,10 +112,3 @@ HYDCollectionMapper *HYDMapArrayOf(id<HYDMapper> itemMapper)
 {
     return [[HYDCollectionMapper alloc] initWithItemMapper:itemMapper sourceCollectionClass:[NSArray class] destinationCollectionClass:[NSArray class]];
 }
-
-
-HYD_EXTERN
-HYDCollectionMapper *HYDMapSetOf(id<HYDMapper> itemMapper)
-{
-    return [[HYDCollectionMapper alloc] initWithItemMapper:itemMapper sourceCollectionClass:[NSSet class] destinationCollectionClass:[NSSet class]];
-}

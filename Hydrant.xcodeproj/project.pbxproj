@@ -287,6 +287,7 @@
 		1F1E3FC81804EC4F00801509 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1F3D813F1883A632006C0CC4 /* Hydrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hydrant.h; sourceTree = "<group>"; };
 		1F46F1BF188FBF5400E8D6ED /* HYDStringToURLMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDStringToURLMapperSpec.mm; sourceTree = "<group>"; };
+		1F5C80281892468600777C3B /* HYDCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDCollection.h; sourceTree = "<group>"; };
 		1FA99489183B4A20001E9F2E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		1FA994B8183CA3B3001E9F2E /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = ../../DerivedData/Nimbus/Build/Products/Debug/Cedar.framework; sourceTree = "<group>"; };
 		1FB0F65F1883DCDD00120ABC /* HYDError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDError.h; sourceTree = "<group>"; };
@@ -529,6 +530,7 @@
 			children = (
 				1F1217A8188CC59000B1CBD1 /* Formatters */,
 				1F06C040181A2DC90017FDB4 /* HYDBase.h */,
+				1F5C80281892468600777C3B /* HYDCollection.h */,
 				31B73ACC4547861B46F7ACA3 /* HYDConstants.h */,
 				31B73D29858BD4E6F58C5CCB /* HYDConstants.m */,
 				1FB0F65F1883DCDD00120ABC /* HYDError.h */,

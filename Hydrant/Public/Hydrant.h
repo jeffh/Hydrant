@@ -1,5 +1,7 @@
 // protocols
 #import "HYDMapper.h"
+#import "HYDCollection.h"
+#import "HYDMutableCollection.h"
 
 // helpers
 #import "HYDError.h"
