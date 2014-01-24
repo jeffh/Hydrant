@@ -58,7 +58,7 @@ The core of Hydrant are mappers. Lets look at `HYDMapper` protocol:
 
 These are the two primary methods for doing the data mapping work:
 
- - `objectFromSourceObject:error:` produces converts the sourceObject to a given object defined by each mapper class.
+ - `objectFromSourceObject:error:` converts the sourceObject to a given object defined by each mapper class.
  - `reverseMapperwithDestinationKey:` produces a new mapper that can convert the returned object (from above) into the sourceObject.
 
 In short, `HYDMapper` is the protocol to implement how *any object can be converted to any other object*.
