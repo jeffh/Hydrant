@@ -8,8 +8,13 @@
 
 @end
 
+HYD_EXTERN
+HYD_OVERLOADED
+HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputAndOutputClass)
+HYD_REQUIRE_NON_NIL(1,2);
 
 HYD_EXTERN
+HYD_OVERLOADED
 HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
 HYD_REQUIRE_NON_NIL(1,2,3);
 

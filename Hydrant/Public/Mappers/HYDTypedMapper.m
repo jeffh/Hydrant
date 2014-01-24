@@ -97,6 +97,14 @@
 
 
 HYD_EXTERN
+HYD_OVERLOADED
+HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputAndOutputClass)
+{
+    return HYDMapType(mapperToWrap, expectedInputAndOutputClass, expectedInputAndOutputClass);
+}
+
+HYD_EXTERN
+HYD_OVERLOADED
 HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
 {
     return HYDMapTypes(mapperToWrap, @[expectedInputClass], @[expectedOutputClass]);
