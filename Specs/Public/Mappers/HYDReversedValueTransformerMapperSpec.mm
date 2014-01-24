@@ -6,7 +6,7 @@ using namespace Cedar::Doubles;
 
 SPEC_BEGIN(HYDReversedValueTransformerMapperSpec)
 
-fdescribe(@"HYDReversedValueTransformer", ^{
+describe(@"HYDReversedValueTransformer", ^{
     __block HYDReversedValueTransformerMapper *mapper;
     __block HYDError *error;
     __block id sourceObject;

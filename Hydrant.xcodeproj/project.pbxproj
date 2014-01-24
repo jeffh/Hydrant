@@ -1094,6 +1094,7 @@
 					"$(SRCROOT)/Externals/cedar/Source/Headers/**",
 				);
 				INFOPLIST_FILE = "Specs/Specs-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1122,6 +1123,7 @@
 					"$(SRCROOT)/Externals/cedar/Source/Headers/**",
 				);
 				INFOPLIST_FILE = "Specs/Specs-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
 					"-ObjC",
