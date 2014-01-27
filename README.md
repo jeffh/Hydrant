@@ -50,7 +50,7 @@ The core of Hydrant are mappers. Lets look at `HYDMapper` protocol:
 
 ```
 @protocol HYDMapper <NSObject>
-// ... snip ...
+- (NSString *)destinationKey;
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error;
 - (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey;
 @end
@@ -157,3 +157,8 @@ if ([error isFatal]) {
 
 Extending
 =========
+
+This obvious method for extending functionality is by implementing your own class that supports
+the `HYDMapper` protocol.
+
+(TODO: write more...)
