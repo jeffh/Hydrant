@@ -1,6 +1,7 @@
 #import "HYDTypedMapper.h"
 #import "HYDError.h"
 #import "HYDObjectFactory.h"
+#import "HYDFunctions.h"
 
 
 @interface HYDTypedMapper ()
@@ -62,19 +63,21 @@
         return nil;
     }
 
-    id object = [self.wrappedMapper objectFromSourceObject:sourceObject error:error];
-    if (*error) {
+    HYDError *innerError = nil;
+    id object = [self.wrappedMapper objectFromSourceObject:sourceObject error:&innerError];
+    if (innerError) {
+        HYDSetError(error, innerError);
         return nil;
     }
 
     if (![self isObject:object aSubclassOfAnyClasses:self.allowedOutputClasses]) {
-        *error = [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
-                            sourceObject:sourceObject
-                               sourceKey:nil
-                       destinationObject:nil
-                          destinationKey:self.destinationKey
-                                 isFatal:YES
-                        underlyingErrors:nil];
+        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
+                                      sourceObject:sourceObject
+                                         sourceKey:nil
+                                 destinationObject:nil
+                                    destinationKey:self.destinationKey
+                                           isFatal:YES
+                                  underlyingErrors:nil]);
         return nil;
     }
 

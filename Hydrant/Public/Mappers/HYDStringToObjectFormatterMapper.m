@@ -39,7 +39,7 @@
     }
 
     if (success) {
-        *error = nil;
+        HYDSetError(error, nil);
     } else {
         if (!errorDescription) {
             errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@", sourceObject);
@@ -48,13 +48,13 @@
         NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain
                                                      code:NSFormattingError
                                                  userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
-        *error = [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
-                            sourceObject:sourceObject
-                               sourceKey:nil
-                       destinationObject:nil
-                          destinationKey:self.destinationKey
-                                 isFatal:YES
-                        underlyingErrors:@[originalError]];
+        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
+                                      sourceObject:sourceObject
+                                         sourceKey:nil
+                                 destinationObject:nil
+                                    destinationKey:self.destinationKey
+                                           isFatal:YES
+                                  underlyingErrors:@[originalError]]);
         resultingObject = nil;
     }
     return resultingObject;

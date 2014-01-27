@@ -66,6 +66,13 @@ describe(@"HYDOptionalMapper", ^{
         });
     });
 
+    describe(@"errornously parsing an object without an error pointer", ^{
+        it(@"should not explode", ^{
+            childMapper.errorsToReturn = @[[HYDError fatalError]];
+            [mapper objectFromSourceObject:@"invalid" error:nil];
+        });
+    });
+
     describe(@"reverse mapping", ^{
         __block id<HYDMapper> reverseMapper;
         __block HYDFakeMapper *reverseChildMapper;

@@ -1,5 +1,6 @@
 #import "HYDFakeMapper.h"
 #import "HYDError.h"
+#import "HYDFunctions.h"
 
 @implementation HYDFakeMapper {
     NSMutableArray *_objectsToReturn;
@@ -51,10 +52,10 @@
 {
     [_sourceObjectsReceived addObject:sourceObject ?: [NSNull null]];
 
-    *error = nil;
+    HYDSetError(error, nil);
 
     if (self.errorsToReturn.count && ![self.errorsToReturn[0] isEqual:[NSNull null]]) {
-        *error = self.errorsToReturn[0];
+        HYDSetError(error, self.errorsToReturn[0]);
     }
     if (self.errorsToReturn.count > 1) {
         [_errorsToReturn removeObjectAtIndex:0];

@@ -1,5 +1,6 @@
 #import "HYDEnumMapper.h"
 #import "HYDError.h"
+#import "HYDFunctions.h"
 
 
 @interface HYDEnumMapper ()
@@ -31,15 +32,16 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
+    HYDSetError(error, nil);
     id result = self.mapping[sourceObject];
     if (!result) {
-        *error = [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
-                            sourceObject:sourceObject
-                               sourceKey:nil
-                       destinationObject:nil
-                          destinationKey:self.destinationKey
-                                 isFatal:YES
-                        underlyingErrors:nil];
+        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
+                                      sourceObject:sourceObject
+                                         sourceKey:nil
+                                 destinationObject:nil
+                                    destinationKey:self.destinationKey
+                                           isFatal:YES
+                                  underlyingErrors:nil]);
         return nil;
     }
     return result;

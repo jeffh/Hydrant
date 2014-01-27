@@ -104,6 +104,16 @@ describe(@"HYDFirstMapper", ^{
         });
     });
 
+    describe(@"errornously parsing an object without an error pointer", ^{
+        it(@"should not explode", ^{
+            child1.errorsToReturn = @[[HYDError fatalError]];
+            child2.errorsToReturn = @[[HYDError nonFatalError]];
+            child2.objectsToReturn = @[@1];
+            child3.objectsToReturn = @[@2];
+            [mapper objectFromSourceObject:sourceObject error:nil];
+        });
+    });
+
     xdescribe(@"reverse mapping", ^{
     });
 });

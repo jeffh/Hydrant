@@ -1,4 +1,5 @@
 #import "HYDObjectToStringFormatterMapper.h"
+#import "HYDFunctions.h"
 #import "HYDError.h"
 #import "HYDStringToObjectFormatterMapper.h"
 #import "HYDURLFormatter.h"
@@ -32,15 +33,15 @@
     }
 
     if (resultingObject) {
-        *error = nil;
+        HYDSetError(error, nil);
     } else {
-        *error = [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
-                            sourceObject:sourceObject
-                               sourceKey:nil
-                       destinationObject:nil
-                          destinationKey:self.destinationKey
-                                 isFatal:YES
-                        underlyingErrors:nil];
+        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
+                                      sourceObject:sourceObject
+                                         sourceKey:nil
+                                 destinationObject:nil
+                                    destinationKey:self.destinationKey
+                                           isFatal:YES
+                                  underlyingErrors:nil]);
     }
     return resultingObject;
 }

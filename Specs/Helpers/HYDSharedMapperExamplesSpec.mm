@@ -105,6 +105,13 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
         });
     });
 
+    describe(@"errornously parsing an object without an error pointer", ^{
+        it(@"should not explode", ^{
+            sourceObject = invalidSourceObject;
+            [mapper objectFromSourceObject:sourceObject error:nil];
+        });
+    });
+
     describe(@"reverse mapper", ^{
         beforeEach(^{
             [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;

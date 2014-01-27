@@ -47,8 +47,8 @@ bool BeAnError::subset_of_userinfo_matches(const HYDError *error) const {
 }
 
 NSString * BeAnError::failure_message_end() const {
-    return [NSString stringWithFormat:@"be an error (domain=%@, code=%ld, userInfo=%@, isFatal=%d)",
-            this->expectedDomain, (long)this->expectedErrorCode, this->userInfoSubset, this->isFatal];
+    return [NSString stringWithFormat:@"be an error (domain=%@, code=%ld, isFatal=%d) with at least userInfo of %@",
+            this->expectedDomain, (long)this->expectedErrorCode, this->isFatal, this->userInfoSubset];
 }
 
 BeAnError & BeAnError::with_code(NSInteger code) {

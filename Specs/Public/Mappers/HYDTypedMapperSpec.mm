@@ -129,6 +129,13 @@ describe(@"HYDTypedMapper", ^{
         });
     });
 
+    describe(@"errornously parsing an object without an error pointer", ^{
+        it(@"should not explode", ^{
+            innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_return(@"Cheese");
+            [mapper objectFromSourceObject:@[] error:nil];
+        });
+    });
+
     describe(@"reverse mapper", ^{
         __block id<HYDMapper> innerReverseMapper;
         __block HYDTypedMapper *reverseMapper;

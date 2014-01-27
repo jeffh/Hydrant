@@ -16,3 +16,11 @@ NSString *HYDJoinedStringFromKeyPaths(NSString *previousKeyPath, NSString *nextK
     }
     return previousKeyPath ?: nextKeyPath;
 }
+
+HYD_EXTERN
+void HYDSetError(__autoreleasing HYDError **errorPtr, HYDError *error)
+{
+    if (errorPtr) {
+        *errorPtr = error;
+    }
+}

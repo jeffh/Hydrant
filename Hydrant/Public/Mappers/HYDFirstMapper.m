@@ -1,5 +1,6 @@
 #import "HYDFirstMapper.h"
 #import "HYDError.h"
+#import "HYDFunctions.h"
 
 
 @interface HYDFirstMapper ()
@@ -50,14 +51,14 @@
         }
     }
 
-    *error = nil;
+    HYDSetError(error, nil);
     if (errors.count) {
-        *error = [HYDError errorFromErrors:errors
-                              sourceObject:sourceObject
-                                 sourceKey:nil
-                         destinationObject:nil
-                            destinationKey:self.destinationKey
-                                   isFatal:!hasObject];
+        HYDSetError(error, [HYDError errorFromErrors:errors
+                                        sourceObject:sourceObject
+                                           sourceKey:nil
+                                   destinationObject:nil
+                                      destinationKey:self.destinationKey
+                                             isFatal:!hasObject]);
     }
 
     return destinationObject;

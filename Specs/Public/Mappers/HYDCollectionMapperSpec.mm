@@ -145,6 +145,13 @@ describe(@"HYDCollectionMapper", ^{
         });
     });
 
+    describe(@"errornously parsing an object without an error pointer", ^{
+        it(@"should not explode", ^{
+            childMapper.errorsToReturn = @[[HYDError nonFatalError], [HYDError fatalError]];
+            [mapper objectFromSourceObject:@[@1, @2] error:nil];
+        });
+    });
+
     describe(@"reverse mapper", ^{
         beforeEach(^{
             HYDFakeMapper *reverseChildMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];

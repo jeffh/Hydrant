@@ -32,12 +32,12 @@ describe(@"HYDKeyValueMapper", ^{
         childMapper2.objectsToReturn = @[@"John"];
 
         mapper = HYDMapObject(@"destinationKey",
-                [NSDictionary class],
-                [HYDPerson class],
-                @{@"first_name" : childMapper2,
-                        @"last_name" : @"lastName",
-                        @"age" : @"age",
-                        @"identifier" : childMapper1});
+                              [NSDictionary class],
+                              [HYDPerson class],
+                              @{@"first_name" : childMapper2,
+                                @"last_name" : @"lastName",
+                                @"age" : @"age",
+                                @"identifier" : childMapper1});
     });
 
     it(@"should return the same destination key it was provided", ^{
@@ -67,11 +67,35 @@ describe(@"HYDKeyValueMapper", ^{
             });
         });
 
+        context(@"when a NSNull is given", ^{
+            beforeEach(^{
+                sourceObject = @{@"first_name": @"John",
+                                 @"last_name": [NSNull null],
+                                 @"age": @23,
+                                 @"identifier": @"transforms"};
+            });
+
+            it(@"should not have any error", ^{
+                error should be_nil;
+            });
+
+            it(@"should produce an instance of the class given", ^{
+                parsedObject should be_instance_of([HYDPerson class]);
+            });
+
+            it(@"should set all the properties on the parsed object based on the mapping provided", ^{
+                HYDPerson *personWithOutLastName = [[HYDPerson alloc] initWithFixtureData];
+                personWithOutLastName.lastName = nil;
+                parsedObject should equal(personWithOutLastName);
+            });
+        });
+
         context(@"when child mappers returns fatal errors", ^{
             __block HYDError *childMapperError1;
             __block HYDError *childMapperError2;
 
             beforeEach(^{
+                sourceObject = validSourceObject;
                 childMapperError1 = [HYDError fatalError];
                 childMapperError2 = [HYDError fatalError];
                 childMapper1.objectsToReturn = nil;
@@ -104,6 +128,7 @@ describe(@"HYDKeyValueMapper", ^{
             __block HYDError *childMapperError2;
 
             beforeEach(^{
+                sourceObject = validSourceObject;
                 childMapperError1 = [HYDError nonFatalError];
                 childMapperError2 = [HYDError nonFatalError];
                 childMapper1.objectsToReturn = nil;
@@ -140,8 +165,8 @@ describe(@"HYDKeyValueMapper", ^{
         context(@"when a field is missing in the provided source object", ^{
             beforeEach(^{
                 sourceObject = @{@"first_name": @"John",
-                        @"age": @23,
-                        @"id": @5};
+                                 @"age": @23,
+                                 @"id": @5};
             });
 
             it(@"should have a fatal error", ^{

@@ -3,6 +3,7 @@
 #import "HYDObjectFactory.h"
 #import "HYDMutableCollection.h"
 #import "HYDError.h"
+#import "HYDFunctions.h"
 
 
 @interface HYDCollectionMapper ()
@@ -44,7 +45,7 @@
 
 - (id)objectFromSourceObject:(id)sourceCollection error:(__autoreleasing HYDError **)error
 {
-    *error = nil;
+    HYDSetError(error, nil);
     if (!sourceCollection) {
         return nil;
     }
@@ -86,12 +87,12 @@
     }
 
     if (errors.count) {
-        *error = [HYDError errorFromErrors:errors
-                              sourceObject:sourceCollection
-                                 sourceKey:nil
-                         destinationObject:resultingCollection
-                            destinationKey:self.destinationKey
-                                   isFatal:hasFatalError];
+        HYDSetError(error, [HYDError errorFromErrors:errors
+                                        sourceObject:sourceCollection
+                                           sourceKey:nil
+                                   destinationObject:resultingCollection
+                                      destinationKey:self.destinationKey
+                                             isFatal:hasFatalError]);
     }
 
     return (hasFatalError ? nil : resultingCollection);

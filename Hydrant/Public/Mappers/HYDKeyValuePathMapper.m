@@ -7,10 +7,12 @@
 
 
 @interface HYDKeyValuePathMapper ()
+
 @property (strong, nonatomic) Class sourceClass;
 @property (strong, nonatomic) Class destinationClass;
 @property (strong, nonatomic) NSDictionary *mapping;
 @property (strong, nonatomic) id<HYDFactory> factory;
+
 @end
 
 @implementation HYDKeyValuePathMapper
@@ -48,8 +50,8 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
+    *error = nil;
     if (!sourceObject) {
-        *error = nil;
         return nil;
     }
 
@@ -74,7 +76,7 @@
             continue;
         }
         id sourceValue = [sourceObject valueForKeyPath:sourceKey];
-        id destinationValue = [mapper objectFromSourceObject:sourceValue error:error];
+        id destinationValue = [mapper objectFromSourceObject:sourceValue error:&innerError];
 
         if (innerError) {
             hasFatalError = hasFatalError || [innerError isFatal];
@@ -84,6 +86,12 @@
                                replacementSourceObject:sourceValue
                                                isFatal:innerError.isFatal]];
             continue;
+        }
+
+        if ([[NSNull null] isEqual:destinationValue] && ![self requiresNSNullForClass:self.destinationClass]) {
+            destinationValue = nil;
+        } else if (!destinationValue && [self requiresNSNullForClass:self.destinationClass]) {
+            destinationValue = [NSNull null];
         }
 
         [self recursivelySetValue:destinationValue
@@ -100,10 +108,10 @@
                                  isFatal:hasFatalError
                         underlyingErrors:errors];
     }
+
     if (hasFatalError) {
         return nil;
     }
-
 
     return destinationObject;
 }
@@ -156,6 +164,10 @@
 
 - (void)recursivelySetValue:(id)value forKeyPath:(NSString *)keyPath onObject:(id)object
 {
+    if (!value) {
+        return;
+    }
+
     NSMutableArray *keyComponents = [[keyPath componentsSeparatedByString:@"."] mutableCopy];
     NSString *keyToMutate = keyComponents.lastObject;
     [keyComponents removeLastObject];
@@ -170,6 +182,17 @@
     }
 
     [keyTarget setValue:value forKey:keyToMutate];
+}
+
+- (BOOL)requiresNSNullForClass:(Class)aClass
+{
+    NSArray *nullableClasses = @[[NSDictionary class], [NSHashTable class]];
+    for (Class nullableClass in nullableClasses) {
+        if ([aClass isSubclassOfClass:nullableClass]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

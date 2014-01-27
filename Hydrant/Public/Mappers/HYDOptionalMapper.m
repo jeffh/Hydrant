@@ -2,6 +2,7 @@
 #import "HYDError.h"
 #import "HYDObjectFactory.h"
 #import "HYDIdentityMapper.h"
+#import "HYDFunctions.h"
 
 
 @interface HYDOptionalMapper ()
@@ -43,14 +44,16 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    id resultingObject = [self.wrappedMapper objectFromSourceObject:sourceObject error:error];
+    HYDError *innerError = nil;
+    id resultingObject = [self.wrappedMapper objectFromSourceObject:sourceObject error:&innerError];
 
-    if (*error){
-        *error = [HYDError errorFromError:*error
-                      prependingSourceKey:nil
-                        andDestinationKey:nil
-                  replacementSourceObject:nil
-                                  isFatal:NO];
+    HYDSetError(error, nil);
+    if (innerError){
+        HYDSetError(error, [HYDError errorFromError:innerError
+                                prependingSourceKey:nil
+                                  andDestinationKey:nil
+                            replacementSourceObject:nil
+                                            isFatal:NO]);
         return self.defaultValueBlock();
     }
 

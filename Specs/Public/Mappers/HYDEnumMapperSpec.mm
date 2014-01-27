@@ -69,6 +69,12 @@ describe(@"HYDEnumMapper", ^{
         });
     });
 
+    describe(@"errornously parsing an object without an error pointer", ^{
+        it(@"should not explode", ^{
+            [mapper objectFromSourceObject:@99 error:nil];
+        });
+    });
+
     describe(@"reverse mapper", ^{
         beforeEach(^{
             [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;

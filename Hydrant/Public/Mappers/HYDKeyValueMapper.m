@@ -78,8 +78,8 @@
             continue;
         }
 
-        id sourceValue = [sourceObject valueForKey:sourceKey];
-        id transformedValue = [mapper objectFromSourceObject:sourceValue error:&innerError];
+        id sourceValue = [self valueForKey:sourceKey onObject:sourceObject];
+        id destinationValue = [mapper objectFromSourceObject:sourceValue error:&innerError];
 
         if (innerError) {
             hasFatalError = hasFatalError || [innerError isFatal];
@@ -91,8 +91,11 @@
             continue;
         }
 
-        [destinationObject setValue:transformedValue
-                             forKey:mapper.destinationKey];
+        if ([[NSNull null] isEqual:destinationValue] && ![self requiresNSNullForClass:self.destinationClass]) {
+            destinationValue = nil;
+        }
+
+        [self setValue:destinationValue forKey:mapper.destinationKey onObject:destinationObject];
     }
 
     if (errors.count) {
@@ -104,6 +107,7 @@
                                  isFatal:hasFatalError
                         underlyingErrors:errors];
     }
+
     if (hasFatalError) {
         return nil;
     }
@@ -119,13 +123,13 @@
 
         invertedMapping[mapper.destinationKey] = [mapper reverseMapperWithDestinationKey:sourceKey];
     }
-    return [[HYDKeyValueMapper alloc] initWithDestinationKey:destinationKey
-                                                   fromClass:self.destinationClass
-                                                     toClass:self.sourceClass
-                                                     mapping:invertedMapping];
+    return [[[self class] alloc] initWithDestinationKey:destinationKey
+                                              fromClass:self.destinationClass
+                                                toClass:self.sourceClass
+                                                mapping:invertedMapping];
 }
 
-#pragma mark - Private
+#pragma mark - Protected
 
 - (BOOL)hasKey:(NSString *)key onObject:(id)target
 {
@@ -138,6 +142,27 @@
     HYDClassInspector *inspector = [HYDClassInspector inspectorForClass:[target class]];
     for (HYDProperty *property in inspector.allProperties) {
         if ([property.name isEqual:key]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (id)valueForKey:(NSString *)key onObject:(id)target
+{
+    return [target valueForKey:key];
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key onObject:(id)target
+{
+    [target setValue:value forKey:key];
+}
+
+- (BOOL)requiresNSNullForClass:(Class)aClass
+{
+    NSArray *nullableClasses = @[[NSDictionary class], [NSHashTable class]];
+    for (Class nullableClass in nullableClasses) {
+        if ([aClass isSubclassOfClass:nullableClass]) {
             return YES;
         }
     }
