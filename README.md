@@ -8,7 +8,7 @@ work! A lot of the work usually gets spread around in -[initWithDictionary:] met
 which has a few drawbacks:
 
  - They tightly couple your deserialization process to the value object. This can be extra confusing for deserializing the same object with a not-so-consistent backend API (which you may not control).
- - You tightly couple building an object graph (assuming your API returns on) into a specific value object.
+ - You tightly couple building an object graph (assuming your API returns one) into a specific value object.
  - You have to repeat the same, code in reverse when deserializing it back.
  - Convert various basic values into various native objective-c objects.
  - You have lots of laborious tests to cover various edge cases (you do test it right?)
@@ -35,8 +35,11 @@ Of course, if you can fully control the API you hit, this library isn't much of 
 Installation
 ============
 
-Currently installation is by git submodule add this project and adding it
-to your XCodeProject (for now).
+Due the instability for the library right now, you'll have to pod this git repository:
+
+    pod "Hydrant", :git => "https://github.com/jeffh/Hydrant.git"
+
+Alternatively, git submodule add this project and adding it to your XCodeProject.
 
 Add the Hydrant static library for your dependencies or use the source directly.
 
@@ -45,6 +48,8 @@ Usage
 
 Theory
 ------
+
+Yes, yes. A short little lecture.
 
 The core of Hydrant are mappers. Lets look at `HYDMapper` protocol:
 
@@ -63,6 +68,8 @@ These are the two primary methods for doing the data mapping work:
 
 In short, `HYDMapper` is the protocol to implement how *any object can be converted to any other object*.
 Using a composition of mappers, we can produce an arbitrary schema to transform any object graph, such as JSON to Value Objects.
+
+Of course, Hydrant comes with a collection of mappers for you to use.
 
 Building the Parser
 -------------------
