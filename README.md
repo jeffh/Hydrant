@@ -1,7 +1,7 @@
 Hydrant
 =======
 
-A simple object data mapper for Objective-C.
+A [simple](http://www.infoq.com/presentations/Simple-Made-Easy) object data mapper for Objective-C.
 
 Mapping NSDictionaries to [Value Objects](https://github.com/jeffh/JKVValue) is boring
 work! A lot of the work usually gets spread around in -[initWithDictionary:] methods
