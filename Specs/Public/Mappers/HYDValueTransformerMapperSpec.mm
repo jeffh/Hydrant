@@ -47,7 +47,7 @@ describe(@"HYDValueTransformerMapper", ^{
             });
 
             it(@"should be the inverse of the original mapper", ^{
-                id sourceObject = @YES;
+                sourceObject = @YES;
                 id result = [mapper objectFromSourceObject:sourceObject error:&error];
                 error should be_nil;
 

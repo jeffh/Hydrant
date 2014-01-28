@@ -1,6 +1,14 @@
 #import "HYDIdentityMapper.h"
 #import "HYDError.h"
 
+
+@interface HYDIdentityMapper ()
+
+@property (copy, nonatomic, readwrite) NSString *destinationKey;
+
+@end
+
+
 @implementation HYDIdentityMapper
 
 - (id)init
@@ -33,7 +41,7 @@
 
 
 HYD_EXTERN
-HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
+id<HYDMapper> HYDMapIdentity(NSString *destinationKey)
 {
     return [[HYDIdentityMapper alloc] initWithDestinationKey:destinationKey];
 }

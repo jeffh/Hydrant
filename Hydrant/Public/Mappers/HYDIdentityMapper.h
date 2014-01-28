@@ -4,7 +4,7 @@
 
 @interface HYDIdentityMapper : NSObject <HYDMapper>
 
-@property (strong, nonatomic) NSString *destinationKey;
+@property (copy, nonatomic, readonly) NSString *destinationKey;
 
 - (id)initWithDestinationKey:(NSString *)destinationKey;
 
@@ -23,4 +23,5 @@
  *  @see HYDKeyValueMapper
  */
 HYD_EXTERN
-HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey);
+HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
+HYD_REQUIRE_NON_NIL(1);

@@ -16,6 +16,7 @@
 #import "HYDKeyValueMapper.h"
 #import "HYDKeyValuePathMapper.h"
 #import "HYDOptionalMapper.h"
+#import "HYDNotNullMapper.h"
 
 // standalone mappers
 #import "HYDStringToObjectFormatterMapper.h"
