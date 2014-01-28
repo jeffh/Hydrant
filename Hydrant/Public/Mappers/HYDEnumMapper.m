@@ -5,6 +5,7 @@
 
 @interface HYDEnumMapper ()
 
+@property (copy, nonatomic) NSString *destinationKey;
 @property (strong, nonatomic) NSDictionary *mapping;
 
 @end

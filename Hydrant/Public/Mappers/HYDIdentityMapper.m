@@ -4,7 +4,7 @@
 
 @interface HYDIdentityMapper ()
 
-@property (copy, nonatomic, readwrite) NSString *destinationKey;
+@property (copy, nonatomic) NSString *destinationKey;
 
 @end
 

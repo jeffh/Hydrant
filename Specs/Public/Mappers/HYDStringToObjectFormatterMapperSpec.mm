@@ -97,7 +97,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
 
     describe(@"reverse mapper", ^{
         beforeEach(^{
-            mapper.formatter = [[NSNumberFormatter alloc] init];
+            mapper = HYDMapStringToObjectByFormatter(@"destinationKey", [[NSNumberFormatter alloc] init]);
             [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
             [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"1";
         });

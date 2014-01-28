@@ -4,8 +4,12 @@
 
 
 @interface HYDReversedValueTransformerMapper ()
+
+@property (copy, nonatomic) NSString *destinationKey;
 @property(nonatomic, strong) NSValueTransformer *valueTransformer;
+
 @end
+
 
 @implementation HYDReversedValueTransformerMapper
 

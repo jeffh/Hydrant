@@ -4,8 +4,6 @@
 
 @interface HYDIdentityMapper : NSObject <HYDMapper>
 
-@property (copy, nonatomic, readonly) NSString *destinationKey;
-
 - (id)initWithDestinationKey:(NSString *)destinationKey;
 
 @end

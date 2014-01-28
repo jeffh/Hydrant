@@ -5,6 +5,14 @@
 #import "HYDURLFormatter.h"
 
 
+@interface HYDObjectToStringFormatterMapper ()
+
+@property (strong, nonatomic) NSFormatter *formatter;
+@property (copy, nonatomic, readwrite) NSString *destinationKey;
+
+@end
+
+
 @implementation HYDObjectToStringFormatterMapper
 
 - (id)init

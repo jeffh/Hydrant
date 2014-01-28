@@ -74,6 +74,10 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             it(@"should produce a string object", ^{
                 parsedObject should equal(expectedParsedObject);
             });
+
+            it(@"should return a nil error", ^{
+                error should be_nil;
+            });
         });
 
         context(@"when another type of object is provided", ^{

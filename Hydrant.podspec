@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author             = { "Jeff Hui" => "jeff@jeffhui.net" }
   s.social_media_url = "http://twitter.com/jeffhui"
-  s.ios.deployment_target = '6.1'
+  s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.8'
   s.source       = { :git => "https://github.com/jeffh/Hydrant.git", :branch => "master" }
   s.source_files  = 'Hydrant/**/*.{h,m}'

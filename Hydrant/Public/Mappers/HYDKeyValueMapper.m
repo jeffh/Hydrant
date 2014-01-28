@@ -9,6 +9,7 @@
 
 @interface HYDKeyValueMapper ()
 
+@property (copy, nonatomic) NSString *destinationKey;
 @property (strong, nonatomic) Class sourceClass;
 @property (strong, nonatomic) Class destinationClass;
 @property (strong, nonatomic) NSDictionary *mapping;

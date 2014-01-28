@@ -17,7 +17,7 @@
 {
     self = [super init];
     if (self) {
-        _mapper = mapper;
+        self.mapper = mapper;
     }
     return self;
 }

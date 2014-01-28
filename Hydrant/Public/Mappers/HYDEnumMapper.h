@@ -4,8 +4,6 @@
 
 @interface HYDEnumMapper : NSObject <HYDMapper>
 
-@property (strong, nonatomic) NSString *destinationKey;
-
 - (id)initWithDestinationKey:(NSString *)destinationKey mapping:(NSDictionary *)mapping;
 
 @end
