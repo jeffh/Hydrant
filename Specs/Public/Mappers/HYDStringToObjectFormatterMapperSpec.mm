@@ -1,4 +1,4 @@
-// DO NOT any other library headers here to simulate an API user.
+// DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
 #import "HYDFakeFormatter.h"
 
