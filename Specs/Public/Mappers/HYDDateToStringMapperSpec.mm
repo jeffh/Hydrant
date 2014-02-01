@@ -24,16 +24,13 @@ describe(@"HYDDateToStringMapper", ^{
 
         mapper = HYDMapDateToString(@"dateKey", @"yyyy-MM-dd 'at' HH:mm:ss");
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+        [SpecHelper specHelper].sharedExampleContext[@"destinationKey"] = @"dateKey";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = date;
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
         [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = dateString;
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");
-
-    it(@"should have the same destination key it was given", ^{
-        mapper.destinationKey should equal(@"dateKey");
-    });
 });
 
 SPEC_END

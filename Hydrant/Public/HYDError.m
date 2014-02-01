@@ -122,6 +122,11 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
     return self.userInfo[HYDDestinationObjectKey];
 }
 
+- (NSArray *)underlyingErrors
+{
+    return self.userInfo[HYDUnderlyingErrorsKey];
+}
+
 - (NSString *)underlyingErrorsDescription
 {
     NSArray *underlyingErrors = self.userInfo[HYDUnderlyingErrorsKey];

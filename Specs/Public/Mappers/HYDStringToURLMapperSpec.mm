@@ -13,16 +13,13 @@ describe(@"HYDStringToURLMapper", ^{
     beforeEach(^{
         mapper = HYDMapStringToURL(@"destinationKey");
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+        [SpecHelper specHelper].sharedExampleContext[@"destinationKey"] = @"destinationKey";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @"http://jeffhui.net";
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @1;
         [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = [NSURL URLWithString:@"http://jeffhui.net"];
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");
-
-    it(@"should report the same destination key", ^{
-        [mapper destinationKey] should equal(@"destinationKey");
-    });
 });
 
 SPEC_END

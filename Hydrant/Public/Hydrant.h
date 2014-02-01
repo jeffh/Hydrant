@@ -23,3 +23,5 @@
 #import "HYDObjectToStringFormatterMapper.h"
 #import "HYDEnumMapper.h"
 #import "HYDIdentityMapper.h"
+#import "HYDBlockMapper.h"
+#import "HYDValueTransformerMapper.h"

@@ -17,16 +17,13 @@ describe(@"HYDStringToNumberMapper", ^{
 
         mapper = HYDMapStringToNumber(@"destKey", NSNumberFormatterDecimalStyle);
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+        [SpecHelper specHelper].sharedExampleContext[@"destinationKey"] = @"destKey";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = numberString;
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = [NSDate date];
         [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = number;
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");
-
-    it(@"should preserve its destination key", ^{
-        mapper.destinationKey should equal(@"destKey");
-    });
 });
 
 SPEC_END

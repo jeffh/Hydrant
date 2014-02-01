@@ -43,5 +43,6 @@ HYD_EXTERN NSString *HYDDestinationKeyPathKey;
 - (NSString *)destinationKey;
 - (id)sourceObject;
 - (id)destinationObject;
+- (NSArray *)underlyingErrors;
 
 @end

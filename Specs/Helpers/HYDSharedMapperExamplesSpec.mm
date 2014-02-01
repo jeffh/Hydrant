@@ -49,9 +49,11 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
     __block id validSourceObject;
     __block id invalidSourceObject;
     __block id expectedParsedObject;
+    __block NSString *destinationKey;
 
     beforeEach(^{
         mapper = scope[@"mapper"];
+        destinationKey = scope[@"destinationKey"];
         validSourceObject = scope[@"validSourceObject"];
         invalidSourceObject = scope[@"invalidSourceObject"];
         expectedParsedObject = scope[@"expectedParsedObject"];
@@ -61,17 +63,21 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
     __block id parsedObject;
     __block HYDError *error;
 
+    it(@"should report the same destination key", ^{
+        [mapper destinationKey] should equal(destinationKey);
+    });
+
     describe(@"parsing the source object", ^{
         subjectAction(^{
             parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
         });
 
-        context(@"when a number is provided", ^{
+        context(@"when a valid source object is provided", ^{
             beforeEach(^{
                 sourceObject = validSourceObject;
             });
 
-            it(@"should produce a string object", ^{
+            it(@"should produce a value parsed object", ^{
                 parsedObject should equal(expectedParsedObject);
             });
 
@@ -80,13 +86,14 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             });
         });
 
-        context(@"when another type of object is provided", ^{
+        context(@"when invalid source object is provided", ^{
             beforeEach(^{
                 sourceObject = invalidSourceObject;
             });
 
             it(@"should provide a fatal error", ^{
                 error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error.userInfo[HYDDestinationKeyPathKey] should equal(destinationKey);
             });
 
             it(@"should return nil", ^{
@@ -105,6 +112,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
 
             it(@"should produce a fatal error", ^{
                 error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error.userInfo[HYDDestinationKeyPathKey] should equal(destinationKey);
             });
         });
     });
