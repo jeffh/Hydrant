@@ -16,7 +16,7 @@
 #import "HYDTypedMapper.h"
 #import "HYDKeyValueMapper.h"
 #import "HYDKeyValuePathMapper.h"
-#import "HYDOptionalMapper.h"
+#import "HYDNonFatalMapper.h"
 #import "HYDNotNullMapper.h"
 #import "HYDFirstMapper.h"
 
@@ -29,3 +29,6 @@
 #import "HYDValueTransformerMapper.h"
 #import "HYDReversedValueTransformerMapper.h"
 #import "HYDIrreversableValueTransformer.h"
+
+// mappers composed of other mappers
+#import "HYDOptionalMapper.h"

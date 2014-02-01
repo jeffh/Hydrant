@@ -1,39 +1,34 @@
-#import "HYDMapper.h"
 #import "HYDBase.h"
+#import "HYDNonFatalMapper.h"
+#import "HYDNotNullMapper.h"
 
+// TODO: test these methods?
 
-@class HYDObjectFactory;
-
-typedef id(^HYDValueBlock)();
-
-
-@interface HYDOptionalMapper : NSObject <HYDMapper>
-
-- (id)initWithMapper:(id<HYDMapper>)mapper defaultValue:(HYDValueBlock)defaultValue reverseDefaultValue:(HYDValueBlock)reverseDefaultValue;
-
-@end
+HYD_EXTERN
+HYD_OVERLOADED
+id<HYDMapper> HYDMapOptionally(NSString *destinationKey)
+HYD_REQUIRE_NON_NIL(1);
 
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDOptionalMapper *HYDMapOptionally(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapOptionally(id<HYDMapper> mapper)
 HYD_REQUIRE_NON_NIL(1);
+
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDOptionalMapper *HYDMapOptionally(NSString *destinationKey)
+id<HYDMapper> HYDMapOptionallyWithDefault(NSString *destinationKey, id defaultValue)
 HYD_REQUIRE_NON_NIL(1);
+
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDOptionalMapper *HYDMapOptionallyWithDefault(id<HYDMapper> mapper, id defaultValue)
+id<HYDMapper> HYDMapOptionallyWithDefault(id<HYDMapper> mapper, id defaultValue)
 HYD_REQUIRE_NON_NIL(1);
+
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDOptionalMapper *HYDMapOptionallyWithDefault(NSString *destinationKey, id defaultValue)
-HYD_REQUIRE_NON_NIL(1);
-
-HYD_EXTERN
-HYDOptionalMapper *HYDMapOptionallyWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reversedDefault)
+id<HYDMapper> HYDMapOptionallyWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reverseDefaultValue)
 HYD_REQUIRE_NON_NIL(1);

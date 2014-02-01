@@ -24,7 +24,7 @@ describe(@"Mapper Composition", ^{
                                                                @"name.last" : @"lastName",
                                                                @"age" : HYDMapStringToNumber(@"age"),
                                                                @"birth_date" : HYDMapStringToDate(@"birthDate", dotNetDateFormatter)}),
-                                @"identifier" : HYDMapOptionally(HYDMapIdentity(@"identifier")),
+                                @"identifier" : HYDMapNonFatally(HYDMapIdentity(@"identifier")),
                                 @"gender" : HYDMapEnum(@"gender", @{@"unknown" : @(HYDPersonGenderUnknown),
                                       @"male" : @(HYDPersonGenderMale),
                                       @"female" : @(HYDPersonGenderFemale)}),

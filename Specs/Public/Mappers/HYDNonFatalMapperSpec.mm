@@ -6,10 +6,10 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-SPEC_BEGIN(HYDOptionalMapperSpec)
+SPEC_BEGIN(HYDNonFatalMapperSpec)
 
-describe(@"HYDOptionalMapper", ^{
-    __block HYDOptionalMapper *mapper;
+describe(@"HYDNonFatalMapper", ^{
+    __block HYDNonFatalMapper *mapper;
     __block HYDFakeMapper *childMapper;
     __block HYDError *error;
     __block id sourceObject;
@@ -18,7 +18,7 @@ describe(@"HYDOptionalMapper", ^{
     beforeEach(^{
         childMapper = [[HYDFakeMapper alloc] init];
         childMapper.destinationKey = @"destinationKey";
-        mapper = HYDMapOptionallyWithDefault(childMapper, @42);
+        mapper = HYDMapNonFatallyWithDefault(childMapper, @42);
     });
 
     it(@"should ask the child mapper for the destination key", ^{

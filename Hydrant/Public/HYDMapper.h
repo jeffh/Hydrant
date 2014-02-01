@@ -23,7 +23,7 @@
  *  It is acceptable to return an object AND error. This indicates
  *  there was a partial error parsing the sourceObject, but
  *  recoverable enough to parse an object. The error should contain
- *  details of abnormal parsing behavior (eg - HYDOptionalMapper).
+ *  details of abnormal parsing behavior (eg - HYDNonFatalMapper).
  *
  *  To truly know if the provided source object is valid, consulting
  *  the error object's -[HYDError isFatal] boolean is necessary
