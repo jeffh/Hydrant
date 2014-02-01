@@ -9,6 +9,7 @@
 
 // formatters
 #import "HYDDotNetDateFormatter.h"
+#import "HYDURLFormatter.h"
 
 // container mappers
 #import "HYDCollectionMapper.h"
@@ -17,6 +18,7 @@
 #import "HYDKeyValuePathMapper.h"
 #import "HYDOptionalMapper.h"
 #import "HYDNotNullMapper.h"
+#import "HYDFirstMapper.h"
 
 // standalone mappers
 #import "HYDStringToObjectFormatterMapper.h"
@@ -25,3 +27,5 @@
 #import "HYDIdentityMapper.h"
 #import "HYDBlockMapper.h"
 #import "HYDValueTransformerMapper.h"
+#import "HYDReversedValueTransformerMapper.h"
+#import "HYDIrreversableValueTransformer.h"

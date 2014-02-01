@@ -1,4 +1,5 @@
-#import "HYDURLFormatter.h"
+// DO NOT any other library headers here to simulate an API user.
+#import "Hydrant.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;

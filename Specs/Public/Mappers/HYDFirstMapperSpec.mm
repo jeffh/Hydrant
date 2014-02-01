@@ -1,4 +1,5 @@
-#import "HYDFirstMapper.h"
+// DO NOT any other library headers here to simulate an API user.
+#import "Hydrant.h"
 #import "HYDFakeMapper.h"
 #import "HYDError+Spec.h"
 #import "HYDObjectFactory.h"
