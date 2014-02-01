@@ -17,10 +17,10 @@
  *  @returns a mapper that will try each mapper in sequence.
  */
 HYD_EXTERN
-HYDFirstMapper *HYDMapFirstInMapperArray(NSArray *mappers);
+HYDFirstMapper *HYDMapFirstMapperInArray(NSArray *mappers);
 
 /*! Creates a mapper that runs through all the given mappers sequentially
  *  until one mapper returns a value object (non-fatal error) or all
  *  possible mappers fail.
  */
-#define HYDMapFirst(...) (HYDMapFirstInMapperArray(@[ __VA_ARGS__ ]))
+#define HYDMapFirst(...) (HYDMapFirstMapperInArray(@[ __VA_ARGS__ ]))

@@ -29,23 +29,23 @@
  *  the error object's -[HYDError isFatal] boolean is necessary
  *
  *  @param sourceObject The received object to convert. This should
- *                      generally assume a JSON-compatible object
- *                      on default construction.
+ *                      generally refer to the JSON or object being
+ *                      serialized.
  *  @param error If the source object could not be converted without
  *               any errors it is filled in here. Note the object
  *               returned may still not be nil.
  *  @returns A newly created object to be assigned to an object by
- *           the `destinationKey` method. A nil-returned value
- *           either indicates an error.
+ *           the `destinationKey` method.
  */
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error;
 
 #pragma mark - Mapper Composition
 
-/*! The destination key that the parsed object should be stored on for the destination object.
- *  Most mappers use a @property and receive the argument in their constructors.
+/*! The destination key that the parsed object should be stored on for the destination
+ *  object. Most mappers use a @property and receive the argument in their constructors.
  *
- *  This is primarily used by a "parent" HYDMapper object to know where to place this object.
+ *  This is primarily used by a "parent" HYDMapper object to know where to place this mapper's
+ *  objects that it produces.
  *
  *  @returns A key path-compatible string representing the property to assign to.
  */
@@ -53,12 +53,13 @@
 
 /*! The reverse mapper object that does the inverse conversion of this mapper.
  *
- *  This provides a handy way to reverse a mapping operation, which
- *  parents can then utilize to provide more complex reverse mapping
- *  features.
+ *  This provides a handy way to reverse a mapping operation. Parent mappers can
+ *  call this method on all its children to build a reversed-parent mapper.
  *
- *  @param destinationKey The new destination key path-compatible string representing the property name to assign to.
- *  @returns A HYDMapper conforming object that can perform the inverse conversion of the current mapper.
+ *  @param destinationKey The new destination key path-compatible string representing
+ *                        the property name to assign to for the reverse mapper.
+ *  @returns A HYDMapper conforming object that can perform the inverse conversion of
+ *           the current mapper.
  */
 - (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey;
 

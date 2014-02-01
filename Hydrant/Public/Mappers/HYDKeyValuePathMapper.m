@@ -5,15 +5,12 @@
 #import "HYDClassInspector.h"
 #import "HYDProperty.h"
 #import "HYDFunctions.h"
+#import "HYDWalker.h"
 
 
-@interface HYDKeyValuePathMapper ()
+@interface HYDKeyValuePathMapper () <HYDWalkerDelegate>
 
-@property (copy, nonatomic) NSString *destinationKey;
-@property (strong, nonatomic) Class sourceClass;
-@property (strong, nonatomic) Class destinationClass;
-@property (strong, nonatomic) NSDictionary *mapping;
-@property (strong, nonatomic) id<HYDFactory> factory;
+@property (strong, nonatomic) HYDWalker *walker;
 
 @end
 
@@ -24,11 +21,12 @@
 {
     self = [super init];
     if (self) {
-        self.destinationKey = destinationKey;
-        self.sourceClass = sourceClass;
-        self.destinationClass = destinationClass;
-        self.mapping = HYDNormalizeKeyValueDictionary(mapping);
-        self.factory = [[HYDObjectFactory alloc] init];
+        self.walker = [[HYDWalker alloc] initWithDestinationKey:destinationKey
+                                                    sourceClass:sourceClass
+                                               destinationClass:destinationClass
+                                                        mapping:mapping
+                                                        factory:[[HYDObjectFactory alloc] init]
+                                                       delegate:self];
     }
     return self;
 }
@@ -37,81 +35,25 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDSetError(error, nil);
-    if (!sourceObject) {
-        return nil;
-    }
-
-    NSMutableArray *errors = [NSMutableArray array];
-    BOOL hasFatalError = NO;
-
-    id destinationObject = [self.factory newObjectOfClass:self.destinationClass];
-    for (NSString *sourceKey in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[sourceKey];
-        HYDError *innerError = nil;
-
-        id sourceValue = nil;
-        if ([self hasKeyPath:sourceKey onObject:sourceObject]) {
-            sourceValue = [sourceObject valueForKeyPath:sourceKey];
-        }
-
-        id destinationValue = [mapper objectFromSourceObject:sourceValue error:&innerError];
-
-        if (innerError) {
-            hasFatalError = hasFatalError || [innerError isFatal];
-            [errors addObject:[HYDError errorFromError:innerError
-                                   prependingSourceKey:sourceKey
-                                     andDestinationKey:nil
-                               replacementSourceObject:sourceValue
-                                               isFatal:innerError.isFatal]];
-            continue;
-        }
-
-        if ([[NSNull null] isEqual:destinationValue] && ![self requiresNSNullForClass:self.destinationClass]) {
-            destinationValue = nil;
-        } else if (!destinationValue && [self requiresNSNullForClass:self.destinationClass]) {
-            destinationValue = [NSNull null];
-        }
-
-        [self recursivelySetValue:destinationValue
-                       forKeyPath:mapper.destinationKey
-                         onObject:destinationObject];
-    }
-
-    if (errors.count) {
-        HYDSetError(error, [HYDError errorWithCode:HYDErrorMultipleErrors
-                                      sourceObject:sourceObject
-                                         sourceKey:nil
-                                 destinationObject:nil
-                                    destinationKey:self.destinationKey
-                                           isFatal:hasFatalError
-                                  underlyingErrors:errors]);
-    }
-
-    if (hasFatalError) {
-        return nil;
-    }
-
-    return destinationObject;
+    return [self.walker objectFromSourceObject:sourceObject error:error];
 }
 
 - (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
 {
-    NSMutableDictionary *invertedMapping = [NSMutableDictionary dictionaryWithCapacity:self.mapping.count];
-    for (NSString *sourceKey in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[sourceKey];
-
-        invertedMapping[mapper.destinationKey] = [mapper reverseMapperWithDestinationKey:sourceKey];
-    }
-    return [[HYDKeyValuePathMapper alloc] initWithDestinationKey:destinationKey
-                                                       fromClass:self.destinationClass
-                                                         toClass:self.sourceClass
-                                                         mapping:invertedMapping];
+    return [[[self class] alloc] initWithDestinationKey:destinationKey
+                                              fromClass:self.walker.destinationClass
+                                                toClass:self.walker.sourceClass
+                                                mapping:[self.walker inverseMapping]];
 }
 
-#pragma mark - Private
+- (NSString *)destinationKey
+{
+    return [self.walker destinationKey];
+}
 
-- (BOOL)hasKeyPath:(NSString *)keyPath onObject:(id)target
+#pragma mark - <HYDWalker>
+
+- (BOOL)walker:(HYDWalker *)walker shouldReadKey:(NSString *)keyPath onObject:(id)target
 {
     NSArray *keyComponents = [keyPath componentsSeparatedByString:@"."];
     id keyTarget = target;
@@ -124,6 +66,35 @@
     return YES;
 }
 
+- (id)walker:(HYDWalker *)walker valueForKey:(NSString *)keyPath onObject:(id)target
+{
+    return [target valueForKeyPath:keyPath];
+}
+
+- (void)walker:(HYDWalker *)walker setValue:(id)value forKey:(NSString *)keyPath onObject:(id)target
+{
+    if (!value) {
+        return;
+    }
+
+    NSMutableArray *keyComponents = [[keyPath componentsSeparatedByString:@"."] mutableCopy];
+    NSString *keyToMutate = keyComponents.lastObject;
+    [keyComponents removeLastObject];
+
+    id keyTarget = target;
+    for (NSString *key in keyComponents) {
+        if (![self hasKey:key onObject:keyTarget]) {
+            id intermediateObject = [walker.factory newObjectOfClass:self.walker.destinationClass];
+            [keyTarget setValue:intermediateObject forKey:key];
+        }
+        keyTarget = [keyTarget valueForKey:key];
+    }
+
+    [keyTarget setValue:value forKey:keyToMutate];
+}
+
+#pragma mark - Private
+
 - (BOOL)hasKey:(NSString *)key onObject:(id)target
 {
     if ([target respondsToSelector:@selector(objectForKey:)]) {
@@ -135,39 +106,6 @@
     HYDClassInspector *inspector = [HYDClassInspector inspectorForClass:[target class]];
     for (HYDProperty *property in inspector.allProperties) {
         if ([property.name isEqual:key]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
-- (void)recursivelySetValue:(id)value forKeyPath:(NSString *)keyPath onObject:(id)object
-{
-    if (!value) {
-        return;
-    }
-
-    NSMutableArray *keyComponents = [[keyPath componentsSeparatedByString:@"."] mutableCopy];
-    NSString *keyToMutate = keyComponents.lastObject;
-    [keyComponents removeLastObject];
-
-    id keyTarget = object;
-    for (NSString *key in keyComponents) {
-        if (![self hasKey:key onObject:keyTarget]) {
-            id intermediateObject = [self.factory newObjectOfClass:self.destinationClass];
-            [keyTarget setValue:intermediateObject forKey:key];
-        }
-        keyTarget = [keyTarget valueForKey:key];
-    }
-
-    [keyTarget setValue:value forKey:keyToMutate];
-}
-
-- (BOOL)requiresNSNullForClass:(Class)aClass
-{
-    NSArray *nullableClasses = @[[NSDictionary class], [NSHashTable class]];
-    for (Class nullableClass in nullableClasses) {
-        if ([aClass isSubclassOfClass:nullableClass]) {
             return YES;
         }
     }

@@ -6,30 +6,34 @@
 #import "HYDClassInspector.h"
 #import "HYDProperty.h"
 #import "HYDFunctions.h"
+#import "HYDWalker.h"
 
 
-@interface HYDKeyValueMapper ()
+@interface HYDKeyValueMapper () <HYDWalkerDelegate>
 
-@property (copy, nonatomic) NSString *destinationKey;
-@property (strong, nonatomic) Class sourceClass;
-@property (strong, nonatomic) Class destinationClass;
-@property (strong, nonatomic) NSDictionary *mapping;
-@property (strong, nonatomic) id<HYDFactory> factory;
+@property (strong, nonatomic) HYDWalker *walker;
 
 @end
 
 
 @implementation HYDKeyValueMapper
 
+- (id)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 - (id)initWithDestinationKey:(NSString *)destinationKey fromClass:(Class)sourceClass toClass:(Class)destinationClass mapping:(NSDictionary *)mapping
 {
     self = [super init];
     if (self) {
-        self.destinationKey = destinationKey;
-        self.sourceClass = sourceClass;
-        self.destinationClass = destinationClass;
-        self.mapping = HYDNormalizeKeyValueDictionary(mapping);
-        self.factory = [[HYDObjectFactory alloc] init];
+        self.walker = [[HYDWalker alloc] initWithDestinationKey:destinationKey
+                                                    sourceClass:sourceClass
+                                               destinationClass:destinationClass
+                                                        mapping:mapping
+                                                        factory:[[HYDObjectFactory alloc] init]
+                                                       delegate:self];
     }
     return self;
 }
@@ -38,78 +42,25 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDSetError(error, nil);
-    if (!sourceObject) {
-        *error = nil;
-        return nil;
-    }
-
-    NSMutableArray *errors = [NSMutableArray array];
-    BOOL hasFatalError = NO;
-
-    id destinationObject = [self.factory newObjectOfClass:self.destinationClass];
-    for (NSString *sourceKey in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[sourceKey];
-        HYDError *innerError = nil;
-
-        id sourceValue = nil;
-        if ([self hasKey:sourceKey onObject:sourceObject]) {
-            sourceValue = [self valueForKey:sourceKey onObject:sourceObject];
-        }
-
-        id destinationValue = [mapper objectFromSourceObject:sourceValue error:&innerError];
-
-        if (innerError) {
-            hasFatalError = hasFatalError || [innerError isFatal];
-            [errors addObject:[HYDError errorFromError:innerError
-                                   prependingSourceKey:sourceKey
-                                     andDestinationKey:nil
-                               replacementSourceObject:sourceValue
-                                               isFatal:innerError.isFatal]];
-            continue;
-        }
-
-        if ([[NSNull null] isEqual:destinationValue] && ![self requiresNSNullForClass:self.destinationClass]) {
-            destinationValue = nil;
-        }
-
-        [self setValue:destinationValue forKey:mapper.destinationKey onObject:destinationObject];
-    }
-
-    if (errors.count) {
-        HYDSetError(error, [HYDError errorWithCode:HYDErrorMultipleErrors
-                                      sourceObject:sourceObject
-                                         sourceKey:nil
-                                 destinationObject:nil
-                                    destinationKey:self.destinationKey
-                                           isFatal:hasFatalError
-                                  underlyingErrors:errors]);
-    }
-
-    if (hasFatalError) {
-        return nil;
-    }
-
-    return destinationObject;
+    return [self.walker objectFromSourceObject:sourceObject error:error];
 }
 
 - (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
 {
-    NSMutableDictionary *invertedMapping = [NSMutableDictionary dictionaryWithCapacity:self.mapping.count];
-    for (NSString *sourceKey in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[sourceKey];
-
-        invertedMapping[mapper.destinationKey] = [mapper reverseMapperWithDestinationKey:sourceKey];
-    }
     return [[[self class] alloc] initWithDestinationKey:destinationKey
-                                              fromClass:self.destinationClass
-                                                toClass:self.sourceClass
-                                                mapping:invertedMapping];
+                                              fromClass:self.walker.destinationClass
+                                                toClass:self.walker.sourceClass
+                                                mapping:[self.walker inverseMapping]];
 }
 
-#pragma mark - Protected
+- (NSString *)destinationKey
+{
+    return [self.walker destinationKey];
+}
 
-- (BOOL)hasKey:(NSString *)key onObject:(id)target
+#pragma mark - <HYDWalkerDelegate>
+
+- (BOOL)walker:(HYDWalker *)walker shouldReadKey:(NSString *)key onObject:(id)target
 {
     if ([target respondsToSelector:@selector(objectForKey:)]) {
         if ([target valueForKey:key]) {
@@ -126,25 +77,14 @@
     return NO;
 }
 
-- (id)valueForKey:(NSString *)key onObject:(id)target
+- (id)walker:(HYDWalker *)walker valueForKey:(NSString *)key onObject:(id)target
 {
     return [target valueForKey:key];
 }
 
-- (void)setValue:(id)value forKey:(NSString *)key onObject:(id)target
+- (void)walker:(HYDWalker *)walker setValue:(id)value forKey:(NSString *)key onObject:(id)target
 {
     [target setValue:value forKey:key];
-}
-
-- (BOOL)requiresNSNullForClass:(Class)aClass
-{
-    NSArray *nullableClasses = @[[NSDictionary class], [NSHashTable class]];
-    for (Class nullableClass in nullableClasses) {
-        if ([aClass isSubclassOfClass:nullableClass]) {
-            return YES;
-        }
-    }
-    return NO;
 }
 
 @end
