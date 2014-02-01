@@ -164,17 +164,23 @@ describe(@"HYDKeyValueMapper", ^{
 
         context(@"when a field is missing in the provided source object", ^{
             beforeEach(^{
-                sourceObject = @{@"first_name": @"John",
-                                 @"age": @23,
+                sourceObject = @{@"age": @23,
                                  @"id": @5};
+                childMapper2.objectsToReturn = @[[NSNull null]];
             });
 
-            it(@"should have a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorMultipleErrors);
+            it(@"should pass nil to the child mappers", ^{
+                childMapper2.sourceObjectsReceived should equal(@[[NSNull null]]);
             });
 
-            it(@"should return nil", ^{
-                parsedObject should be_nil;
+            it(@"should not have an error", ^{
+                error should be_nil;
+            });
+
+            it(@"should use nil as the key value", ^{
+                expectedPerson.lastName = nil;
+                expectedPerson.firstName = nil;
+                parsedObject should equal(expectedPerson);
             });
         });
 

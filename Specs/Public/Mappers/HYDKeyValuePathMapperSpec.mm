@@ -20,7 +20,6 @@ describe(@"HYDKeyValuePathMapper", ^{
     __block HYDFakeMapper *childMapper2;
 
     beforeEach(^{
-        error = nil;
         expectedPerson = [[HYDPerson alloc] initWithFixtureData];
         validSourceObject = @{@"name": @{@"first": @"John",
                                          @"last": @"Doe"},
@@ -166,17 +165,23 @@ describe(@"HYDKeyValuePathMapper", ^{
 
         context(@"when a field is missing in the provided source object", ^{
             beforeEach(^{
-                sourceObject = @{@"name": @{@"first": @"John"},
-                                 @"age": @23,
+                sourceObject = @{@"age": @23,
                                  @"identifier": @"transforms"};
+                childMapper2.objectsToReturn = @[[NSNull null]];
             });
 
-            it(@"should have a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorMultipleErrors);
+            it(@"should pass nil to the child mappers", ^{
+                childMapper2.sourceObjectsReceived should equal(@[[NSNull null]]);
             });
 
-            it(@"should return nil", ^{
-                parsedObject should be_nil;
+            it(@"should not have an error", ^{
+                error should be_nil;
+            });
+
+            it(@"should use nil as the key value", ^{
+                expectedPerson.lastName = nil;
+                expectedPerson.firstName = nil;
+                parsedObject should equal(expectedPerson);
             });
         });
 
@@ -192,6 +197,12 @@ describe(@"HYDKeyValuePathMapper", ^{
             it(@"should return nil", ^{
                 parsedObject should be_nil;
             });
+        });
+    });
+
+    describe(@"parsing an object with a nil pointer", ^{
+        it(@"should not explode", ^{
+            parsedObject = [mapper objectFromSourceObject:@{} error:nil];
         });
     });
 

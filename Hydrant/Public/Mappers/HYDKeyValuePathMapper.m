@@ -4,6 +4,7 @@
 #import "HYDObjectFactory.h"
 #import "HYDClassInspector.h"
 #import "HYDProperty.h"
+#import "HYDFunctions.h"
 
 
 @interface HYDKeyValuePathMapper ()
@@ -50,7 +51,7 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    *error = nil;
+    HYDSetError(error, nil);
     if (!sourceObject) {
         return nil;
     }
@@ -63,19 +64,11 @@
         id<HYDMapper> mapper = self.mapping[sourceKey];
         HYDError *innerError = nil;
 
-        if (![self hasKeyPath:sourceKey onObject:sourceObject]) {
-            innerError = [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
-                                    sourceObject:nil
-                                       sourceKey:sourceKey
-                               destinationObject:nil
-                                  destinationKey:[mapper destinationKey]
-                                         isFatal:YES
-                                underlyingErrors:nil];
-            hasFatalError = YES;
-            [errors addObject:innerError];
-            continue;
+        id sourceValue = nil;
+        if ([self hasKeyPath:sourceKey onObject:sourceObject]) {
+            sourceValue = [sourceObject valueForKeyPath:sourceKey];
         }
-        id sourceValue = [sourceObject valueForKeyPath:sourceKey];
+
         id destinationValue = [mapper objectFromSourceObject:sourceValue error:&innerError];
 
         if (innerError) {
@@ -100,13 +93,13 @@
     }
 
     if (errors.count) {
-        *error = [HYDError errorWithCode:HYDErrorMultipleErrors
-                            sourceObject:sourceObject
-                               sourceKey:nil
-                       destinationObject:nil
-                          destinationKey:self.destinationKey
-                                 isFatal:hasFatalError
-                        underlyingErrors:errors];
+        HYDSetError(error, [HYDError errorWithCode:HYDErrorMultipleErrors
+                                      sourceObject:sourceObject
+                                         sourceKey:nil
+                                 destinationObject:nil
+                                    destinationKey:self.destinationKey
+                                           isFatal:hasFatalError
+                                  underlyingErrors:errors]);
     }
 
     if (hasFatalError) {
