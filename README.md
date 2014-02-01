@@ -101,9 +101,9 @@ We build a tree of mappers to handle this:
 id<HYDMapper> personMapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [Person class],
         @{@"id": @"identifier",
           @"name": @"firstName",
-          @"people": HYDMapArrayOf(@"friends", [NSDictionary class], [Person class],
-                                   @{@"id": @"identifier",
-                                     @"name": @"firstName"})});
+          @"people": HYDMapArrayOf(HYDMapObject(@"friends", [NSDictionary class], [Person class],
+                                                @{@"id": @"identifier",
+                                                  @"name": @"firstName"}))});
 ```
 
 Then we can use our mapper to do the conversion
@@ -122,15 +122,15 @@ if ([error isFatal]) {
 }
 ```
 
-That's it!. But what if the JSON is from a third party and is unreliable? Just add more information:
+That's it! But what if the JSON is from a third party and is unreliable? Just add more information:
 
 ```
 id<HYDMapper> personMapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [Person class],
         @{@"id": HYDMapType(@"identifier", [NSNumber class]),
           @"name": HYDMapType(@"firstName", [NSString class]),
-          @"people": HYDMapType(HYDMapArrayOf(@"friends", [NSDictionary class], [Person class],
-                                              @{@"id": HYDMapType(@"identifier", [NSNumber class]),
-                                                @"name": HYDMapType(@"firstName", [NSString class])}),
+          @"people": HYDMapType(HYDMapArrayOf(HYDMapObject(@"friends", [NSDictionary class], [Person class],
+                                                           @{@"id": HYDMapType(@"identifier", [NSNumber class]),
+                                                             @"name": HYDMapType(@"firstName", [NSString class])})),
                                 [NSArray class])});
 ```
 
@@ -142,9 +142,9 @@ What if the `friends` key isn't always present? You can mark a field as optional
 id<HYDMapper> personMapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [Person class],
         @{@"id": @"identifier",
           @"name": @"firstName",
-          @"people": HYDMapOptionally(HYDMapArrayOf(@"friends", [NSDictionary class], [Person class],
-                                                    @{@"id": @"identifier",
-                                                      @"name": @"firstName"}))});
+          @"people": HYDMapOptionally(HYDMapArrayOf(HYDMapObject(@"friends", [NSDictionary class], [Person class],
+                                                                 @{@"id": @"identifier",
+                                                                   @"name": @"firstName"})))});
 ```
 
 If the JSON is missing the `people` key, then the person is still returned, but the `error` is
