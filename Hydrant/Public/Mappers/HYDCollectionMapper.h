@@ -8,8 +8,8 @@
  *  Collections are assumed to be the types as specified. If you want stronger type
  *  checking, use HYDTypedMapper.
  *
- *  @see HYDTypeMapper to add stronger type checking
- *  @see HYDMapArrayOf, HYDMapSetOf are helper constructors
+ *  @see HYDTypedMapper which adds stronger type checking
+ *  @see HYDMapArrayOf, HYDMapSetOf helper constructors
  *  @see HYDMutableCollection for the required methods for destination collection classes.
  *  @see HYDCollection for the required methods for the source collection class.
  */

@@ -9,7 +9,7 @@
  *  another.
  *
  *  HYDMapper are also designed to be composable, so a HYDMapper can
- *  map between two objects using a collection of JOMMappers.
+ *  map between two objects using a collection of HYDMappers.
  *
  *  @see HYDObjectToStringFormatterMapper for a simple mapper implementation.
  *  @see HYDKeyValueMapper for a complex mapper implementation.
@@ -58,7 +58,7 @@
  *  features.
  *
  *  @param destinationKey The new destination key path-compatible string representing the property name to assign to.
- *  @returns A JOMFieldMapper conforming object that can perform the inverse conversion of the current mapper.
+ *  @returns A HYDMapper conforming object that can perform the inverse conversion of the current mapper.
  */
 - (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey;
 
