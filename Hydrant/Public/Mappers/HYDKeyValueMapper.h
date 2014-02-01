@@ -27,9 +27,9 @@
  *
  *  @param destinationKey the property hint to store key value.
  *  @param sourceClass the source object type. This is used when generating a reverse mapper.
- *  @param sourceClass the destination object type. This is created by the mapper.
- *  @returns a mapper that maps properties frmo the source object to the destination object.
- *  @see HYDMapObjectPath for a simular mapper, but uses KeyPaths.
+ *  @param destinationClass the destination object type. This is created by the mapper.
+ *  @returns a mapper that maps properties from the source object to the destination object.
+ *  @see HYDMapObjectPath for a simular mapper which uses key paths.
  */
 HYD_EXTERN
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
