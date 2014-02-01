@@ -4,8 +4,6 @@
 
 @interface HYDKeyValuePathMapper : NSObject <HYDMapper>
 
-@property (strong, nonatomic) NSString *destinationKey;
-
 - (id)initWithDestinationKey:(NSString *)destinationKey
                    fromClass:(Class)sourceClass
                      toClass:(Class)destinationClass

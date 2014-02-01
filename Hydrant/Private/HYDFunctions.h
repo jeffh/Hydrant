@@ -12,3 +12,6 @@ NSString *HYDJoinedStringFromKeyPaths(NSString *previousKeyPath, NSString *nextK
 
 HYD_EXTERN
 void HYDSetError(__autoreleasing HYDError **errorPtr, HYDError *error);
+
+HYD_EXTERN
+NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping);

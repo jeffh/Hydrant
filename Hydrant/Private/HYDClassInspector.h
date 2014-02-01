@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+
 @interface HYDClassInspector : NSObject
 
 @property (strong, nonatomic, readonly) NSArray *allProperties;
@@ -8,8 +9,5 @@
 
 + (instancetype)inspectorForClass:(Class)aClass;
 - (id)initWithClass:(Class)aClass;
-
-- (NSString *)descriptionForObject:(id)object
-                    withProperties:(NSArray *)properties;
 
 @end

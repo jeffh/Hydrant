@@ -2,12 +2,16 @@
 #import "HYDProperty.h"
 #import <objc/runtime.h>
 
+
 @interface HYDClassInspector ()
+
 @property (strong, nonatomic) Class aClass;
 @property (strong, nonatomic, readwrite) NSArray *properties;
 @property (strong, nonatomic, readwrite) NSArray *weakProperties;
 @property (strong, nonatomic, readwrite) NSArray *nonWeakProperties;
+
 @end
+
 
 @implementation HYDClassInspector
 
@@ -33,24 +37,6 @@ static NSMutableDictionary *inspectors__;
         self.aClass = aClass;
     }
     return self;
-}
-
-- (NSString *)descriptionForObject:(id)object withProperties:(NSArray *)properties
-{
-    NSMutableString *string = [NSMutableString new];
-    [string appendFormat:@"<%@: %p", NSStringFromClass([object class]), object];
-    for (HYDProperty *property in properties) {
-        NSString *name = property.name;
-        id value = [object valueForKey:name];
-        [string appendFormat:@" %@=", name];
-        if (property.isWeak && value) {
-            [string appendFormat:@"<%@: %p>", NSStringFromClass([value class]), value];
-        } else {
-            [string appendFormat:@"%@", value];
-        }
-    }
-    [string appendString:@">"];
-    return string;
 }
 
 #pragma mark - Properties

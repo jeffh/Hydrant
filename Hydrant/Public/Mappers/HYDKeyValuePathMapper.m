@@ -9,12 +9,14 @@
 
 @interface HYDKeyValuePathMapper ()
 
+@property (copy, nonatomic) NSString *destinationKey;
 @property (strong, nonatomic) Class sourceClass;
 @property (strong, nonatomic) Class destinationClass;
 @property (strong, nonatomic) NSDictionary *mapping;
 @property (strong, nonatomic) id<HYDFactory> factory;
 
 @end
+
 
 @implementation HYDKeyValuePathMapper
 
@@ -25,26 +27,10 @@
         self.destinationKey = destinationKey;
         self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
-        self.mapping = mapping;
+        self.mapping = HYDNormalizeKeyValueDictionary(mapping);
         self.factory = [[HYDObjectFactory alloc] init];
-        // TODO: move to class method?
-        [self normalizeMapping];
     }
     return self;
-}
-
-- (void)normalizeMapping
-{
-    NSMutableDictionary *normalizedMapping = [NSMutableDictionary dictionaryWithCapacity:self.mapping.count];
-    for (id key in self.mapping) {
-        id value = self.mapping[key];
-        if ([value conformsToProtocol:@protocol(HYDMapper)]) {
-            normalizedMapping[key] = value;
-        } else if ([value isKindOfClass:[NSString class]]) {
-            normalizedMapping[key] = [[HYDIdentityMapper alloc] initWithDestinationKey:value];
-        }
-    }
-    self.mapping = [normalizedMapping copy];
 }
 
 #pragma mark - <HYDMapper>
@@ -194,10 +180,8 @@
 HYD_EXTERN
 HYDKeyValuePathMapper *HYDMapObjectPath(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    HYDKeyValuePathMapper *mapper = [[HYDKeyValuePathMapper alloc] initWithDestinationKey:destinationKey
-                                                                                fromClass:sourceClass
-                                                                                  toClass:destinationClass
-                                                                                  mapping:mapping];
-    [mapper normalizeMapping];
-    return mapper;
+    return [[HYDKeyValuePathMapper alloc] initWithDestinationKey:destinationKey
+                                                       fromClass:sourceClass
+                                                         toClass:destinationClass
+                                                         mapping:mapping];
 }

@@ -28,26 +28,10 @@
         self.destinationKey = destinationKey;
         self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
-        self.mapping = mapping;
+        self.mapping = HYDNormalizeKeyValueDictionary(mapping);
         self.factory = [[HYDObjectFactory alloc] init];
-        // TODO: move to class method?
-        [self normalizeMapping];
     }
     return self;
-}
-
-- (void)normalizeMapping
-{
-    NSMutableDictionary *normalizedMapping = [NSMutableDictionary dictionaryWithCapacity:self.mapping.count];
-    for (id key in self.mapping) {
-        id value = self.mapping[key];
-        if ([value conformsToProtocol:@protocol(HYDMapper)]) {
-            normalizedMapping[key] = value;
-        } else if ([value isKindOfClass:[NSString class]]) {
-            normalizedMapping[key] = [[HYDIdentityMapper alloc] initWithDestinationKey:value];
-        }
-    }
-    self.mapping = [normalizedMapping copy];
 }
 
 #pragma mark - <HYDMapper>
