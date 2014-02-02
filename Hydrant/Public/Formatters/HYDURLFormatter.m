@@ -21,6 +21,12 @@
 
 - (BOOL)getObjectValue:(out __autoreleasing id *)obj forString:(NSString *)string errorDescription:(out __autoreleasing NSString **)error
 {
+    if (![string isKindOfClass:[NSString class]]) {
+        *error = HYDLocalizedStringFormat(@"The value '%@' is not a string", string);
+        *obj = nil;
+        return NO;
+    }
+
     *obj = [NSURL URLWithString:string];
     if (![*obj scheme]) {
         *error = HYDLocalizedStringFormat(@"The value '%@' is not a valid URL", string);

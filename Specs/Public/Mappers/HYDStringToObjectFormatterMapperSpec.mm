@@ -22,7 +22,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
     });
 
     describe(@"parsing an object", ^{
-        __block NSString *sourceObject;
+        __block id sourceObject;
         __block id parsedObject;
 
         beforeEach(^{
@@ -66,6 +66,20 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
                 NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFormattingError userInfo:@{NSLocalizedDescriptionKey: @"No cheese"}];
                 error.userInfo[HYDUnderlyingErrorsKey] should equal(@[originalError]);
                 error.userInfo[NSUnderlyingErrorKey] should equal(originalError);
+            });
+        });
+
+        context(@"when the source object is NSNull", ^{
+            beforeEach(^{
+                sourceObject = [NSNull null];
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+
+            it(@"should contain the error description", ^{
+                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
             });
         });
 

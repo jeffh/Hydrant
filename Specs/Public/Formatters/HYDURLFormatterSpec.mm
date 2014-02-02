@@ -143,6 +143,21 @@ describe(@"HYDURLFormatter", ^{
                 errorDescription should equal(@"The value '!!' is not a valid URL");
             });
         });
+
+        context(@"when not given a string", ^{
+            beforeEach(^{
+                sourceObject = [NSNull null];
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+
+            it(@"should report an error", ^{
+                success should_not be_truthy;
+                errorDescription should equal(@"The value '<null>' is not a string");
+            });
+        });
     });
 });
 
