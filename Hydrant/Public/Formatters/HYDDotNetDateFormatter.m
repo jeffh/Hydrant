@@ -30,13 +30,15 @@ static NSRegularExpression *dateRegExpr__;
 
 - (BOOL)getObjectValue:(out __autoreleasing id *)obj forString:(NSString *)string errorDescription:(out __autoreleasing NSString **)error
 {
+    HYDSetObjectPointer(obj, nil);
+
     NSTextCheckingResult *result = [dateRegExpr__ firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
     if (!result) {
-        *error = HYDLocalizedStringFormat(@"The value '%@' is not a valid .net date", string);
+        HYDSetObjectPointer(error, HYDLocalizedStringFormat(@"The value '%@' is not a valid .net date", string));
         return NO;
     }
     NSString *epochTimeInMilliseconds = [string substringWithRange:[result rangeAtIndex:1]];
-    *obj = [NSDate dateWithTimeIntervalSince1970:epochTimeInMilliseconds.doubleValue / 1000.0];
+    HYDSetObjectPointer(obj, [NSDate dateWithTimeIntervalSince1970:epochTimeInMilliseconds.doubleValue / 1000.0]);
     return YES;
 }
 

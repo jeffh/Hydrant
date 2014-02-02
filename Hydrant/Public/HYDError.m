@@ -40,7 +40,7 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
     HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationKeyPathKey, destinationKey);
 
     if (underlyingErrors.count) {
-        NSMutableString *details = [NSMutableString stringWithFormat:@"Multiple errors occurred:\n"];
+        NSMutableString *details = HYDLocalizedStringFormat(@"Multiple errors occurred:\n");
         for (NSError *error in underlyingErrors) {
             if ([error respondsToSelector:@selector(underlyingErrorsDescription)]) {
                 [details appendFormat:@" - %@", [(HYDError *)error underlyingErrorsDescription]];
@@ -50,7 +50,7 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
         }
         userInfo[NSLocalizedDescriptionKey] = details;
     } else {
-        userInfo[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"Could not map from '%@' to '%@'", sourceKey, destinationKey];
+        userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'", sourceKey, destinationKey);
     }
     return [self errorWithDomain:HYDErrorDomain code:code userInfo:userInfo];
 }

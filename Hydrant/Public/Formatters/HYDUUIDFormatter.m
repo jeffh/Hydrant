@@ -17,7 +17,7 @@
 {
     HYDSetObjectPointer(obj, nil);
     if (![string isKindOfClass:[NSString class]]) {
-        HYDSetObjectPointer(error, HYDLocalizedStringFormat(@"The value '%@' is not a valid string", string);
+        HYDSetObjectPointer(error, HYDLocalizedStringFormat(@"The value '%@' is not a valid string", string));
         return NO;
     }
 

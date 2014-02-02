@@ -21,25 +21,26 @@
 
 - (BOOL)getObjectValue:(out __autoreleasing id *)obj forString:(NSString *)string errorDescription:(out __autoreleasing NSString **)error
 {
+    HYDSetObjectPointer(obj, nil);
+
     if (![string isKindOfClass:[NSString class]]) {
-        *error = HYDLocalizedStringFormat(@"The value '%@' is not a string", string);
-        *obj = nil;
+        HYDSetObjectPointer(error, HYDLocalizedStringFormat(@"The value '%@' is not a string", string));
         return NO;
     }
 
-    *obj = [NSURL URLWithString:string];
-    if (![*obj scheme]) {
-        *error = HYDLocalizedStringFormat(@"The value '%@' is not a valid URL", string);
-        *obj = nil;
+    NSURL *url = [NSURL URLWithString:string];
+    if (!url.scheme) {
+        HYDSetObjectPointer(error, HYDLocalizedStringFormat(@"The value '%@' is not a valid URL", string));
         return NO;
     }
 
-    if (self.allowedSchemes && ![self.allowedSchemes containsObject:[*obj scheme].lowercaseString]) {
+    if (self.allowedSchemes && ![self.allowedSchemes containsObject:url.scheme.lowercaseString]) {
         NSString *allowedSchemes = [self.allowedSchemes.allObjects componentsJoinedByString:@", "];
-        *error = HYDLocalizedStringFormat(@"The value '%@' is not a valid URL with an accepted scheme: %@", string, allowedSchemes);
-        *obj = nil;
+        HYDSetObjectPointer(error, HYDLocalizedStringFormat(@"The value '%@' is not a valid URL with an accepted scheme: %@", string, allowedSchemes));
         return NO;
     }
+
+    HYDSetObjectPointer(obj, url);
 
     return YES;
 }
