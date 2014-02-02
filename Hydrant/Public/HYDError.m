@@ -40,7 +40,7 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
     HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationKeyPathKey, destinationKey);
 
     if (underlyingErrors.count) {
-        NSMutableString *details = HYDLocalizedStringFormat(@"Multiple errors occurred:\n");
+        NSMutableString *details = [HYDLocalizedStringFormat(@"Multiple errors occurred:\n") mutableCopy];
         for (NSError *error in underlyingErrors) {
             if ([error respondsToSelector:@selector(underlyingErrorsDescription)]) {
                 [details appendFormat:@" - %@", [(HYDError *)error underlyingErrorsDescription]];
