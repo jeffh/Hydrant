@@ -51,14 +51,14 @@
         }
     }
 
-    HYDSetError(error, nil);
+    HYDSetObjectPointer(error, nil);
     if (errors.count) {
-        HYDSetError(error, [HYDError errorFromErrors:errors
-                                        sourceObject:sourceObject
-                                           sourceKey:nil
-                                   destinationObject:nil
-                                      destinationKey:self.destinationKey
-                                             isFatal:!hasObject]);
+        HYDSetObjectPointer(error, [HYDError errorFromErrors:errors
+                                                sourceObject:sourceObject
+                                                   sourceKey:nil
+                                           destinationObject:nil
+                                              destinationKey:self.destinationKey
+                                                     isFatal:!hasObject]);
     }
 
     return destinationObject;

@@ -52,10 +52,10 @@
 {
     [_sourceObjectsReceived addObject:sourceObject ?: [NSNull null]];
 
-    HYDSetError(error, nil);
+    HYDSetObjectPointer(error, nil);
 
     if (self.errorsToReturn.count && ![self.errorsToReturn[0] isEqual:[NSNull null]]) {
-        HYDSetError(error, self.errorsToReturn[0]);
+        HYDSetObjectPointer(error, self.errorsToReturn[0]);
     }
     if (self.errorsToReturn.count > 1) {
         [_errorsToReturn removeObjectAtIndex:0];

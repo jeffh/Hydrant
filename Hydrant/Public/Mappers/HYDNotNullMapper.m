@@ -26,23 +26,23 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDSetError(error, nil);
+    HYDSetObjectPointer(error, nil);
     HYDError *innerError = nil;
     id resultingObject = [self.mapper objectFromSourceObject:sourceObject error:&innerError];
 
     if (innerError) {
-        HYDSetError(error, innerError);
+        HYDSetObjectPointer(error, innerError);
         return resultingObject;
     }
 
     if (!resultingObject) {
-        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
-                                      sourceObject:sourceObject
-                                         sourceKey:nil
-                                 destinationObject:nil
-                                    destinationKey:self.destinationKey
-                                           isFatal:YES
-                                  underlyingErrors:nil]);
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
+                                              sourceObject:sourceObject
+                                                 sourceKey:nil
+                                         destinationObject:nil
+                                            destinationKey:self.destinationKey
+                                                   isFatal:YES
+                                          underlyingErrors:nil]);
     }
 
     return resultingObject;

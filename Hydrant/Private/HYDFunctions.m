@@ -19,10 +19,10 @@ NSString *HYDJoinedStringFromKeyPaths(NSString *previousKeyPath, NSString *nextK
 }
 
 HYD_EXTERN
-void HYDSetError(__autoreleasing HYDError **errorPtr, HYDError *error)
+void HYDSetObjectPointer(__autoreleasing id *objPtr, id value)
 {
-    if (errorPtr) {
-        *errorPtr = error;
+    if (objPtr) {
+        *objPtr = value;
     }
 }
 

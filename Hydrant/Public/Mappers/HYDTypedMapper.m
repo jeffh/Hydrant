@@ -67,18 +67,18 @@
     HYDError *innerError = nil;
     id object = [self.wrappedMapper objectFromSourceObject:sourceObject error:&innerError];
     if (innerError) {
-        HYDSetError(error, innerError);
+        HYDSetObjectPointer(error, innerError);
         return nil;
     }
 
     if (![self isObject:object aSubclassOfAnyClasses:self.allowedOutputClasses]) {
-        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
-                                      sourceObject:sourceObject
-                                         sourceKey:nil
-                                 destinationObject:nil
-                                    destinationKey:self.destinationKey
-                                           isFatal:YES
-                                  underlyingErrors:nil]);
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
+                                              sourceObject:sourceObject
+                                                 sourceKey:nil
+                                         destinationObject:nil
+                                            destinationKey:self.destinationKey
+                                                   isFatal:YES
+                                          underlyingErrors:nil]);
         return nil;
     }
 

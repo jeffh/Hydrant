@@ -48,3 +48,9 @@ HYDStringToObjectFormatterMapper *HYDMapStringToURL(NSString *destinationKey);
 HYD_EXTERN
 HYDStringToObjectFormatterMapper *HYDMapStringToURLOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
 HYD_REQUIRE_NON_NIL(2);
+
+#pragma mark - UUIDFormatter Constructors
+
+HYD_EXTERN
+HYDStringToObjectFormatterMapper *HYDMapStringToUUID(NSString *destinationKey)
+HYD_REQUIRE_NON_NIL(1);

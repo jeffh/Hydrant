@@ -3,6 +3,7 @@
 #import "HYDError.h"
 #import "HYDStringToObjectFormatterMapper.h"
 #import "HYDURLFormatter.h"
+#import "HYDUUIDFormatter.h"
 
 
 @interface HYDObjectToStringFormatterMapper ()
@@ -41,15 +42,15 @@
     }
 
     if (resultingObject) {
-        HYDSetError(error, nil);
+        HYDSetObjectPointer(error, nil);
     } else {
-        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
-                                      sourceObject:sourceObject
-                                         sourceKey:nil
-                                 destinationObject:nil
-                                    destinationKey:self.destinationKey
-                                           isFatal:YES
-                                  underlyingErrors:nil]);
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
+                                              sourceObject:sourceObject
+                                                 sourceKey:nil
+                                         destinationObject:nil
+                                            destinationKey:self.destinationKey
+                                                   isFatal:YES
+                                          underlyingErrors:nil]);
     }
     return resultingObject;
 }
@@ -128,4 +129,12 @@ HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(NSString *destinatio
     NSSet *schemes = [NSSet setWithArray:[allowedSchemes valueForKey:@"lowercaseString"]];
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] initWithAllowedSchemes:schemes];
     return HYDMapObjectToStringByFormatter(destinationKey, formatter);
+}
+
+#pragma mark - UUIDFormatter Constructors
+
+HYD_EXTERN
+HYDObjectToStringFormatterMapper *HYDMapUUIDToString(NSString *destinationKey)
+{
+    return HYDMapObjectToStringByFormatter(destinationKey, [[HYDUUIDFormatter alloc] init]);
 }

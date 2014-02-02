@@ -31,17 +31,17 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDSetError(error, nil);
+    HYDSetObjectPointer(error, nil);
     HYDError *blockError = nil;
     id result = self.convertBlock(sourceObject, &blockError);
     if (blockError) {
-        HYDSetError(error, [HYDError errorWithCode:blockError.code ?: HYDErrorInvalidSourceObjectValue
-                                      sourceObject:blockError.sourceObject
-                                         sourceKey:blockError.sourceKey
-                                 destinationObject:blockError.destinationObject
-                                    destinationKey:self.destinationKey
-                                           isFatal:blockError.isFatal
-                                  underlyingErrors:blockError.underlyingErrors]);
+        HYDSetObjectPointer(error, [HYDError errorWithCode:blockError.code ?: HYDErrorInvalidSourceObjectValue
+                                              sourceObject:blockError.sourceObject
+                                                 sourceKey:blockError.sourceKey
+                                         destinationObject:blockError.destinationObject
+                                            destinationKey:self.destinationKey
+                                                   isFatal:blockError.isFatal
+                                          underlyingErrors:blockError.underlyingErrors]);
     }
     return result;
 }

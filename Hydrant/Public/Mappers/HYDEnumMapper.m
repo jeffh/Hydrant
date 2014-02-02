@@ -33,16 +33,16 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDSetError(error, nil);
+    HYDSetObjectPointer(error, nil);
     id result = self.mapping[sourceObject];
     if (!result) {
-        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
-                                      sourceObject:sourceObject
-                                         sourceKey:nil
-                                 destinationObject:nil
-                                    destinationKey:self.destinationKey
-                                           isFatal:YES
-                                  underlyingErrors:nil]);
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
+                                              sourceObject:sourceObject
+                                                 sourceKey:nil
+                                         destinationObject:nil
+                                            destinationKey:self.destinationKey
+                                                   isFatal:YES
+                                          underlyingErrors:nil]);
         return nil;
     }
     return result;

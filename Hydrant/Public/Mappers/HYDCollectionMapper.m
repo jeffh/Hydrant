@@ -45,7 +45,7 @@
 
 - (id)objectFromSourceObject:(id)sourceCollection error:(__autoreleasing HYDError **)error
 {
-    HYDSetError(error, nil);
+    HYDSetObjectPointer(error, nil);
     if (!sourceCollection) {
         return nil;
     }
@@ -87,12 +87,12 @@
     }
 
     if (errors.count) {
-        HYDSetError(error, [HYDError errorFromErrors:errors
-                                        sourceObject:sourceCollection
-                                           sourceKey:nil
-                                   destinationObject:resultingCollection
-                                      destinationKey:self.destinationKey
-                                             isFatal:hasFatalError]);
+        HYDSetObjectPointer(error, [HYDError errorFromErrors:errors
+                                                sourceObject:sourceCollection
+                                                   sourceKey:nil
+                                           destinationObject:resultingCollection
+                                              destinationKey:self.destinationKey
+                                                     isFatal:hasFatalError]);
     }
 
     return (hasFatalError ? nil : resultingCollection);

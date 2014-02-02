@@ -10,6 +10,7 @@
 // formatters
 #import "HYDDotNetDateFormatter.h"
 #import "HYDURLFormatter.h"
+#import "HYDUUIDFormatter.h"
 
 // container mappers
 #import "HYDCollectionMapper.h"

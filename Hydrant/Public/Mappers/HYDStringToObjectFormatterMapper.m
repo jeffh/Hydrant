@@ -3,6 +3,7 @@
 #import "HYDFunctions.h"
 #import "HYDObjectToStringFormatterMapper.h"
 #import "HYDURLFormatter.h"
+#import "HYDUUIDFormatter.h"
 
 
 @interface HYDStringToObjectFormatterMapper ()
@@ -47,7 +48,7 @@
     }
 
     if (success) {
-        HYDSetError(error, nil);
+        HYDSetObjectPointer(error, nil);
     } else {
         if (!errorDescription) {
             errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@", sourceObject);
@@ -56,13 +57,13 @@
         NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain
                                                      code:NSFormattingError
                                                  userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
-        HYDSetError(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
-                                      sourceObject:sourceObject
-                                         sourceKey:nil
-                                 destinationObject:nil
-                                    destinationKey:self.destinationKey
-                                           isFatal:YES
-                                  underlyingErrors:@[originalError]]);
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
+                                              sourceObject:sourceObject
+                                                 sourceKey:nil
+                                         destinationObject:nil
+                                            destinationKey:self.destinationKey
+                                                   isFatal:YES
+                                          underlyingErrors:@[originalError]]);
         resultingObject = nil;
     }
     return resultingObject;
@@ -142,4 +143,12 @@ HYDStringToObjectFormatterMapper *HYDMapStringToURLOfScheme(NSString *destinatio
     NSSet *schemes = [NSSet setWithArray:[allowedSchemes valueForKey:@"lowercaseString"]];
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] initWithAllowedSchemes:schemes];
     return HYDMapStringToObjectByFormatter(destinationKey, formatter);
+}
+
+#pragma mark - UUIDFormatter Constructors
+
+HYD_EXTERN
+HYDStringToObjectFormatterMapper *HYDMapStringToUUID(NSString *destinationKey)
+{
+    return HYDMapStringToObjectByFormatter(destinationKey, [[HYDUUIDFormatter alloc] init]);
 }
