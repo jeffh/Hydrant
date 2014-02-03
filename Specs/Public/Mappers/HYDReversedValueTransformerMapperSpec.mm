@@ -1,5 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
+#import "HYDIrreversableValueTransformer.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
