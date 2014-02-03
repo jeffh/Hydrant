@@ -29,7 +29,6 @@
 #import "HYDBlockMapper.h"
 #import "HYDValueTransformerMapper.h"
 #import "HYDReversedValueTransformerMapper.h"
-#import "HYDIrreversableValueTransformer.h"
 
 // mappers composed of other mappers
 #import "HYDOptionalMapper.h"
