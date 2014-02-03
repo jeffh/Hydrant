@@ -1,5 +1,5 @@
 #import "HYDFunctions.h"
-#import "HYDIdentityMapper.h"
+#import "HYDNotNullMapper.h"
 
 HYD_EXTERN
 void HYDSetValueForKeyIfNotNil(NSMutableDictionary *dict, id key, id value)
@@ -35,7 +35,7 @@ NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping)
         if ([value conformsToProtocol:@protocol(HYDMapper)]) {
             normalizedMapping[key] = value;
         } else if ([value isKindOfClass:[NSString class]]) {
-            normalizedMapping[key] = [[HYDIdentityMapper alloc] initWithDestinationKey:value];
+            normalizedMapping[key] = HYDMapNotNull(value);
         }
     }
 

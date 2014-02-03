@@ -174,14 +174,12 @@ describe(@"HYDKeyValuePathMapper", ^{
                 childMapper2.sourceObjectsReceived should equal(@[[NSNull null]]);
             });
 
-            it(@"should not have an error", ^{
-                error should be_nil;
+            it(@"should have an error", ^{
+                error should be_a_fatal_error().with_code(HYDErrorMultipleErrors);
             });
 
-            it(@"should use nil as the key value", ^{
-                expectedPerson.lastName = nil;
-                expectedPerson.firstName = nil;
-                parsedObject should equal(expectedPerson);
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
             });
         });
 
