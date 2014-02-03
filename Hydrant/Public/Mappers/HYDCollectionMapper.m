@@ -80,6 +80,9 @@
                                replacementSourceObject:sourceObject
                                                isFatal:itemError.isFatal]];
             hasFatalError = hasFatalError || itemError.isFatal;
+        }
+
+        if ([itemError isFatal]) {
             continue;
         }
 

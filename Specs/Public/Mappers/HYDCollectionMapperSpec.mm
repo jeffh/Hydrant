@@ -110,7 +110,7 @@ describe(@"HYDCollectionMapper", ^{
             beforeEach(^{
                 expectedError = [HYDError nonFatalError];
                 sourceObject = @[@1, @2];
-                childMapper.objectsToReturn = @[[NSNull null], @2];
+                childMapper.objectsToReturn = @[@1, @2];
                 childMapper.errorsToReturn = @[expectedError, [NSNull null]];
             });
 
@@ -125,8 +125,8 @@ describe(@"HYDCollectionMapper", ^{
                 error.userInfo[HYDUnderlyingErrorsKey] should equal(@[wrappedError]);
             });
 
-            it(@"should return the collection without the non-fatal object", ^{
-                parsedObject should equal(@[@2]);
+            it(@"should return the collection with the non-fatal object", ^{
+                parsedObject should equal(@[@1, @2]);
             });
         });
 

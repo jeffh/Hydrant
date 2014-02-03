@@ -132,9 +132,9 @@ describe(@"HYDKeyValuePathMapper", ^{
                 sourceObject = validSourceObject;
                 childMapperError1 = [HYDError nonFatalError];
                 childMapperError2 = [HYDError nonFatalError];
-                childMapper1.objectsToReturn = nil;
+                childMapper1.objectsToReturn = @[@1];
                 childMapper1.errorsToReturn = @[childMapperError1];
-                childMapper2.objectsToReturn = nil;
+                childMapper2.objectsToReturn = @[@"James"];
                 childMapper2.errorsToReturn = @[childMapperError2];
 
                 childMapperError1 = [HYDError errorFromError:childMapperError1
@@ -157,8 +157,8 @@ describe(@"HYDKeyValuePathMapper", ^{
             });
 
             it(@"should return a parsed object", ^{
-                expectedPerson.firstName = nil;
-                expectedPerson.identifier = nil;
+                expectedPerson.firstName = @"James";
+                expectedPerson.identifier = 1;
                 parsedObject should equal(expectedPerson);
             });
         });

@@ -80,6 +80,9 @@
                                      andDestinationKey:nil
                                replacementSourceObject:sourceValue
                                                isFatal:innerError.isFatal]];
+        }
+
+        if ([innerError isFatal]) {
             continue;
         }
 
