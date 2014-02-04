@@ -82,7 +82,7 @@
             hasFatalError = hasFatalError || itemError.isFatal;
         }
 
-        if ([itemError isFatal]) {
+        if ([itemError isFatal] || (itemError && !object)) {
             continue;
         }
 

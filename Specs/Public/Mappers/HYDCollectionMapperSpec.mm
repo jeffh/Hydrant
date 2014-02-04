@@ -104,7 +104,33 @@ describe(@"HYDCollectionMapper", ^{
             });
         });
 
-        context(@"when the source object's item makes the child mapper produce a non-fatal error", ^{
+        context(@"when the source object's item makes the child mapper produce a non-fatal error with a nil", ^{
+            __block HYDError *expectedError;
+
+            beforeEach(^{
+                expectedError = [HYDError nonFatalError];
+                sourceObject = @[@1, @2];
+                childMapper.objectsToReturn = @[[NSNull null], @2];
+                childMapper.errorsToReturn = @[expectedError, [NSNull null]];
+            });
+
+            it(@"should wrap the non-fatal error", ^{
+                error should be_a_non_fatal_error().with_code(HYDErrorMultipleErrors);
+
+                HYDError *wrappedError = [HYDError errorFromError:expectedError
+                                              prependingSourceKey:@"0"
+                                                andDestinationKey:@"0"
+                                          replacementSourceObject:@1
+                                                          isFatal:NO];
+                error.userInfo[HYDUnderlyingErrorsKey] should equal(@[wrappedError]);
+            });
+
+            it(@"should return the collection without the object in the collection", ^{
+                parsedObject should equal(@[@2]);
+            });
+        });
+
+        context(@"when the source object's item makes the child mapper produce a non-fatal error with an object", ^{
             __block HYDError *expectedError;
 
             beforeEach(^{
