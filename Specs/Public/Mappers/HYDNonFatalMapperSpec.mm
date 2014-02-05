@@ -64,6 +64,22 @@ describe(@"HYDNonFatalMapper", ^{
                 error should be_a_non_fatal_error().with_code(HYDErrorInvalidSourceObjectType);
             });
         });
+
+        context(@"when the source object produces a non fatal error to the child mapper", ^{
+            beforeEach(^{
+                sourceObject = @"invalid";
+                childMapper.objectsToReturn = @[@2];
+                childMapper.errorsToReturn = @[[HYDError nonFatalError]];
+            });
+
+            it(@"should return the child mapper's value", ^{
+                parsedObject should equal(@2);
+            });
+
+            it(@"should report a non-fatal error", ^{
+                error should be_a_non_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+            });
+        });
     });
 
     describe(@"errornously parsing an object without an error pointer", ^{

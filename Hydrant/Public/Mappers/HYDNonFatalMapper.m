@@ -45,8 +45,8 @@
     HYDError *innerError = nil;
     id resultingObject = [self.wrappedMapper objectFromSourceObject:sourceObject error:&innerError];
 
-    HYDSetObjectPointer(error, nil);
-    if (innerError){
+    HYDSetObjectPointer(error, innerError);
+    if ([innerError isFatal]){
         HYDSetObjectPointer(error, [HYDError errorFromError:innerError
                                         prependingSourceKey:nil
                                           andDestinationKey:nil
