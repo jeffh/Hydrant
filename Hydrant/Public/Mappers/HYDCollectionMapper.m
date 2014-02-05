@@ -47,13 +47,13 @@
 {
     HYDSetObjectPointer(error, nil);
     if (![sourceCollection conformsToProtocol:@protocol(NSFastEnumeration)]) {
-        *error = [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
-                            sourceObject:sourceCollection
-                               sourceKey:nil
-                       destinationObject:nil
-                          destinationKey:self.destinationKey
-                                 isFatal:YES
-                        underlyingErrors:nil];
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
+                                              sourceObject:sourceCollection
+                                                 sourceKey:nil
+                                         destinationObject:nil
+                                            destinationKey:self.destinationKey
+                                                   isFatal:YES
+                                          underlyingErrors:nil]);
         return nil;
     }
 

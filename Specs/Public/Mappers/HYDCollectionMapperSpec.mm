@@ -171,6 +171,12 @@ describe(@"HYDCollectionMapper", ^{
         });
     });
 
+    describe(@"errornously parsing an object that's not a fast enumerable", ^{
+        it(@"should not explode", ^{
+            [mapper objectFromSourceObject:@1 error:nil];
+        });
+    });
+
     describe(@"errornously parsing an object without an error pointer", ^{
         it(@"should not explode", ^{
             childMapper.errorsToReturn = @[[HYDError nonFatalError], [HYDError fatalError]];
