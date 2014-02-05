@@ -46,10 +46,6 @@
 - (id)objectFromSourceObject:(id)sourceCollection error:(__autoreleasing HYDError **)error
 {
     HYDSetObjectPointer(error, nil);
-    if (!sourceCollection) {
-        return nil;
-    }
-
     if (![sourceCollection conformsToProtocol:@protocol(NSFastEnumeration)]) {
         *error = [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
                             sourceObject:sourceCollection

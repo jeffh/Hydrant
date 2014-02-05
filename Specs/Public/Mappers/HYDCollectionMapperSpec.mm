@@ -161,8 +161,8 @@ describe(@"HYDCollectionMapper", ^{
                 sourceObject = nil;
             });
 
-            it(@"should not produce an error", ^{
-                error should be_nil;
+            it(@"should produce an error", ^{
+                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectType);
             });
 
             it(@"should return nil", ^{
