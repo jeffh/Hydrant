@@ -95,7 +95,7 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
 
 - (NSString *)description
 {
-    return [[[NSString stringWithFormat:@"%@ code=%lu reason=%@ userInfo=%@", self.domain, self.code, self.localizedDescription, self.userInfo]
+    return [[[NSString stringWithFormat:@"%@ code=%lu reason=%@ userInfo=%@", self.domain, (long)self.code, self.localizedDescription, self.userInfo]
              stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"]
             stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
 }
