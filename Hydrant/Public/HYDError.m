@@ -27,15 +27,18 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
                       isFatal:(BOOL)isFatal
              underlyingErrors:(NSArray *)underlyingErrors
 {
-    NSMutableDictionary *userInfo = [@{HYDSourceObjectKey : (sourceObject ?: [NSNull null]),
-            HYDDestinationObjectKey : (destinationObject ?: [NSNull null]),
-            HYDIsFatalKey : @(isFatal)} mutableCopy];
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+
+    userInfo[HYDIsFatalKey] = @(isFatal);
+
     underlyingErrors = [NSArray arrayWithArray:underlyingErrors];
     if (underlyingErrors.count) {
         userInfo[NSUnderlyingErrorKey] = underlyingErrors[0];
         userInfo[HYDUnderlyingErrorsKey] = underlyingErrors;
     }
 
+    HYDSetValueForKeyIfNotNil(userInfo, HYDSourceObjectKey, sourceObject);
+    HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationObjectKey, destinationObject);
     HYDSetValueForKeyIfNotNil(userInfo, HYDSourceKeyPathKey, sourceKey);
     HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationKeyPathKey, destinationKey);
 
@@ -43,9 +46,9 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
         NSMutableString *details = [HYDLocalizedStringFormat(@"Multiple errors occurred:\n") mutableCopy];
         for (NSError *error in underlyingErrors) {
             if ([error respondsToSelector:@selector(underlyingErrorsDescription)]) {
-                [details appendFormat:@" - %@", [(HYDError *)error underlyingErrorsDescription]];
+                [details appendFormat:@" - %@\n", [(HYDError *)error underlyingErrorsDescription]];
             } else {
-                [details appendFormat:@" - %@", [error description]];
+                [details appendFormat:@" - %@\n", [error description]];
             }
         }
         userInfo[NSLocalizedDescriptionKey] = details;
@@ -68,7 +71,7 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
     return [self errorWithCode:error.code
                   sourceObject:sourceObject
                      sourceKey:sourceKey
-             destinationObject:nil
+             destinationObject:error.destinationObject
                 destinationKey:destinationKey
                        isFatal:isFatal
               underlyingErrors:error.userInfo[HYDUnderlyingErrorsKey]];
