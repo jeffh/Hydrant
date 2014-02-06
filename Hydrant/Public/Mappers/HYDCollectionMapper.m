@@ -1,9 +1,11 @@
 #import "HYDCollectionMapper.h"
 #import "HYDFactory.h"
 #import "HYDObjectFactory.h"
+#import "HYDCollection.h"
 #import "HYDMutableCollection.h"
 #import "HYDError.h"
 #import "HYDFunctions.h"
+#import "HYDIdentityMapper.h"
 
 
 @interface HYDCollectionMapper ()
@@ -26,6 +28,10 @@
 
 - (id)initWithItemMapper:(id<HYDMapper>)wrappedMapper sourceCollectionClass:(Class)sourceCollectionClass destinationCollectionClass:(Class)destinationCollectionClass
 {
+    if (![sourceCollectionClass conformsToProtocol:@protocol(HYDCollection)]) {
+        [NSException raise:NSInvalidArgumentException format:@"SourceCollectionClass '%@' must conform to HYDCollection protocol", sourceCollectionClass];
+    }
+
     self = [super init];
     if (self) {
         self.sourceCollectionClass = sourceCollectionClass;
@@ -46,7 +52,7 @@
 - (id)objectFromSourceObject:(id)sourceCollection error:(__autoreleasing HYDError **)error
 {
     HYDSetObjectPointer(error, nil);
-    if (![sourceCollection conformsToProtocol:@protocol(NSFastEnumeration)]) {
+    if (![sourceCollection isKindOfClass:self.sourceCollectionClass]) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
                                               sourceObject:sourceCollection
                                                  sourceKey:nil
@@ -109,7 +115,50 @@
 
 
 HYD_EXTERN
+HYD_OVERLOADED
+HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class sourceCollectionClass, Class destinationCollectionClass)
+{
+    return [[HYDCollectionMapper alloc] initWithItemMapper:itemMapper
+                                     sourceCollectionClass:sourceCollectionClass
+                                destinationCollectionClass:destinationCollectionClass];
+}
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class collectionClass)
+{
+    return HYDMapCollectionOf(itemMapper, collectionClass, collectionClass);
+}
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDCollectionMapper *HYDMapCollectionOf(NSString *destinationKey, Class sourceCollectionClass, Class destinationCollectionClass)
+{
+    return HYDMapCollectionOf(HYDMapIdentity(destinationKey), sourceCollectionClass, destinationCollectionClass);
+}
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDCollectionMapper *HYDMapCollectionOf(NSString *destinationKey, Class collectionClass)
+{
+    return HYDMapCollectionOf(HYDMapIdentity(destinationKey), collectionClass, collectionClass);
+}
+
+
+#pragma mark - Set Constructors
+
+HYD_EXTERN
+HYDCollectionMapper *HYDMapSetOf(id<HYDMapper> itemMapper)
+{
+    return HYDMapCollectionOf(itemMapper, [NSSet class]);
+}
+
+#pragma mark - Array Constructors
+
+HYD_EXTERN
 HYDCollectionMapper *HYDMapArrayOf(id<HYDMapper> itemMapper)
 {
-    return [[HYDCollectionMapper alloc] initWithItemMapper:itemMapper sourceCollectionClass:[NSArray class] destinationCollectionClass:[NSArray class]];
+    return HYDMapCollectionOf(itemMapper, [NSArray class]);
 }

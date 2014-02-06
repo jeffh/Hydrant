@@ -3,9 +3,7 @@
 /*! A placeholder protocol that is used to indicate which methods
  *  are used by the HYDCollectionMapper, such as HYDMapArrayOf or HYDMapSetOf.
  *
- *  These aren't enforced when passed through to the HYDCollectionMapper,
- *  but you can support this interface to ensure you support the required
- *  methods in your own collections.
+ *  These are enforced when passed to the HYDCollectionMapper.
  *
  *  Reading collections requires this protocol, writing requires
  *  <HYDMutableCollection> protocol.
@@ -14,4 +12,16 @@
  *  @see HYDCollectionMapper
  */
 @protocol HYDCollection <NSFastEnumeration>
+@end
+
+@interface NSArray (HYDCollection) <HYDCollection>
+@end
+
+@interface NSHashTable (HYDCollection) <HYDCollection>
+@end
+
+@interface NSSet (HYDCollection) <HYDCollection>
+@end
+
+@interface NSOrderedSet (HYDCollection) <HYDCollection>
 @end

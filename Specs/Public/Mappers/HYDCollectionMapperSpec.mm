@@ -21,6 +21,24 @@ describe(@"HYDCollectionMapper", ^{
         mapper = HYDMapArrayOf(childMapper);
     });
 
+    context(@"constructing with a type that doesn't support HYDCollection", ^{
+        it(@"should raise an exception on creation", ^{
+            ^{
+                id<HYDMapper> m = [[HYDCollectionMapper alloc] initWithItemMapper:nil sourceCollectionClass:[NSNumber class] destinationCollectionClass:[NSArray class]];
+                [m objectFromSourceObject:nil error:nil];
+            } should raise_exception;
+        });
+    });
+
+    context(@"constructing with a type that doesn't support HYDCollection", ^{
+        it(@"should raise an exception on creation", ^{
+            ^{
+                id<HYDMapper> m = [[HYDCollectionMapper alloc] initWithItemMapper:nil sourceCollectionClass:[NSNumber class] destinationCollectionClass:[NSArray class]];
+                [m objectFromSourceObject:nil error:nil];
+            } should raise_exception;
+        });
+    });
+
     it(@"should return the destination key of its child mapper", ^{
         [mapper destinationKey] should equal(@"key");
     });
@@ -62,7 +80,21 @@ describe(@"HYDCollectionMapper", ^{
             });
         });
 
-        context(@"when the source object is not a fast enumerable", ^{
+        context(@"when the source object is not the correct class", ^{
+            beforeEach(^{
+                sourceObject = [NSSet set];
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+
+            it(@"should return a fatal error", ^{
+                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectType);
+            });
+        });
+
+        context(@"when the source object does not support HYDCollection", ^{
             beforeEach(^{
                 sourceObject = @1;
             });
@@ -171,7 +203,7 @@ describe(@"HYDCollectionMapper", ^{
         });
     });
 
-    describe(@"errornously parsing an object that's not a fast enumerable", ^{
+    describe(@"errornously parsing an object that's not a HYDCollection", ^{
         it(@"should not explode", ^{
             [mapper objectFromSourceObject:@1 error:nil];
         });

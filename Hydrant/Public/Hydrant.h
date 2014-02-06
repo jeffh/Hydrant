@@ -20,6 +20,7 @@
 #import "HYDNonFatalMapper.h"
 #import "HYDNotNullMapper.h"
 #import "HYDFirstMapper.h"
+#import "HYDPostProcessingMapper.h"
 
 // standalone mappers
 #import "HYDStringToObjectFormatterMapper.h"

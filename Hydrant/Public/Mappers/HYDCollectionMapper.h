@@ -22,6 +22,61 @@ destinationCollectionClass:(Class)destinationCollectionClass;
 @end
 
 
+/*! Returns a mapper from two collections where itemMapper can map each element between
+ *  the two collections.
+ *
+ *  @param itemMapper another mapper that can map the items in each array individually.
+ *  @param sourceCollectionClass the incoming collection source type
+ *  @param destinationCollectionClass the resulting collection type generated
+ *  @returns A HYDCollectionMapper that can do the conversion.
+ */
+HYD_EXTERN
+HYD_OVERLOADED
+HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class sourceCollectionClass, Class destinationCollectionClass)
+HYD_REQUIRE_NON_NIL(1,2,3);
+
+
+/*! Returns a mapper from two collections where itemMapper can map each element between
+ *  the two collections.
+ *
+ *  @param destinationKey the destination hint that this mapper's resulting object should be stored in for parent mappers
+ *  @param sourceCollectionClass the incoming collection source type
+ *  @param destinationCollectionClass the resulting collection type generated
+ *  @returns A HYDCollectionMapper that can do the conversion.
+ */
+HYD_EXTERN
+HYD_OVERLOADED
+HYDCollectionMapper *HYDMapCollectionOf(NSString *destinationKey, Class collectionClass)
+HYD_REQUIRE_NON_NIL(1,2);
+
+
+/*! Returns a mapper from two collections where itemMapper can map each element between
+ *  the two collections.
+ *
+ *  @param destinationKey the destination hint that this mapper's resulting object should be stored in for parent mappers
+ *  @param sourceCollectionClass the incoming collection source type
+ *  @param destinationCollectionClass the resulting collection type generated
+ *  @returns A HYDCollectionMapper that can do the conversion.
+ */
+HYD_EXTERN
+HYD_OVERLOADED
+HYDCollectionMapper *HYDMapCollectionOf(NSString *destinationKey, Class sourceCollectionClass, Class destinationCollectionClass)
+HYD_REQUIRE_NON_NIL(1,2,3);
+
+
+/*! Returns a mapper from two collections where itemMapper can map each element between
+ *  the two collections.
+ *
+ *  @param itemMapper another mapper that can map the items in each array individually.
+ *  @param collectionClass the class that contains the items that need to be mapped. The resulting object is the same type.
+ *  @returns A HYDCollectionMapper that can do the conversion.
+ */
+HYD_EXTERN
+HYD_OVERLOADED
+HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class collectionClass)
+HYD_REQUIRE_NON_NIL(1,2);
+
+
 /*! Returns a mapper from two NSArrays where itemMapper can map each element between
  *  the two arrays.
  *
