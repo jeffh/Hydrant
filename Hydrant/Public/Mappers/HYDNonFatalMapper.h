@@ -35,5 +35,21 @@ HYDNonFatalMapper *HYDMapNonFatallyWithDefault(NSString *destinationKey, id defa
 HYD_REQUIRE_NON_NIL(1);
 
 HYD_EXTERN
-HYDNonFatalMapper *HYDMapNonFatallyWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reversedDefault)
+HYD_OVERLOADED
+HYDNonFatalMapper *HYDMapNonFatallyWithDefault(id<HYDMapper> mapper, id defaultValue, id reversedDefault)
 HYD_REQUIRE_NON_NIL(1);
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDNonFatalMapper *HYDMapNonFatallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory)
+HYD_REQUIRE_NON_NIL(1,2);
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDNonFatalMapper *HYDMapNonFatallyWithDefaultFactory(NSString *destinationKey, HYDValueBlock defaultValueFactory)
+HYD_REQUIRE_NON_NIL(1,2);
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDNonFatalMapper *HYDMapNonFatallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory, HYDValueBlock reversedDefaultFactory)
+HYD_REQUIRE_NON_NIL(1,2,3);

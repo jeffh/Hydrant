@@ -30,5 +30,23 @@ HYD_REQUIRE_NON_NIL(1);
 
 HYD_EXTERN
 HYD_OVERLOADED
-id<HYDMapper> HYDMapOptionallyWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reverseDefaultValue)
+id<HYDMapper> HYDMapOptionallyWithDefault(id<HYDMapper> mapper, id defaultValue, id reverseDefaultValue)
 HYD_REQUIRE_NON_NIL(1);
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+id<HYDMapper> HYDMapOptionallyWithDefaultFactory(NSString *destinationKey, HYDValueBlock defaultValueFactory)
+HYD_REQUIRE_NON_NIL(1,2);
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+id<HYDMapper> HYDMapOptionallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory)
+HYD_REQUIRE_NON_NIL(1,2);
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+id<HYDMapper> HYDMapOptionallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory, HYDValueBlock reverseDefaultValueFactory)
+HYD_REQUIRE_NON_NIL(1,2,3);

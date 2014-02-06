@@ -30,13 +30,37 @@ HYD_EXTERN
 HYD_OVERLOADED
 id<HYDMapper> HYDMapOptionallyWithDefault(id<HYDMapper> mapper, id defaultValue)
 {
-    return HYDMapOptionallyWithDefaultAndReversedDefault(mapper, defaultValue, defaultValue);
+    return HYDMapOptionallyWithDefault(mapper, defaultValue, defaultValue);
 }
 
 
 HYD_EXTERN
 HYD_OVERLOADED
-id<HYDMapper> HYDMapOptionallyWithDefaultAndReversedDefault(id<HYDMapper> mapper, id defaultValue, id reverseDefaultValue)
+id<HYDMapper> HYDMapOptionallyWithDefault(id<HYDMapper> mapper, id defaultValue, id reverseDefaultValue)
 {
-    return HYDMapNonFatallyWithDefaultAndReversedDefault(HYDMapNotNull(mapper), defaultValue, reverseDefaultValue);
+    return HYDMapNonFatallyWithDefault(HYDMapNotNull(mapper), defaultValue, reverseDefaultValue);
+}
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+id<HYDMapper> HYDMapOptionallyWithDefaultFactory(NSString *destinationKey, HYDValueBlock defaultValueFactory)
+{
+    return HYDMapOptionallyWithDefaultFactory(HYDMapIdentity(destinationKey), defaultValueFactory);
+}
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+id<HYDMapper> HYDMapOptionallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory)
+{
+    return HYDMapOptionallyWithDefaultFactory(mapper, defaultValueFactory, defaultValueFactory);
+}
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+id<HYDMapper> HYDMapOptionallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory, HYDValueBlock reverseDefaultValueFactory)
+{
+    return HYDMapNonFatallyWithDefaultFactory(HYDMapNotNull(mapper), defaultValueFactory, reverseDefaultValueFactory);
 }
