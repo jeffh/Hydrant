@@ -13,6 +13,9 @@
  *  until one mapper returns a value object (non-fatal error) or all
  *  possible mappers fail.
  *
+ *  Reversing this mapper will preserve the same order of mappers, but
+ *  reverse each individual mapper.
+ *
  *  @param mappers An array of mappers to try.
  *  @returns a mapper that will try each mapper in sequence.
  */

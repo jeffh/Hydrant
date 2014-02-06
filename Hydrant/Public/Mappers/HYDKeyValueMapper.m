@@ -91,10 +91,18 @@
 
 
 HYD_EXTERN
+HYD_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
     return [[HYDKeyValueMapper alloc] initWithDestinationKey:destinationKey
                                                    fromClass:sourceClass
                                                      toClass:destinationClass
                                                      mapping:mapping];
+}
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
+{
+    return HYDMapObject(destinationKey, [NSDictionary class], destinationClass, mapping);
 }
