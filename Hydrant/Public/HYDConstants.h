@@ -9,7 +9,7 @@
  *     NSString *HYDRFC3339DateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
  *
  */
-HYD_EXTERN NSString *HYDRFC3339DateFormat;
+HYD_EXTERN NSString *HYDDateFormatRFC3339;
 
 /*! A constant that is used to visually indicate the root of a mapper hierarchy.
  *

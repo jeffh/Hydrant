@@ -1,4 +1,4 @@
 #import "HYDConstants.h"
 
-NSString *HYDRFC3339DateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+NSString *HYDDateFormatRFC3339 = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
 id HYDRootMapper = nil;
