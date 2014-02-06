@@ -50,7 +50,7 @@ describe(@"HYDEnumMapper", ^{
             });
 
             it(@"should produce a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             });
         });
 

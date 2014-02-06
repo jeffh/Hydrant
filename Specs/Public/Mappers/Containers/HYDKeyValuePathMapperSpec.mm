@@ -117,7 +117,7 @@ describe(@"HYDKeyValuePathMapper", ^{
             });
 
             it(@"should wrap all the emitted errors in a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorMultipleErrors);
+                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
                 [error.userInfo[HYDUnderlyingErrorsKey] count] should equal(2);
                 error.userInfo[HYDUnderlyingErrorsKey] should contain(childMapperError1);
                 error.userInfo[HYDUnderlyingErrorsKey] should contain(childMapperError2);
@@ -150,7 +150,7 @@ describe(@"HYDKeyValuePathMapper", ^{
             });
 
             it(@"should wrap all the emitted errors in a non-fatal error", ^{
-                error should be_a_non_fatal_error().with_code(HYDErrorMultipleErrors);
+                error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
                 [error.userInfo[HYDUnderlyingErrorsKey] count] should equal(2);
                 error.userInfo[HYDUnderlyingErrorsKey] should contain(childMapperError1);
                 error.userInfo[HYDUnderlyingErrorsKey] should contain(childMapperError2);
@@ -175,7 +175,7 @@ describe(@"HYDKeyValuePathMapper", ^{
             });
 
             it(@"should have an error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorMultipleErrors);
+                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
             });
 
             it(@"should return nil", ^{

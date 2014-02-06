@@ -30,6 +30,6 @@ private:
     NSMutableDictionary *userInfoSubset;
 };
 
-BeAnError be_an_error();
-BeAnError be_a_fatal_error();
-BeAnError be_a_non_fatal_error();
+OBJC_EXTERN BeAnError be_an_error;
+OBJC_EXTERN BeAnError be_a_fatal_error;
+OBJC_EXTERN BeAnError be_a_non_fatal_error;

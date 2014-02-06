@@ -56,7 +56,7 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
             });
 
             it(@"should return a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             });
         });
 
@@ -71,7 +71,7 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
             });
 
             it(@"should return a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             });
         });
     });

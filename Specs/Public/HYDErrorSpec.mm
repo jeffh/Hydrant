@@ -30,7 +30,7 @@ describe(@"HYDError", ^{
 
     context(@"with the error all filled out", ^{
         it(@"should set the domain", ^{
-            error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+            error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
         });
 
         it(@"should store the source object", ^{
@@ -81,7 +81,7 @@ describe(@"HYDError", ^{
         });
 
         it(@"should set the domain", ^{
-            error should be_a_non_fatal_error().with_code(HYDErrorInvalidResultingObjectType);
+            error should be_a_non_fatal_error.with_code(HYDErrorInvalidResultingObjectType);
         });
 
         it(@"should store the source object", ^{
@@ -132,7 +132,7 @@ describe(@"HYDError", ^{
         });
 
         it(@"should inherit values all the values but fatalness", ^{
-            wrappedError should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+            wrappedError should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             wrappedError.underlyingErrors should equal(error.underlyingErrors);
             wrappedError.sourceObject should equal(error.sourceObject);
             wrappedError.destinationObject should equal(error.destinationObject);
@@ -153,7 +153,7 @@ describe(@"HYDError", ^{
         });
 
         it(@"should inherit values that weren't specified when wrapping", ^{
-            wrappedError should be_a_non_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+            wrappedError should be_a_non_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             wrappedError.underlyingErrors should equal(error.underlyingErrors);
             wrappedError.destinationObject should equal(error.destinationObject);
         });

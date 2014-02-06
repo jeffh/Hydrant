@@ -59,7 +59,7 @@ describe(@"HYDTypedMapper", ^{
             });
 
             it(@"should produce a fatal type error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectType);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
             });
         });
 
@@ -98,7 +98,7 @@ describe(@"HYDTypedMapper", ^{
             });
 
             it(@"should produce a fatal error with invalid return type", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidResultingObjectType);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidResultingObjectType);
             });
 
             it(@"should return nil", ^{

@@ -59,7 +59,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
             });
 
             it(@"should return a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             });
 
             it(@"should contain the error description as an underlying error", ^{
@@ -79,7 +79,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
             });
 
             it(@"should contain the error description", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             });
         });
 
@@ -94,7 +94,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
             });
 
             it(@"should return a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             });
 
             it(@"should not crash by invoking the formatter", ^{

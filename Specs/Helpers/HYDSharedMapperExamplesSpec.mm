@@ -92,7 +92,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             });
 
             it(@"should provide a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
                 error.userInfo[HYDDestinationKeyPathKey] should equal(destinationKey);
             });
 
@@ -111,7 +111,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             });
 
             it(@"should produce a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
                 error.userInfo[HYDDestinationKeyPathKey] should equal(destinationKey);
             });
         });

@@ -76,7 +76,7 @@ describe(@"HYDFirstMapper", ^{
             });
 
             it(@"should report a non-fatal error of the errors", ^{
-                error should be_a_non_fatal_error().with_code(HYDErrorMultipleErrors);
+                error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
                 error.userInfo[HYDUnderlyingErrorsKey] should equal(@[[HYDError fatalError],
                         [HYDError nonFatalError]]);
             });
@@ -100,7 +100,7 @@ describe(@"HYDFirstMapper", ^{
             });
 
             it(@"should report a fatal error of the errors", ^{
-                error should be_a_fatal_error().with_code(HYDErrorMultipleErrors);
+                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
             });
         });
     });

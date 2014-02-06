@@ -61,7 +61,7 @@ describe(@"HYDNonFatalMapper", ^{
             });
 
             it(@"should report a non-fatal error", ^{
-                error should be_a_non_fatal_error().with_code(HYDErrorInvalidSourceObjectType);
+                error should be_a_non_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
             });
         });
 
@@ -77,7 +77,7 @@ describe(@"HYDNonFatalMapper", ^{
             });
 
             it(@"should report a non-fatal error", ^{
-                error should be_a_non_fatal_error().with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_non_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
             });
         });
     });
@@ -128,7 +128,7 @@ describe(@"HYDNonFatalMapper", ^{
             });
 
             it(@"should emit a non-fatal error", ^{
-                error should be_a_non_fatal_error().with_code(HYDErrorInvalidSourceObjectType);
+                error should be_a_non_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
             });
 
             it(@"should return the default value", ^{

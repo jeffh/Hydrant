@@ -1,17 +1,9 @@
 #import "HYDCedarMatchers.h"
 #import "HYDError.h"
 
-BeAnError be_an_error() {
-    return BeAnError().with_domain(HYDErrorDomain);
-}
-
-BeAnError be_a_fatal_error() {
-    return be_an_error().and_fatal();
-}
-
-BeAnError be_a_non_fatal_error() {
-    return be_an_error().and_non_fatal();
-}
+OBJC_EXTERN BeAnError be_an_error = BeAnError().with_domain(HYDErrorDomain);
+OBJC_EXTERN BeAnError be_a_fatal_error = BeAnError().with_domain(HYDErrorDomain).and_fatal();
+OBJC_EXTERN BeAnError be_a_non_fatal_error = BeAnError().with_domain(HYDErrorDomain).and_non_fatal();
 
 bool BeAnError::matches(const HYDError *error) const {
     return (this->domain_matches(error) &&

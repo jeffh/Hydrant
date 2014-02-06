@@ -53,7 +53,7 @@ describe(@"HYDNotNullMapper", ^{
             });
 
             it(@"should return a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidResultingObjectType);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidResultingObjectType);
             });
         });
 
@@ -126,7 +126,7 @@ describe(@"HYDNotNullMapper", ^{
 
             it(@"should not allow nil values", ^{
                 parsedObject should be_nil;
-                error should be_a_fatal_error().with_code(HYDErrorInvalidResultingObjectType);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidResultingObjectType);
             });
         });
 

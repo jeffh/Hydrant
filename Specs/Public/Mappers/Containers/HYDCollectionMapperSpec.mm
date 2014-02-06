@@ -90,7 +90,7 @@ describe(@"HYDCollectionMapper", ^{
             });
 
             it(@"should return a fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectType);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
             });
         });
 
@@ -121,7 +121,7 @@ describe(@"HYDCollectionMapper", ^{
             });
 
             it(@"should wrap the fatal error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorMultipleErrors);
+                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
 
                 HYDError *wrappedError = [HYDError errorFromError:expectedError
                                               prependingSourceKey:@"0"
@@ -147,7 +147,7 @@ describe(@"HYDCollectionMapper", ^{
             });
 
             it(@"should wrap the non-fatal error", ^{
-                error should be_a_non_fatal_error().with_code(HYDErrorMultipleErrors);
+                error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
 
                 HYDError *wrappedError = [HYDError errorFromError:expectedError
                                               prependingSourceKey:@"0"
@@ -173,7 +173,7 @@ describe(@"HYDCollectionMapper", ^{
             });
 
             it(@"should wrap the non-fatal error", ^{
-                error should be_a_non_fatal_error().with_code(HYDErrorMultipleErrors);
+                error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
 
                 HYDError *wrappedError = [HYDError errorFromError:expectedError
                                               prependingSourceKey:@"0"
@@ -194,7 +194,7 @@ describe(@"HYDCollectionMapper", ^{
             });
 
             it(@"should produce an error", ^{
-                error should be_a_fatal_error().with_code(HYDErrorInvalidSourceObjectType);
+                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
             });
 
             it(@"should return nil", ^{
