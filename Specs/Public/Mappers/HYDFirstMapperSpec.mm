@@ -115,7 +115,23 @@ describe(@"HYDFirstMapper", ^{
         });
     });
 
-    xdescribe(@"reverse mapping", ^{
+    describe(@"reverse mapping", ^{
+        beforeEach(^{
+            HYDFakeMapper *reversedChild1 = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDFakeMapper *reversedChild2 = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDFakeMapper *reversedChild3 = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            child1.reverseMapperToReturn = reversedChild1;
+            child2.reverseMapperToReturn = reversedChild2;
+            child3.reverseMapperToReturn = reversedChild3;
+
+            child1.objectsToReturn = @[@1];
+            reversedChild1.objectsToReturn = @[@"LOL"];
+
+            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"LOL";
+        });
+
+        itShouldBehaveLike(@"a mapper that does the inverse of the original");
     });
 });
 

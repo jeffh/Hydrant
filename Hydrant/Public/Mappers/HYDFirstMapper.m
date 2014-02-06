@@ -66,9 +66,11 @@
 
 - (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
 {
+    NSMutableArray *reversedMappers = [NSMutableArray arrayWithCapacity:self.mappers.count];
     for (id<HYDMapper> mapper in self.mappers) {
+        [reversedMappers addObject:[mapper reverseMapperWithDestinationKey:destinationKey]];
     }
-    return nil;
+    return [[[self class] alloc] initWithMappers:reversedMappers];
 }
 
 @end
