@@ -41,3 +41,10 @@ NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping)
 
     return normalizedMapping;
 }
+
+HYD_EXTERN
+NSString *HYDPrefixSubsequentLines(NSString *prefix, NSString *raw)
+{
+    NSArray *lines = [raw componentsSeparatedByString:@"\n"];
+    return [lines componentsJoinedByString:[@"\n" stringByAppendingString:prefix]];
+}

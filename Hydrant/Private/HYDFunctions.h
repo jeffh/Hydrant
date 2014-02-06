@@ -21,3 +21,7 @@ void HYDSetObjectPointer(__autoreleasing id *objPtr, id value);
 
 HYD_EXTERN
 NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping);
+
+
+HYD_EXTERN
+NSString *HYDPrefixSubsequentLines(NSString *prefix, NSString *raw);

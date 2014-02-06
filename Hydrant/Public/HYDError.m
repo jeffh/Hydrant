@@ -42,10 +42,17 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
     HYDSetValueForKeyIfNotNil(userInfo, HYDSourceKeyPathKey, sourceKey);
     HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationKeyPathKey, destinationKey);
 
-    if (!sourceKey && !destinationKey) {
+    if (code == HYDErrorMultipleErrors) {
+        NSArray *fatalUnderlyingErrors = [underlyingErrors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isFatal = YES"]];
+        userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Multiple parsing errors occurred (fatal=%lu, total=%lu)",
+                                                                       (unsigned long)fatalUnderlyingErrors.count,
+                                                                       (unsigned long)underlyingErrors.count);
+    } else if (!sourceKey && !destinationKey) {
         userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map objects");
     } else {
-        userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'", sourceKey, destinationKey);
+        userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'",
+                                                                       sourceKey ?: @"<UnknownKey>",
+                                                                       destinationKey ?: @"<UnknownKey>");
     }
     return [self errorWithDomain:HYDErrorDomain code:code userInfo:userInfo];
 }
@@ -92,14 +99,13 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
     if (self.underlyingErrors.count) {
         [underlyingErrors appendString:@" underlyingErrors=(\n"];
         for (NSError *error in self.underlyingErrors) {
-            [underlyingErrors appendFormat:@"  - %@\n", error.description];
+            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", error.description)];
         }
         [underlyingErrors appendString:@")"];
     }
 
-    return [[[NSString stringWithFormat:@"%@ code=%lu isFatal=%@ reason=\"%@\"%@", self.domain, (long)self.code, fatalness, self.localizedDescription, underlyingErrors]
-             stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"]
-            stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
+    return [NSString stringWithFormat:@"%@ code=%lu isFatal=%@ reason=\"%@\"%@",
+            self.domain, (long)self.code, fatalness, self.localizedDescription, underlyingErrors];
 }
 
 - (BOOL)isFatal
@@ -130,6 +136,11 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
 - (NSArray *)underlyingErrors
 {
     return self.userInfo[HYDUnderlyingErrorsKey];
+}
+
+- (NSArray *)underlyingFatalErrors
+{
+    return [self.underlyingErrors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isFatal = YES"]];
 }
 
 - (NSString *)underlyingErrorsDescription
