@@ -2,6 +2,7 @@ Hydrant
 =======
 
 A [simple](http://www.infoq.com/presentations/Simple-Made-Easy) object data mapper for Objective-C.
+It aims to solve the data mapping problem well with a high degree of flexibility.
 
 Mapping NSDictionaries to [Value Objects](https://github.com/jeffh/JKVValue) is boring
 work! A lot of the work usually gets spread around in -[initWithDictionary:] methods
@@ -35,7 +36,7 @@ Of course, if you can fully control the API you hit, this library isn't much of 
 Installation
 ============
 
-Due the instability for the library right now, you'll have to pod this git repository:
+Due the instability of the library right now, you'll have to pod this git repository:
 
     pod "Hydrant", :git => "https://github.com/jeffh/Hydrant.git"
 
@@ -66,8 +67,10 @@ These are the two primary methods for doing the data mapping work:
  - `objectFromSourceObject:error:` converts the sourceObject to a given object defined by each mapper class.
  - `reverseMapperwithDestinationKey:` produces a new mapper that can convert the returned object (from above) into the sourceObject.
 
-In short, `HYDMapper` is the protocol to implement how *any object can be converted to any other object*.
+In short, `HYDMapper` is the protocol to implement how **any object can be converted to any other object**.
 Using a composition of mappers, we can produce an arbitrary schema to transform any object graph, such as JSON to Value Objects.
+
+This protocol provides a lot of flexibility and composibility for building parsing strategies.
 
 Of course, Hydrant comes with a collection of mappers for you to use.
 

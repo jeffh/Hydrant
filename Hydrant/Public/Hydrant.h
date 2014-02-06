@@ -36,5 +36,7 @@
 //
 // These mappers expose implementation requirements that HYDMapper requires.
 // When using these mappers, you are also responsible for error handling.
+//
+// In exchange for more code to write, you have more flexibility.
 #import "HYDPostProcessingMapper.h"
 #import "HYDBlockMapper.h"
