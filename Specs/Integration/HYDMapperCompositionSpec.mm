@@ -17,7 +17,7 @@ describe(@"Mapper Composition", ^{
     beforeEach(^{
         HYDDotNetDateFormatter *dotNetDateFormatter = [[HYDDotNetDateFormatter alloc] init];
 
-        mapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [HYDPerson class],
+        mapper = HYDMapObject(HYDRootMapper, [HYDPerson class],
                               @{@"person" : HYDMapObjectPath(@"parent", [NSDictionary class], [HYDPerson class],
                                                              @{@"id" : @"identifier",
                                                                @"name.first" : @"firstName",

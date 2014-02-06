@@ -63,6 +63,10 @@ describe(@"HYDError", ^{
             [error underlyingErrors] should equal(@[innerError]);
             error.userInfo[NSUnderlyingErrorKey] should equal(innerError);
         });
+
+        it(@"should have a pretty description", ^{
+            [error description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=YES reason=\"Could not map from 'sourceKey' to 'destinationKey'\" underlyingErrors=(\n  - %@\n)", (long)error.code, innerError]);
+        });
     });
 
     context(@"with the error mimimally filled out", ^{
@@ -109,6 +113,10 @@ describe(@"HYDError", ^{
             error.userInfo[HYDUnderlyingErrorsKey] should be_nil;
             [error underlyingErrors] should be_nil;
             error.userInfo[NSUnderlyingErrorKey] should be_nil;
+        });
+
+        it(@"should have a pretty description", ^{
+            [error description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map objects\"", (long)error.code]);
         });
     });
 
@@ -164,6 +172,10 @@ describe(@"HYDError", ^{
 
         it(@"should use the specfied fatalness", ^{
             wrappedError.isFatal should_not be_truthy;
+        });
+
+        it(@"should have a pretty description", ^{
+            [wrappedError description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map from 'preSource.sourceKey' to 'preDestination.destinationKey'\" underlyingErrors=(\n  - %@\n)", (long)error.code, innerError]);
         });
     });
 

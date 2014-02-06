@@ -102,7 +102,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
             });
 
             it(@"should contain the error description as an underlying error", ^{
-                NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFormattingError userInfo:@{NSLocalizedDescriptionKey: @"Failed to format string into object: (null)"}];
+                NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFormattingError userInfo:@{NSLocalizedDescriptionKey: @"Failed to format string into object: (null) for key 'destinationKey'"}];
                 error.userInfo[HYDUnderlyingErrorsKey] should equal(@[originalError]);
                 error.userInfo[NSUnderlyingErrorKey] should equal(originalError);
             });

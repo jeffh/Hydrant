@@ -42,16 +42,8 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
     HYDSetValueForKeyIfNotNil(userInfo, HYDSourceKeyPathKey, sourceKey);
     HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationKeyPathKey, destinationKey);
 
-    if (underlyingErrors.count) {
-        NSMutableString *details = [HYDLocalizedStringFormat(@"Multiple errors occurred:\n") mutableCopy];
-        for (NSError *error in underlyingErrors) {
-            if ([error respondsToSelector:@selector(underlyingErrorsDescription)]) {
-                [details appendFormat:@" - %@\n", [(HYDError *)error underlyingErrorsDescription]];
-            } else {
-                [details appendFormat:@" - %@\n", [error description]];
-            }
-        }
-        userInfo[NSLocalizedDescriptionKey] = details;
+    if (!sourceKey && !destinationKey) {
+        userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map objects");
     } else {
         userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'", sourceKey, destinationKey);
     }
@@ -95,7 +87,17 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
 
 - (NSString *)description
 {
-    return [[[NSString stringWithFormat:@"%@ code=%lu reason=%@ userInfo=%@", self.domain, (long)self.code, self.localizedDescription, self.userInfo]
+    NSString *fatalness = (self.isFatal ? @"YES" : @"NO");
+    NSMutableString *underlyingErrors = [NSMutableString string];
+    if (self.underlyingErrors.count) {
+        [underlyingErrors appendString:@" underlyingErrors=(\n"];
+        for (NSError *error in self.underlyingErrors) {
+            [underlyingErrors appendFormat:@"  - %@\n", error.description];
+        }
+        [underlyingErrors appendString:@")"];
+    }
+
+    return [[[NSString stringWithFormat:@"%@ code=%lu isFatal=%@ reason=\"%@\"%@", self.domain, (long)self.code, fatalness, self.localizedDescription, underlyingErrors]
              stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"]
             stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
 }

@@ -51,7 +51,7 @@
         HYDSetObjectPointer(error, nil);
     } else {
         if (!errorDescription) {
-            errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@", sourceObject);
+            errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@ for key '%@'", sourceObject, self.destinationKey);
         }
 
         NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain
