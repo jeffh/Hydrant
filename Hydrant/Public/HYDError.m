@@ -1,23 +1,14 @@
 #import "HYDError.h"
-#import "HYDMapper.h"
 #import "HYDFunctions.h"
-
-NSString *HYDErrorDomain = @"HYDErrorDomain";
-const NSInteger HYDErrorInvalidSourceObjectValue = 1;
-const NSInteger HYDErrorInvalidSourceObjectType = 2;
-const NSInteger HYDErrorInvalidResultingObjectType = 3;
-const NSInteger HYDErrorMultipleErrors = 4;
-
-
-NSString *HYDIsFatalKey = @"HYDIsFatal";
-NSString *HYDUnderlyingErrorsKey = @"HYDUnderlyingErrors";
-NSString *HYDSourceObjectKey = @"HYDSourceObject";
-NSString *HYDSourceKeyPathKey = @"HYDSourceKeyPath";
-NSString *HYDDestinationObjectKey = @"HYDDestinationObjectPath";
-NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
-
+#import "HYDConstants.h"
 
 @implementation HYDError
+
++ (instancetype)errorWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
 
 + (instancetype)errorWithCode:(NSInteger)code
                  sourceObject:(id)sourceObject
@@ -54,7 +45,7 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
                                                                        sourceKey ?: @"<UnknownKey>",
                                                                        destinationKey ?: @"<UnknownKey>");
     }
-    return [self errorWithDomain:HYDErrorDomain code:code userInfo:userInfo];
+    return [super errorWithDomain:HYDErrorDomain code:code userInfo:userInfo];
 }
 
 + (instancetype)errorFromError:(HYDError *)error
@@ -140,7 +131,13 @@ NSString *HYDDestinationKeyPathKey = @"HYDDestinationKeyPath";
 
 - (NSArray *)underlyingFatalErrors
 {
-    return [self.underlyingErrors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isFatal = YES"]];
+    NSMutableArray *fatalErrors = [NSMutableArray array];
+    for (NSError *error in self.underlyingErrors) {
+        if (![error isKindOfClass:[HYDError class]] || [(HYDError *)error isFatal]) {
+            [fatalErrors addObject:error];
+        }
+    }
+    return fatalErrors;
 }
 
 - (NSString *)underlyingErrorsDescription
