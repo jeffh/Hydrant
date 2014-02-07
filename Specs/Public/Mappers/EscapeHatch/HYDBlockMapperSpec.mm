@@ -16,7 +16,7 @@ describe(@"HYDBlockMapper", ^{
         errorToReturn = nil;
 
         mapper = HYDMapWithBlock(@"key", ^id(id incomingValue, __autoreleasing HYDError **error) {
-            if (![incomingValue isEqual:@1]) {
+            if (![@1 isEqual:incomingValue]) {
                 if (error) {
                     *error = [HYDError errorWithCode:0
                                         sourceObject:nil
@@ -28,7 +28,7 @@ describe(@"HYDBlockMapper", ^{
                 }
                 return nil;
             }
-            return @"1";
+            return @"parsedObject";
         }, ^id(id incomingValue, __autoreleasing HYDError **error) {
             return @1;
         });
@@ -37,7 +37,7 @@ describe(@"HYDBlockMapper", ^{
         [SpecHelper specHelper].sharedExampleContext[@"destinationKey"] = @"key";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @1;
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
-        [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = @"1";
+        [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = @"parsedObject";
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");
