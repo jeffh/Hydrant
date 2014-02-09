@@ -6,6 +6,7 @@
 #import "HYDError.h"
 #import "HYDFunctions.h"
 #import "HYDIdentityMapper.h"
+#import "HYDKeyAccessor.h"
 
 
 @interface HYDCollectionMapper ()
@@ -44,9 +45,9 @@
 
 #pragma mark - <HYDMapper>
 
-- (NSString *)destinationKey
+- (id<HYDAccessor>)destinationAccessor
 {
-    return [self.wrappedMapper destinationKey];
+    return [self.wrappedMapper destinationAccessor];
 }
 
 - (id)objectFromSourceObject:(id)sourceCollection error:(__autoreleasing HYDError **)error
@@ -55,9 +56,9 @@
     if (![sourceCollection isKindOfClass:self.sourceCollectionClass]) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
                                               sourceObject:sourceCollection
-                                                 sourceKey:nil
+                                            sourceAccessor:nil
                                          destinationObject:nil
-                                            destinationKey:self.destinationKey
+                                       destinationAccessor:self.destinationAccessor
                                                    isFatal:YES
                                           underlyingErrors:nil]);
         return nil;
@@ -77,8 +78,8 @@
         if (itemError) {
             NSString *indexString = [NSString stringWithFormat:@"%lu", (unsigned long)(index-1)];
             [errors addObject:[HYDError errorFromError:itemError
-                                   prependingSourceKey:indexString
-                                     andDestinationKey:indexString
+                              prependingSourceAccessor:HYDAccessKey(indexString)//indexString
+                                andDestinationAccessor:HYDAccessKey(indexString)//indexString
                                replacementSourceObject:sourceObject
                                                isFatal:itemError.isFatal]];
             hasFatalError = hasFatalError || itemError.isFatal;
@@ -94,18 +95,18 @@
     if (errors.count) {
         HYDSetObjectPointer(error, [HYDError errorFromErrors:errors
                                                 sourceObject:sourceCollection
-                                                   sourceKey:nil
+                                              sourceAccessor:nil
                                            destinationObject:resultingCollection
-                                              destinationKey:self.destinationKey
+                                         destinationAccessor:self.destinationAccessor
                                                      isFatal:hasFatalError]);
     }
 
     return (hasFatalError ? nil : resultingCollection);
 }
 
-- (instancetype)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (instancetype)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    id<HYDMapper> reverseChildMapper = [self.wrappedMapper reverseMapperWithDestinationKey:destinationKey];
+    id<HYDMapper> reverseChildMapper = [self.wrappedMapper reverseMapperWithDestinationAccessor:destinationAccessor];
     return [[[self class] alloc] initWithItemMapper:reverseChildMapper
                               sourceCollectionClass:self.destinationCollectionClass
                          destinationCollectionClass:self.sourceCollectionClass];

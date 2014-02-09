@@ -1,4 +1,6 @@
 #import "HYDError+Spec.h"
+#import "HYDAccessor.h"
+#import "HYDKeyAccessor.h"
 
 @implementation HYDError (Spec)
 
@@ -6,9 +8,9 @@
 {
     return [self errorWithCode:HYDErrorInvalidSourceObjectType
                   sourceObject:@"sourceObject"
-                     sourceKey:@"sourceKey"
+                sourceAccessor:HYDAccessKey(@"sourceAccessor")
              destinationObject:nil
-                destinationKey:@"destinationKey"
+           destinationAccessor:HYDAccessKey(@"destinationAccessor")
                        isFatal:YES
               underlyingErrors:nil];
 }
@@ -17,9 +19,9 @@
 {
     return [self errorWithCode:HYDErrorInvalidSourceObjectValue
                   sourceObject:@"sourceObject"
-                     sourceKey:@"sourceKey"
+                sourceAccessor:HYDAccessKey(@"sourceAccessor")
              destinationObject:nil
-                destinationKey:@"destinationKey"
+           destinationAccessor:HYDAccessKey(@"destinationAccessor")
                        isFatal:NO
               underlyingErrors:nil];
 }

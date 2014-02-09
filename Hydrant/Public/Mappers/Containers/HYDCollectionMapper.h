@@ -39,7 +39,7 @@ HYD_REQUIRE_NON_NIL(1,2,3);
 /*! Returns a mapper from two collections where itemMapper can map each element between
  *  the two collections.
  *
- *  @param destinationKey the destination hint that this mapper's resulting object should be stored in for parent mappers
+ *  @param destinationAccessor the destination hint that this mapper's resulting object should be stored in for parent mappers
  *  @param sourceCollectionClass the incoming collection source type
  *  @param destinationCollectionClass the resulting collection type generated
  *  @returns A HYDCollectionMapper that can do the conversion.
@@ -53,7 +53,7 @@ HYD_REQUIRE_NON_NIL(1,2);
 /*! Returns a mapper from two collections where itemMapper can map each element between
  *  the two collections.
  *
- *  @param destinationKey the destination hint that this mapper's resulting object should be stored in for parent mappers
+ *  @param destinationAccessor the destination hint that this mapper's resulting object should be stored in for parent mappers
  *  @param sourceCollectionClass the incoming collection source type
  *  @param destinationCollectionClass the resulting collection type generated
  *  @returns A HYDCollectionMapper that can do the conversion.

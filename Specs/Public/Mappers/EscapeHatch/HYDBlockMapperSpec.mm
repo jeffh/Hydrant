@@ -20,9 +20,9 @@ describe(@"HYDBlockMapper", ^{
                 if (error) {
                     *error = [HYDError errorWithCode:0
                                         sourceObject:nil
-                                           sourceKey:nil
+                                      sourceAccessor:nil
                                    destinationObject:nil
-                                      destinationKey:nil
+                                 destinationAccessor:nil
                                              isFatal:YES
                                     underlyingErrors:nil];
                 }
@@ -34,7 +34,7 @@ describe(@"HYDBlockMapper", ^{
         });
 
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"destinationKey"] = @"key";
+        [SpecHelper specHelper].sharedExampleContext[@"destinationAccessor"] = @"key";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @1;
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
         [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = @"parsedObject";

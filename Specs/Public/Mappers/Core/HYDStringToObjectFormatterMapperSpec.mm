@@ -14,11 +14,11 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
 
     beforeEach(^{
         formatter = [[HYDFakeFormatter alloc] init];
-        mapper = HYDMapStringToObjectByFormatter(@"destinationKey", formatter);
+        mapper = HYDMapStringToObjectByFormatter(@"destinationAccessor", formatter);
     });
 
     it(@"should return the same destination key it was given", ^{
-        mapper.destinationKey should equal(@"destinationKey");
+        mapper.destinationAccessor should equal(HYDAccessKey(@"destinationAccessor"));
     });
 
     describe(@"parsing an object", ^{
@@ -102,7 +102,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
             });
 
             it(@"should contain the error description as an underlying error", ^{
-                NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFormattingError userInfo:@{NSLocalizedDescriptionKey: @"Failed to format string into object: (null) for key 'destinationKey'"}];
+                NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFormattingError userInfo:@{NSLocalizedDescriptionKey: @"Failed to format string into object: (null) for key 'destinationAccessor'"}];
                 error.userInfo[HYDUnderlyingErrorsKey] should equal(@[originalError]);
                 error.userInfo[NSUnderlyingErrorKey] should equal(originalError);
             });
@@ -111,7 +111,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
 
     describe(@"reverse mapper", ^{
         beforeEach(^{
-            mapper = HYDMapStringToObjectByFormatter(@"destinationKey", [[NSNumberFormatter alloc] init]);
+            mapper = HYDMapStringToObjectByFormatter(@"destinationAccessor", [[NSNumberFormatter alloc] init]);
             [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
             [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"1";
         });

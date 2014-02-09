@@ -16,12 +16,12 @@ describe(@"HYDNotNullMapper", ^{
     __block id parsedObject;
 
     beforeEach(^{
-        childMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"destinationKey"];
+        childMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"destinationAccessor"];
         mapper = HYDMapNotNull(childMapper);
     });
 
     it(@"should return the child mapper's destination key", ^{
-        [mapper destinationKey] should equal(@"destinationKey");
+        [mapper destinationAccessor] should equal(HYDAccessKey(@"destinationAccessor"));
     });
 
     describe(@"parsing an object", ^{
@@ -95,11 +95,11 @@ describe(@"HYDNotNullMapper", ^{
             childMapper.reverseMapperToReturn = reverseChildMapper;
             sourceObject = @"valid";
 
-            reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
+            reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessKey(@"otherKey")];
         });
 
         it(@"should have received the other destination key", ^{
-            childMapper.reverseMapperDestinationKeyReceived should equal(@"otherKey");
+            childMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessKey(@"otherKey"));
         });
 
         context(@"with a good source object", ^{

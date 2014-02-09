@@ -12,10 +12,10 @@ describe(@"HYDMappingArraysOptional", ^{
     __block id sourceObject;
 
     beforeEach(^{
-        mapper = HYDMapArrayOf(HYDMapObjectPath(HYDRootMapper, [NSDictionary class], [NSDictionary class],
-                                                @{@"Color": @"name",
-                                                  @"Url": HYDMapStringToURL(@"previewImageURL"),
-                                                  @"ZoomImageUrl": HYDMapOptionally(HYDMapStringToURL(@"zoomImageURL"))}));
+        mapper = HYDMapArrayOf(HYDMapObject(HYDRootMapper, [NSDictionary class], [NSDictionary class],
+                                            @{@"Color": @"name",
+                                              @"Url": HYDMapStringToURL(@"previewImageURL"),
+                                              @"ZoomImageUrl": HYDMapOptionally(HYDMapStringToURL(@"zoomImageURL"))}));
         sourceObject = @[@{@"Url": @"http://google.com/cats.jpeg",
                            @"Color": @"BLACK"}];
     });

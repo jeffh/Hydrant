@@ -1,6 +1,7 @@
 #import "HYDFakeMapper.h"
 #import "HYDError.h"
 #import "HYDFunctions.h"
+#import "HYDKeyAccessor.h"
 
 @implementation HYDFakeMapper {
     NSMutableArray *_objectsToReturn;
@@ -15,12 +16,17 @@
 
 - (id)initWithDestinationKey:(NSString *)destinationKey
 {
+    return [self initWithDestinationAccessor:HYDAccessKey(destinationKey)];
+}
+
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+{
     self = [super init];
     if (self) {
         _objectsToReturn = [NSMutableArray array];
         _errorsToReturn = [NSMutableArray array];
         _sourceObjectsReceived = [NSMutableArray array];
-        self.destinationKey = destinationKey;
+        self.destinationAccessor = destinationAccessor;
     }
     return self;
 }
@@ -72,9 +78,9 @@
     return object;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    self.reverseMapperDestinationKeyReceived = destinationKey;
+    self.reverseMapperDestinationAccessorReceived = destinationAccessor;
     return self.reverseMapperToReturn;
 }
 

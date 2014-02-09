@@ -24,7 +24,7 @@ describe(@"HYDDateToStringMapper", ^{
 
         mapper = HYDMapDateToString(@"dateKey", @"yyyy-MM-dd 'at' HH:mm:ss");
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"destinationKey"] = @"dateKey";
+        [SpecHelper specHelper].sharedExampleContext[@"destinationAccessor"] = @"dateKey";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = date;
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
         [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = dateString;

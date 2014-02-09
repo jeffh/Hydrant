@@ -6,7 +6,7 @@
 
 @interface HYDObjectToStringFormatterMapper : NSObject <HYDMapper>
 
-- (id)initWithDestinationKey:(NSString *)destinationKey formatter:(NSFormatter *)formatter;
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor formatter:(NSFormatter *)formatter;
 
 @end
 

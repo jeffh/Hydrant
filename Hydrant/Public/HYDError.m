@@ -12,9 +12,9 @@
 
 + (instancetype)errorWithCode:(NSInteger)code
                  sourceObject:(id)sourceObject
-                    sourceKey:(NSString *)sourceKey
+               sourceAccessor:(id<HYDAccessor>)sourceAccessor
             destinationObject:(id)destinationObject
-               destinationKey:(NSString *)destinationKey
+          destinationAccessor:(id<HYDAccessor>)destinationAccessor
                       isFatal:(BOOL)isFatal
              underlyingErrors:(NSArray *)underlyingErrors
 {
@@ -30,55 +30,55 @@
 
     HYDSetValueForKeyIfNotNil(userInfo, HYDSourceObjectKey, sourceObject);
     HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationObjectKey, destinationObject);
-    HYDSetValueForKeyIfNotNil(userInfo, HYDSourceKeyPathKey, sourceKey);
-    HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationKeyPathKey, destinationKey);
+    HYDSetValueForKeyIfNotNil(userInfo, HYDSourceAccessorKey, sourceAccessor);
+    HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationAccessorKey, destinationAccessor);
 
     if (code == HYDErrorMultipleErrors) {
         NSArray *fatalUnderlyingErrors = [underlyingErrors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isFatal = YES"]];
         userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Multiple parsing errors occurred (fatal=%lu, total=%lu)",
                                                                        (unsigned long)fatalUnderlyingErrors.count,
                                                                        (unsigned long)underlyingErrors.count);
-    } else if (!sourceKey && !destinationKey) {
+    } else if (!sourceAccessor && !destinationAccessor) {
         userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map objects");
     } else {
         userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'",
-                                                                       sourceKey ?: @"<UnknownKey>",
-                                                                       destinationKey ?: @"<UnknownKey>");
+                                                                       HYDStringifyAccessor(sourceAccessor),
+                                                                       HYDStringifyAccessor(destinationAccessor));
     }
     return [super errorWithDomain:HYDErrorDomain code:code userInfo:userInfo];
 }
 
 + (instancetype)errorFromError:(HYDError *)error
-           prependingSourceKey:(NSString *)sourceKey
-             andDestinationKey:(NSString *)destinationKey
+      prependingSourceAccessor:(id<HYDAccessor>)sourceAccessor
+        andDestinationAccessor:(id<HYDAccessor>)destinationAccessor
        replacementSourceObject:(id)sourceObject
                        isFatal:(BOOL)isFatal
 {
-    sourceKey = HYDJoinedStringFromKeyPaths(sourceKey, error.sourceKey);
-    destinationKey = HYDJoinedStringFromKeyPaths(destinationKey, error.destinationKey);
+    sourceAccessor = HYDJoinedStringFromKeyPaths(sourceAccessor, error.sourceAccessor);
+    destinationAccessor = HYDJoinedStringFromKeyPaths(destinationAccessor, error.destinationAccessor);
 
     sourceObject = (sourceObject ?: error.sourceObject);
     return [self errorWithCode:error.code
                   sourceObject:sourceObject
-                     sourceKey:sourceKey
+                sourceAccessor:sourceAccessor
              destinationObject:error.destinationObject
-                destinationKey:destinationKey
+           destinationAccessor:destinationAccessor
                        isFatal:isFatal
               underlyingErrors:error.userInfo[HYDUnderlyingErrorsKey]];
 }
 
 + (instancetype)errorFromErrors:(NSArray *)errors
                    sourceObject:(id)sourceObject
-                      sourceKey:(NSString *)sourceKey
+                 sourceAccessor:(id<HYDAccessor>)sourceAccessor
               destinationObject:(id)destinationObject
-                 destinationKey:(NSString *)destinationKey
+            destinationAccessor:(id<HYDAccessor>)destinationAccessor
                         isFatal:(BOOL)isFatal
 {
     return [self errorWithCode:HYDErrorMultipleErrors
                   sourceObject:sourceObject
-                     sourceKey:sourceKey
+                sourceAccessor:sourceAccessor
              destinationObject:destinationObject
-                destinationKey:destinationKey
+           destinationAccessor:destinationAccessor
                        isFatal:isFatal
               underlyingErrors:errors];
 }
@@ -104,14 +104,14 @@
     return [self.userInfo[HYDIsFatalKey] boolValue];
 }
 
-- (NSString *)sourceKey
+- (NSString *)sourceAccessor
 {
-    return self.userInfo[HYDSourceKeyPathKey];
+    return self.userInfo[HYDSourceAccessorKey];
 }
 
-- (NSString *)destinationKey
+- (NSString *)destinationAccessor
 {
-    return self.userInfo[HYDDestinationKeyPathKey];
+    return self.userInfo[HYDDestinationAccessorKey];
 }
 
 - (id)sourceObject

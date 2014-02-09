@@ -1,5 +1,6 @@
 // protocols
 #import "HYDMapper.h"
+#import "HYDAccessor.h"
 #import "HYDCollection.h"
 #import "HYDMutableCollection.h"
 
@@ -12,11 +13,14 @@
 #import "HYDURLFormatter.h"
 #import "HYDUUIDFormatter.h"
 
+// accessors
+#import "HYDKeyAccessor.h"
+#import "HYDKeyPathAccessor.h"
+
 // container mappers
 #import "HYDCollectionMapper.h"
 #import "HYDTypedMapper.h"
 #import "HYDKeyValueMapper.h"
-#import "HYDKeyValuePathMapper.h"
 #import "HYDNonFatalMapper.h"
 #import "HYDNotNullMapper.h"
 #import "HYDFirstMapper.h"

@@ -4,11 +4,12 @@
 #import "HYDObjectToStringFormatterMapper.h"
 #import "HYDURLFormatter.h"
 #import "HYDUUIDFormatter.h"
+#import "HYDKeyAccessor.h"
 
 
 @interface HYDStringToObjectFormatterMapper ()
 
-@property (copy, nonatomic) NSString *destinationKey;
+@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
 @property (strong, nonatomic) NSFormatter *formatter;
 
 @end
@@ -22,11 +23,11 @@
     return nil;
 }
 
-- (id)initWithDestinationKey:(NSString *)destinationKey formatter:(NSFormatter *)formatter
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor formatter:(NSFormatter *)formatter
 {
     self = [super init];
     if (self) {
-        self.destinationKey = destinationKey;
+        self.destinationAccessor = destinationAccessor;
         self.formatter = formatter;
     }
     return self;
@@ -51,7 +52,9 @@
         HYDSetObjectPointer(error, nil);
     } else {
         if (!errorDescription) {
-            errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@ for key '%@'", sourceObject, self.destinationKey);
+            errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@ for key '%@'",
+                                                        sourceObject,
+                                                        HYDStringifyAccessor(self.destinationAccessor));
         }
 
         NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain
@@ -59,9 +62,9 @@
                                                  userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
                                               sourceObject:sourceObject
-                                                 sourceKey:nil
+                                            sourceAccessor:nil
                                          destinationObject:nil
-                                            destinationKey:self.destinationKey
+                                       destinationAccessor:self.destinationAccessor
                                                    isFatal:YES
                                           underlyingErrors:@[originalError]]);
         resultingObject = nil;
@@ -69,9 +72,9 @@
     return resultingObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[HYDObjectToStringFormatterMapper alloc] initWithDestinationKey:destinationKey formatter:self.formatter];
+    return [[HYDObjectToStringFormatterMapper alloc] initWithDestinationAccessor:destinationAccessor formatter:self.formatter];
 }
 
 @end
@@ -81,50 +84,50 @@
 HYD_EXTERN
 HYDStringToObjectFormatterMapper *HYDMapStringToObjectByFormatter(NSString *destinationKey, NSFormatter *formatter)
 {
-    return [[HYDStringToObjectFormatterMapper alloc] initWithDestinationKey:destinationKey formatter:formatter];
+    return [[HYDStringToObjectFormatterMapper alloc] initWithDestinationAccessor:HYDAccessKey(destinationKey) formatter:formatter];
 }
 
 #pragma mark - NumberFormatter Constructors
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destKey)
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey)
 {
-    return HYDMapStringToNumber(destKey, NSNumberFormatterDecimalStyle);
+    return HYDMapStringToNumber(destinationKey, NSNumberFormatterDecimalStyle);
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destKey, NSNumberFormatterStyle numberFormaterStyle)
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey, NSNumberFormatterStyle numberFormaterStyle)
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     numberFormatter.numberStyle = numberFormaterStyle;
-    return HYDMapStringToNumber(destKey, numberFormatter);
+    return HYDMapStringToNumber(destinationKey, numberFormatter);
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destKey, NSNumberFormatter *numberFormatter)
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey, NSNumberFormatter *numberFormatter)
 {
-    return HYDMapStringToObjectByFormatter(destKey, numberFormatter);
+    return HYDMapStringToObjectByFormatter(destinationKey, numberFormatter);
 }
 
 #pragma mark - DateFormatter Constructors
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *dstKey, NSString *formatString)
+HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *destinationKey, NSString *formatString)
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = formatString;
-    return HYDMapStringToDate(dstKey, dateFormatter);
+    return HYDMapStringToDate(destinationKey, dateFormatter);
 }
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *dstKey, NSDateFormatter *dateFormatter)
+HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *destinationKey, NSDateFormatter *dateFormatter)
 {
-    return HYDMapStringToObjectByFormatter(dstKey, dateFormatter);
+    return HYDMapStringToObjectByFormatter(destinationKey, dateFormatter);
 }
 
 #pragma mark - URLFormatter Constructors

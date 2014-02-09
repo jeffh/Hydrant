@@ -69,7 +69,7 @@ HYD_EXTERN NSString *HYDSourceObjectKey;
  *  sourceObject from. Depending on the mapper, this can be a KeyPath-like string to an element index
  *  of an array to a property or dictionary key access.
  */
-HYD_EXTERN NSString *HYDSourceKeyPathKey;
+HYD_EXTERN NSString *HYDSourceAccessorKey;
 
 /*! The HYDError's userInfo key used to store the destination object that was attempted to be mapped
  *  when the error occurred. Most of the time, this will not be present, as mappers that fail to parse
@@ -84,4 +84,4 @@ HYD_EXTERN NSString *HYDDestinationObjectKey;
  *  resulting object created from the source object. Depending on the mapper, this can be a
  *  KeyPath-like string to an element index of an array to a property or dictionary key access.
  */
-HYD_EXTERN NSString *HYDDestinationKeyPathKey;
+HYD_EXTERN NSString *HYDDestinationAccessorKey;

@@ -1,6 +1,7 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
 #import "HYDError+Spec.h"
+#import "HYDFakeMapper.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -9,7 +10,7 @@ SPEC_BEGIN(HYDTypedMapperSpec)
 
 describe(@"HYDTypedMapper", ^{
     __block HYDTypedMapper *mapper;
-    __block id<HYDMapper> innerMapper;
+    __block HYDFakeMapper *innerMapper;
     __block HYDError *error;
     __block id sourceObject;
     __block id parsedObject;
@@ -17,8 +18,7 @@ describe(@"HYDTypedMapper", ^{
     beforeEach(^{
         error = nil;
         sourceObject = @"SOURCE";
-        innerMapper = nice_fake_for(@protocol(HYDMapper));
-        innerMapper stub_method(@selector(destinationKey)).and_return(@"mah-key");
+        innerMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"mah-key"];
 
         mapper = HYDMapTypes(innerMapper,
                 @[[NSString class], [NSArray class]],
@@ -26,7 +26,7 @@ describe(@"HYDTypedMapper", ^{
     });
 
     it(@"should pass through to the inner mapper for the destination key", ^{
-        mapper.destinationKey should equal(@"mah-key");
+        mapper.destinationAccessor should equal(HYDAccessKey(@"mah-key"));
     });
 
     describe(@"parsing an object", ^{
@@ -37,7 +37,7 @@ describe(@"HYDTypedMapper", ^{
         context(@"when the type is a subclass", ^{
             beforeEach(^{
                 sourceObject = [NSMutableArray array];
-                innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_return([@[@1] mutableCopy]);
+                innerMapper.objectsToReturn = @[@[@1]];
             });
 
             it(@"should not error", ^{
@@ -55,7 +55,7 @@ describe(@"HYDTypedMapper", ^{
             });
 
             it(@"should not invoke the inner mapper", ^{
-                innerMapper should_not have_received(@selector(objectFromSourceObject:error:));
+                innerMapper.sourceObjectsReceived should be_empty;
             });
 
             it(@"should produce a fatal type error", ^{
@@ -65,7 +65,7 @@ describe(@"HYDTypedMapper", ^{
 
         context(@"when the object is valid to the inner mapper and is the correct type", ^{
             beforeEach(^{
-                innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_return(@1);
+                innerMapper.objectsToReturn = @[@1];
             });
 
             it(@"should not error", ^{
@@ -79,7 +79,7 @@ describe(@"HYDTypedMapper", ^{
 
         context(@"when the inner mapper returns nil from a nil source object", ^{
             beforeEach(^{
-                innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_return((id)nil);
+                innerMapper.objectsToReturn = @[[NSNull null]];
             });
 
             it(@"should not error", ^{
@@ -94,7 +94,7 @@ describe(@"HYDTypedMapper", ^{
         context(@"when the object is valid to the inner mapper but is the incorrect return type", ^{
             beforeEach(^{
                 sourceObject = nil;
-                innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_return(@"Cheese");
+                innerMapper.objectsToReturn = @[@"Cheese"];
             });
 
             it(@"should produce a fatal error with invalid return type", ^{
@@ -110,13 +110,7 @@ describe(@"HYDTypedMapper", ^{
             __block NSError *innerMapperError;
             beforeEach(^{
                 innerMapperError = [HYDError fatalError];
-                innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_do(^(NSInvocation *invocation) {
-                    id returnObject = nil;
-                    NSError __autoreleasing **errorPtr = nil;
-                    [invocation getArgument:&errorPtr atIndex:3];
-                    *errorPtr = innerMapperError;
-                    [invocation setReturnValue:&returnObject];
-                });
+                innerMapper.errorsToReturn = @[innerMapperError];
             });
 
             it(@"should bubble up the error", ^{
@@ -131,26 +125,26 @@ describe(@"HYDTypedMapper", ^{
 
     describe(@"errornously parsing an object without an error pointer", ^{
         it(@"should not explode", ^{
-            innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_return(@"Cheese");
+            innerMapper.objectsToReturn = @[@"Cheese"];
             [mapper objectFromSourceObject:@[] error:nil];
         });
     });
 
     describe(@"reverse mapper", ^{
-        __block id<HYDMapper> innerReverseMapper;
+        __block HYDFakeMapper *innerReverseMapper;
         __block HYDTypedMapper *reverseMapper;
 
         beforeEach(^{
-            innerReverseMapper = nice_fake_for(@protocol(HYDMapper));
-            innerReverseMapper stub_method(@selector(objectFromSourceObject:error:)).and_return(sourceObject);
-            innerMapper stub_method(@selector(objectFromSourceObject:error:)).and_return(@1);
-            innerMapper stub_method(@selector(reverseMapperWithDestinationKey:)).and_return(innerReverseMapper);
+            innerReverseMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"KEY"];
+            innerReverseMapper.objectsToReturn = @[sourceObject];
+            innerMapper.objectsToReturn = @[@1];
+            innerMapper.reverseMapperToReturn = innerReverseMapper;
 
-            reverseMapper = [mapper reverseMapperWithDestinationKey:@"KEY"];
+            reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessKey(@"KEY")];
         });
 
         it(@"should pass along the destination key to the inner mapper", ^{
-            innerMapper should have_received(@selector(reverseMapperWithDestinationKey:)).with(@"KEY");
+            innerMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessKey(@"KEY"));
         });
 
         it(@"should use be reverse-compatible with the current mapper", ^{

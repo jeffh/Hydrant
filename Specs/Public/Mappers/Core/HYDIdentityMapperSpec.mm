@@ -12,11 +12,11 @@ describe(@"HYDIdentityMapper", ^{
     __block id parsedObject;
 
     beforeEach(^{
-        mapper = [[HYDIdentityMapper alloc] initWithDestinationKey:@"destinationKey"];
+        mapper = [[HYDIdentityMapper alloc] initWithDestinationAccessor:HYDAccessKey(@"destinationAccessor")];
     });
 
-    it(@"should have the destinationKey it was provided", ^{
-        [mapper destinationKey] should equal(@"destinationKey");
+    it(@"should have the destinationAccessor it was provided", ^{
+        [mapper destinationAccessor] should equal(HYDAccessKey(@"destinationAccessor"));
     });
 
     describe(@"parsing an object", ^{

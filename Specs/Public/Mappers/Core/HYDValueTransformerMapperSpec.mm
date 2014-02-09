@@ -14,11 +14,11 @@ describe(@"HYDValueTransformerMapper", ^{
 
     context(@"when using a value transformer via name", ^{
         beforeEach(^{
-            mapper = HYDMapValue(@"destinationKey", NSNegateBooleanTransformerName);
+            mapper = HYDMapValue(@"destinationAccessor", NSNegateBooleanTransformerName);
         });
 
         it(@"should preserve the destination it was given", ^{
-            [mapper destinationKey] should equal(@"destinationKey");
+            [mapper destinationAccessor] should equal(HYDAccessKey(@"destinationAccessor"));
         });
 
         describe(@"parsing an object", ^{
@@ -40,11 +40,11 @@ describe(@"HYDValueTransformerMapper", ^{
             __block id<HYDMapper> reverseMapper;
 
             beforeEach(^{
-                reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
+                reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessKey(@"otherKey")];
             });
 
             it(@"should corrected configure the destination key", ^{
-                [reverseMapper destinationKey] should equal(@"otherKey");
+                [reverseMapper destinationAccessor] should equal(HYDAccessKey(@"otherKey"));
             });
 
             it(@"should be the inverse of the original mapper", ^{
@@ -62,7 +62,7 @@ describe(@"HYDValueTransformerMapper", ^{
     context(@"when trying to use a missing value transformer via name", ^{
         it(@"should raise an exception", ^{
             ^{
-                mapper = HYDMapValue(@"destinationKey", @"invalidTransformer");
+                mapper = HYDMapValue(@"destinationAccessor", @"invalidTransformer");
             } should raise_exception.with_name(NSInvalidArgumentException);
         });
     });

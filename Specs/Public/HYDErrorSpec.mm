@@ -3,6 +3,7 @@
 #import "HYDFakeMapper.h"
 #import "HYDError+Spec.h"
 
+
 @interface HYDAnotherFakeMapper : HYDFakeMapper
 @end
 @implementation HYDAnotherFakeMapper
@@ -21,9 +22,9 @@ describe(@"HYDError", ^{
         innerError = [NSError errorWithDomain:NSCocoaErrorDomain code:2 userInfo:nil];
         error = [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
                            sourceObject:@1
-                              sourceKey:@"sourceKey"
+                         sourceAccessor:HYDAccessKey(@"sourceAccessor")
                       destinationObject:@2
-                         destinationKey:@"destinationKey"
+                    destinationAccessor:HYDAccessKey(@"destinationAccessor")
                                 isFatal:YES
                        underlyingErrors:@[innerError]];
     });
@@ -49,13 +50,13 @@ describe(@"HYDError", ^{
         });
 
         it(@"should store the source key", ^{
-            error.userInfo[HYDSourceKeyPathKey] should equal(@"sourceKey");
-            error.sourceKey should equal(@"sourceKey");
+            error.userInfo[HYDSourceAccessorKey] should equal(HYDAccessKey(@"sourceAccessor"));
+            error.sourceAccessor should equal(HYDAccessKey(@"sourceAccessor"));
         });
 
         it(@"should store the destination key", ^{
-            error.userInfo[HYDDestinationKeyPathKey] should equal(@"destinationKey");
-            error.destinationKey should equal(@"destinationKey");
+            error.userInfo[HYDDestinationAccessorKey] should equal(HYDAccessKey(@"destinationAccessor"));
+            error.destinationAccessor should equal(HYDAccessKey(@"destinationAccessor"));
         });
 
         it(@"should store underlying errors", ^{
@@ -65,7 +66,7 @@ describe(@"HYDError", ^{
         });
 
         it(@"should have a pretty description", ^{
-            [error description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=YES reason=\"Could not map from 'sourceKey' to 'destinationKey'\" underlyingErrors=(\n  - %@\n)", (long)error.code, innerError]);
+            [error description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\" underlyingErrors=(\n  - %@\n)", (long)error.code, innerError]);
         });
     });
 
@@ -73,9 +74,9 @@ describe(@"HYDError", ^{
         beforeEach(^{
             error = [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
                                sourceObject:nil
-                                  sourceKey:nil
+                             sourceAccessor:nil
                           destinationObject:nil
-                             destinationKey:nil
+                        destinationAccessor:nil
                                     isFatal:NO
                            underlyingErrors:nil];
         });
@@ -100,13 +101,13 @@ describe(@"HYDError", ^{
         });
 
         it(@"should store the source key", ^{
-            error.userInfo[HYDSourceKeyPathKey] should be_nil;
-            error.sourceKey should be_nil;
+            error.userInfo[HYDSourceAccessorKey] should be_nil;
+            error.sourceAccessor should be_nil;
         });
 
         it(@"should store the destination key", ^{
-            error.userInfo[HYDDestinationKeyPathKey] should be_nil;
-            error.destinationKey should be_nil;
+            error.userInfo[HYDDestinationAccessorKey] should be_nil;
+            error.destinationAccessor should be_nil;
         });
 
         it(@"should store underlying errors", ^{
@@ -125,8 +126,8 @@ describe(@"HYDError", ^{
 
         beforeEach(^{
             wrappedError = [HYDError errorFromError:error
-                                prependingSourceKey:nil
-                                  andDestinationKey:nil
+                           prependingSourceAccessor:nil
+                             andDestinationAccessor:nil
                             replacementSourceObject:nil
                                             isFatal:YES];
         });
@@ -136,8 +137,8 @@ describe(@"HYDError", ^{
             wrappedError.underlyingErrors should equal(error.underlyingErrors);
             wrappedError.sourceObject should equal(error.sourceObject);
             wrappedError.destinationObject should equal(error.destinationObject);
-            wrappedError.sourceKey should equal(@"sourceKey");
-            wrappedError.destinationKey should equal(@"destinationKey");
+            wrappedError.sourceAccessor should equal(HYDAccessKey(@"sourceAccessor"));
+            wrappedError.destinationAccessor should equal(HYDAccessKey(@"destinationAccessor"));
         });
     });
 
@@ -146,8 +147,8 @@ describe(@"HYDError", ^{
 
         beforeEach(^{
             wrappedError = [HYDError errorFromError:error
-                                prependingSourceKey:@"preSource"
-                                  andDestinationKey:@"preDestination"
+                           prependingSourceAccessor:HYDAccessKey(@"preSource")
+                             andDestinationAccessor:HYDAccessKey(@"preDestination")
                             replacementSourceObject:@3
                                             isFatal:NO];
         });
@@ -163,11 +164,11 @@ describe(@"HYDError", ^{
         });
 
         it(@"should prepend the source key", ^{
-            wrappedError.sourceKey should equal(@"preSource.sourceKey");
+            wrappedError.sourceAccessor should equal(HYDAccessKeyPath(@"preSource.sourceAccessor"));
         });
 
         it(@"should prepend the destination key", ^{
-            wrappedError.destinationKey should equal(@"preDestination.destinationKey");
+            wrappedError.destinationAccessor should equal(HYDAccessKeyPath(@"preDestination.destinationAccessor"));
         });
 
         it(@"should use the specfied fatalness", ^{
@@ -175,7 +176,7 @@ describe(@"HYDError", ^{
         });
 
         it(@"should have a pretty description", ^{
-            [wrappedError description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map from 'preSource.sourceKey' to 'preDestination.destinationKey'\" underlyingErrors=(\n  - %@\n)", (long)wrappedError.code, innerError]);
+            [wrappedError description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map from 'preSource.sourceAccessor' to 'preDestination.destinationAccessor'\" underlyingErrors=(\n  - %@\n)", (long)wrappedError.code, innerError]);
         });
     });
 
@@ -185,9 +186,9 @@ describe(@"HYDError", ^{
         beforeEach(^{
             errorContainer = [HYDError errorFromErrors:@[error, [HYDError nonFatalError]]
                                           sourceObject:@"newSource"
-                                             sourceKey:@"source"
+                                        sourceAccessor:HYDAccessKey(@"source")
                                      destinationObject:@"newDestination"
-                                        destinationKey:@"destination"
+                                   destinationAccessor:HYDAccessKey(@"destination")
                                                isFatal:NO];
         });
 
@@ -200,11 +201,11 @@ describe(@"HYDError", ^{
         });
 
         it(@"should override the source key", ^{
-            errorContainer.sourceKey should equal(@"source");
+            errorContainer.sourceAccessor should equal(HYDAccessKey(@"source"));
         });
 
         it(@"should override the destination key", ^{
-            errorContainer.destinationKey should equal(@"destination");
+            errorContainer.destinationAccessor should equal(HYDAccessKey(@"destination"));
         });
 
         it(@"should use the specfied fatalness", ^{
@@ -213,10 +214,10 @@ describe(@"HYDError", ^{
 
         it(@"should have a pretty description", ^{
             NSString *format = @"HYDErrorDomain code=%lu isFatal=NO reason=\"Multiple parsing errors occurred (fatal=1, total=2)\" underlyingErrors=(\n"
-            @"  - HYDErrorDomain code=1 isFatal=YES reason=\"Could not map from 'sourceKey' to 'destinationKey'\" underlyingErrors=(\n"
+            @"  - HYDErrorDomain code=1 isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\" underlyingErrors=(\n"
             @"      - Error Domain=NSCocoaErrorDomain Code=2 \"The operation couldn’t be completed. (Cocoa error 2.)\"\n"
             @"    )\n"
-            @"  - HYDErrorDomain code=1 isFatal=NO reason=\"Could not map from 'sourceKey' to 'destinationKey'\"\n"
+            @"  - HYDErrorDomain code=1 isFatal=NO reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\"\n"
             @")";
             [errorContainer description] should equal([NSString stringWithFormat:format,
                                                        (long)errorContainer.code, error, [HYDError nonFatalError]]);

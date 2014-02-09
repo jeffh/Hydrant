@@ -18,19 +18,19 @@ describe(@"Mapper Composition", ^{
         HYDDotNetDateFormatter *dotNetDateFormatter = [[HYDDotNetDateFormatter alloc] init];
 
         mapper = HYDMapObject(HYDRootMapper, [HYDPerson class],
-                              @{@"person" : HYDMapObjectPath(@"parent", [NSDictionary class], [HYDPerson class],
-                                                             @{@"id" : @"identifier",
-                                                               @"name.first" : @"firstName",
-                                                               @"name.last" : @"lastName",
-                                                               @"age" : HYDMapStringToNumber(@"age"),
-                                                               @"birth_date" : HYDMapStringToDate(@"birthDate", dotNetDateFormatter)}),
-                                @"identifier" : HYDMapNonFatally(HYDMapIdentity(@"identifier")),
-                                @"gender" : HYDMapEnum(@"gender", @{@"unknown" : @(HYDPersonGenderUnknown),
-                                      @"male" : @(HYDPersonGenderMale),
-                                      @"female" : @(HYDPersonGenderFemale)}),
+                              @{@"person": HYDMapObject(@"parent", [NSDictionary class], [HYDPerson class],
+                                                         @{@"id": @"identifier",
+                                                           HYDAccessKeyPath(@"name.first"): @"firstName",
+                                                           HYDAccessKeyPath(@"name.last"): @"lastName",
+                                                           @"age": HYDMapStringToNumber(@"age"),
+                                                           @"birth_date": HYDMapStringToDate(@"birthDate", dotNetDateFormatter)}),
+                                @"identifier": HYDMapNonFatally(HYDMapIdentity(@"identifier")),
+                                @"gender": HYDMapEnum(@"gender", @{@"unknown": @(HYDPersonGenderUnknown),
+                                                                    @"male": @(HYDPersonGenderMale),
+                                                                    @"female": @(HYDPersonGenderFemale)}),
                                 @"children": HYDMapArrayOf(HYDMapObject(@"siblings", [NSDictionary class], [HYDPerson class],
-                                      @{@"first" : @"firstName",
-                                              @"homepage" : HYDMapStringToURL(@"homepage")}))});
+                                                                        @{@"first": @"firstName",
+                                                                          @"homepage": HYDMapStringToURL(@"homepage")}))});
         expectedObjectStructure = @{@"person": @{@"id": @1,
                                                  @"name": @{@"first": @"John",
                                                             @"last": @"Doe"},
@@ -82,7 +82,7 @@ describe(@"Mapper Composition", ^{
 
     describe(@"mapping from object graph to dictionaries using the reverse mapper", ^{
         beforeEach(^{
-            id<HYDMapper> reverseMapper = [mapper reverseMapperWithDestinationKey:nil];
+            id<HYDMapper> reverseMapper = [mapper reverseMapperWithDestinationAccessor:nil];
             parsedObject = [reverseMapper objectFromSourceObject:expectedObjectGraph error:&error];
         });
 

@@ -4,7 +4,7 @@
 
 @interface HYDReversedValueTransformerMapper : NSObject <HYDMapper>
 
-- (id)initWithDestinationKey:(NSString *)destinationKey valueTransformer:(NSValueTransformer *)valueTransformer;
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor valueTransformer:(NSValueTransformer *)valueTransformer;
 
 @end
 

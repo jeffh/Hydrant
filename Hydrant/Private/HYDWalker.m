@@ -2,11 +2,12 @@
 #import "HYDFactory.h"
 #import "HYDFunctions.h"
 #import "HYDError.h"
+#import "HYDAccessor.h"
 
 
 @interface HYDWalker ()
 
-@property (copy, nonatomic, readwrite) NSString *destinationKey;
+@property (strong, nonatomic, readwrite) id<HYDAccessor> destinationAccessor;
 @property (strong, nonatomic, readwrite) Class sourceClass;
 @property (strong, nonatomic, readwrite) Class destinationClass;
 @property (strong, nonatomic, readwrite) NSDictionary *mapping;
@@ -18,19 +19,19 @@
 
 @implementation HYDWalker
 
-- (id)initWithDestinationKey:(NSString *)destinationKey
-                 sourceClass:(Class)sourceClass
-            destinationClass:(Class)destinationClass
-                     mapping:(NSDictionary *)mapping
-                     factory:(id<HYDFactory>)factory
-                    delegate:(id<HYDWalkerDelegate>)delegate
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+                      sourceClass:(Class)sourceClass
+                 destinationClass:(Class)destinationClass
+                          mapping:(NSDictionary *)mapping
+                          factory:(id<HYDFactory>)factory
+                         delegate:(id<HYDWalkerDelegate>)delegate
 {
     self = [super init];
     if (self) {
-        self.destinationKey = destinationKey;
+        self.destinationAccessor = destinationAccessor;
         self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
-        self.mapping = HYDNormalizeKeyValueDictionary(mapping);
+        self.mapping = mapping;
         self.factory = factory;
         self.delegate = delegate;
     }
@@ -40,10 +41,10 @@
 - (NSDictionary *)inverseMapping
 {
     NSMutableDictionary *invertedMapping = [NSMutableDictionary dictionaryWithCapacity:self.mapping.count];
-    for (NSString *sourceKey in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[sourceKey];
+    for (id<HYDAccessor> sourceAccessor in self.mapping) {
+        id<HYDMapper> mapper = self.mapping[sourceAccessor];
 
-        invertedMapping[mapper.destinationKey] = [mapper reverseMapperWithDestinationKey:sourceKey];
+        invertedMapping[mapper.destinationAccessor] = [mapper reverseMapperWithDestinationAccessor:sourceAccessor];
     }
     return invertedMapping;
 }
@@ -62,22 +63,23 @@
     BOOL hasFatalError = NO;
 
     id destinationObject = [self.factory newObjectOfClass:self.destinationClass];
-    for (NSString *sourceKey in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[sourceKey];
+    for (id<HYDAccessor> sourceAccessor in self.mapping) {
+        id<HYDMapper> mapper = self.mapping[sourceAccessor];
         HYDError *innerError = nil;
 
         id sourceValue = nil;
-        if ([self.delegate walker:self shouldReadKey:sourceKey onObject:sourceObject]) {
-            sourceValue = [self.delegate walker:self valueForKey:sourceKey onObject:sourceObject];
+        id sourceValues = [sourceAccessor valuesFromSourceObject:sourceObject error:nil];
+        if (!sourceValues) {
+            continue; // TODO: handle this better?
         }
 
-        id destinationValue = [mapper objectFromSourceObject:sourceValue error:&innerError];
+        id destinationValue = [mapper objectFromSourceObject:sourceValues[0] error:&innerError];
 
         if (innerError) {
             hasFatalError = hasFatalError || [innerError isFatal];
             [errors addObject:[HYDError errorFromError:innerError
-                                   prependingSourceKey:sourceKey
-                                     andDestinationKey:nil
+                              prependingSourceAccessor:sourceAccessor
+                                andDestinationAccessor:nil
                                replacementSourceObject:sourceValue
                                                isFatal:innerError.isFatal]];
         }
@@ -86,19 +88,21 @@
             continue;
         }
 
-        if ([[NSNull null] isEqual:destinationValue] && ![self requiresNSNullForClass:self.destinationClass]) {
-            destinationValue = nil;
+        if (!destinationValue) {
+            destinationValue = [NSNull null];
         }
 
-        [self.delegate walker:self setValue:destinationValue forKey:mapper.destinationKey onObject:destinationObject];
+        [[mapper destinationAccessor] setValues:@[destinationValue]
+                                      ofClasses:@[self.destinationClass]
+                                       onObject:destinationObject];
     }
 
     if (errors.count) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorMultipleErrors
                                               sourceObject:sourceObject
-                                                 sourceKey:nil
+                                            sourceAccessor:nil
                                          destinationObject:nil
-                                            destinationKey:self.destinationKey
+                                       destinationAccessor:self.destinationAccessor
                                                    isFatal:hasFatalError
                                           underlyingErrors:errors]);
     }
@@ -110,14 +114,14 @@
     return destinationObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[[self class] alloc] initWithDestinationKey:destinationKey
-                                            sourceClass:self.destinationClass
-                                       destinationClass:self.sourceClass
-                                                mapping:[self inverseMapping]
-                                                factory:self.factory
-                                               delegate:self.delegate];
+    return [[[self class] alloc] initWithDestinationAccessor:destinationAccessor
+                                                 sourceClass:self.destinationClass
+                                            destinationClass:self.sourceClass
+                                                     mapping:[self inverseMapping]
+                                                     factory:self.factory
+                                                    delegate:self.delegate];
 
 }
 

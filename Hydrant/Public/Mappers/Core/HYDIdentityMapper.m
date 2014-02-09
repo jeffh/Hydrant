@@ -1,10 +1,12 @@
 #import "HYDIdentityMapper.h"
 #import "HYDError.h"
+#import "HYDAccessor.h"
+#import "HYDKeyAccessor.h"
 
 
 @interface HYDIdentityMapper ()
 
-@property (copy, nonatomic) NSString *destinationKey;
+@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
 
 @end
 
@@ -17,10 +19,11 @@
     return nil;
 }
 
-- (id)initWithDestinationKey:(NSString *)destinationKey {
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+{
     self = [super init];
     if (self) {
-        self.destinationKey = destinationKey;
+        self.destinationAccessor = destinationAccessor;
     }
     return self;
 }
@@ -32,16 +35,25 @@
     return sourceObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[[self class] alloc] initWithDestinationKey:destinationKey];
+    return [[[self class] alloc] initWithDestinationAccessor:destinationAccessor];
 }
 
 @end
 
 
 HYD_EXTERN
-id<HYDMapper> HYDMapIdentity(NSString *destinationKey)
+HYD_OVERLOADED
+HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
 {
-    return [[HYDIdentityMapper alloc] initWithDestinationKey:destinationKey];
+    return HYDMapIdentity(HYDAccessKey(destinationKey));
+}
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDIdentityMapper *HYDMapIdentity(id<HYDAccessor> destinationAccessor)
+{
+    return [[HYDIdentityMapper alloc] initWithDestinationAccessor:destinationAccessor];
 }

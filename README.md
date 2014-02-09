@@ -14,7 +14,7 @@ which has a few drawbacks:
  - Convert various basic values into various native objective-c objects.
  - You have lots of laborious tests to cover various edge cases (you do test it right?)
 
-Of course, you need to convert them from one data format to another:
+Of course, then you want to convert them from one data format to another:
 
  - RFC3339 string should be converted into an `NSDate`
  - strings into NSURL
@@ -24,14 +24,18 @@ Of course, you need to convert them from one data format to another:
 
 But then you need to handle error cases. You don't want your app to crash, so:
 
- - Check you don't have `[NSNull null]`
- - Check you have the correct type
+ - Check you don't have `[NSNull null]` and/or `nil`
+ - Check you have the correct type (before + after conversions)
  - Check if the key in a JSON object exists
  - Try and convert some json format into a specific object (eg - a string into an NSDate)
- - Use a default value if any of the above cases fail
+ - Possibly use a default value if any of the above cases fail
  - Do partial recovery, like excluding an object in an array of JSON objects if that one object is invalid.
+ - Provide ways to extend to your custom parsing requirements
+
+And that's what Hydrant aims to solve.
 
 Of course, if you can fully control the API you hit, this library isn't much of a big deal.
+But for developers that need to interact with APIs you don't directly control. Hydrant can help.
 
 Installation
 ============
@@ -56,23 +60,23 @@ The core of Hydrant are mappers. Lets look at `HYDMapper` protocol:
 
 ```
 @protocol HYDMapper <NSObject>
-- (NSString *)destinationKey;
+- (id<HYDAccessor>)destinationAccessor;
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error;
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey;
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor;
 @end
 ```
 
 These are the two primary methods for doing the data mapping work:
 
  - `objectFromSourceObject:error:` converts the sourceObject to a given object defined by each mapper class.
- - `reverseMapperwithDestinationKey:` produces a new mapper that can convert the returned object (from above) into the sourceObject.
+ - `reverseMapperwithDestinationAccessor:` produces a new mapper that can convert the returned object (from above) into the sourceObject.
 
 In short, `HYDMapper` is the protocol to implement how **any object can be converted to any other object**.
 Using a composition of mappers, we can produce an arbitrary schema to transform any object graph, such as JSON to Value Objects.
 
 This protocol provides a lot of flexibility and composibility for building parsing strategies.
 
-Of course, Hydrant comes with a collection of mappers for you to use.
+And Hydrant comes with a library of mappers for you to use.
 
 Building the Parser
 -------------------

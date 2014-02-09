@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@protocol HYDFactory;
+@protocol HYDAccessor;
 @class HYDError;
 
 /*! The Protocol for Hydrant's object mapping system.
@@ -18,7 +18,7 @@
 
 #pragma mark - Translation Strategies
 
-/*! The transformation of the sourceObject to be assigned to the `destinationKey`.
+/*! The transformation of the sourceObject to be assigned to the `destinationAccessor`.
  *
  *  It is acceptable to return an object AND error. This indicates
  *  there was a partial error parsing the sourceObject, but
@@ -35,7 +35,7 @@
  *               any errors it is filled in here. Note the object
  *               returned may still not be nil.
  *  @returns A newly created object to be assigned to an object by
- *           the `destinationKey` method.
+ *           the `destinationAccessor` method.
  */
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error;
 
@@ -49,18 +49,18 @@
  *
  *  @returns A key path-compatible string representing the property to assign to.
  */
-- (NSString *)destinationKey;
+- (id<HYDAccessor>)destinationAccessor;
 
 /*! The reverse mapper object that does the inverse conversion of this mapper.
  *
  *  This provides a handy way to reverse a mapping operation. Parent mappers can
  *  call this method on all its children to build a reversed-parent mapper.
  *
- *  @param destinationKey The new destination key path-compatible string representing
+ *  @param destinationAccessor The new destination key path-compatible string representing
  *                        the property name to assign to for the reverse mapper.
  *  @returns A HYDMapper conforming object that can perform the inverse conversion of
  *           the current mapper.
  */
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey;
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor;
 
 @end

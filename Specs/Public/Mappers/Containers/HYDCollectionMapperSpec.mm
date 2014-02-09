@@ -40,7 +40,7 @@ describe(@"HYDCollectionMapper", ^{
     });
 
     it(@"should return the destination key of its child mapper", ^{
-        [mapper destinationKey] should equal(@"key");
+        [mapper destinationAccessor] should equal(HYDAccessKey(@"key"));
     });
 
     describe(@"parsing an object", ^{
@@ -124,8 +124,8 @@ describe(@"HYDCollectionMapper", ^{
                 error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
 
                 HYDError *wrappedError = [HYDError errorFromError:expectedError
-                                              prependingSourceKey:@"0"
-                                                andDestinationKey:@"0"
+                                         prependingSourceAccessor:HYDAccessKey(@"0")
+                                           andDestinationAccessor:HYDAccessKey(@"0")
                                           replacementSourceObject:@1
                                                           isFatal:YES];
                 error.userInfo[HYDUnderlyingErrorsKey] should equal(@[wrappedError]);
@@ -150,8 +150,8 @@ describe(@"HYDCollectionMapper", ^{
                 error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
 
                 HYDError *wrappedError = [HYDError errorFromError:expectedError
-                                              prependingSourceKey:@"0"
-                                                andDestinationKey:@"0"
+                                         prependingSourceAccessor:HYDAccessKey(@"0")
+                                           andDestinationAccessor:HYDAccessKey(@"0")
                                           replacementSourceObject:@1
                                                           isFatal:NO];
                 error.userInfo[HYDUnderlyingErrorsKey] should equal(@[wrappedError]);
@@ -176,8 +176,8 @@ describe(@"HYDCollectionMapper", ^{
                 error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
 
                 HYDError *wrappedError = [HYDError errorFromError:expectedError
-                                              prependingSourceKey:@"0"
-                                                andDestinationKey:@"0"
+                                         prependingSourceAccessor:HYDAccessKey(@"0")
+                                           andDestinationAccessor:HYDAccessKey(@"0")
                                           replacementSourceObject:@1
                                                           isFatal:NO];
                 error.userInfo[HYDUnderlyingErrorsKey] should equal(@[wrappedError]);

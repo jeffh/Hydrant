@@ -19,7 +19,7 @@ describe(@"HYDEnumMapper", ^{
     });
 
     it(@"should have the destination key equal to what it was given", ^{
-        mapper.destinationKey should equal(@"dest");
+        mapper.destinationAccessor should equal(HYDAccessKey(@"dest"));
     });
 
     describe(@"parsing the source object", ^{

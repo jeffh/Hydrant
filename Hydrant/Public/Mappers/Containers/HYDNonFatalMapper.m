@@ -35,9 +35,9 @@
 
 #pragma mark - <HYDMapper>
 
-- (NSString *)destinationKey
+- (id<HYDAccessor>)destinationAccessor
 {
-    return [self.wrappedMapper destinationKey];
+    return [self.wrappedMapper destinationAccessor];
 }
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
@@ -48,8 +48,8 @@
     HYDSetObjectPointer(error, innerError);
     if ([innerError isFatal]){
         HYDSetObjectPointer(error, [HYDError errorFromError:innerError
-                                        prependingSourceKey:nil
-                                          andDestinationKey:nil
+                                   prependingSourceAccessor:nil
+                                     andDestinationAccessor:nil
                                     replacementSourceObject:nil
                                                     isFatal:NO]);
         return self.defaultValueBlock();
@@ -58,9 +58,9 @@
     return resultingObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    id<HYDMapper> reverseWrappedMapper = [self.wrappedMapper reverseMapperWithDestinationKey:destinationKey];
+    id<HYDMapper> reverseWrappedMapper = [self.wrappedMapper reverseMapperWithDestinationAccessor:destinationAccessor];
     return [[[self class] alloc] initWithMapper:reverseWrappedMapper
                                    defaultValue:self.reverseDefaultValueBlock
                             reverseDefaultValue:self.defaultValueBlock];

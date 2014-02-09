@@ -23,11 +23,11 @@
 
 #pragma mark - <HYDMapper>
 
-- (NSString *)destinationKey
+- (id<HYDAccessor>)destinationAccessor
 {
     for (id<HYDMapper> mapper in self.mappers) {
-        if ([mapper destinationKey]) {
-            return [mapper destinationKey];
+        if ([mapper destinationAccessor]) {
+            return [mapper destinationAccessor];
         }
     }
     return nil;
@@ -55,20 +55,20 @@
     if (errors.count) {
         HYDSetObjectPointer(error, [HYDError errorFromErrors:errors
                                                 sourceObject:sourceObject
-                                                   sourceKey:nil
+                                              sourceAccessor:nil
                                            destinationObject:nil
-                                              destinationKey:self.destinationKey
+                                         destinationAccessor:self.destinationAccessor
                                                      isFatal:!hasObject]);
     }
 
     return destinationObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
     NSMutableArray *reversedMappers = [NSMutableArray arrayWithCapacity:self.mappers.count];
     for (id<HYDMapper> mapper in self.mappers) {
-        [reversedMappers addObject:[mapper reverseMapperWithDestinationKey:destinationKey]];
+        [reversedMappers addObject:[mapper reverseMapperWithDestinationAccessor:destinationAccessor]];
     }
     return [[[self class] alloc] initWithMappers:reversedMappers];
 }

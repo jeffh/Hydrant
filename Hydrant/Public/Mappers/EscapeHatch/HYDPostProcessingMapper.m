@@ -48,14 +48,14 @@
     return resultingObject;
 }
 
-- (NSString *)destinationKey
+- (id<HYDAccessor>)destinationAccessor
 {
-    return self.innerMapper.destinationKey;
+    return self.innerMapper.destinationAccessor;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationKey:destinationKey];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
     return [[[self class] alloc] initWithMapper:reversedInnerMapper
                                    processBlock:self.reverseBlock
                             reverseProcessBlock:self.block];

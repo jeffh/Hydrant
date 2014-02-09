@@ -7,11 +7,17 @@
 #import "HYDProperty.h"
 #import "HYDFunctions.h"
 #import "HYDWalker.h"
+#import "HYDKeyAccessor.h"
+#import "HYDAccessor.h"
 
 
-@interface HYDKeyValueMapper () <HYDWalkerDelegate>
+@interface HYDKeyValueMapper ()
 
-@property (strong, nonatomic) HYDWalker *walker;
+@property (strong, nonatomic, readwrite) id<HYDAccessor> destinationAccessor;
+@property (strong, nonatomic, readwrite) Class sourceClass;
+@property (strong, nonatomic, readwrite) Class destinationClass;
+@property (strong, nonatomic, readwrite) NSDictionary *mapping;
+@property (strong, nonatomic, readwrite) id<HYDFactory> factory;
 
 @end
 
@@ -24,16 +30,15 @@
     return nil;
 }
 
-- (id)initWithDestinationKey:(NSString *)destinationKey fromClass:(Class)sourceClass toClass:(Class)destinationClass mapping:(NSDictionary *)mapping
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor fromClass:(Class)sourceClass toClass:(Class)destinationClass mapping:(NSDictionary *)mapping
 {
     self = [super init];
     if (self) {
-        self.walker = [[HYDWalker alloc] initWithDestinationKey:destinationKey
-                                                    sourceClass:sourceClass
-                                               destinationClass:destinationClass
-                                                        mapping:mapping
-                                                        factory:[[HYDObjectFactory alloc] init]
-                                                       delegate:self];
+        self.destinationAccessor = destinationAccessor;
+        self.sourceClass = sourceClass;
+        self.destinationClass = destinationClass;
+        self.mapping = HYDNormalizeKeyValueDictionary(mapping, ^id(NSString *key) { return HYDAccessKey(key); });
+        self.factory = [[HYDObjectFactory alloc] init];
     }
     return self;
 }
@@ -42,49 +47,88 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    return [self.walker objectFromSourceObject:sourceObject error:error];
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
-{
-    return [[[self class] alloc] initWithDestinationKey:destinationKey
-                                              fromClass:self.walker.destinationClass
-                                                toClass:self.walker.sourceClass
-                                                mapping:[self.walker inverseMapping]];
-}
-
-- (NSString *)destinationKey
-{
-    return [self.walker destinationKey];
-}
-
-#pragma mark - <HYDWalkerDelegate>
-
-- (BOOL)walker:(HYDWalker *)walker shouldReadKey:(NSString *)key onObject:(id)target
-{
-    if ([target respondsToSelector:@selector(objectForKey:)]) {
-        if ([target valueForKey:key]) {
-            return YES;
-        }
+    HYDSetObjectPointer(error, nil);
+    if (!sourceObject) {
+        *error = nil;
+        return nil;
     }
 
-    HYDClassInspector *inspector = [HYDClassInspector inspectorForClass:[target class]];
-    for (HYDProperty *property in inspector.allProperties) {
-        if ([property.name isEqual:key]) {
-            return YES;
+    NSMutableArray *errors = [NSMutableArray array];
+    BOOL hasFatalError = NO;
+
+    id destinationObject = [self.factory newObjectOfClass:self.destinationClass];
+    for (id<HYDAccessor> sourceAccessor in self.mapping) {
+        id<HYDMapper> mapper = self.mapping[sourceAccessor];
+        HYDError *innerError = nil;
+
+        id sourceValues = [sourceAccessor valuesFromSourceObject:sourceObject error:&innerError];
+        if (innerError) {
+            hasFatalError = hasFatalError || [innerError isFatal];
+            [errors addObject:innerError];
+            continue;
         }
+
+        id destinationValue = [mapper objectFromSourceObject:sourceValues[0] error:&innerError];
+
+        if (innerError) {
+            hasFatalError = hasFatalError || [innerError isFatal];
+            [errors addObject:[HYDError errorFromError:innerError
+                              prependingSourceAccessor:sourceAccessor
+                                andDestinationAccessor:nil
+                               replacementSourceObject:sourceValues[0]
+                                               isFatal:innerError.isFatal]];
+        }
+
+        if ([innerError isFatal]) {
+            continue;
+        }
+
+        if (!destinationValue) {
+            destinationValue = [NSNull null];
+        }
+
+        [[mapper destinationAccessor] setValues:@[destinationValue]
+                                      ofClasses:@[self.destinationClass]
+                                       onObject:destinationObject];
     }
-    return NO;
+
+    if (errors.count) {
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorMultipleErrors
+                                              sourceObject:sourceObject
+                                            sourceAccessor:nil
+                                         destinationObject:nil
+                                       destinationAccessor:self.destinationAccessor
+                                                   isFatal:hasFatalError
+                                          underlyingErrors:errors]);
+    }
+
+    if (hasFatalError) {
+        return nil;
+    }
+    
+    return destinationObject;
 }
 
-- (id)walker:(HYDWalker *)walker valueForKey:(NSString *)key onObject:(id)target
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [target valueForKey:key];
+    return [[[self class] alloc] initWithDestinationAccessor:destinationAccessor
+                                                 fromClass:self.destinationClass
+                                                   toClass:self.sourceClass
+                                                   mapping:[self inverseMapping]];
+
 }
 
-- (void)walker:(HYDWalker *)walker setValue:(id)value forKey:(NSString *)key onObject:(id)target
+#pragma mark - Private
+
+- (NSDictionary *)inverseMapping
 {
-    [target setValue:value forKey:key];
+    NSMutableDictionary *invertedMapping = [NSMutableDictionary dictionaryWithCapacity:self.mapping.count];
+    for (id<HYDAccessor> sourceAccessor in self.mapping) {
+        id<HYDMapper> mapper = self.mapping[sourceAccessor];
+
+        invertedMapping[mapper.destinationAccessor] = [mapper reverseMapperWithDestinationAccessor:sourceAccessor];
+    }
+    return invertedMapping;
 }
 
 @end
@@ -92,17 +136,34 @@
 
 HYD_EXTERN
 HYD_OVERLOADED
+HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+{
+    return [[HYDKeyValueMapper alloc] initWithDestinationAccessor:destinationAccessor
+                                                        fromClass:sourceClass
+                                                          toClass:destinationClass
+                                                          mapping:mapping];
+}
+
+
+HYD_EXTERN
+HYD_OVERLOADED
+HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class destinationClass, NSDictionary *mapping)
+{
+    return HYDMapObject(destinationAccessor, [NSDictionary class], destinationClass, mapping);
+}
+
+
+HYD_EXTERN
+HYD_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    return [[HYDKeyValueMapper alloc] initWithDestinationKey:destinationKey
-                                                   fromClass:sourceClass
-                                                     toClass:destinationClass
-                                                     mapping:mapping];
+    return HYDMapObject(HYDAccessKey(destinationKey), sourceClass, destinationClass, mapping);
 }
+
 
 HYD_EXTERN
 HYD_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(destinationKey, [NSDictionary class], destinationClass, mapping);
+    return HYDMapObject(HYDAccessKey(destinationKey), destinationClass, mapping);
 }

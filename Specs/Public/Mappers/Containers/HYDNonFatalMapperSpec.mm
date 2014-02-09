@@ -17,12 +17,12 @@ describe(@"HYDNonFatalMapper", ^{
 
     beforeEach(^{
         childMapper = [[HYDFakeMapper alloc] init];
-        childMapper.destinationKey = @"destinationKey";
+        childMapper.destinationAccessor = HYDAccessKey(@"destinationAccessor");
         mapper = HYDMapNonFatallyWithDefault(childMapper, @42);
     });
 
     it(@"should ask the child mapper for the destination key", ^{
-        mapper.destinationKey should equal(@"destinationKey");
+        mapper.destinationAccessor should equal(HYDAccessKey(@"destinationAccessor"));
     });
 
     describe(@"parsing an object", ^{
@@ -98,11 +98,11 @@ describe(@"HYDNonFatalMapper", ^{
             childMapper.reverseMapperToReturn = reverseChildMapper;
             sourceObject = @"valid";
 
-            reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
+            reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessKey(@"otherKey")];
         });
 
         it(@"should have received the other destination key", ^{
-            childMapper.reverseMapperDestinationKeyReceived should equal(@"otherKey");
+            childMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessKey(@"otherKey"));
         });
 
         context(@"with a good source object", ^{

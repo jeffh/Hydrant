@@ -4,12 +4,13 @@
 #import "HYDStringToObjectFormatterMapper.h"
 #import "HYDURLFormatter.h"
 #import "HYDUUIDFormatter.h"
+#import "HYDKeyAccessor.h"
 
 
 @interface HYDObjectToStringFormatterMapper ()
 
 @property (strong, nonatomic) NSFormatter *formatter;
-@property (copy, nonatomic, readwrite) NSString *destinationKey;
+@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
 
 @end
 
@@ -22,11 +23,11 @@
     return nil;
 }
 
-- (id)initWithDestinationKey:(NSString *)destinationKey formatter:(NSFormatter *)formatter
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor formatter:(NSFormatter *)formatter
 {
     self = [super init];
     if (self) {
-        self.destinationKey = destinationKey;
+        self.destinationAccessor = destinationAccessor;
         self.formatter = formatter;
     }
     return self;
@@ -46,18 +47,18 @@
     } else {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
                                               sourceObject:sourceObject
-                                                 sourceKey:nil
+                                            sourceAccessor:nil
                                          destinationObject:nil
-                                            destinationKey:self.destinationKey
+                                       destinationAccessor:self.destinationAccessor
                                                    isFatal:YES
                                           underlyingErrors:nil]);
     }
     return resultingObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[HYDStringToObjectFormatterMapper alloc] initWithDestinationKey:destinationKey formatter:self.formatter];
+    return [[HYDStringToObjectFormatterMapper alloc] initWithDestinationAccessor:destinationAccessor formatter:self.formatter];
 }
 
 @end
@@ -67,7 +68,7 @@
 HYD_EXTERN
 HYDObjectToStringFormatterMapper *HYDMapObjectToStringByFormatter(NSString *destinationKey, NSFormatter *formatter)
 {
-    return [[HYDObjectToStringFormatterMapper alloc] initWithDestinationKey:destinationKey formatter:formatter];
+    return [[HYDObjectToStringFormatterMapper alloc] initWithDestinationAccessor:HYDAccessKey(destinationKey) formatter:formatter];
 }
 
 #pragma mark - NumberFormatter Constructors

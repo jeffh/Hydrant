@@ -3,6 +3,7 @@
 
 
 @protocol HYDMapper;
+@protocol HYDAccessor;
 
 /*! The NSError subclass object that all hydrant mappers emit.
  *
@@ -44,8 +45,8 @@
  *
  *  @param code The NSError code that this error represents. Please use one of the Hydrant error codes.
  *  @param sourceObject the source object that produced this mapping error. Return nil if not known.
- *  @param sourceKey the origin property/key that this source object originated from. Return nil if not known.
- *  @param destinationKey the target property/key that this resulting object would be store in. Return nil if not known.
+ *  @param sourceAccessor the origin property/key that this source object originated from. Return nil if not known.
+ *  @param destinationAccessor the target property/key that this resulting object would be store in. Return nil if not known.
  *  @param isFatal the bool that indicates if this error is fatal. It is still the mapper's responsibility to
  *                 return a nil resulting object if the error was fatal.
  *  @param underlyingErrors An error of any kind of NSErrors that contributed to this error. Return nil if there
@@ -54,9 +55,9 @@
  */
 + (instancetype)errorWithCode:(NSInteger)code
                  sourceObject:(id)sourceObject
-                    sourceKey:(NSString *)sourceKey
+               sourceAccessor:(id<HYDAccessor>)sourceAccessor
             destinationObject:(id)destinationObject
-               destinationKey:(NSString *)destinationKey
+          destinationAccessor:(id<HYDAccessor>)destinationAccessor
                       isFatal:(BOOL)isFatal
              underlyingErrors:(NSArray *)underlyingErrors;
 
@@ -67,16 +68,16 @@
  *  All but error and isFatal parameters are optional.
  *
  *  @param error The HYDError to base the new error on.
- *  @param sourceKey The source key to prepend to the original error's source key. Return nil if none.
- *  @param destinationKey The destination key to present to the original error's destination key. Return nil if none.
+ *  @param sourceAccessor The source key to prepend to the original error's source key. Return nil if none.
+ *  @param destinationAccessor The destination key to present to the original error's destination key. Return nil if none.
  *  @param sourceObject A new source object to replace the original error's source object. Return nil if not known.
  *  @param isFatal A boolean to indicate if the new error is fatal or not. It is still the responsibility of the
  *                 mapper to return a nil resulting object when a fatal error occurs.
  *  @returns a new HYDError instance
  */
 + (instancetype)errorFromError:(HYDError *)error
-           prependingSourceKey:(NSString *)sourceKey
-             andDestinationKey:(NSString *)destinationKey
+      prependingSourceAccessor:(id<HYDAccessor>)sourceAccessor
+        andDestinationAccessor:(id<HYDAccessor>)destinationAccessor
        replacementSourceObject:(id)sourceObject
                        isFatal:(BOOL)isFatal;
 
@@ -84,12 +85,12 @@
  *  use a collection of child mappers and emits an error that reports all the underlying errors.
  *
  *  Currently, this is an alias to
- *  +[errorWithCode:sourceObject:sourceKey:destinationObject:destinationKey:isFatal:underlyingErrors:]
+ *  +[errorWithCode:sourceObject:sourceAccessor:destinationObject:destinationAccessor:isFatal:underlyingErrors:]
  *  with the error code already set correctly.
  *
  *  @param sourceObject the source object that produced this mapping error. Return nil if not known.
- *  @param sourceKey the origin property/key that this source object originated from. Return nil if not known.
- *  @param destinationKey the target property/key that this resulting object would be store in. Return nil if not known.
+ *  @param sourceAccessor the origin property/key that this source object originated from. Return nil if not known.
+ *  @param destinationAccessor the target property/key that this resulting object would be store in. Return nil if not known.
  *  @param isFatal the bool that indicates if this error is fatal. It is still the mapper's responsibility to
  *                 return a nil resulting object if the error was fatal.
  *  @param underlyingErrors An error of any kind of NSErrors that contributed to this error. Return nil if there
@@ -98,9 +99,9 @@
  */
 + (instancetype)errorFromErrors:(NSArray *)errors
                    sourceObject:(id)sourceObject
-                      sourceKey:(NSString *)sourceKey
+                 sourceAccessor:(id<HYDAccessor>)sourceAccessor
               destinationObject:(id)destinationObject
-                 destinationKey:(NSString *)destinationKey
+            destinationAccessor:(id<HYDAccessor>)destinationAccessor
                         isFatal:(BOOL)isFatal;
 
 /*! Returns a boolean indicating if the error is fatal.
@@ -108,13 +109,16 @@
  *  be trusted.
  */
 - (BOOL)isFatal;
+
 /*! Returns the source key that the source object was extracted from if known. Returns nil otherwise.
  */
-- (NSString *)sourceKey;
+- (id<HYDAccessor>)sourceAccessor;
+
 /*! Returns the destination key that resulting object created from the source object would be set into.
  *  Returns nil if not known.
  */
-- (NSString *)destinationKey;
+- (id<HYDAccessor>)destinationAccessor;
+
 /*! Returns the source object that the mapping error occurred on. Returns nil if not known.
  *
  *  May contain sensitive information if you're using hydrant to map sensitive information.

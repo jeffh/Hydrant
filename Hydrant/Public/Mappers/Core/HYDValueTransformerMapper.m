@@ -1,12 +1,13 @@
 #import "HYDValueTransformerMapper.h"
 #import "HYDError.h"
 #import "HYDReversedValueTransformerMapper.h"
+#import "HYDKeyAccessor.h"
 
 
 @interface HYDValueTransformerMapper ()
 
-@property (copy, nonatomic) NSString *destinationKey;
-@property (nonatomic, strong) NSValueTransformer *valueTransformer;
+@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
+@property (strong, nonatomic) NSValueTransformer *valueTransformer;
 
 @end
 
@@ -19,11 +20,11 @@
     return nil;
 }
 
-- (id)initWithDestinationKey:(NSString *)destinationKey valueTransformer:(NSValueTransformer *)valueTransformer
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor valueTransformer:(NSValueTransformer *)valueTransformer
 {
     self = [super init];
     if (self) {
-        self.destinationKey = destinationKey;
+        self.destinationAccessor = destinationAccessor;
         self.valueTransformer = valueTransformer;
     }
     return self;
@@ -36,10 +37,10 @@
     return [self.valueTransformer transformedValue:sourceObject];
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[HYDReversedValueTransformerMapper alloc] initWithDestinationKey:destinationKey
-                                                            valueTransformer:self.valueTransformer];
+    return [[HYDReversedValueTransformerMapper alloc] initWithDestinationAccessor:destinationAccessor
+                                                                 valueTransformer:self.valueTransformer];
 }
 
 @end
@@ -62,5 +63,6 @@ HYD_EXTERN
 HYD_OVERLOADED
 HYDValueTransformerMapper *HYDMapValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
 {
-    return [[HYDValueTransformerMapper alloc] initWithDestinationKey:destinationKey valueTransformer:valueTransformer];
+    return [[HYDValueTransformerMapper alloc] initWithDestinationAccessor:HYDAccessKey(destinationKey)
+                                                         valueTransformer:valueTransformer];
 }

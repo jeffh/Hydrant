@@ -1,5 +1,7 @@
 #import "HYDFunctions.h"
 #import "HYDNotNullMapper.h"
+#import "HYDAccessor.h"
+#import "HYDKeyPathAccessor.h"
 
 HYD_EXTERN
 void HYDSetValueForKeyIfNotNil(NSMutableDictionary *dict, id key, id value)
@@ -10,10 +12,17 @@ void HYDSetValueForKeyIfNotNil(NSMutableDictionary *dict, id key, id value)
 }
 
 HYD_EXTERN
-NSString *HYDJoinedStringFromKeyPaths(NSString *previousKeyPath, NSString *nextKeyPath)
+id<HYDAccessor> HYDJoinedStringFromKeyPaths(id<HYDAccessor> previousKeyPath, id<HYDAccessor> nextKeyPath)
 {
     if (previousKeyPath && nextKeyPath) {
-        return [NSString stringWithFormat:@"%@.%@", previousKeyPath, nextKeyPath];
+        NSMutableArray *keyPaths = [NSMutableArray array];
+        for (NSString *previousKey in previousKeyPath.fieldNames) {
+            for (NSString *nextKey in nextKeyPath.fieldNames) {
+                NSString *keyPath = [NSString stringWithFormat:@"%@.%@", previousKey, nextKey];
+                [keyPaths addObject:keyPath];
+            }
+        }
+        return HYDAccessKeyPath(keyPaths);
     }
     return previousKeyPath ?: nextKeyPath;
 }
@@ -27,15 +36,25 @@ void HYDSetObjectPointer(__autoreleasing id *objPtr, id value)
 }
 
 HYD_EXTERN
-NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping)
+NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccessor>(^fieldFromString)(NSString *))
 {
     NSMutableDictionary *normalizedMapping = [NSMutableDictionary dictionaryWithCapacity:mapping.count];
     for (id key in mapping) {
+        id<HYDAccessor> field = nil;
         id value = mapping[key];
-        if ([value conformsToProtocol:@protocol(HYDMapper)]) {
-            normalizedMapping[key] = value;
-        } else if ([value isKindOfClass:[NSString class]]) {
-            normalizedMapping[key] = HYDMapNotNull(value);
+
+        if ([key conformsToProtocol:@protocol(HYDAccessor)]) {
+            field = key;
+        } else if ([key isKindOfClass:[NSString class]]) {
+            field = fieldFromString(key);
+        }
+
+        if (field) {
+            if ([value conformsToProtocol:@protocol(HYDMapper)]) {
+                normalizedMapping[field] = value;
+            } else if ([value isKindOfClass:[NSString class]]) {
+                normalizedMapping[field] = HYDMapNotNull(value);
+            }
         }
     }
 
@@ -47,4 +66,19 @@ NSString *HYDPrefixSubsequentLines(NSString *prefix, NSString *raw)
 {
     NSArray *lines = [raw componentsSeparatedByString:@"\n"];
     return [lines componentsJoinedByString:[@"\n" stringByAppendingString:prefix]];
+}
+
+HYD_EXTERN
+NSString *HYDStringifyAccessor(id<HYDAccessor> accessor)
+{
+    if (!accessor) {
+        return @"<Unknown>";
+    }
+
+    NSArray *fieldNames = [accessor fieldNames];
+    if (fieldNames.count == 1) {
+        return fieldNames[0];
+    } else {
+        return [NSString stringWithFormat:@"[%@]", [fieldNames componentsJoinedByString:@", "]];
+    }
 }

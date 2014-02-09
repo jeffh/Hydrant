@@ -38,9 +38,9 @@
     if (!resultingObject) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
                                               sourceObject:sourceObject
-                                                 sourceKey:nil
+                                            sourceAccessor:nil
                                          destinationObject:nil
-                                            destinationKey:self.destinationKey
+                                       destinationAccessor:self.destinationAccessor
                                                    isFatal:YES
                                           underlyingErrors:nil]);
     }
@@ -48,14 +48,14 @@
     return resultingObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[[self class] alloc] initWithMapper:[self.mapper reverseMapperWithDestinationKey:destinationKey]];
+    return [[[self class] alloc] initWithMapper:[self.mapper reverseMapperWithDestinationAccessor:destinationAccessor]];
 }
 
-- (NSString *)destinationKey
+- (id<HYDAccessor>)destinationAccessor
 {
-    return self.mapper.destinationKey;
+    return self.mapper.destinationAccessor;
 }
 
 @end

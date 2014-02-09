@@ -3,11 +3,12 @@
 
 
 @protocol HYDWalkerDelegate;
+@protocol HYDFactory;
 
 
 @interface HYDWalker : NSObject <HYDMapper>
 
-@property (copy, nonatomic, readonly) NSString *destinationKey;
+@property (strong, nonatomic, readonly) id<HYDAccessor> destinationAccessor;
 @property (strong, nonatomic, readonly) Class sourceClass;
 @property (strong, nonatomic, readonly) Class destinationClass;
 @property (strong, nonatomic, readonly) NSDictionary *mapping;
@@ -15,12 +16,12 @@
 @property (weak, nonatomic, readonly) id<HYDWalkerDelegate> delegate;
 
 
-- (id)initWithDestinationKey:(NSString *)destinationKey
-                 sourceClass:(Class)sourceClass
-            destinationClass:(Class)destinationClass
-                     mapping:(NSDictionary *)mapping
-                     factory:(id<HYDFactory>)factory
-                    delegate:(id<HYDWalkerDelegate>)delegate;
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+                      sourceClass:(Class)sourceClass
+                 destinationClass:(Class)destinationClass
+                          mapping:(NSDictionary *)mapping
+                          factory:(id<HYDFactory>)factory
+                         delegate:(id<HYDWalkerDelegate>)delegate;
 
 - (NSDictionary *)inverseMapping;
 

@@ -1,6 +1,5 @@
 #import "HYDTypedMapper.h"
 #import "HYDError.h"
-#import "HYDObjectFactory.h"
 #import "HYDIdentityMapper.h"
 #import "HYDFunctions.h"
 
@@ -56,9 +55,9 @@
     if (![self isObject:sourceObject aSubclassOfAnyClasses:self.allowedInputClasses]) {
         *error = [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
                             sourceObject:sourceObject
-                               sourceKey:nil
+                          sourceAccessor:nil
                        destinationObject:nil
-                          destinationKey:self.destinationKey
+                     destinationAccessor:self.destinationAccessor
                                  isFatal:YES
                         underlyingErrors:nil];
         return nil;
@@ -74,9 +73,9 @@
     if (![self isObject:object aSubclassOfAnyClasses:self.allowedOutputClasses]) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidResultingObjectType
                                               sourceObject:sourceObject
-                                                 sourceKey:nil
+                                            sourceAccessor:nil
                                          destinationObject:nil
-                                            destinationKey:self.destinationKey
+                                       destinationAccessor:self.destinationAccessor
                                                    isFatal:YES
                                           underlyingErrors:nil]);
         return nil;
@@ -85,14 +84,14 @@
     return object;
 }
 
-- (NSString *)destinationKey
+- (id<HYDAccessor>)destinationAccessor
 {
-    return self.wrappedMapper.destinationKey;
+    return self.wrappedMapper.destinationAccessor;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[HYDTypedMapper alloc] initWithMapper:[self.wrappedMapper reverseMapperWithDestinationKey:destinationKey]
+    return [[HYDTypedMapper alloc] initWithMapper:[self.wrappedMapper reverseMapperWithDestinationAccessor:destinationAccessor]
                                      inputClasses:self.allowedOutputClasses
                                     outputClasses:self.allowedInputClasses];
 }

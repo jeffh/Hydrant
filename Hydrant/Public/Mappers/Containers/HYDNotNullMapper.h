@@ -16,10 +16,10 @@
  *  dictionaries are not nil (as the KeyValueMapper will convert NSNull to
  *  nils.
  *
- *  @param destinationKey The destinationKey to pass to HYDMapIdentity that is
+ *  @param destinationAccessor The destinationAccessor to pass to HYDMapIdentity that is
  *                        wrapped with a HYDNotNullMapper
  *  @returns a HYDNotNullMapper instance that wraps a HYDIdentityMapper with
- *           the given destinationKey
+ *           the given destinationAccessor
  *  @see HYDMapObject
  *  @see HYDMapIdentity
  */

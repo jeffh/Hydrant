@@ -4,7 +4,7 @@
 
 @interface HYDStringToObjectFormatterMapper : NSObject <HYDMapper>
 
-- (id)initWithDestinationKey:(NSString *)destinationKey formatter:(NSFormatter *)formatter;
+- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor formatter:(NSFormatter *)formatter;
 
 @end
 
@@ -18,26 +18,26 @@ HYD_REQUIRE_NON_NIL(2);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *dstKey);
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *dstKey, NSNumberFormatterStyle numberFormatterStyle);
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey, NSNumberFormatterStyle numberFormatterStyle);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *dstKey, NSNumberFormatter *formatter)
+HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey, NSNumberFormatter *formatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - DateFormatter Constructors
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *dstKey, NSString *formatString);
+HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *destinationKey, NSString *formatString);
 
 HYD_EXTERN
 HYD_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *dstKey, NSDateFormatter *dateFormatter)
+HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *destinationKey, NSDateFormatter *dateFormatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - URLFormatter Constructors

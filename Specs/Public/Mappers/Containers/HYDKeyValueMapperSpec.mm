@@ -31,7 +31,7 @@ describe(@"HYDKeyValueMapper", ^{
         childMapper2 = [[HYDFakeMapper alloc] initWithDestinationKey:@"firstName"];
         childMapper2.objectsToReturn = @[@"John"];
 
-        mapper = HYDMapObject(@"destinationKey",
+        mapper = HYDMapObject(@"destinationAccessor",
                               [NSDictionary class],
                               [HYDPerson class],
                               @{@"first_name" : childMapper2,
@@ -41,7 +41,7 @@ describe(@"HYDKeyValueMapper", ^{
     });
 
     it(@"should return the same destination key it was provided", ^{
-        mapper.destinationKey should equal(@"destinationKey");
+        mapper.destinationAccessor should equal(HYDAccessKey(@"destinationAccessor"));
     });
 
     describe(@"parsing the source object", ^{
@@ -104,13 +104,13 @@ describe(@"HYDKeyValueMapper", ^{
                 childMapper2.errorsToReturn = @[childMapperError2];
 
                 childMapperError1 = [HYDError errorFromError:childMapperError1
-                                         prependingSourceKey:@"identifier"
-                                           andDestinationKey:nil
+                                    prependingSourceAccessor:HYDAccessKey(@"identifier")
+                                      andDestinationAccessor:nil
                                      replacementSourceObject:@"transforms"
                                                      isFatal:YES];
                 childMapperError2 = [HYDError errorFromError:childMapperError2
-                                         prependingSourceKey:@"first_name"
-                                           andDestinationKey:nil
+                                    prependingSourceAccessor:HYDAccessKey(@"first_name")
+                                      andDestinationAccessor:nil
                                      replacementSourceObject:@"John"
                                                      isFatal:YES];
             });
@@ -137,13 +137,13 @@ describe(@"HYDKeyValueMapper", ^{
                 childMapper2.errorsToReturn = @[childMapperError2];
 
                 childMapperError1 = [HYDError errorFromError:childMapperError1
-                                         prependingSourceKey:@"identifier"
-                                           andDestinationKey:nil
+                                    prependingSourceAccessor:HYDAccessKey(@"identifier")
+                                      andDestinationAccessor:nil
                                      replacementSourceObject:@"transforms"
                                                      isFatal:NO];
                 childMapperError2 = [HYDError errorFromError:childMapperError2
-                                         prependingSourceKey:@"first_name"
-                                           andDestinationKey:nil
+                                    prependingSourceAccessor:HYDAccessKey(@"first_name")
+                                      andDestinationAccessor:nil
                                      replacementSourceObject:@"John"
                                                      isFatal:NO];
             });
@@ -211,11 +211,11 @@ describe(@"HYDKeyValueMapper", ^{
             reverseChildMapper2.objectsToReturn = @[@"John"];
             childMapper2.reverseMapperToReturn = reverseChildMapper2;
 
-            reverseMapper = [mapper reverseMapperWithDestinationKey:@"otherKey"];
+            reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessKey(@"otherKey")];
         });
 
-        it(@"should set the reverse mapper's destinationKey", ^{
-            reverseMapper.destinationKey should equal(@"otherKey");
+        it(@"should set the reverse mapper's destinationAccessor", ^{
+            reverseMapper.destinationAccessor should equal(HYDAccessKey(@"otherKey"));
         });
 
         it(@"should produce the original mapper's source object", ^{
