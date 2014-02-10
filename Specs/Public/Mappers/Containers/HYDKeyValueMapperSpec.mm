@@ -2,6 +2,7 @@
 #import "Hydrant.h"
 #import "HYDPerson.h"
 #import "HYDFakeMapper.h"
+#import "HYDFakeAccesor.h"
 #import "HYDError+Spec.h"
 
 using namespace Cedar::Matchers;
@@ -18,8 +19,13 @@ describe(@"HYDKeyValueMapper", ^{
     __block id parsedObject;
     __block HYDFakeMapper *childMapper1;
     __block HYDFakeMapper *childMapper2;
+    __block HYDFakeAccesor *fakeAccessor;
 
     beforeEach(^{
+        fakeAccessor = [[HYDFakeAccesor alloc] init];
+        fakeAccessor.valuesToReturn = @[@23];
+        fakeAccessor.fieldNames = @[@"age"];
+
         expectedPerson = [[HYDPerson alloc] initWithFixtureData];
         validSourceObject = @{@"first_name": @"John",
                               @"last_name": @"Doe",
@@ -36,7 +42,7 @@ describe(@"HYDKeyValueMapper", ^{
                               [HYDPerson class],
                               @{@"first_name" : childMapper2,
                                 @"last_name" : @"lastName",
-                                @"age" : @"age",
+                                fakeAccessor : @"age",
                                 @"identifier" : childMapper1});
     });
 

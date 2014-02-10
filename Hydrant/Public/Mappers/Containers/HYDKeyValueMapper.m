@@ -2,13 +2,8 @@
 #import "HYDFactory.h"
 #import "HYDObjectFactory.h"
 #import "HYDError.h"
-#import "HYDIdentityMapper.h"
-#import "HYDClassInspector.h"
-#import "HYDProperty.h"
 #import "HYDFunctions.h"
-#import "HYDWalker.h"
 #import "HYDKeyAccessor.h"
-#import "HYDAccessor.h"
 
 
 @interface HYDKeyValueMapper ()
@@ -61,21 +56,25 @@
         id<HYDMapper> mapper = self.mapping[sourceAccessor];
         HYDError *innerError = nil;
 
-        id sourceValues = [sourceAccessor valuesFromSourceObject:sourceObject error:&innerError];
+        NSArray *sourceValues = [sourceAccessor valuesFromSourceObject:sourceObject error:&innerError];
         if (innerError) {
             hasFatalError = hasFatalError || [innerError isFatal];
             [errors addObject:innerError];
             continue;
         }
 
-        id destinationValue = [mapper objectFromSourceObject:sourceValues[0] error:&innerError];
+        BOOL isCollectionOfValues = (sourceValues.count != 1);
+        id sourceValue = (isCollectionOfValues ? sourceValues : sourceValues[0]);
+
+        id destinationValue = [mapper objectFromSourceObject:sourceValue
+                                                       error:&innerError];
 
         if (innerError) {
             hasFatalError = hasFatalError || [innerError isFatal];
             [errors addObject:[HYDError errorFromError:innerError
                               prependingSourceAccessor:sourceAccessor
                                 andDestinationAccessor:nil
-                               replacementSourceObject:sourceValues[0]
+                               replacementSourceObject:sourceValue
                                                isFatal:innerError.isFatal]];
         }
 
