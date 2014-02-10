@@ -57,20 +57,24 @@
 
 - (NSArray *)valuesFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
+    if (!sourceObject) {
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorGetViaAccessorFailed
+                                              sourceObject:sourceObject
+                                            sourceAccessor:self
+                                         destinationObject:nil
+                                       destinationAccessor:nil
+                                                   isFatal:YES
+                                          underlyingErrors:nil]);
+        return nil;
+    }
+
     NSMutableArray *values = [NSMutableArray arrayWithCapacity:self.fieldNames.count];
     for (NSString *key in self.fieldNames) {
         if ([self canReadKey:key fromSourceObject:sourceObject]) {
             id value = [sourceObject valueForKey:key];
             [values addObject:value];
         } else {
-//            HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
-//                                                  sourceObject:sourceObject
-//                                                sourceAccessor:self
-//                                             destinationObject:nil
-//                                           destinationAccessor:nil
-//                                                       isFatal:YES
-//                                              underlyingErrors:nil]);
-            return nil;
+            return nil; // We should return an error; but for backwards compatibility
         }
     }
     return values;
@@ -78,6 +82,16 @@
 
 - (HYDError *)setValues:(NSArray *)values ofClasses:(NSArray *)destinationClasses onObject:(id)destinationObject
 {
+    if (self.fieldNames.count != values.count) {
+        return [HYDError errorWithCode:HYDErrorSetViaAccessorFailed
+                          sourceObject:nil
+                        sourceAccessor:nil
+                     destinationObject:destinationObject
+                   destinationAccessor:self
+                               isFatal:YES
+                      underlyingErrors:nil];
+    }
+
     NSUInteger index = 0;
     for (NSString *key in self.fieldNames) {
         id value = values[index];
@@ -125,21 +139,11 @@
 
 
 HYD_EXTERN
-HYD_OVERLOADED
-HYDKeyAccessor *HYDAccessKey(NSString *fieldName)
+HYDKeyAccessor *HYDAccessKeyFromArray(NSArray *fields)
 {
-    if (fieldName) {
-        return HYDAccessKey(@[fieldName]);
-    } else {
+    if (fields.count == 0) {
         return nil;
     }
-}
-
-
-HYD_EXTERN
-HYD_OVERLOADED
-HYDKeyAccessor *HYDAccessKey(NSArray *fields)
-{
     return [[HYDKeyAccessor alloc] initWithKeys:fields];
 }
 

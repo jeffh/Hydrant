@@ -16,7 +16,7 @@ describe(@"Mapping fields that access multiple properties", ^{
             return [incomingValue componentsJoinedByString:@" "];
         });
         mapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [NSDictionary class],
-                              @{HYDAccessKey(@[@"first", @"last"]) : joinedNameMapper});
+                              @{HYDAccessKey(@"first", @"last") : joinedNameMapper});
         sourceObject = @{@"first": @"John",
                          @"last": @"Doe"};
     });

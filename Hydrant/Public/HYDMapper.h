@@ -33,7 +33,9 @@
  *                      serialized.
  *  @param error If the source object could not be converted without
  *               any errors it is filled in here. Note the object
- *               returned may still not be nil.
+ *               returned may still not be nil. It is the responsibility
+ *               of the mapper to set this to nil if there are no errors,
+ *               or not deref the pointer if error is nil to start with.
  *  @returns A newly created object to be assigned to an object by
  *           the `destinationAccessor` method.
  */

@@ -22,7 +22,7 @@ id<HYDAccessor> HYDJoinedStringFromKeyPaths(id<HYDAccessor> previousKeyPath, id<
                 [keyPaths addObject:keyPath];
             }
         }
-        return HYDAccessKeyPath(keyPaths);
+        return HYDAccessKeyPathFromArray(keyPaths);
     }
     return previousKeyPath ?: nextKeyPath;
 }

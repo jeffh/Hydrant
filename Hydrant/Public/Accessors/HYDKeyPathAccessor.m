@@ -63,12 +63,22 @@
 
 - (NSArray *)valuesFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
+    if (!sourceObject) {
+        HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorGetViaAccessorFailed
+                                              sourceObject:sourceObject
+                                            sourceAccessor:self
+                                         destinationObject:nil
+                                       destinationAccessor:nil
+                                                   isFatal:YES
+                                          underlyingErrors:nil]);
+    }
+
     NSMutableArray *values = [NSMutableArray arrayWithCapacity:self.fieldNames.count];
     for (NSString *keyPath in self.fieldNames) {
         if ([self canReadKeyPath:keyPath fromSourceObject:sourceObject]) {
             [values addObject:[sourceObject valueForKeyPath:keyPath]];
         } else {
-            HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectType
+            HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorGetViaAccessorFailed
                                                   sourceObject:sourceObject
                                                 sourceAccessor:self
                                              destinationObject:nil
@@ -83,10 +93,20 @@
 
 - (HYDError *)setValues:(NSArray *)values ofClasses:(NSArray *)destinationClasses onObject:(id)destinationObject
 {
+    if (values.count != self.fieldNames.count) {
+        return [HYDError errorWithCode:HYDErrorSetViaAccessorFailed
+                          sourceObject:nil
+                        sourceAccessor:nil
+                     destinationObject:destinationObject
+                   destinationAccessor:self
+                               isFatal:YES
+                      underlyingErrors:nil];
+    }
+
     NSUInteger index = 0;
     for (NSString *keyPath in self.fieldNames) {
         // for easier debuggability, we're opting to potentially explode here
-        [self setValue:values[index] ofClass:destinationClasses[index] forKeyPath:keyPath onObject:destinationObject];
+        [self setValue:values[index] ofClass:[destinationObject class] forKeyPath:keyPath onObject:destinationObject];
         ++index;
     }
     return nil;
@@ -119,11 +139,12 @@
 
     id keyTarget = object;
     for (NSString *key in keyComponents) {
-        if (![self hasKey:key onObject:keyTarget]) {
-            id intermediateObject = [self.factory newObjectOfClass:destinationClass];
-            [keyTarget setValue:intermediateObject forKey:key];
-        }
+        id previousTarget = keyTarget;
         keyTarget = [keyTarget valueForKey:key];
+        if (!keyTarget) {
+            keyTarget = [self.factory newObjectOfClass:destinationClass];
+            [previousTarget setValue:keyTarget forKey:key];
+        }
     }
 
     [keyTarget setValue:value forKey:keyToMutate];
@@ -131,6 +152,10 @@
 
 - (BOOL)hasKey:(NSString *)key onObject:(id)target
 {
+    if (!target) {
+        return NO;
+    }
+
     if ([target respondsToSelector:@selector(objectForKey:)]) {
         if ([target valueForKey:key]) {
             return YES;
@@ -161,16 +186,10 @@
 
 
 HYD_EXTERN
-HYD_OVERLOADED
-HYDKeyPathAccessor *HYDAccessKeyPath(NSString *keyPath)
+HYDKeyPathAccessor *HYDAccessKeyPathFromArray(NSArray *keyPaths)
 {
-    return HYDAccessKeyPath(@[keyPath]);
-}
-
-
-HYD_EXTERN
-HYD_OVERLOADED
-HYDKeyPathAccessor *HYDAccessKeyPath(NSArray *keyPaths)
-{
+    if (keyPaths.count == 0) {
+        return nil;
+    }
     return [[HYDKeyPathAccessor alloc] initWithKeyPaths:keyPaths];
 }

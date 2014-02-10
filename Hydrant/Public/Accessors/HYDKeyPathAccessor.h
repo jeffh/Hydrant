@@ -8,12 +8,7 @@
 @end
 
 HYD_EXTERN
-HYD_OVERLOADED
-HYDKeyPathAccessor *HYDAccessKeyPath(NSString *keyPath)
+HYDKeyPathAccessor *HYDAccessKeyPathFromArray(NSArray *keyPaths)
 HYD_REQUIRE_NON_NIL(1);
 
-
-HYD_EXTERN
-HYD_OVERLOADED
-HYDKeyPathAccessor *HYDAccessKeyPath(NSArray *keyPaths)
-HYD_REQUIRE_NON_NIL(1);
+#define HYDAccessKeyPath(...) HYDAccessKeyPathFromArray([NSArray arrayWithObjects:__VA_ARGS__, nil])

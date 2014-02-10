@@ -13,7 +13,7 @@ HYD_EXTERN NSString *HYDDateFormatRFC3339;
 
 /*! A constant that is used to visually indicate the root of a mapper hierarchy.
  *
- *  This should be used in placed of a destination key:
+ *  This should be used in placed of a destination:
  *
  *     id<HYDMapper> mapper = HYDMapObject(HYDRootMapper, ...);
  *
@@ -45,6 +45,19 @@ HYD_EXTERN const NSInteger HYDErrorInvalidResultingObjectType;
  *  across multiple objects.
  */
 HYD_EXTERN const NSInteger HYDErrorMultipleErrors;
+
+/*! The code that indicates there was an error when trying to access a given field on
+ *  the source object. This can be due to invalid source object (eg - can't access the
+ *  fields requested).
+ */
+HYD_EXTERN const NSInteger HYDErrorGetViaAccessorFailed;
+
+/*! The code that indicates there was an error when trying to write to a given field on
+ *  the source object. This can be due to invalid source object (eg - can't write to the
+ *  fields requested), or because the values provided do not match the expected number
+ *  of fields to update.
+ */
+HYD_EXTERN const NSInteger HYDErrorSetViaAccessorFailed;
 
 /*! The HYDError's userInfo key used to store the fact if this error is fatal.
  */
