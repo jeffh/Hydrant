@@ -5,7 +5,7 @@
 #import "HYDFunctions.h"
 
 @interface HYDKeyAccessor ()
-@property (strong, nonatomic) NSArray *fieldNames;
+@property (strong, nonatomic) NSArray *keys;
 @end
 
 @implementation HYDKeyAccessor
@@ -20,7 +20,7 @@
 {
     self = [super init];
     if (self) {
-        self.fieldNames = keys;
+        self.keys = keys;
     }
     return self;
 }
@@ -29,20 +29,20 @@
 
 - (BOOL)isEqual:(id)object
 {
-    return [object isKindOfClass:[self class]] && [self.fieldNames isEqual:[(HYDKeyAccessor *)object fieldNames]];
+    return [object isKindOfClass:[self class]] && [self.keys isEqual:[(HYDKeyAccessor *)object keys]];
 }
 
 - (NSUInteger)hash
 {
-    return self.fieldNames.hash;
+    return self.keys.hash;
 }
 
 - (NSString *)description
 {
-    if (self.fieldNames.count == 1) {
-        return [NSString stringWithFormat:@"<%@: %@>", NSStringFromClass([self class]), self.fieldNames[0]];
+    if (self.keys.count == 1) {
+        return [NSString stringWithFormat:@"<%@: %@>", NSStringFromClass([self class]), self.keys[0]];
     } else {
-        return [NSString stringWithFormat:@"<%@: [%@]>", NSStringFromClass([self class]), [self.fieldNames componentsJoinedByString:@", "]];
+        return [NSString stringWithFormat:@"<%@: [%@]>", NSStringFromClass([self class]), [self.keys componentsJoinedByString:@", "]];
     }
 }
 
@@ -54,6 +54,19 @@
 }
 
 #pragma mark - <HYDAccessor>
+
+- (NSArray *)fieldNames
+{
+    NSMutableArray *names = [NSMutableArray arrayWithCapacity:self.keys.count];
+    for (NSString *name in self.keys) {
+        if ([name rangeOfString:@"."].location != NSNotFound) {
+            [names addObject:[NSString stringWithFormat:@"\"%@\"", name]];
+        } else {
+            [names addObject:name];
+        }
+    }
+    return names;
+}
 
 - (NSArray *)valuesFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
@@ -68,8 +81,8 @@
         return nil;
     }
 
-    NSMutableArray *values = [NSMutableArray arrayWithCapacity:self.fieldNames.count];
-    for (NSString *key in self.fieldNames) {
+    NSMutableArray *values = [NSMutableArray arrayWithCapacity:self.keys.count];
+    for (NSString *key in self.keys) {
         if ([self canReadKey:key fromSourceObject:sourceObject]) {
             id value = [sourceObject valueForKey:key];
             [values addObject:value];
@@ -82,7 +95,7 @@
 
 - (HYDError *)setValues:(NSArray *)values ofClasses:(NSArray *)destinationClasses onObject:(id)destinationObject
 {
-    if (self.fieldNames.count != values.count) {
+    if (self.keys.count != values.count) {
         return [HYDError errorWithCode:HYDErrorSetViaAccessorFailed
                           sourceObject:nil
                         sourceAccessor:nil
@@ -93,7 +106,7 @@
     }
 
     NSUInteger index = 0;
-    for (NSString *key in self.fieldNames) {
+    for (NSString *key in self.keys) {
         id value = values[index];
         // for backwards compat: don't assign NSNull if it should be doing this...
         if ([[NSNull null] isEqual:value] /* && ![self requiresNSNullForClass:destinationClasses[index]]*/) {

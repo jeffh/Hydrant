@@ -66,7 +66,11 @@ describe(@"HYDError", ^{
         });
 
         it(@"should have a pretty description", ^{
-            [error description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\" underlyingErrors=(\n  - %@\n)", (long)error.code, innerError]);
+            [error description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\" underlyingFatalErrors=(\n  - %@\n)", (long)error.code, innerError]);
+        });
+
+        it(@"should have a pretty fullDescription", ^{
+            [error fullDescription] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\" underlyingErrors=(\n  - %@\n)", (long)error.code, innerError]);
         });
     });
 
@@ -118,6 +122,10 @@ describe(@"HYDError", ^{
 
         it(@"should have a pretty description", ^{
             [error description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map objects\"", (long)error.code]);
+        });
+
+        it(@"should have a pretty fullDescription", ^{
+            [error fullDescription] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map objects\"", (long)error.code]);
         });
     });
 
@@ -176,7 +184,11 @@ describe(@"HYDError", ^{
         });
 
         it(@"should have a pretty description", ^{
-            [wrappedError description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map from 'preSource.sourceAccessor' to 'preDestination.destinationAccessor'\" underlyingErrors=(\n  - %@\n)", (long)wrappedError.code, innerError]);
+            [wrappedError description] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map from 'preSource.sourceAccessor' to 'preDestination.destinationAccessor'\"", (long)wrappedError.code]);
+        });
+
+        it(@"should have a pretty fullDescription", ^{
+            [wrappedError fullDescription] should equal([NSString stringWithFormat:@"HYDErrorDomain code=%lu isFatal=NO reason=\"Could not map from 'preSource.sourceAccessor' to 'preDestination.destinationAccessor'\" underlyingErrors=(\n  - %@\n)", (long)wrappedError.code, innerError]);
         });
     });
 
@@ -212,14 +224,41 @@ describe(@"HYDError", ^{
             errorContainer.isFatal should_not be_truthy;
         });
 
-        it(@"should have a pretty description", ^{
+        context(@"when the error is fatal", ^{
+            beforeEach(^{
+                NSMutableDictionary *userInfo = [errorContainer.userInfo mutableCopy];
+                userInfo[HYDIsFatalKey] = @YES;
+                errorContainer = [HYDError errorWithDomain:errorContainer.domain
+                                                      code:errorContainer.code
+                                                  userInfo:userInfo];
+            });
+
+            it(@"should have a pretty description that includes fatal errors", ^{
+                NSString *format = @"HYDErrorDomain code=%lu isFatal=YES reason=\"Multiple parsing errors occurred (fatal=1, total=2)\" underlyingFatalErrors=(\n"
+                @"  - HYDErrorDomain code=1 isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\" underlyingFatalErrors=(\n"
+                @"      - Error Domain=NSCocoaErrorDomain Code=2 \"The operation couldn’t be completed. (Cocoa error 2.)\"\n"
+                @"    )\n"
+                @")";
+                [errorContainer description] should equal([NSString stringWithFormat:format,
+                                                           (long)errorContainer.code, error, [HYDError nonFatalError]]);
+            });
+        });
+
+        context(@"when the error is nonfatal", ^{
+            it(@"should have a pretty description that does not include underlying errors", ^{
+                NSString *format = @"HYDErrorDomain code=%lu isFatal=NO reason=\"Multiple parsing errors occurred (fatal=1, total=2)\"";
+                [errorContainer description] should equal([NSString stringWithFormat:format, (long)errorContainer.code]);
+            });
+        });
+
+        it(@"should have a pretty fullDescription", ^{
             NSString *format = @"HYDErrorDomain code=%lu isFatal=NO reason=\"Multiple parsing errors occurred (fatal=1, total=2)\" underlyingErrors=(\n"
             @"  - HYDErrorDomain code=1 isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\" underlyingErrors=(\n"
             @"      - Error Domain=NSCocoaErrorDomain Code=2 \"The operation couldn’t be completed. (Cocoa error 2.)\"\n"
             @"    )\n"
             @"  - HYDErrorDomain code=1 isFatal=NO reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\"\n"
             @")";
-            [errorContainer description] should equal([NSString stringWithFormat:format,
+            [errorContainer fullDescription] should equal([NSString stringWithFormat:format,
                                                        (long)errorContainer.code, error, [HYDError nonFatalError]]);
         });
     });

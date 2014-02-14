@@ -14,6 +14,19 @@ describe(@"HYDKeyAccessor", ^{
         accessor = HYDAccessKey(@"firstName");
     });
 
+
+    describe(@"fieldNames", ^{
+        it(@"should return the keys it was given", ^{
+            [accessor fieldNames] should equal(@[@"firstName"]);
+        });
+
+        context(@"when a period is in the key", ^{
+            it(@"should return the keys with a dot in double quotes", ^{
+                [HYDAccessKey(@"yo", @"that.dog") fieldNames] should equal(@[@"yo", @"\"that.dog\""]);
+            });
+        });
+    });
+
     describe(@"equality", ^{
         context(@"when the fields all match", ^{
             it(@"should be equal", ^{

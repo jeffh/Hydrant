@@ -4,12 +4,6 @@
 
 @implementation HYDError
 
-+ (instancetype)errorWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict
-{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
 + (instancetype)errorWithCode:(NSInteger)code
                  sourceObject:(id)sourceObject
                sourceAccessor:(id<HYDAccessor>)sourceAccessor
@@ -34,7 +28,8 @@
     HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationAccessorKey, destinationAccessor);
 
     if (code == HYDErrorMultipleErrors) {
-        NSArray *fatalUnderlyingErrors = [underlyingErrors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isFatal = YES"]];
+        NSString *predicate = [NSString stringWithFormat:@"userInfo.%@ = YES", HYDIsFatalKey];
+        NSArray *fatalUnderlyingErrors = [underlyingErrors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:predicate]];
         userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Multiple parsing errors occurred (fatal=%lu, total=%lu)",
                                                                        (unsigned long)fatalUnderlyingErrors.count,
                                                                        (unsigned long)underlyingErrors.count);
@@ -83,14 +78,56 @@
               underlyingErrors:errors];
 }
 
+- (NSString *)debugDescription
+{
+    NSString *fatalness = (self.isFatal ? @"[FATAL]" : @"[non-fatal]");
+    NSMutableString *underlyingErrors = [NSMutableString string];
+    if (self.isFatal && self.underlyingErrors.count) {
+        for (HYDError *error in self.rootFatalHydrantErrors) {
+            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", error.localizedDescription)];
+
+            NSArray *nonHydrantErrors = [error nonHydrantErrors];
+            for (NSError *otherError in nonHydrantErrors) {
+                [underlyingErrors appendFormat:@"    |- %@\n", HYDPrefixSubsequentLines(@"    ", otherError.localizedDescription)];
+            }
+        }
+    }
+
+    return [NSString stringWithFormat:@"%@ %@ (code=%@) because \"%@\"\n%@",
+            fatalness, self.domain, [self codeAsString], self.localizedDescription,
+            underlyingErrors];
+}
+
 - (NSString *)description
+{
+    NSString *fatalness = (self.isFatal ? @"YES" : @"NO");
+    NSMutableString *underlyingErrors = [NSMutableString string];
+    if (self.isFatal && self.underlyingErrors.count) {
+        [underlyingErrors appendString:@" underlyingFatalErrors=(\n"];
+        for (NSError *error in self.underlyingFatalErrors) {
+            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", error.description)];
+        }
+        [underlyingErrors appendString:@")"];
+    }
+
+    return [NSString stringWithFormat:@"%@ code=%lu isFatal=%@ reason=\"%@\"%@",
+            self.domain, (long)self.code, fatalness, self.localizedDescription, underlyingErrors];
+}
+
+- (NSString *)fullDescription
 {
     NSString *fatalness = (self.isFatal ? @"YES" : @"NO");
     NSMutableString *underlyingErrors = [NSMutableString string];
     if (self.underlyingErrors.count) {
         [underlyingErrors appendString:@" underlyingErrors=(\n"];
         for (NSError *error in self.underlyingErrors) {
-            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", error.description)];
+            NSString *errorDescription = nil;
+            if ([error respondsToSelector:@selector(fullDescription)]) {
+                errorDescription = [(HYDError *)error fullDescription];
+            } else {
+                errorDescription = error.description;
+            }
+            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", errorDescription)];
         }
         [underlyingErrors appendString:@")"];
     }
@@ -140,22 +177,48 @@
     return fatalErrors;
 }
 
-- (NSString *)underlyingErrorsDescription
+- (NSArray *)nonHydrantErrors
 {
-    NSArray *underlyingErrors = self.userInfo[HYDUnderlyingErrorsKey];
-    if (underlyingErrors.count) {
-        NSMutableString *string = [NSMutableString string];
-        for (NSError *error in underlyingErrors) {
-            if ([error respondsToSelector:@selector(underlyingErrorsDescription)]) {
-                [string appendFormat:@"%@\n", [(HYDError *)error underlyingErrorsDescription]];
+    NSMutableArray *otherErrors = [NSMutableArray array];
+    for (NSError *error in self.underlyingErrors) {
+        if (![error isKindOfClass:[HYDError class]]) {
+            [otherErrors addObject:error];
+        }
+    }
+    return otherErrors;
+}
+
+- (NSArray *)rootFatalHydrantErrors
+{
+    NSMutableArray *fatalErrors = [NSMutableArray array];
+    for (NSError *error in self.underlyingFatalErrors) {
+        if ([error isKindOfClass:[self class]]) {
+            HYDError *innerError = (HYDError *)error;
+            NSArray *underlyingErrors = [innerError rootFatalHydrantErrors];
+            if (underlyingErrors.count) {
+                [fatalErrors addObjectsFromArray:underlyingErrors];
             } else {
-                [string appendFormat:@"%@\n", [error description]];
+                [fatalErrors addObject:[HYDError errorFromError:innerError
+                                       prependingSourceAccessor:self.sourceAccessor
+                                         andDestinationAccessor:self.destinationAccessor
+                                        replacementSourceObject:nil
+                                                        isFatal:[innerError isFatal]]];
             }
         }
-        return string;
-    } else {
-        return [self localizedDescription];
     }
+    return fatalErrors;
+}
+
+- (NSString *)codeAsString
+{
+    NSDictionary *mapping = @{@(HYDErrorGetViaAccessorFailed): @"HYDErrorGetViaAccessorFailed",
+                              @(HYDErrorInvalidResultingObjectType): @"HYDErrorInvalidResultingObjectType",
+                              @(HYDErrorInvalidSourceObjectType): @"HYDErrorInvalidSourceObjectType",
+                              @(HYDErrorInvalidSourceObjectValue): @"HYDErrorInvalidSourceObjectValue",
+                              @(HYDErrorMultipleErrors): @"HYDErrorMultipleErrors",
+                              @(HYDErrorSetViaAccessorFailed): @"HYDSetViaAccessorFailed"};
+
+    return mapping[@(self.code)] ?: [NSString stringWithFormat:@"%llu", (unsigned long long)self.code];
 }
 
 @end

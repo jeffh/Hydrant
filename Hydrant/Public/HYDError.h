@@ -119,6 +119,10 @@
  */
 - (id<HYDAccessor>)destinationAccessor;
 
+/*! Returns a string like -[description], but emits non fatal errors too.
+ */
+- (NSString *)fullDescription;
+
 /*! Returns the source object that the mapping error occurred on. Returns nil if not known.
  *
  *  May contain sensitive information if you're using hydrant to map sensitive information.
