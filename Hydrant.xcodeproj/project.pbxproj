@@ -1306,10 +1306,6 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Specs/Specs-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"CEDAR_CUSTOM_MATCHERS=\\\"HYDCedarMatchers.h\\\"",
-					"$(inherited)",
-				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1338,7 +1334,6 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Specs/Specs-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "CEDAR_CUSTOM_MATCHERS=\\\"HYDCedarMatchers.h\\\"";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1364,10 +1359,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OSXSpecs/OSXSpecs-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"CEDAR_CUSTOM_MATCHERS=\\\"HYDCedarMatchers.h\\\"",
-					"$(inherited)",
-				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1387,7 +1378,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OSXSpecs/OSXSpecs-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "CEDAR_CUSTOM_MATCHERS=\\\"HYDCedarMatchers.h\\\"";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

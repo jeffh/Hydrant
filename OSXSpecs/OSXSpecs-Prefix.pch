@@ -4,6 +4,8 @@
 //  The contents of this file are implicitly included at the beginning of every source file.
 //
 
+#define CEDAR_CUSTOM_MATCHERS "HYDSCedarMatchers.h"
+
 #ifdef __OBJC__
     #import <SpecHelper.h>
     #import <Foundation/Foundation.h>
