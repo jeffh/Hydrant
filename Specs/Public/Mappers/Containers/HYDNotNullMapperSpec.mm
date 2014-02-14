@@ -68,7 +68,7 @@ describe(@"HYDNotNullMapper", ^{
             it(@"should return nil", ^{
                 parsedObject should be_nil;
             });
-            
+
             it(@"should return the same error", ^{
                 error should be_same_instance_as(childError);
             });

@@ -129,7 +129,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
             [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = validSourceObject;
         });
-        
+
         itShouldBehaveLike(@"a mapper that does the inverse of the original");
     });
 });

@@ -116,7 +116,7 @@
     if (hasFatalError) {
         return nil;
     }
-    
+
     return destinationObject;
 }
 

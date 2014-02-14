@@ -61,7 +61,7 @@ describe(@"HYDPostProcessingMapper", ^{
             incomingResultingObject should equal(@1);
             incomingError should equal([HYDError nonFatalError]);
         });
-        
+
         it(@"should return the resulting object", ^{
             parsedObject should equal(@1);
             error should equal([HYDError nonFatalError]);

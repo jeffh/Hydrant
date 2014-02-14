@@ -10,14 +10,14 @@ SPEC_BEGIN(HYDEnumMapperSpec)
 describe(@"HYDEnumMapper", ^{
     __block HYDEnumMapper *mapper;
     __block HYDError *error;
-    
+
     beforeEach(^{
         error = nil;
         mapper = HYDMapEnum(@"dest", @{@(HYDPersonGenderUnknown) : @"Unknown",
                                        @(HYDPersonGenderMale) : @"Male",
                                        @(HYDPersonGenderFemale) : @"Female"});
     });
-    
+
     it(@"should have the destination key equal to what it was given", ^{
         mapper.destinationAccessor should equal(HYDAccessKey(@"dest"));
     });
