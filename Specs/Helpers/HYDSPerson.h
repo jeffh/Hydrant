@@ -6,12 +6,12 @@ typedef NS_ENUM(NSUInteger, HYDPersonGender) {
     HYDPersonGenderFemale,
 };
 
-@interface HYDPerson : NSObject
+@interface HYDSPerson : NSObject
 
 @property (strong, nonatomic) NSString *firstName;
 @property (strong, nonatomic) NSString *lastName;
 @property (assign, nonatomic) NSUInteger age;
-@property (strong, nonatomic) HYDPerson *parent;
+@property (strong, nonatomic) HYDSPerson *parent;
 @property (strong, nonatomic) NSArray *siblings;
 @property (assign, nonatomic) NSInteger identifier;
 @property (strong, nonatomic) NSDate *birthDate;

@@ -1,4 +1,4 @@
-#import "HYDCedarMatchers.h"
+#import "HYDSCedarMatchers.h"
 #import "HYDError.h"
 
 OBJC_EXTERN BeAnError be_an_error = BeAnError().with_domain(HYDErrorDomain);

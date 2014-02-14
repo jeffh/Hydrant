@@ -1,7 +1,7 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
 #import "HYDError+Spec.h"
-#import "HYDFakeMapper.h"
+#import "HYDSFakeMapper.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -10,7 +10,7 @@ SPEC_BEGIN(HYDPostProcessingMapperSpec)
 
 describe(@"HYDPostProcessingMapper", ^{
     __block HYDPostProcessingMapper *mapper;
-    __block HYDFakeMapper *childMapper;
+    __block HYDSFakeMapper *childMapper;
     __block id parsedObject;
     __block id sourceObject;
     __block HYDError *error;
@@ -26,7 +26,7 @@ describe(@"HYDPostProcessingMapper", ^{
         setOutgoingError = NO;
         blockWasCalled = NO;
         reversedBlockWasCalled = NO;
-        childMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"destinationAccessor"];
+        childMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"destinationAccessor"];
         mapper = HYDMapWithPostProcessing(childMapper, ^(id theSourceObject, id resultingObject, __autoreleasing HYDError **theError) {
             incomingSourceObject = theSourceObject;
             incomingResultingObject = resultingObject;
@@ -100,7 +100,7 @@ describe(@"HYDPostProcessingMapper", ^{
 
     describe(@"reverse mapping", ^{
         beforeEach(^{
-            HYDFakeMapper *reverseChildMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDSFakeMapper *reverseChildMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
             reverseChildMapper.objectsToReturn = @[@"LOL"];
             childMapper.reverseMapperToReturn = reverseChildMapper;
 

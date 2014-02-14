@@ -59,11 +59,7 @@
 {
     NSMutableArray *names = [NSMutableArray arrayWithCapacity:self.keys.count];
     for (NSString *name in self.keys) {
-        if ([name rangeOfString:@"."].location != NSNotFound) {
-            [names addObject:[NSString stringWithFormat:@"\"%@\"", name]];
-        } else {
-            [names addObject:name];
-        }
+        [names addObject:HYDKeyToString(name)];
     }
     return names;
 }

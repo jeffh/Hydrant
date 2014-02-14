@@ -1,7 +1,7 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
 #import "HYDError+Spec.h"
-#import "HYDFakeMapper.h"
+#import "HYDSFakeMapper.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -10,7 +10,7 @@ SPEC_BEGIN(HYDTypedMapperSpec)
 
 describe(@"HYDTypedMapper", ^{
     __block HYDTypedMapper *mapper;
-    __block HYDFakeMapper *innerMapper;
+    __block HYDSFakeMapper *innerMapper;
     __block HYDError *error;
     __block id sourceObject;
     __block id parsedObject;
@@ -18,7 +18,7 @@ describe(@"HYDTypedMapper", ^{
     beforeEach(^{
         error = nil;
         sourceObject = @"SOURCE";
-        innerMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"mah-key"];
+        innerMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"mah-key"];
 
         mapper = HYDMapTypes(innerMapper,
                 @[[NSString class], [NSArray class]],
@@ -131,11 +131,11 @@ describe(@"HYDTypedMapper", ^{
     });
 
     describe(@"reverse mapper", ^{
-        __block HYDFakeMapper *innerReverseMapper;
+        __block HYDSFakeMapper *innerReverseMapper;
         __block HYDTypedMapper *reverseMapper;
 
         beforeEach(^{
-            innerReverseMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"KEY"];
+            innerReverseMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"KEY"];
             innerReverseMapper.objectsToReturn = @[sourceObject];
             innerMapper.objectsToReturn = @[@1];
             innerMapper.reverseMapperToReturn = innerReverseMapper;

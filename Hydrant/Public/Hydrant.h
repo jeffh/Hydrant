@@ -21,7 +21,7 @@
 // container mappers
 #import "HYDCollectionMapper.h"
 #import "HYDTypedMapper.h"
-#import "HYDKeyValueMapper.h"
+#import "HYDObjectMapper.h"
 #import "HYDNonFatalMapper.h"
 #import "HYDNotNullMapper.h"
 #import "HYDFirstMapper.h"

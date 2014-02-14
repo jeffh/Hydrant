@@ -1,6 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDFakeMapper.h"
+#import "HYDSFakeMapper.h"
 #import "HYDError+Spec.h"
 
 using namespace Cedar::Matchers;
@@ -10,13 +10,13 @@ SPEC_BEGIN(HYDNotNullMapperSpec)
 
 describe(@"HYDNotNullMapper", ^{
     __block HYDNotNullMapper *mapper;
-    __block HYDFakeMapper *childMapper;
+    __block HYDSFakeMapper *childMapper;
     __block HYDError *error;
     __block id sourceObject;
     __block id parsedObject;
 
     beforeEach(^{
-        childMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"destinationAccessor"];
+        childMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"destinationAccessor"];
         mapper = HYDMapNotNull(childMapper);
     });
 
@@ -88,10 +88,10 @@ describe(@"HYDNotNullMapper", ^{
 
     describe(@"reverse mapping", ^{
         __block id<HYDMapper> reverseMapper;
-        __block HYDFakeMapper *reverseChildMapper;
+        __block HYDSFakeMapper *reverseChildMapper;
 
         beforeEach(^{
-            reverseChildMapper = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            reverseChildMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
             childMapper.reverseMapperToReturn = reverseChildMapper;
             sourceObject = @"valid";
 

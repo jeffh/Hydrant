@@ -5,7 +5,7 @@
 @class HYDClassInspector;
 
 
-@interface HYDKeyValueMapper : NSObject <HYDMapper>
+@interface HYDObjectMapper : NSObject <HYDMapper>
 
 - (id)initWithMapper:(id<HYDMapper>)mapper
            fromClass:(Class)sourceClass
@@ -16,12 +16,12 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3,4);
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3);
 
 
@@ -42,7 +42,7 @@ HYD_REQUIRE_NON_NIL(2,3);
  *  @see HYDMapObjectPath for a similar mapper which uses key paths.
  */
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3,4);
 
 /*! Constructs a mapper that maps properties from an NSDictionary to a destination object
@@ -61,5 +61,5 @@ HYD_REQUIRE_NON_NIL(2,3,4);
  *  @see HYDMapObjectPath for a similar mapper which uses key paths.
  */
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3);

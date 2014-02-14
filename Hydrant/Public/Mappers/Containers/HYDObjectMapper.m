@@ -1,4 +1,4 @@
-#import "HYDKeyValueMapper.h"
+#import "HYDObjectMapper.h"
 #import "HYDFactory.h"
 #import "HYDObjectFactory.h"
 #import "HYDError.h"
@@ -7,7 +7,7 @@
 #import "HYDIdentityMapper.h"
 
 
-@interface HYDKeyValueMapper ()
+@interface HYDObjectMapper ()
 
 @property (strong, nonatomic, readwrite) id<HYDMapper> innerMapper;
 @property (strong, nonatomic, readwrite) Class sourceClass;
@@ -18,7 +18,7 @@
 @end
 
 
-@implementation HYDKeyValueMapper
+@implementation HYDObjectMapper
 
 - (id)init
 {
@@ -152,9 +152,9 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    return [[HYDKeyValueMapper alloc] initWithMapper:mapper
+    return [[HYDObjectMapper alloc] initWithMapper:mapper
                                            fromClass:sourceClass
                                              toClass:destinationClass
                                              mapping:mapping];
@@ -162,21 +162,21 @@ HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class d
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
 {
     return HYDMapObject(mapper, [NSDictionary class], destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
     return HYDMapObject(HYDMapIdentity(destinationKey), sourceClass, destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
 {
     return HYDMapObject(HYDMapIdentity(destinationKey), destinationClass, mapping);
 }

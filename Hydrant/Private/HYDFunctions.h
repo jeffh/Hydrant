@@ -5,6 +5,9 @@
 @protocol HYDAccessor;
 
 
+#define HYDLocalizedStringFormat(FMT, ...) ([NSString localizedStringWithFormat:FMT, ## __VA_ARGS__])
+
+
 HYD_EXTERN
 void HYDSetValueForKeyIfNotNil(NSMutableDictionary *dict, id key, id value);
 
@@ -13,7 +16,8 @@ HYD_EXTERN
 id<HYDAccessor> HYDJoinedStringFromKeyPaths(id<HYDAccessor> previousKeyPath, id<HYDAccessor> nextKeyPath);
 
 
-#define HYDLocalizedStringFormat(FMT, ...) ([NSString localizedStringWithFormat:FMT, ## __VA_ARGS__])
+HYD_EXTERN
+NSString *HYDKeyToString(NSString *key);
 
 
 HYD_EXTERN

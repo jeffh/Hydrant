@@ -1,13 +1,8 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDFakeMapper.h"
+#import "HYDSFakeMapper.h"
 #import "HYDError+Spec.h"
 
-
-@interface HYDAnotherFakeMapper : HYDFakeMapper
-@end
-@implementation HYDAnotherFakeMapper
-@end
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;

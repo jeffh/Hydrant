@@ -1,6 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDFakeFormatter.h"
+#import "HYDSFakeFormatter.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -9,11 +9,11 @@ SPEC_BEGIN(HYDStringToObjectFormatterMapperSpec)
 
 describe(@"HYDStringToObjectFormatterMapper", ^{
     __block HYDStringToObjectFormatterMapper *mapper;
-    __block HYDFakeFormatter *formatter;
+    __block HYDSFakeFormatter *formatter;
     __block HYDError *error;
 
     beforeEach(^{
-        formatter = [[HYDFakeFormatter alloc] init];
+        formatter = [[HYDSFakeFormatter alloc] init];
         mapper = HYDMapStringToObjectByFormatter(@"destinationAccessor", formatter);
     });
 

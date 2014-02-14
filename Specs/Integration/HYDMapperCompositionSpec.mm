@@ -1,6 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDPerson.h"
+#import "HYDSPerson.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -9,7 +9,7 @@ SPEC_BEGIN(HYDMapperCompositionSpec)
 
 describe(@"Mapper Composition", ^{
     __block id<HYDMapper> mapper;
-    __block HYDPerson *expectedObjectGraph;
+    __block HYDSPerson *expectedObjectGraph;
     __block NSDictionary *expectedObjectStructure;
     __block HYDError *error;
     __block id parsedObject;
@@ -17,8 +17,8 @@ describe(@"Mapper Composition", ^{
     beforeEach(^{
         HYDDotNetDateFormatter *dotNetDateFormatter = [[HYDDotNetDateFormatter alloc] init];
 
-        mapper = HYDMapObject(HYDRootMapper, [HYDPerson class],
-                              @{@"person": HYDMapObject(@"parent", [NSDictionary class], [HYDPerson class],
+        mapper = HYDMapObject(HYDRootMapper, [HYDSPerson class],
+                              @{@"person": HYDMapObject(@"parent", [NSDictionary class], [HYDSPerson class],
                                                          @{@"id": @"identifier",
                                                            @"name.first": @"firstName",
                                                            @"name.last": @"lastName",
@@ -28,7 +28,7 @@ describe(@"Mapper Composition", ^{
                                 @"gender": HYDMapEnum(@"gender", @{@"unknown": @(HYDPersonGenderUnknown),
                                                                     @"male": @(HYDPersonGenderMale),
                                                                     @"female": @(HYDPersonGenderFemale)}),
-                                @"children": HYDMapArrayOf(HYDMapObject(@"siblings", [NSDictionary class], [HYDPerson class],
+                                @"children": HYDMapArrayOf(HYDMapObject(@"siblings", [NSDictionary class], [HYDSPerson class],
                                                                         @{@"first": @"firstName",
                                                                           @"homepage": HYDMapStringToURL(@"homepage")}))});
         expectedObjectStructure = @{@"person": @{@"id": @1,
@@ -42,11 +42,11 @@ describe(@"Mapper Composition", ^{
                                                      @"homepage": @"http://google.com"}],
                                     @"identifier": @42,
                                     @"gender": @"male"};
-        expectedObjectGraph = [[HYDPerson alloc] init];
+        expectedObjectGraph = [[HYDSPerson alloc] init];
         expectedObjectGraph.identifier = 42;
         expectedObjectGraph.gender = HYDPersonGenderMale;
         expectedObjectGraph.parent = ({
-            HYDPerson *parent = [[HYDPerson alloc] init];
+            HYDSPerson *parent = [[HYDSPerson alloc] init];
             parent.identifier = 1;
             parent.firstName = @"John";
             parent.lastName = @"Doe";
@@ -55,10 +55,10 @@ describe(@"Mapper Composition", ^{
             parent;
         });
         expectedObjectGraph.siblings = ({
-            HYDPerson *person1 = [[HYDPerson alloc] init];
+            HYDSPerson *person1 = [[HYDSPerson alloc] init];
             person1.firstName = @"Bob";
             person1.homepage = [NSURL URLWithString:@"http://example.com"];
-            HYDPerson *person2 = [[HYDPerson alloc] init];
+            HYDSPerson *person2 = [[HYDSPerson alloc] init];
             person2.firstName = @"David";
             person2.homepage = [NSURL URLWithString:@"http://google.com"];
             NSArray *items = @[person1, person2];

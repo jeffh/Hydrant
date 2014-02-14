@@ -1,6 +1,6 @@
-#import "HYDFakeFormatter.h"
+#import "HYDSFakeFormatter.h"
 
-@implementation HYDFakeFormatter
+@implementation HYDSFakeFormatter
 
 - (NSString *)stringForObjectValue:(id)obj
 {

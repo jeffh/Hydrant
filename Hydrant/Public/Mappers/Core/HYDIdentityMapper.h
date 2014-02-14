@@ -16,7 +16,7 @@
  *  @param destinationAccessor the property hint to the parent mapper to indicate where to place the returned value.
  *  @returns a mapper that returns any value its given.
  *
- *  @see HYDKeyValueMapper
+ *  @see HYDObjectMapper
  */
 HYD_EXTERN_OVERLOADED
 HYDIdentityMapper *HYDMapIdentity(id<HYDAccessor> destinationAccessor)
@@ -28,7 +28,7 @@ HYD_REQUIRE_NON_NIL(1);
  *  @param destinationAccessor the property hint to the parent mapper to indicate where to place the returned value.
  *  @returns a mapper that returns any value its given.
  *
- *  @see HYDKeyValueMapper
+ *  @see HYDObjectMapper
  *  @see HYDAccessDefault
  */
 HYD_EXTERN_OVERLOADED
@@ -41,7 +41,7 @@ HYD_REQUIRE_NON_NIL(1);
  *  @param destinationAccessor the property hint to the parent mapper to indicate where to place the returned value.
  *  @returns a mapper that returns any value its given.
  *
- *  @see HYDKeyValueMapper
+ *  @see HYDObjectMapper
  *  @see HYDAccessKey
  */
 HYD_EXTERN_OVERLOADED
@@ -54,7 +54,7 @@ HYD_REQUIRE_NON_NIL(1);
  *  @param destinationAccessor the property hint to the parent mapper to indicate where to place the returned value.
  *  @returns a mapper that returns any value its given.
  *
- *  @see HYDKeyValueMapper
+ *  @see HYDObjectMapper
  *  @see HYDAccessKey
  */
 HYD_EXTERN_OVERLOADED

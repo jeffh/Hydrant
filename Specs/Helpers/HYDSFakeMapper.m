@@ -1,10 +1,10 @@
-#import "HYDFakeMapper.h"
+#import "HYDSFakeMapper.h"
 #import "HYDError.h"
 #import "HYDFunctions.h"
 #import "HYDDefaultAccessor.h"
 #import "HYDKeyAccessor.h"
 
-@implementation HYDFakeMapper {
+@implementation HYDSFakeMapper {
     NSMutableArray *_objectsToReturn;
     NSMutableArray *_errorsToReturn;
     NSMutableArray *_sourceObjectsReceived;

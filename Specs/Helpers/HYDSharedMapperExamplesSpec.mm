@@ -1,5 +1,5 @@
 #import "Hydrant.h"
-#import "HYDFakeMapper.h"
+#import "HYDSFakeMapper.h"
 #import "HYDDefaultAccessor.h"
 
 using namespace Cedar::Matchers;
@@ -28,7 +28,7 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
     });
 
     it(@"should invert all its child mappers", ^{
-        for (HYDFakeMapper *childMapper in childMappers) {
+        for (HYDSFakeMapper *childMapper in childMappers) {
             childMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessDefault(@"otherKey"));
         }
     });

@@ -1,6 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDPerson.h"
+#import "HYDSPerson.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -35,8 +35,8 @@ describe(@"HYDKeyPathAccessor", ^{
 
             [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
             [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
-                HYDPerson *child = [[HYDPerson alloc] init];
-                child.parent = [[HYDPerson alloc] init];
+                HYDSPerson *child = [[HYDSPerson alloc] init];
+                child.parent = [[HYDSPerson alloc] init];
                 child.parent.firstName = @"John";
                 child.parent.lastName = @"Doe";
                 child;
@@ -55,8 +55,8 @@ describe(@"HYDKeyPathAccessor", ^{
         beforeEach(^{
             [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
             [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
-                HYDPerson *child = [[HYDPerson alloc] init];
-                child.parent = [[HYDPerson alloc] init];
+                HYDSPerson *child = [[HYDSPerson alloc] init];
+                child.parent = [[HYDSPerson alloc] init];
                 child.parent.firstName = @"John";
                 child;
             });

@@ -12,7 +12,7 @@
  *  map between two objects using a collection of HYDMappers.
  *
  *  @see HYDObjectToStringFormatterMapper for a simple mapper implementation.
- *  @see HYDKeyValueMapper for a complex mapper implementation.
+ *  @see HYDObjectMapper for a complex mapper implementation.
  */
 @protocol HYDMapper<NSObject>
 

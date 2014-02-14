@@ -1,6 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDIrreversableValueTransformer.h"
+#import "HYDSIrreversableValueTransformer.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -71,7 +71,7 @@ describe(@"HYDReversedValueTransformer", ^{
     context(@"when trying to use an irreversable value transformer", ^{
         it(@"should raise an exception", ^{
             ^{
-                mapper = HYDMapReverseValue(@"key", [[HYDIrreversableValueTransformer alloc] init]);
+                mapper = HYDMapReverseValue(@"key", [[HYDSIrreversableValueTransformer alloc] init]);
             } should raise_exception;
         });
     });

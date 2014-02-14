@@ -1,8 +1,8 @@
-#import "HYDFakeAccesor.h"
+#import "HYDSFakeAccesor.h"
 #import "HYDError.h"
 #import "HYDFunctions.h"
 
-@implementation HYDFakeAccesor
+@implementation HYDSFakeAccesor
 
 #pragma mark - <NSCopying>
 

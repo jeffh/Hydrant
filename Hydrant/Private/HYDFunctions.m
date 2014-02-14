@@ -28,6 +28,24 @@ id<HYDAccessor> HYDJoinedStringFromKeyPaths(id<HYDAccessor> previousKeyPath, id<
 }
 
 HYD_EXTERN
+NSString *HYDKeyToString(NSString *key)
+{
+    if ([key rangeOfString:@"."].location != NSNotFound) {
+        NSMutableString *escapedKey = [key mutableCopy];
+        NSArray *replacements = @[@[@"\\", @"\\\\"],
+                @[@"\"", @"\\\""]];
+        for (NSArray *replacement in replacements) {
+            [escapedKey replaceOccurrencesOfString:replacement.firstObject
+                                        withString:replacement.lastObject
+                                           options:0
+                                             range:NSMakeRange(0, escapedKey.length)];
+        }
+        return [NSString stringWithFormat:@"\"%@\"", escapedKey];
+    }
+    return key;
+}
+
+HYD_EXTERN
 void HYDSetObjectPointer(__autoreleasing id *objPtr, id value)
 {
     if (objPtr) {

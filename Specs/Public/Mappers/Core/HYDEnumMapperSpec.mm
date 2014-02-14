@@ -1,6 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDPerson.h"
+#import "HYDSPerson.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;

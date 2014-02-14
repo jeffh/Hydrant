@@ -1,7 +1,7 @@
 #import "HYDMapper.h"
 #import "HYDError.h"
 
-@interface HYDFakeMapper : NSObject <HYDMapper>
+@interface HYDSFakeMapper : NSObject <HYDMapper>
 
 @property (copy, nonatomic) NSArray *objectsToReturn;
 @property (copy, nonatomic) NSArray *errorsToReturn;

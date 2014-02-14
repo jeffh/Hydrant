@@ -12,7 +12,7 @@
 /*! Creates a mapper that enforces values that pass through it to not be nil.
  *
  *  This is useful to ensure the given parameter is required to be not-nil.
- *  With mappers, such as HYDKeyValueMapper, you can ensure incoming JSON
+ *  With mappers, such as HYDObjectMapper, you can ensure incoming JSON
  *  dictionaries are not nil (as the KeyValueMapper will convert NSNull to
  *  nils.
  *
@@ -31,7 +31,7 @@ HYD_REQUIRE_NON_NIL(1);
 /*! Creates a mapper that enforces values that pass through it to not be nil.
  *
  *  This is useful to ensure the given parameter is required to be not-nil.
- *  With mappers, such as HYDKeyValueMapper, you can ensure incoming JSON
+ *  With mappers, such as HYDObjectMapper, you can ensure incoming JSON
  *  dictionaries are not nil (as the KeyValueMapper will convert NSNull to
  *  nils.
  *

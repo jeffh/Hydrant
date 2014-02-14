@@ -2,7 +2,7 @@
 
 @class HYDError;
 
-@interface HYDFakeAccesor : NSObject <HYDAccessor>
+@interface HYDSFakeAccesor : NSObject <HYDAccessor>
 
 @property (strong, nonatomic) NSArray *fieldNames;
 @property (strong, nonatomic) NSArray *valuesToReturn;

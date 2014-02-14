@@ -1,8 +1,7 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDFakeMapper.h"
+#import "HYDSFakeMapper.h"
 #import "HYDError+Spec.h"
-#import "HYDObjectFactory.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -11,18 +10,18 @@ SPEC_BEGIN(HYDFirstMapperSpec)
 
 describe(@"HYDFirstMapper", ^{
     __block HYDFirstMapper *mapper;
-    __block HYDFakeMapper *child1;
-    __block HYDFakeMapper *child2;
-    __block HYDFakeMapper *child3;
+    __block HYDSFakeMapper *child1;
+    __block HYDSFakeMapper *child2;
+    __block HYDSFakeMapper *child3;
     __block HYDError *error;
     __block id sourceObject;
     __block id parsedObject;
 
     beforeEach(^{
         sourceObject = @"source";
-        child1 = [[HYDFakeMapper alloc] initWithDestinationKey:nil];
-        child2 = [[HYDFakeMapper alloc] initWithDestinationKey:@"LOL"];
-        child3 = [[HYDFakeMapper alloc] initWithDestinationKey:@"OK"];
+        child1 = [[HYDSFakeMapper alloc] initWithDestinationKey:nil];
+        child2 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"LOL"];
+        child3 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"OK"];
         mapper = HYDMapFirst(child1, child2, child3);
     });
 
@@ -117,9 +116,9 @@ describe(@"HYDFirstMapper", ^{
 
     describe(@"reverse mapping", ^{
         beforeEach(^{
-            HYDFakeMapper *reversedChild1 = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
-            HYDFakeMapper *reversedChild2 = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
-            HYDFakeMapper *reversedChild3 = [[HYDFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDSFakeMapper *reversedChild1 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDSFakeMapper *reversedChild2 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDSFakeMapper *reversedChild3 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
             child1.reverseMapperToReturn = reversedChild1;
             child2.reverseMapperToReturn = reversedChild2;
             child3.reverseMapperToReturn = reversedChild3;

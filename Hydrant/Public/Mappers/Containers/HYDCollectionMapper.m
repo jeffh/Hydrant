@@ -7,7 +7,7 @@
 #import "HYDFunctions.h"
 #import "HYDIdentityMapper.h"
 #import "HYDKeyAccessor.h"
-#import "HYDKeyValueMapper.h"
+#import "HYDObjectMapper.h"
 
 
 @interface HYDCollectionMapper ()

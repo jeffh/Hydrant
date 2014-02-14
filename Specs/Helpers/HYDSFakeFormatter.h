@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@interface HYDFakeFormatter : NSFormatter
+@interface HYDSFakeFormatter : NSFormatter
 
 @property (strong, nonatomic) NSString *stringToReturn;
 @property (strong, nonatomic) id objectToReturn;

@@ -1,6 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDPerson.h"
+#import "HYDSPerson.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -14,7 +14,6 @@ describe(@"HYDKeyAccessor", ^{
         accessor = HYDAccessKey(@"firstName");
     });
 
-
     describe(@"fieldNames", ^{
         it(@"should return the keys it was given", ^{
             [accessor fieldNames] should equal(@[@"firstName"]);
@@ -22,7 +21,8 @@ describe(@"HYDKeyAccessor", ^{
 
         context(@"when a period is in the key", ^{
             it(@"should return the keys with a dot in double quotes", ^{
-                [HYDAccessKey(@"yo", @"that.dog") fieldNames] should equal(@[@"yo", @"\"that.dog\""]);
+                NSArray *expectedValue = @[@"yo", @"\"that.dog\"", @"w\\hoa", @"\"\\\"\\\\n.o\\\"\""];
+                [HYDAccessKey(@"yo", @"that.dog", @"w\\hoa", @"\"\\n.o\"") fieldNames] should equal(expectedValue);
             });
         });
     });
@@ -48,7 +48,7 @@ describe(@"HYDKeyAccessor", ^{
 
             [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
             [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
-                HYDPerson *person = [[HYDPerson alloc] init];
+                HYDSPerson *person = [[HYDSPerson alloc] init];
                 person.firstName = @"John";
                 person.lastName = @"Doe";
                 person;
@@ -67,7 +67,7 @@ describe(@"HYDKeyAccessor", ^{
         beforeEach(^{
             [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
             [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
-                HYDPerson *person = [[HYDPerson alloc] init];
+                HYDSPerson *person = [[HYDSPerson alloc] init];
                 person.firstName = @"John";
                 person;
             });

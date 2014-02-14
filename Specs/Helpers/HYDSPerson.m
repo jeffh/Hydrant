@@ -1,6 +1,6 @@
-#import "HYDPerson.h"
+#import "HYDSPerson.h"
 
-@implementation HYDPerson
+@implementation HYDSPerson
 
 - (id)initWithFixtureData
 {
@@ -19,7 +19,7 @@
     return (self.firstName == [object firstName] || [self.firstName isEqual:[object firstName]]) &&
         (self.lastName == [object lastName] || [self.lastName isEqual:[object lastName]]) &&
         self.age == [object age] &&
-        (self.parent == (HYDPerson *)[object parent] || [self.parent isEqual:[object parent]]) &&
+        (self.parent == (HYDSPerson *)[object parent] || [self.parent isEqual:[object parent]]) &&
         (self.siblings == (NSArray *)[object siblings] || [self.siblings isEqual:[object siblings]]) &&
         (self.birthDate == [object birthDate] || [self.birthDate isEqual:[object birthDate]]) &&
         (self.gender == [object gender]);

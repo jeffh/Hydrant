@@ -1,6 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDPerson.h"
+#import "HYDSPerson.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -132,8 +132,8 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
 
         context(@"when the destination object is valid and it allows nil fields", ^{
             beforeEach(^{
-                target = [[HYDPerson alloc] init];
-                destinationClasses = @[[HYDPerson class]];
+                target = [[HYDSPerson alloc] init];
+                destinationClasses = @[[HYDSPerson class]];
             });
 
             context(@"and given values are valid", ^{
@@ -156,7 +156,7 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
                 });
 
                 it(@"should not update the given object", ^{
-                    target should equal([[HYDPerson alloc] init]);
+                    target should equal([[HYDSPerson alloc] init]);
                 });
 
                 it(@"should return a fatal error", ^{
@@ -170,7 +170,7 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
                 });
 
                 it(@"should not update the given object", ^{
-                    target should equal([[HYDPerson alloc] init]);
+                    target should equal([[HYDSPerson alloc] init]);
                 });
 
                 it(@"should return a fatal error", ^{
