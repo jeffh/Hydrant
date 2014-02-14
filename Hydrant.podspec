@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name         = "Hydrant"
-  s.version      = "0.1.1"
+  s.version      = "0.5.0"
   s.summary      = "A simple data mapper / object serializer for objective-c"
 
   s.description  = <<-DESC
                    A simply object data mapper for Objective-C.
 
                    Automated mapping of NSDictionaries/NSArrays to Value Objects with
-                   the goal of being exception-free and support graceful degregation.
+                   the goal of being exception-free and support graceful error handling.
                    DESC
 
   s.homepage     = "https://github.com/jeffh/Hydrant"
