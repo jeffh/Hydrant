@@ -45,16 +45,15 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
-{
-    return HYDMapIdentity(HYDAccessDefault(destinationKey));
-}
-
-
-HYD_EXTERN_OVERLOADED
 HYDIdentityMapper *HYDMapIdentity(id<HYDAccessor> destinationAccessor)
 {
     return [[HYDIdentityMapper alloc] initWithDestinationAccessor:destinationAccessor];
+}
+
+HYD_EXTERN_OVERLOADED
+HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
+{
+    return HYDMapIdentity(HYDAccessDefault(destinationKey));
 }
 
 HYD_EXTERN_OVERLOADED

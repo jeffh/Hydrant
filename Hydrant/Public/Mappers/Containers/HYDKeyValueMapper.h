@@ -3,26 +3,25 @@
 
 
 @class HYDClassInspector;
-@protocol HYDAccessor;
 
 
 @interface HYDKeyValueMapper : NSObject <HYDMapper>
 
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-                        fromClass:(Class)sourceClass
-                          toClass:(Class)destinationClass
-                          mapping:(NSDictionary *)mapping;
+- (id)initWithMapper:(id<HYDMapper>)mapper
+           fromClass:(Class)sourceClass
+             toClass:(Class)destinationClass
+             mapping:(NSDictionary *)mapping;
 
 @end
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3,4);
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class destinationClass, NSDictionary *mapping)
+HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3);
 
 

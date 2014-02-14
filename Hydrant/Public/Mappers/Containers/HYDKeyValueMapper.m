@@ -4,11 +4,12 @@
 #import "HYDError.h"
 #import "HYDFunctions.h"
 #import "HYDDefaultAccessor.h"
+#import "HYDIdentityMapper.h"
 
 
 @interface HYDKeyValueMapper ()
 
-@property (strong, nonatomic, readwrite) id<HYDAccessor> destinationAccessor;
+@property (strong, nonatomic, readwrite) id<HYDMapper> innerMapper;
 @property (strong, nonatomic, readwrite) Class sourceClass;
 @property (strong, nonatomic, readwrite) Class destinationClass;
 @property (strong, nonatomic, readwrite) NSDictionary *mapping;
@@ -25,11 +26,11 @@
     return nil;
 }
 
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor fromClass:(Class)sourceClass toClass:(Class)destinationClass mapping:(NSDictionary *)mapping
+- (id)initWithMapper:(id<HYDMapper>)mapper fromClass:(Class)sourceClass toClass:(Class)destinationClass mapping:(NSDictionary *)mapping
 {
     self = [super init];
     if (self) {
-        self.destinationAccessor = destinationAccessor;
+        self.innerMapper = mapper;
         self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
         self.mapping = HYDNormalizeKeyValueDictionary(mapping, ^id(NSString *key) { return HYDAccessDefault(key); });
@@ -121,11 +122,17 @@
 
 - (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[[self class] alloc] initWithDestinationAccessor:destinationAccessor
-                                                 fromClass:self.destinationClass
-                                                   toClass:self.sourceClass
-                                                   mapping:[self inverseMapping]];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    return [[[self class] alloc] initWithMapper:reversedInnerMapper
+                                      fromClass:self.destinationClass
+                                        toClass:self.sourceClass
+                                        mapping:[self inverseMapping]];
 
+}
+
+- (id<HYDAccessor>)destinationAccessor
+{
+    return [self.innerMapper destinationAccessor];
 }
 
 #pragma mark - Private
@@ -145,31 +152,31 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    return [[HYDKeyValueMapper alloc] initWithDestinationAccessor:destinationAccessor
-                                                        fromClass:sourceClass
-                                                          toClass:destinationClass
-                                                          mapping:mapping];
+    return [[HYDKeyValueMapper alloc] initWithMapper:mapper
+                                           fromClass:sourceClass
+                                             toClass:destinationClass
+                                             mapping:mapping];
 }
 
 
 HYD_EXTERN_OVERLOADED
-HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class destinationClass, NSDictionary *mapping)
+HYDKeyValueMapper *HYDMapObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(destinationAccessor, [NSDictionary class], destinationClass, mapping);
+    return HYDMapObject(mapper, [NSDictionary class], destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(HYDAccessKeyPath(destinationKey), sourceClass, destinationClass, mapping);
+    return HYDMapObject(HYDMapIdentity(destinationKey), sourceClass, destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(HYDAccessKeyPath(destinationKey), destinationClass, mapping);
+    return HYDMapObject(HYDMapIdentity(destinationKey), destinationClass, mapping);
 }
