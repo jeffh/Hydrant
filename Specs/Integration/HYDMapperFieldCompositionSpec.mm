@@ -14,6 +14,8 @@ describe(@"Mapping fields that access multiple properties", ^{
     beforeEach(^{
         id<HYDMapper> joinedNameMapper = HYDMapWithBlock(@"name", ^id(id incomingValue, __autoreleasing HYDError **err) {
             return [incomingValue componentsJoinedByString:@" "];
+        }, ^id(id incomingValue, __autoreleasing HYDError **err){
+            return [incomingValue componentsSeparatedByString:@" "];
         });
         mapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [NSDictionary class],
                               @{HYDAccessKey(@"first", @"last") : joinedNameMapper});
@@ -25,6 +27,16 @@ describe(@"Mapping fields that access multiple properties", ^{
         it(@"should work", ^{
             id resultingObject = [mapper objectFromSourceObject:sourceObject error:&error];
             resultingObject should equal(@{@"name": @"John Doe"});
+        });
+    });
+
+    describe(@"reverse mapping", ^{
+        it(@"should work", ^{
+            id resultingObject = [mapper objectFromSourceObject:sourceObject error:&error];
+            error should be_nil;
+            id finalObject = [[mapper reverseMapperWithDestinationAccessor:HYDRootMapper] objectFromSourceObject:resultingObject error:&error];
+            error should be_nil;
+            finalObject should equal(sourceObject);
         });
     });
 });

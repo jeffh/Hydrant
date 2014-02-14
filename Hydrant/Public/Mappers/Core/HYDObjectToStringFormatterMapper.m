@@ -5,12 +5,13 @@
 #import "HYDURLFormatter.h"
 #import "HYDUUIDFormatter.h"
 #import "HYDKeyAccessor.h"
+#import "HYDIdentityMapper.h"
 
 
 @interface HYDObjectToStringFormatterMapper ()
 
 @property (strong, nonatomic) NSFormatter *formatter;
-@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
+@property (strong, nonatomic) id<HYDMapper> innerMapper;
 
 @end
 
@@ -23,11 +24,11 @@
     return nil;
 }
 
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor formatter:(NSFormatter *)formatter
+- (id)initWithMapper:(id<HYDMapper>)mapper formatter:(NSFormatter *)formatter
 {
     self = [super init];
     if (self) {
-        self.destinationAccessor = destinationAccessor;
+        self.innerMapper = mapper;
         self.formatter = formatter;
     }
     return self;
@@ -56,86 +57,141 @@
     return resultingObject;
 }
 
+- (id<HYDAccessor>)destinationAccessor
+{
+    return self.innerMapper.destinationAccessor;
+}
+
 - (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[HYDStringToObjectFormatterMapper alloc] initWithDestinationAccessor:destinationAccessor formatter:self.formatter];
+    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    return [[HYDStringToObjectFormatterMapper alloc] initWithMapper:reverseInnerMapper
+                                                          formatter:self.formatter];
 }
 
 @end
 
 #pragma mark - Base Constructor
 
-HYD_EXTERN
+HYD_EXTERN_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDMapObjectToStringByFormatter(NSString *destinationKey, NSFormatter *formatter)
 {
-    return [[HYDObjectToStringFormatterMapper alloc] initWithDestinationAccessor:HYDAccessKey(destinationKey) formatter:formatter];
+    return HYDMapObjectToStringByFormatter(HYDMapIdentity(HYDAccessKey(destinationKey)), formatter);
+}
+
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapObjectToStringByFormatter(id<HYDMapper> mapper, NSFormatter *formatter)
+{
+    return [[HYDObjectToStringFormatterMapper alloc] initWithMapper:mapper formatter:formatter];
 }
 
 #pragma mark - NumberFormatter Constructors
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey)
 {
     return HYDMapNumberToString(destinationKey, NSNumberFormatterDecimalStyle);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(id<HYDMapper> mapper)
+{
+    return HYDMapNumberToString(mapper, NSNumberFormatterDecimalStyle);
+}
+
+HYD_EXTERN_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey, NSNumberFormatterStyle numberFormatStyle)
+{
+    return HYDMapNumberToString(HYDMapIdentity(destinationKey), numberFormatStyle);
+}
+
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatterStyle numberFormatStyle)
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     numberFormatter.numberStyle = numberFormatStyle;
-    return HYDMapNumberToString(destinationKey, numberFormatter);
+    return HYDMapNumberToString(mapper, numberFormatter);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey, NSNumberFormatter *numberFormatter)
 {
-    return HYDMapObjectToStringByFormatter(destinationKey, numberFormatter);
+    return HYDMapNumberToString(HYDMapIdentity(destinationKey), numberFormatter);
+}
+
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatter *numberFormatter)
+{
+    return HYDMapObjectToStringByFormatter(mapper, numberFormatter);
 }
 
 #pragma mark - DateFormatter Constructors
 
-HYD_EXTERN
-HYD_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *dstKey, NSString *formatString)
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *destinationKey, NSString *formatString)
+{
+    return HYDMapDateToString(HYDMapIdentity(destinationKey), formatString);
+}
+
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapDateToString(id<HYDMapper> mapper, NSString *formatString)
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = formatString;
-    return HYDMapDateToString(dstKey, dateFormatter);
+    return HYDMapDateToString(mapper, dateFormatter);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *dstKey, NSDateFormatter *dateFormatter)
 {
     return HYDMapObjectToStringByFormatter(dstKey, dateFormatter);
 }
 
-#pragma mark - URLFormatter Constructors
-
-HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDMapURLToString(NSString *destinationKey)
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapDateToString(id<HYDMapper> mapper, NSDateFormatter *dateFormatter)
 {
-    HYDURLFormatter *formatter = [[HYDURLFormatter alloc] init];
-    return HYDMapObjectToStringByFormatter(destinationKey, formatter);
+    return HYDMapObjectToStringByFormatter(mapper, dateFormatter);
 }
 
+#pragma mark - URLFormatter Constructors
 
-HYD_EXTERN
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapURLToString(NSString *destinationKey)
+{
+    return HYDMapURLToString(HYDMapIdentity(destinationKey));
+}
+
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapURLToString(id<HYDMapper> mapper)
+{
+    HYDURLFormatter *formatter = [[HYDURLFormatter alloc] init];
+    return HYDMapObjectToStringByFormatter(mapper, formatter);
+}
+
+HYD_EXTERN_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+{
+    return HYDMapURLToStringOfScheme(HYDMapIdentity(destinationKey), allowedSchemes);
+}
+
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(id<HYDMapper> mapper, NSArray *allowedSchemes)
 {
     NSSet *schemes = [NSSet setWithArray:[allowedSchemes valueForKey:@"lowercaseString"]];
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] initWithAllowedSchemes:schemes];
-    return HYDMapObjectToStringByFormatter(destinationKey, formatter);
+    return HYDMapObjectToStringByFormatter(mapper, formatter);
 }
 
 #pragma mark - UUIDFormatter Constructors
 
-HYD_EXTERN
+HYD_EXTERN_OVERLOADED
 HYDObjectToStringFormatterMapper *HYDMapUUIDToString(NSString *destinationKey)
 {
-    return HYDMapObjectToStringByFormatter(destinationKey, [[HYDUUIDFormatter alloc] init]);
+    return HYDMapUUIDToString(HYDMapIdentity(destinationKey));
+}
+
+HYD_EXTERN_OVERLOADED
+HYDObjectToStringFormatterMapper *HYDMapUUIDToString(id<HYDMapper> mapper)
+{
+    return HYDMapObjectToStringByFormatter(mapper, [[HYDUUIDFormatter alloc] init]);
 }

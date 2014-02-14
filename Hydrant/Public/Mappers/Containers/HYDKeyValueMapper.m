@@ -3,7 +3,7 @@
 #import "HYDObjectFactory.h"
 #import "HYDError.h"
 #import "HYDFunctions.h"
-#import "HYDKeyAccessor.h"
+#import "HYDDefaultAccessor.h"
 
 
 @interface HYDKeyValueMapper ()
@@ -32,7 +32,7 @@
         self.destinationAccessor = destinationAccessor;
         self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
-        self.mapping = HYDNormalizeKeyValueDictionary(mapping, ^id(NSString *key) { return HYDAccessKey(key); });
+        self.mapping = HYDNormalizeKeyValueDictionary(mapping, ^id(NSString *key) { return HYDAccessDefault(key); });
         self.factory = [[HYDObjectFactory alloc] init];
     }
     return self;
@@ -59,7 +59,12 @@
         NSArray *sourceValues = [sourceAccessor valuesFromSourceObject:sourceObject error:&innerError];
         if (innerError) {
             hasFatalError = hasFatalError || [innerError isFatal];
-            [errors addObject:innerError];
+            // TODO: test wrapping error
+            [errors addObject:[HYDError errorFromError:innerError
+                              prependingSourceAccessor:sourceAccessor
+                                andDestinationAccessor:nil
+                               replacementSourceObject:nil
+                                               isFatal:YES]];
             continue;
         }
 
@@ -86,7 +91,13 @@
             destinationValue = [NSNull null];
         }
 
-        [[mapper destinationAccessor] setValues:@[destinationValue]
+        id<HYDAccessor> destinationAccessor = [mapper destinationAccessor];
+
+        if (destinationAccessor.fieldNames.count == 1) {
+            destinationValue = @[destinationValue];
+        }
+
+        [[mapper destinationAccessor] setValues:destinationValue
                                       ofClasses:@[self.destinationClass]
                                        onObject:destinationObject];
     }
@@ -133,8 +144,7 @@
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
     return [[HYDKeyValueMapper alloc] initWithDestinationAccessor:destinationAccessor
@@ -144,25 +154,22 @@ HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class sourc
 }
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class destinationClass, NSDictionary *mapping)
 {
     return HYDMapObject(destinationAccessor, [NSDictionary class], destinationClass, mapping);
 }
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(HYDAccessKey(destinationKey), sourceClass, destinationClass, mapping);
+    return HYDMapObject(HYDAccessKeyPath(destinationKey), sourceClass, destinationClass, mapping);
 }
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(HYDAccessKey(destinationKey), destinationClass, mapping);
+    return HYDMapObject(HYDAccessKeyPath(destinationKey), destinationClass, mapping);
 }

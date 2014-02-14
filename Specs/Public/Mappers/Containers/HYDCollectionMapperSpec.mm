@@ -40,7 +40,7 @@ describe(@"HYDCollectionMapper", ^{
     });
 
     it(@"should return the destination key of its child mapper", ^{
-        [mapper destinationAccessor] should equal(HYDAccessKey(@"key"));
+        [mapper destinationAccessor] should equal(HYDAccessDefault(@"key"));
     });
 
     describe(@"parsing an object", ^{

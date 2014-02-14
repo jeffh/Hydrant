@@ -78,6 +78,7 @@
         if ([self canReadKeyPath:keyPath fromSourceObject:sourceObject]) {
             [values addObject:[sourceObject valueForKeyPath:keyPath]];
         } else {
+            /* We should return an error, but for backwards compatibility...
             HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorGetViaAccessorFailed
                                                   sourceObject:sourceObject
                                                 sourceAccessor:self
@@ -85,6 +86,7 @@
                                            destinationAccessor:nil
                                                        isFatal:YES
                                               underlyingErrors:nil]);
+             */
             return nil;
         }
     }
@@ -129,7 +131,8 @@
 
 - (void)setValue:(id)value ofClass:(Class)destinationClass forKeyPath:(NSString *)keyPath onObject:(id)object
 {
-    if ([[NSNull null] isEqual:value] && ![self requiresNSNullForClass:destinationClass]) {
+    // for backwards compat: don't assign NSNull if it should be doing this...
+    if ([[NSNull null] isEqual:value] /* && ![self requiresNSNullForClass:destinationClass] */) {
         return;
     }
 

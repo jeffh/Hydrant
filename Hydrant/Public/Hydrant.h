@@ -5,6 +5,7 @@
 #import "HYDMutableCollection.h"
 
 // helpers
+#import "HYDDefaultAccessor.h"
 #import "HYDError.h"
 #import "HYDConstants.h"
 

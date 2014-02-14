@@ -51,8 +51,7 @@
 
 @end
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, NSString *valueTransformerName)
 {
     NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:valueTransformerName];
@@ -64,8 +63,7 @@ HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, 
     return HYDMapReverseValue(destinationKey, transformer);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
 {
     return [[HYDReversedValueTransformerMapper alloc] initWithDestinationAccessor:HYDAccessKey(destinationKey)

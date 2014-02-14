@@ -21,7 +21,7 @@ describe(@"HYDNotNullMapper", ^{
     });
 
     it(@"should return the child mapper's destination key", ^{
-        [mapper destinationAccessor] should equal(HYDAccessKey(@"destinationAccessor"));
+        [mapper destinationAccessor] should equal(HYDAccessDefault(@"destinationAccessor"));
     });
 
     describe(@"parsing an object", ^{
@@ -95,11 +95,11 @@ describe(@"HYDNotNullMapper", ^{
             childMapper.reverseMapperToReturn = reverseChildMapper;
             sourceObject = @"valid";
 
-            reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessKey(@"otherKey")];
+            reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessDefault(@"otherKey")];
         });
 
         it(@"should have received the other destination key", ^{
-            childMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessKey(@"otherKey"));
+            childMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessDefault(@"otherKey"));
         });
 
         context(@"with a good source object", ^{

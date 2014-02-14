@@ -9,13 +9,11 @@
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDValueTransformerMapper *HYDMapValue(NSString *destinationKey, NSString *valueTransformerName)
 HYD_REQUIRE_NON_NIL(1);
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDValueTransformerMapper *HYDMapValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
 HYD_REQUIRE_NON_NIL(1);

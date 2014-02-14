@@ -64,24 +64,21 @@
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostProcessingBlock block, HYDPostProcessingBlock reverseBlock)
 {
     return [[HYDPostProcessingMapper alloc] initWithMapper:mapper processBlock:block reverseProcessBlock:reverseBlock];
 }
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostProcessingBlock block)
 {
     return HYDMapWithPostProcessing(mapper, block, block);
 }
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDPostProcessingMapper *HYDMapWithPostProcessing(NSString *destinationKey, HYDPostProcessingBlock block)
 {
     return HYDMapWithPostProcessing(HYDMapIdentity(destinationKey), block);

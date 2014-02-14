@@ -23,8 +23,7 @@
  *  @see HYDMapObject
  *  @see HYDMapIdentity
  */
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNotNullMapper *HYDMapNotNull(NSString *destinationKey)
 HYD_REQUIRE_NON_NIL(1);
 
@@ -41,7 +40,6 @@ HYD_REQUIRE_NON_NIL(1);
  *  @see HYDMapObject
  *  @see HYDMapIdentity
  */
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNotNullMapper *HYDMapNotNull(id<HYDMapper> mapper)
 HYD_REQUIRE_NON_NIL(1);

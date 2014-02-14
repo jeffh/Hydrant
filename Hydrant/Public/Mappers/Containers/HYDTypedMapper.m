@@ -98,43 +98,37 @@
 
 @end
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapType(NSString *destinationKey, Class expectedInputAndOutputClass)
 {
     return HYDMapType(destinationKey, expectedInputAndOutputClass, expectedInputAndOutputClass);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapType(NSString *destinationKey, Class expectedInputClass, Class expectedOutputClass)
 {
     return HYDMapTypes(destinationKey, @[expectedInputClass], @[expectedOutputClass]);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapTypes(NSString *destinationKey, NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
 {
     return HYDMapTypes(HYDMapIdentity(destinationKey), expectedInputClasses, expectedOutputClasses);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputAndOutputClass)
 {
     return HYDMapType(mapperToWrap, expectedInputAndOutputClass, expectedInputAndOutputClass);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
 {
     return HYDMapTypes(mapperToWrap, @[expectedInputClass], @[expectedOutputClass]);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapTypes(id<HYDMapper> mapperToWrap, NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
 {
     return [[HYDTypedMapper alloc] initWithMapper:mapperToWrap

@@ -5,7 +5,9 @@ typedef id(^HYDConversionBlock)(id incomingValue, __autoreleasing HYDError **err
 
 @interface HYDBlockMapper : NSObject <HYDMapper>
 
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor convertBlock:(HYDConversionBlock)convertBlock reverseBlock:(HYDConversionBlock)reverseConvertBlock;
+- (id)initWithMapper:(id<HYDMapper>)mapper
+        convertBlock:(HYDConversionBlock)convertBlock
+        reverseBlock:(HYDConversionBlock)reverseConvertBlock;
 
 @end
 
@@ -21,8 +23,7 @@ typedef id(^HYDConversionBlock)(id incomingValue, __autoreleasing HYDError **err
  *  @param convertBlock the block the converts the incoming value or returns an error.
  *  @returns a mapper that can uses the block to map objects.
  */
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDBlockMapper *HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock)
 HYD_REQUIRE_NON_NIL(2);
 
@@ -41,7 +42,6 @@ HYD_REQUIRE_NON_NIL(2);
  *                             a reverse mapper.
  *  @returns a mapper that can uses the block to map objects.
  */
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDBlockMapper *HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
 HYD_REQUIRE_NON_NIL(2,3);

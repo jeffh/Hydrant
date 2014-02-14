@@ -330,6 +330,7 @@
 		1FA994B8183CA3B3001E9F2E /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = ../../DerivedData/Nimbus/Build/Products/Debug/Cedar.framework; sourceTree = "<group>"; };
 		1FB0F65F1883DCDD00120ABC /* HYDError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDError.h; sourceTree = "<group>"; };
 		1FB0F6601883DCDD00120ABC /* HYDError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDError.m; sourceTree = "<group>"; };
+		1FB8CCFC18ADE4220048D5D2 /* HYDDefaultAccessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDDefaultAccessor.h; sourceTree = "<group>"; };
 		1FD4F95F18A35DE500DA1AD3 /* HYDCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDCollection.m; sourceTree = "<group>"; };
 		1FD4F96718A36E9B00DA1AD3 /* HYDMappingOptionalArraysSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDMappingOptionalArraysSpec.mm; sourceTree = "<group>"; };
 		1FD4F96F18A3776600DA1AD3 /* HYDOptionalMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDOptionalMapper.h; sourceTree = "<group>"; };
@@ -671,6 +672,7 @@
 				1F88089418A60F3800CE4C3F /* HYDKeyAccessor.m */,
 				1F88089518A60F3800CE4C3F /* HYDKeyPathAccessor.h */,
 				1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */,
+				1FB8CCFC18ADE4220048D5D2 /* HYDDefaultAccessor.h */,
 			);
 			path = Accessors;
 			sourceTree = "<group>";

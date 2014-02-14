@@ -7,6 +7,7 @@
 #import "HYDFunctions.h"
 #import "HYDIdentityMapper.h"
 #import "HYDKeyAccessor.h"
+#import "HYDKeyValueMapper.h"
 
 
 @interface HYDCollectionMapper ()
@@ -115,8 +116,7 @@
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class sourceCollectionClass, Class destinationCollectionClass)
 {
     return [[HYDCollectionMapper alloc] initWithItemMapper:itemMapper
@@ -124,24 +124,21 @@ HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class sourceCo
                                 destinationCollectionClass:destinationCollectionClass];
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class collectionClass)
 {
     return HYDMapCollectionOf(itemMapper, collectionClass, collectionClass);
 }
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDCollectionMapper *HYDMapCollectionOf(NSString *destinationKey, Class sourceCollectionClass, Class destinationCollectionClass)
 {
     return HYDMapCollectionOf(HYDMapIdentity(destinationKey), sourceCollectionClass, destinationCollectionClass);
 }
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDCollectionMapper *HYDMapCollectionOf(NSString *destinationKey, Class collectionClass)
 {
     return HYDMapCollectionOf(HYDMapIdentity(destinationKey), collectionClass, collectionClass);
@@ -162,4 +159,16 @@ HYD_EXTERN
 HYDCollectionMapper *HYDMapArrayOf(id<HYDMapper> itemMapper)
 {
     return HYDMapCollectionOf(itemMapper, [NSArray class]);
+}
+
+HYD_EXTERN_OVERLOADED
+HYDCollectionMapper *HYDMapArrayOfObjects(NSString *destinationKey, Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
+{
+    return HYDMapArrayOf(HYDMapObject(destinationKey, sourceItemClass, destinationItemClass, mapping));
+}
+
+HYD_EXTERN_OVERLOADED
+HYDCollectionMapper *HYDMapArrayOfObjects(NSString *destinationKey, Class destinationItemClass, NSDictionary *mapping)
+{
+    return HYDMapArrayOf(HYDMapObject(destinationKey, destinationItemClass, mapping));
 }

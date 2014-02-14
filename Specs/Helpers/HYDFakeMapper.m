@@ -1,6 +1,7 @@
 #import "HYDFakeMapper.h"
 #import "HYDError.h"
 #import "HYDFunctions.h"
+#import "HYDDefaultAccessor.h"
 #import "HYDKeyAccessor.h"
 
 @implementation HYDFakeMapper {
@@ -16,7 +17,7 @@
 
 - (id)initWithDestinationKey:(NSString *)destinationKey
 {
-    return [self initWithDestinationAccessor:HYDAccessKey(destinationKey)];
+    return [self initWithDestinationAccessor:HYDAccessDefault(destinationKey)];
 }
 
 - (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor

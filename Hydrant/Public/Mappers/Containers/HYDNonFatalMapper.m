@@ -70,36 +70,31 @@
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatally(id<HYDMapper> mapper)
 {
     return HYDMapNonFatallyWithDefault(mapper, nil);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatally(NSString *destinationKey)
 {
     return HYDMapNonFatally(HYDMapIdentity(destinationKey));
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatallyWithDefault(id<HYDMapper> mapper, id defaultValue)
 {
     return HYDMapNonFatallyWithDefault(mapper, defaultValue, defaultValue);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatallyWithDefault(NSString *destinationKey, id defaultValue)
 {
     return HYDMapNonFatallyWithDefault(HYDMapIdentity(destinationKey), defaultValue);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatallyWithDefault(id<HYDMapper> mapper, id defaultValue, id reversedDefault)
 {
     return [[HYDNonFatalMapper alloc] initWithMapper:mapper
@@ -107,22 +102,19 @@ HYDNonFatalMapper *HYDMapNonFatallyWithDefault(id<HYDMapper> mapper, id defaultV
                                  reverseDefaultValue:^{ return reversedDefault; }];
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory)
 {
     return HYDMapNonFatallyWithDefaultFactory(mapper, defaultValueFactory, defaultValueFactory);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatallyWithDefaultFactory(NSString *destinationKey, HYDValueBlock defaultValueFactory)
 {
     return HYDMapNonFatallyWithDefaultFactory(HYDMapIdentity(destinationKey), defaultValueFactory);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory, HYDValueBlock reversedDefaultFactory)
 {
     return [[HYDNonFatalMapper alloc] initWithMapper:mapper

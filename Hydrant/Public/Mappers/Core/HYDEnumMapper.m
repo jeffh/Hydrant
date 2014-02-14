@@ -3,11 +3,12 @@
 #import "HYDFunctions.h"
 #import "HYDAccessor.h"
 #import "HYDKeyAccessor.h"
+#import "HYDIdentityMapper.h"
 
 
 @interface HYDEnumMapper ()
 
-@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
+@property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) NSDictionary *mapping;
 
 @end
@@ -21,11 +22,11 @@
     return nil;
 }
 
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor mapping:(NSDictionary *)mapping
+- (id)initWithMapper:(id<HYDMapper>)mapper mapping:(NSDictionary *)mapping
 {
     self = [super init];
     if (self) {
-        self.destinationAccessor = destinationAccessor;
+        self.innerMapper = mapper;
         self.mapping = mapping;
     }
     return self;
@@ -36,6 +37,15 @@
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
     HYDSetObjectPointer(error, nil);
+
+    HYDError *innerError = nil;
+    sourceObject = [self.innerMapper objectFromSourceObject:sourceObject error:&innerError];
+    HYDSetObjectPointer(error, innerError);
+
+    if ([innerError isFatal]) {
+        return nil;
+    }
+
     id result = self.mapping[sourceObject];
     if (!result) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
@@ -50,6 +60,11 @@
     return result;
 }
 
+- (id<HYDAccessor>)destinationAccessor
+{
+    return self.innerMapper.destinationAccessor;
+}
+
 - (instancetype)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
     NSMutableDictionary *reverseMapping = [[NSMutableDictionary alloc] initWithCapacity:self.mapping.count];
@@ -57,15 +72,22 @@
         id value = self.mapping[key];
         reverseMapping[value] = key;
     }
-    return [[HYDEnumMapper alloc] initWithDestinationAccessor:destinationAccessor mapping:reverseMapping];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    return [[HYDEnumMapper alloc] initWithMapper:reversedInnerMapper
+                                         mapping:reverseMapping];
 }
 
 @end
 
 
-HYD_EXTERN
+HYD_EXTERN_OVERLOADED
 HYDEnumMapper *HYDMapEnum(NSString *destinationKey, NSDictionary *mapping)
 {
-    return [[HYDEnumMapper alloc] initWithDestinationAccessor:HYDAccessKey(destinationKey)
-                                                      mapping:mapping];
+    return HYDMapEnum(HYDMapIdentity(HYDAccessKey(destinationKey)), mapping);
+}
+
+HYD_EXTERN_OVERLOADED
+HYDEnumMapper *HYDMapEnum(id<HYDMapper> mapper, NSDictionary *mapping)
+{
+    return [[HYDEnumMapper alloc] initWithMapper:mapper mapping:mapping];
 }

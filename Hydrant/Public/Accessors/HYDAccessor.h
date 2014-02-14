@@ -1,4 +1,4 @@
-#import <Foundation/Foundation.h>
+#import "HYDBase.h"
 
 @class HYDError;
 

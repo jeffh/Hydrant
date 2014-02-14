@@ -95,6 +95,7 @@
     NSUInteger index = 0;
     for (NSString *key in self.fieldNames) {
         id value = values[index];
+        // for backwards compat: don't assign NSNull if it should be doing this...
         if ([[NSNull null] isEqual:value] /* && ![self requiresNSNullForClass:destinationClasses[index]]*/) {
             value = nil;
         }

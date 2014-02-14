@@ -27,19 +27,17 @@ describe(@"HYDKeyValueMapper", ^{
         fakeAccessor.fieldNames = @[@"age"];
 
         expectedPerson = [[HYDPerson alloc] initWithFixtureData];
-        validSourceObject = @{@"first_name": @"John",
+        validSourceObject = @{@"identifier": @"transforms",
+                              @"first_name": @"John",
                               @"last_name": @"Doe",
-                              @"age": @23,
-                              @"identifier": @"transforms"};
+                              @"age": @23};
 
         childMapper1 = [[HYDFakeMapper alloc] initWithDestinationKey:@"identifier"];
         childMapper1.objectsToReturn = @[@5];
         childMapper2 = [[HYDFakeMapper alloc] initWithDestinationKey:@"firstName"];
         childMapper2.objectsToReturn = @[@"John"];
 
-        mapper = HYDMapObject(@"destinationAccessor",
-                              [NSDictionary class],
-                              [HYDPerson class],
+        mapper = HYDMapObject(@"destinationAccessor", [NSDictionary class], [HYDPerson class],
                               @{@"first_name" : childMapper2,
                                 @"last_name" : @"lastName",
                                 fakeAccessor : @"age",
@@ -47,7 +45,7 @@ describe(@"HYDKeyValueMapper", ^{
     });
 
     it(@"should return the same destination key it was provided", ^{
-        mapper.destinationAccessor should equal(HYDAccessKey(@"destinationAccessor"));
+        mapper.destinationAccessor should equal(HYDAccessDefault(@"destinationAccessor"));
     });
 
     describe(@"parsing the source object", ^{

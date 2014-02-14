@@ -1,5 +1,6 @@
 #import "Hydrant.h"
 #import "HYDFakeMapper.h"
+#import "HYDDefaultAccessor.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -19,16 +20,16 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
         childMappers = scope[@"childMappers"];
 
         error = nil;
-        reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessKey(@"otherKey")];
+        reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessDefault(@"otherKey")];
     });
 
     it(@"should have the given key as its new destination key", ^{
-        reverseMapper.destinationAccessor should equal(HYDAccessKey(@"otherKey"));
+        reverseMapper.destinationAccessor should equal(HYDAccessDefault(@"otherKey"));
     });
 
     it(@"should invert all its child mappers", ^{
         for (HYDFakeMapper *childMapper in childMappers) {
-            childMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessKey(@"otherKey"));
+            childMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessDefault(@"otherKey"));
         }
     });
 
@@ -63,7 +64,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
     __block HYDError *error;
 
     it(@"should report the same destination key", ^{
-        [mapper destinationAccessor] should equal(HYDAccessKey(destinationKey));
+        [mapper destinationAccessor] should equal(HYDAccessDefault(destinationKey));
     });
 
     describe(@"parsing the source object", ^{
@@ -92,7 +93,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
 
             it(@"should provide a fatal error", ^{
                 error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
-                error.userInfo[HYDDestinationAccessorKey] should equal(HYDAccessKey(destinationKey));
+                error.userInfo[HYDDestinationAccessorKey] should equal(HYDAccessDefault(destinationKey));
             });
 
             it(@"should return nil", ^{
@@ -111,7 +112,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
 
             it(@"should produce a fatal error", ^{
                 error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
-                error.userInfo[HYDDestinationAccessorKey] should equal(HYDAccessKey(destinationKey));
+                error.userInfo[HYDDestinationAccessorKey] should equal(HYDAccessDefault(destinationKey));
             });
         });
     });

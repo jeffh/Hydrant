@@ -61,16 +61,14 @@
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNotNullMapper *HYDMapNotNull(NSString *destinationKey)
 {
     return HYDMapNotNull(HYDMapIdentity(destinationKey));
 }
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDNotNullMapper *HYDMapNotNull(id<HYDMapper> mapper)
 {
     return [[HYDNotNullMapper alloc] initWithMapper:mapper];

@@ -16,14 +16,12 @@
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3,4);
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(id<HYDAccessor> destinationAccessor, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3);
 
@@ -44,8 +42,7 @@ HYD_REQUIRE_NON_NIL(2,3);
  *  @returns a mapper that maps properties from the source object to the destination object.
  *  @see HYDMapObjectPath for a similar mapper which uses key paths.
  */
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3,4);
 
@@ -64,7 +61,6 @@ HYD_REQUIRE_NON_NIL(2,3,4);
  *  @returns a mapper that maps properties from the source object to the destination object.
  *  @see HYDMapObjectPath for a similar mapper which uses key paths.
  */
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDKeyValueMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3);

@@ -27,7 +27,7 @@ describe(@"HYDFirstMapper", ^{
     });
 
     it(@"should return the first non-nil destination key as its destination key", ^{
-        [mapper destinationAccessor] should equal(HYDAccessKey(@"LOL"));
+        [mapper destinationAccessor] should equal(HYDAccessDefault(@"LOL"));
     });
 
     describe(@"parsing an object", ^{

@@ -2,10 +2,10 @@
 #import "HYDFunctions.h"
 #import "HYDError.h"
 #import "HYDAccessor.h"
-#import "HYDKeyAccessor.h"
+#import "HYDIdentityMapper.h"
 
 @interface HYDBlockMapper ()
-@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
+@property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) HYDConversionBlock convertBlock;
 @property (strong, nonatomic) HYDConversionBlock reverseConvertBlock;
 @end
@@ -18,13 +18,13 @@
     return nil;
 }
 
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor convertBlock:(HYDConversionBlock)convertBlock reverseBlock:(HYDConversionBlock)reverseConvertBlock
+- (id)initWithMapper:(id<HYDMapper>)mapper convertBlock:(HYDConversionBlock)convertBlock reverseBlock:(HYDConversionBlock)reverseConvertBlock
 {
     self = [super init];
     if (self) {
         self.convertBlock = convertBlock;
         self.reverseConvertBlock = reverseConvertBlock;
-        self.destinationAccessor = destinationAccessor;
+        self.innerMapper = mapper;
     }
     return self;
 }
@@ -48,28 +48,32 @@
     return result;
 }
 
+- (id<HYDAccessor>)destinationAccessor
+{
+    return self.innerMapper.destinationAccessor;
+}
+
 - (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[[self class] alloc] initWithDestinationAccessor:destinationAccessor
-                                                convertBlock:self.reverseConvertBlock
-                                                reverseBlock:self.convertBlock];
+    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    return [[[self class] alloc] initWithMapper:reverseInnerMapper
+                                   convertBlock:self.reverseConvertBlock
+                                   reverseBlock:self.convertBlock];
 }
 
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDBlockMapper *HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock)
 {
     return HYDMapWithBlock(destinationKey, convertBlock, convertBlock);
 }
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDBlockMapper *HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
 {
-    return [[HYDBlockMapper alloc] initWithDestinationAccessor:HYDAccessKey(destinationKey)
-                                                  convertBlock:convertBlock
-                                                  reverseBlock:reverseConvertBlock];
+    return [[HYDBlockMapper alloc] initWithMapper:HYDMapIdentity(destinationKey)
+                                     convertBlock:convertBlock
+                                     reverseBlock:reverseConvertBlock];
 }

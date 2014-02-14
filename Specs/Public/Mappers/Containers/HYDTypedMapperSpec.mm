@@ -26,7 +26,7 @@ describe(@"HYDTypedMapper", ^{
     });
 
     it(@"should pass through to the inner mapper for the destination key", ^{
-        mapper.destinationAccessor should equal(HYDAccessKey(@"mah-key"));
+        mapper.destinationAccessor should equal(HYDAccessDefault(@"mah-key"));
     });
 
     describe(@"parsing an object", ^{

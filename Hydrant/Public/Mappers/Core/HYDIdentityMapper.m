@@ -1,6 +1,7 @@
 #import "HYDIdentityMapper.h"
 #import "HYDError.h"
 #import "HYDAccessor.h"
+#import "HYDDefaultAccessor.h"
 #import "HYDKeyAccessor.h"
 
 
@@ -43,17 +44,27 @@
 @end
 
 
-HYD_EXTERN
-HYD_OVERLOADED
+HYD_EXTERN_OVERLOADED
 HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
+{
+    return HYDMapIdentity(HYDAccessDefault(destinationKey));
+}
+
+
+HYD_EXTERN_OVERLOADED
+HYDIdentityMapper *HYDMapIdentity(id<HYDAccessor> destinationAccessor)
+{
+    return [[HYDIdentityMapper alloc] initWithDestinationAccessor:destinationAccessor];
+}
+
+HYD_EXTERN_OVERLOADED
+HYDIdentityMapper *HYDMapKey(NSString *destinationKey)
 {
     return HYDMapIdentity(HYDAccessKey(destinationKey));
 }
 
-
-HYD_EXTERN
-HYD_OVERLOADED
-HYDIdentityMapper *HYDMapIdentity(id<HYDAccessor> destinationAccessor)
+HYD_EXTERN_OVERLOADED
+HYDIdentityMapper *HYDMapKeyPath(NSString *destinationKey)
 {
-    return [[HYDIdentityMapper alloc] initWithDestinationAccessor:destinationAccessor];
+    return HYDMapIdentity(HYDAccessKeyPath(destinationKey));
 }

@@ -18,7 +18,7 @@ describe(@"HYDStringToObjectFormatterMapper", ^{
     });
 
     it(@"should return the same destination key it was given", ^{
-        mapper.destinationAccessor should equal(HYDAccessKey(@"destinationAccessor"));
+        mapper.destinationAccessor should equal(HYDAccessDefault(@"destinationAccessor"));
     });
 
     describe(@"parsing an object", ^{
