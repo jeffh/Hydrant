@@ -18,7 +18,7 @@ describe(@"HYDValueTransformerMapper", ^{
         });
 
         it(@"should preserve the destination it was given", ^{
-            [mapper destinationAccessor] should equal(HYDAccessKey(@"destinationAccessor"));
+            [mapper destinationAccessor] should equal(HYDAccessDefault(@"destinationAccessor"));
         });
 
         describe(@"parsing an object", ^{

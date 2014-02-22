@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "HYDError.h"
+@class HYDError;
 
 class BeAnError : public Cedar::Matchers::Base<> {
 public:

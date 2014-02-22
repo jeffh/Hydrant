@@ -1,12 +1,12 @@
 #import "HYDReversedValueTransformerMapper.h"
 #import "HYDError.h"
 #import "HYDValueTransformerMapper.h"
-#import "HYDKeyAccessor.h"
+#import "HYDIdentityMapper.h"
 
 
 @interface HYDReversedValueTransformerMapper ()
 
-@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
+@property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) NSValueTransformer *valueTransformer;
 
 @end
@@ -20,7 +20,7 @@
     return nil;
 }
 
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor valueTransformer:(NSValueTransformer *)valueTransformer
+- (id)initWithMapper:(id<HYDMapper>)innerMapper valueTransformer:(NSValueTransformer *)valueTransformer
 {
     if (![[valueTransformer class] allowsReverseTransformation]) {
         [NSException raise:NSInvalidArgumentException
@@ -30,7 +30,7 @@
 
     self = [super init];
     if (self) {
-        self.destinationAccessor = destinationAccessor;
+        self.innerMapper = innerMapper;
         self.valueTransformer = valueTransformer;
     }
     return self;
@@ -45,8 +45,14 @@
 
 - (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return [[HYDValueTransformerMapper alloc] initWithDestinationAccessor:destinationAccessor
-                                                         valueTransformer:self.valueTransformer];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    return [[HYDValueTransformerMapper alloc] initWithMapper:reversedInnerMapper
+                                            valueTransformer:self.valueTransformer];
+}
+
+- (id<HYDAccessor>)destinationAccessor
+{
+    return [self.innerMapper destinationAccessor];
 }
 
 @end
@@ -66,6 +72,6 @@ HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, 
 HYD_EXTERN_OVERLOADED
 HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
 {
-    return [[HYDReversedValueTransformerMapper alloc] initWithDestinationAccessor:HYDAccessKey(destinationKey)
-                                                                 valueTransformer:valueTransformer];
+    return [[HYDReversedValueTransformerMapper alloc] initWithMapper:HYDMapIdentity(destinationKey)
+                                                    valueTransformer:valueTransformer];
 }
