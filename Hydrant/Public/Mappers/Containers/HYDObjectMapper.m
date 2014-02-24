@@ -155,9 +155,9 @@ HYD_EXTERN_OVERLOADED
 HYDObjectMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
     return [[HYDObjectMapper alloc] initWithMapper:mapper
-                                           fromClass:sourceClass
-                                             toClass:destinationClass
-                                             mapping:mapping];
+                                         fromClass:sourceClass
+                                           toClass:destinationClass
+                                           mapping:mapping];
 }
 
 
