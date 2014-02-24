@@ -155,6 +155,7 @@ HYDStringToObjectFormatterMapper *HYDMapStringToDate(id<HYDMapper> mapper, NSStr
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = formatString;
+    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
     return HYDMapStringToDate(mapper, dateFormatter);
 }
 

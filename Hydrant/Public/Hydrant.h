@@ -14,6 +14,9 @@
 #import "HYDURLFormatter.h"
 #import "HYDUUIDFormatter.h"
 
+// value transformers
+#import "HYDUnderscoreToLowerCamelCaseTransformer.h"
+
 // accessors
 #import "HYDKeyAccessor.h"
 #import "HYDKeyPathAccessor.h"

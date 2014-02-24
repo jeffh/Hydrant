@@ -9,16 +9,19 @@ SHARED_EXAMPLE_GROUPS_BEGIN(HYDSharedMapperExamplesSpec)
 
 sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDictionary *scope) {
     __block id<HYDMapper> mapper;
-    __block id<HYDMapper> reverseMapper;
     __block NSArray *childMappers;
     __block id sourceObject;
-    __block HYDError *error;
 
     beforeEach(^{
         mapper = scope[@"mapper"];
         sourceObject = scope[@"sourceObject"];
         childMappers = scope[@"childMappers"];
+    });
 
+    __block HYDError *error;
+    __block id<HYDMapper> reverseMapper;
+
+    beforeEach(^{
         error = nil;
         reverseMapper = [mapper reverseMapperWithDestinationAccessor:HYDAccessDefault(@"otherKey")];
     });
@@ -29,7 +32,7 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
 
     it(@"should invert all its child mappers", ^{
         for (HYDSFakeMapper *childMapper in childMappers) {
-            childMapper.reverseMapperDestinationAccessorReceived should equal(HYDAccessDefault(@"otherKey"));
+            childMapper.reverseMapperDestinationAccessorReceived should equal([childMapper.reverseMapperToReturn destinationAccessor]);
         }
     });
 

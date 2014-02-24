@@ -10,6 +10,10 @@
 #import "HYDObjectToStringFormatterMapper.h"
 #import "HYDStringToObjectFormatterMapper.h"
 #import "HYDConstants.h"
+#import "HYDAccessor.h"
+#import "HYDDefaultAccessor.h"
+#import "HYDFunctions.h"
+#import "HYDReversedReflectiveMapper.h"
 
 
 @interface HYDReflectiveMapper ()
@@ -36,7 +40,9 @@
     return nil;
 }
 
-- (id)initWithMapper:(id<HYDMapper>)innerMapper sourceClass:(Class)sourceClass destinationClass:(Class)destinationClass
+- (id)initWithMapper:(id<HYDMapper>)innerMapper
+         sourceClass:(Class)sourceClass
+    destinationClass:(Class)destinationClass
 {
     return [self initWithMapper:innerMapper
                     sourceClass:sourceClass
@@ -62,7 +68,8 @@
         self.destinationClass = destinationClass;
         self.optionalFields = optionalFields;
         self.excludedFields = excludedFields;
-        self.overriddenMapping = overriddenMapping;
+
+        self.overriddenMapping = HYDNormalizeKeyValueDictionary(overriddenMapping, ^id(NSString *key) { return HYDAccessDefault(key); });
         self.propertyNameToSourceKeyTransformer = keyTransformer;
     }
     return self;
@@ -92,7 +99,15 @@
 
 - (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
-    return nil;
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    
+    return [[HYDReversedReflectiveMapper alloc] initWithMapper:reversedInnerMapper
+                                                   sourceClass:self.destinationClass
+                                              destinationClass:self.sourceClass
+                                                optionalFields:self.optionalFields
+                                                excludedFields:self.excludedFields
+                                             overriddenMapping:HYDReversedKeyValueDictionary(self.overriddenMapping)
+                                                keyTransformer:self.propertyNameToSourceKeyTransformer];
 }
 
 #pragma mark - Public
@@ -136,13 +151,6 @@
     };
 }
 
-- (HYDReflectiveMapper *(^)(KeyTransformBlock))keyTransform
-{
-    return ^(KeyTransformBlock keyTransformBlock) {
-        return self.keyTransformer([[HYDBlockValueTransformer alloc] initWithBlock:keyTransformBlock]);
-    };
-}
-
 - (HYDReflectiveMapper *(^)(NSValueTransformer *propertyToSourceKeyTransformer))keyTransformer
 {
     return ^(NSValueTransformer *propertyToSourceKeyTransformer) {
@@ -167,6 +175,8 @@
     return _internalMapper;
 }
 
+#pragma mark - Protected
+
 - (NSDictionary *)buildMapping
 {
     NSSet *optionalFields = self.optionalFields;
@@ -174,20 +184,21 @@
 
     NSMutableDictionary *mapping = [NSMutableDictionary dictionary];
 
-    HYDClassInspector *destinationInspector = [HYDClassInspector inspectorForClass:self.destinationClass];
+    HYDClassInspector *inspector = [HYDClassInspector inspectorForClass:self.destinationClass];
 
-    for (HYDProperty *property in destinationInspector.allProperties) {
-        if ([excludedFields containsObject:property.name]) {
-            continue;
-        }
-
+    for (HYDProperty *property in inspector.allProperties) {
         NSString *sourceKey = [self.propertyNameToSourceKeyTransformer transformedValue:property.name];
-        if (!sourceKey) {
+        NSString *destinationKey = property.name;
+        if (!sourceKey || !destinationKey) {
             continue;
         }
 
-        id<HYDMapper> mapper = HYDMapNotNull([self mapperForProperty:property]);
-        if ([optionalFields containsObject:property.name]) {
+        if ([excludedFields containsObject:destinationKey]) {
+            continue;
+        }
+
+        id<HYDMapper> mapper = HYDMapNotNull([self mapperForProperty:property destinationKey:destinationKey]);
+        if ([optionalFields containsObject:destinationKey]) {
             mapper = HYDMapNonFatally(mapper);
         }
         mapping[sourceKey] = mapper;
@@ -197,9 +208,9 @@
     return mapping;
 }
 
-- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property
+- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property destinationKey:(NSString *)destinationKey
 {
-    id<HYDMapper> mapper = HYDMapIdentity(property.name);
+    id<HYDMapper> mapper = HYDMapIdentity(destinationKey);
     if ([property isObjCObjectType]) {
         Class propertyClass = [property classType];
         if ([propertyClass isSubclassOfClass:[NSDate class]]) {

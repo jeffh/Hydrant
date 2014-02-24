@@ -80,6 +80,17 @@ NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccess
 }
 
 HYD_EXTERN
+NSDictionary *HYDReversedKeyValueDictionary(NSDictionary *mapping)
+{
+    NSMutableDictionary *invertedMapping = [NSMutableDictionary dictionaryWithCapacity:mapping.count];
+    for (id<HYDAccessor> sourceAccessor in mapping) {
+        id<HYDMapper> mapper = mapping[sourceAccessor];
+        invertedMapping[mapper.destinationAccessor] = [mapper reverseMapperWithDestinationAccessor:sourceAccessor];
+    }
+    return invertedMapping;
+}
+
+HYD_EXTERN
 NSString *HYDPrefixSubsequentLines(NSString *prefix, NSString *raw)
 {
     NSArray *lines = [raw componentsSeparatedByString:@"\n"];

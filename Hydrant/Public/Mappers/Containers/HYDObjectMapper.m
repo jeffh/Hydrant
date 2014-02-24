@@ -137,26 +137,13 @@
     return [[[self class] alloc] initWithMapper:reversedInnerMapper
                                       fromClass:self.destinationClass
                                         toClass:self.sourceClass
-                                        mapping:[self inverseMapping]];
+                                        mapping:HYDReversedKeyValueDictionary(self.mapping)];
 
 }
 
 - (id<HYDAccessor>)destinationAccessor
 {
     return [self.innerMapper destinationAccessor];
-}
-
-#pragma mark - Private
-
-- (NSDictionary *)inverseMapping
-{
-    NSMutableDictionary *invertedMapping = [NSMutableDictionary dictionaryWithCapacity:self.mapping.count];
-    for (id<HYDAccessor> sourceAccessor in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[sourceAccessor];
-
-        invertedMapping[mapper.destinationAccessor] = [mapper reverseMapperWithDestinationAccessor:sourceAccessor];
-    }
-    return invertedMapping;
 }
 
 @end

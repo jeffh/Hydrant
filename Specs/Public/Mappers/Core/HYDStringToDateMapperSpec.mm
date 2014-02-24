@@ -18,7 +18,7 @@ describe(@"HYDStringToDateMapper", ^{
         referenceDateComponents.minute = 30;
         referenceDateComponents.second = 45;
         referenceDateComponents.calendar = [NSCalendar currentCalendar];
-        referenceDateComponents.timeZone = [NSTimeZone defaultTimeZone];
+        referenceDateComponents.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
         NSDate *date = [referenceDateComponents date];
         NSString *dateString = @"2012-02-01 at 14:30:45";
 

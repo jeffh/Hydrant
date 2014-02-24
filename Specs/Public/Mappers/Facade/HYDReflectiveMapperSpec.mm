@@ -3,6 +3,7 @@
 #import "HYDSPerson.h"
 #import "HYDSFakeAccesor.h"
 #import "HYDSFakeMapper.h"
+#import "HYDBlockValueTransformer.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -29,7 +30,7 @@ describe(@"HYDReflectiveMapper", ^{
                               @"first_name": @"John",
                               @"last_name": @"Doe",
                               @"age": @23,
-                              @"birth_date": @"1970-01-02T15:04:05Z",
+                              @"birth_date": @"1970-01-02T15:04:05+0000",
                               @"homepage": @"http://google.com",
                               @"siblings": @[], // never gets parsed since keyTransform doesn't specify it
                               @"parent": @{}};
@@ -46,13 +47,19 @@ describe(@"HYDReflectiveMapper", ^{
             .overriding(@{@"first_name": childMapper2,
                           fakeAccessor: @"age",
                           @"identifier": childMapper1})
-            .keyTransform(^(NSString *property){
+            .keyTransformer([[HYDBlockValueTransformer alloc] initWithBlock:^id(NSString *property) {
                 NSDictionary *mapping = @{@"lastName": @"last_name",
                                           @"homepage": @"homepage",
                                           @"birthDate": @"birth_date",
                                           @"parent": @"parent"};
                 return mapping[property];
-            });
+            } reversedBlock:^id(NSString *key) {
+                NSDictionary *mapping = @{@"lastName": @"last_name",
+                                          @"homepage": @"homepage",
+                                          @"birthDate": @"birth_date",
+                                          @"parent": @"parent"};
+                return mapping[key];
+            }]);
         });
     });
 
@@ -129,8 +136,27 @@ describe(@"HYDReflectiveMapper", ^{
             });
         });
     });
-
+    
     describe(@"reverse mapping", ^{
+        beforeEach(^{
+            HYDSFakeMapper *reverseChildMapper1 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"identifier"];
+            childMapper1.reverseMapperToReturn = reverseChildMapper1;
+            reverseChildMapper1.objectsToReturn = @[@"transforms"];
+
+            HYDSFakeMapper *reverseChildMapper2 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"first_name"];
+            childMapper2.reverseMapperToReturn = reverseChildMapper2;
+            reverseChildMapper2.objectsToReturn = @[@"John"];
+
+            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
+            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
+                NSMutableDictionary *sourceObject = [validSourceObject mutableCopy];
+                [sourceObject removeObjectsForKeys:@[@"parent", @"siblings"]];
+                sourceObject;
+            });
+        });
+        
+        itShouldBehaveLike(@"a mapper that does the inverse of the original");
     });
 });
 
