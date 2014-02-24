@@ -34,8 +34,9 @@
 #import "HYDValueTransformerMapper.h"
 #import "HYDReversedValueTransformerMapper.h"
 
-// mappers composed of other mappers
+// mappers composed of other mappers or "abstracts" boilerplate
 #import "HYDOptionalMapper.h"
+#import "HYDReflectiveMapper.h"
 
 // "Escape-Hatch" mappers - Avoid using these when possible.
 //
@@ -45,3 +46,4 @@
 // In exchange for more code to write, you have more flexibility.
 #import "HYDPostProcessingMapper.h"
 #import "HYDBlockMapper.h"
+

@@ -32,6 +32,11 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p: %@>", NSStringFromClass(self.class), self, self.destinationAccessor];
+}
+
 #pragma mark - Properties
 
 - (void)setObjectsToReturn:(NSArray *)objectsToReturn

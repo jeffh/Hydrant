@@ -4,6 +4,11 @@
 
 @implementation HYDSFakeAccesor
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p: [%@]>", NSStringFromClass(self.class), self, [self.fieldNames componentsJoinedByString:@", "]];
+}
+
 #pragma mark - <NSCopying>
 
 - (id)copyWithZone:(NSZone *)zone
