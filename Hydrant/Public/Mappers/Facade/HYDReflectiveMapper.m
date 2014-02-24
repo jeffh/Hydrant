@@ -25,7 +25,7 @@
 @property (copy, nonatomic) NSSet *optionalFields;
 @property (copy, nonatomic) NSSet *excludedFields;
 @property (copy, nonatomic) NSDictionary *overriddenMapping;
-@property (strong, nonatomic) NSValueTransformer *propertyNameToSourceKeyTransformer;
+@property (strong, nonatomic) NSValueTransformer *destinationToSourceKeyTransformer;
 
 @property (strong, nonatomic) id<HYDMapper> internalMapper;
 
@@ -70,7 +70,7 @@
         self.excludedFields = excludedFields;
 
         self.overriddenMapping = HYDNormalizeKeyValueDictionary(overriddenMapping, ^id(NSString *key) { return HYDAccessDefault(key); });
-        self.propertyNameToSourceKeyTransformer = keyTransformer;
+        self.destinationToSourceKeyTransformer = keyTransformer;
     }
     return self;
 }
@@ -107,7 +107,7 @@
                                                 optionalFields:self.optionalFields
                                                 excludedFields:self.excludedFields
                                              overriddenMapping:HYDReversedKeyValueDictionary(self.overriddenMapping)
-                                                keyTransformer:self.propertyNameToSourceKeyTransformer];
+                                                keyTransformer:self.destinationToSourceKeyTransformer];
 }
 
 #pragma mark - Public
@@ -187,7 +187,7 @@
     HYDClassInspector *inspector = [HYDClassInspector inspectorForClass:self.destinationClass];
 
     for (HYDProperty *property in inspector.allProperties) {
-        NSString *sourceKey = [self.propertyNameToSourceKeyTransformer transformedValue:property.name];
+        NSString *sourceKey = [self.destinationToSourceKeyTransformer transformedValue:property.name];
         NSString *destinationKey = property.name;
         if (!sourceKey || !destinationKey) {
             continue;

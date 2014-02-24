@@ -17,7 +17,7 @@
 @property (copy, nonatomic) NSSet *optionalFields;
 @property (copy, nonatomic) NSSet *excludedFields;
 @property (copy, nonatomic) NSDictionary *overriddenMapping;
-@property (strong, nonatomic) NSValueTransformer *propertyNameToSourceKeyTransformer;
+@property (strong, nonatomic) NSValueTransformer *destinationToSourceKeyTransformer;
 
 @property (strong, nonatomic) id<HYDMapper> internalMapper;
 
@@ -42,7 +42,7 @@
 
     for (HYDProperty *property in inspector.allProperties) {
         NSString *sourceKey = property.name;
-        NSString *destinationKey = [self.propertyNameToSourceKeyTransformer reverseTransformedValue:sourceKey];
+        NSString *destinationKey = [self.destinationToSourceKeyTransformer reverseTransformedValue:sourceKey];
         if (!sourceKey || !destinationKey) {
             continue;
         }
