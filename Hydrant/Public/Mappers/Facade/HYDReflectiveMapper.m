@@ -23,6 +23,8 @@
 @property (copy, nonatomic) NSDictionary *overriddenMapping;
 @property (strong, nonatomic) NSValueTransformer *propertyNameToSourceKeyTransformer;
 
+@property (strong, nonatomic) id<HYDMapper> internalMapper;
+
 @end
 
 
@@ -80,9 +82,7 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    id<HYDMapper> mapper = HYDMapObject(self.innerMapper, self.sourceClass, self.destinationClass, [self mappingFromSourceObject:sourceObject]);
-    mapper = HYDMapType(mapper, self.sourceClass, self.destinationClass);
-    return [mapper objectFromSourceObject:sourceObject error:error];
+    return [self.internalMapper objectFromSourceObject:sourceObject error:error];
 }
 
 - (id<HYDAccessor>)destinationAccessor
@@ -158,7 +158,16 @@
 
 #pragma mark - Private
 
-- (NSDictionary *)mappingFromSourceObject:(id)sourceObject
+- (id<HYDMapper>)internalMapper
+{
+    if (!_internalMapper) {
+        _internalMapper = HYDMapObject(self.innerMapper, self.sourceClass, self.destinationClass, [self buildMapping]);
+        _internalMapper = HYDMapType(_internalMapper, self.sourceClass, self.destinationClass);
+    }
+    return _internalMapper;
+}
+
+- (NSDictionary *)buildMapping
 {
     NSSet *optionalFields = self.optionalFields;
     NSSet *excludedFields = self.excludedFields;
