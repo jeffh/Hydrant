@@ -131,7 +131,7 @@
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
                                      excludedFields:self.excludedFields
-                                  overriddenMapping:[overriddenMapping copy]
+                                  overriddenMapping:overriddenMapping
                                      keyTransformer:self.keyTransformer];
     };
 }
