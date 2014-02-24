@@ -2,6 +2,7 @@
 #import "HYDError.h"
 #import "HYDIdentityMapper.h"
 #import "HYDFunctions.h"
+#import "HYDAnyClassSentinel.h"
 
 
 @interface HYDTypedMapper ()
@@ -26,8 +27,8 @@
     self = [super init];
     if (self) {
         self.wrappedMapper = mapper;
-        self.allowedInputClasses = inputClasses;
-        self.allowedOutputClasses = outputClasses;
+        self.allowedInputClasses = (inputClasses.count ? inputClasses : @[[HYDAnyClassSentinel class]]);
+        self.allowedOutputClasses = (outputClasses.count ? outputClasses : @[[HYDAnyClassSentinel class]]);
     }
     return self;
 }
@@ -99,7 +100,7 @@
     }
     Class targetClass = [object class];
     for (Class aClass in classes) {
-        if ([targetClass isSubclassOfClass:aClass]) {
+        if (aClass == [HYDAnyClassSentinel class] || [targetClass isSubclassOfClass:aClass]) {
             return YES;
         }
     }
@@ -117,7 +118,7 @@ HYDTypedMapper *HYDMapType(NSString *destinationKey, Class expectedInputAndOutpu
 HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapType(NSString *destinationKey, Class expectedInputClass, Class expectedOutputClass)
 {
-    return HYDMapTypes(destinationKey, @[expectedInputClass], @[expectedOutputClass]);
+    return HYDMapTypes(destinationKey, [NSArray arrayWithObject:expectedInputClass], [NSArray arrayWithObject:expectedOutputClass]);
 }
 
 HYD_EXTERN_OVERLOADED
@@ -135,7 +136,7 @@ HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputAndOut
 HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
 {
-    return HYDMapTypes(mapperToWrap, @[expectedInputClass], @[expectedOutputClass]);
+    return HYDMapTypes(mapperToWrap, [NSArray arrayWithObject:expectedInputClass], [NSArray arrayWithObject:expectedOutputClass]);
 }
 
 HYD_EXTERN_OVERLOADED

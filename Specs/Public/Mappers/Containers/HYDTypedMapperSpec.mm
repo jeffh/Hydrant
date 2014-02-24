@@ -34,6 +34,22 @@ describe(@"HYDTypedMapper", ^{
             parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
         });
 
+        context(@"when the expected class is nil", ^{
+            beforeEach(^{
+                sourceObject = [NSString string];
+                innerMapper.objectsToReturn = @[@[@1]];
+                mapper = HYDMapTypes(innerMapper, nil, nil);
+            });
+
+            it(@"should not error", ^{
+                error should be_nil;
+            });
+
+            it(@"should return the inner mapper's value", ^{
+                parsedObject should equal(@[@1]);
+            });
+        });
+
         context(@"when the type is a subclass", ^{
             beforeEach(^{
                 sourceObject = [NSMutableArray array];
