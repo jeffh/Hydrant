@@ -106,7 +106,7 @@ describe(@"HYDTypedMapper", ^{
             });
         });
 
-        context(@"when the object is causes an error to the inner mapper", ^{
+        context(@"when the object causes a fatal error to the inner mapper", ^{
             __block NSError *innerMapperError;
             beforeEach(^{
                 innerMapperError = [HYDError fatalError];
@@ -119,6 +119,23 @@ describe(@"HYDTypedMapper", ^{
 
             it(@"should return nil", ^{
                 parsedObject should be_nil;
+            });
+        });
+
+        context(@"when the object causes a non-fatal error to the inner mapper with the correct return type", ^{
+            __block NSError *innerMapperError;
+            beforeEach(^{
+                innerMapperError = [HYDError nonFatalError];
+                innerMapper.objectsToReturn = @[@[@1]];
+                innerMapper.errorsToReturn = @[innerMapperError];
+            });
+
+            it(@"should bubble up the error", ^{
+                error should be_same_instance_as(innerMapperError);
+            });
+
+            it(@"should return the inner mapper's object", ^{
+                parsedObject should equal(@[@1]);
             });
         });
     });
