@@ -22,12 +22,13 @@
         (self.parent == (HYDSPerson *)[object parent] || [self.parent isEqual:[object parent]]) &&
         (self.siblings == (NSArray *)[object siblings] || [self.siblings isEqual:[object siblings]]) &&
         (self.birthDate == [object birthDate] || [self.birthDate isEqual:[object birthDate]]) &&
-        (self.gender == [object gender]);
+        (self.gender == [object gender]) &&
+        (self.homepage == self.homepage || [self.homepage isEqual:[object homepage]]);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%lu>",
+    return [NSString stringWithFormat:@"<%@: %p firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%lu homepage=%@>",
             NSStringFromClass([self class]),
             self,
             self.firstName,
@@ -36,7 +37,8 @@
             self.parent,
             self.siblings,
             self.birthDate,
-            (unsigned long)self.gender];
+            (unsigned long)self.gender,
+            self.homepage];
 }
 
 @end
