@@ -39,6 +39,17 @@
     return self;
 }
 
+#pragma mark - <NSObject>
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %@ -> %@ with %@>",
+            NSStringFromClass(self.class),
+            self.sourceClass,
+            self.destinationClass,
+            self.mapping];
+}
+
 #pragma mark - <HYDMapper>
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error

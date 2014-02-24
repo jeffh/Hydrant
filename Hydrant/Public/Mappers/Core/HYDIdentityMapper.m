@@ -31,7 +31,9 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p: %@>", NSStringFromClass(self.class), self, [self.destinationAccessor description] ?: @"HYDRootMapper"];
+    return [NSString stringWithFormat:@"<%@: %@>",
+            NSStringFromClass(self.class),
+            [self.destinationAccessor description] ?: @"HYDRootMapper"];
 }
 
 #pragma mark - <HYDMapper>

@@ -32,20 +32,13 @@
     return self;
 }
 
-#pragma mark - Private
+#pragma mark - <NSObject>
 
-- (BOOL)isObject:(id)object aSubclassOfAnyClasses:(NSArray *)classes
+- (NSString *)description
 {
-    if (!object) {
-        return YES;
-    }
-    Class targetClass = [object class];
-    for (Class aClass in classes) {
-        if ([targetClass isSubclassOfClass:aClass]) {
-            return YES;
-        }
-    }
-    return NO;
+    return [NSString stringWithFormat:@"<%@: %@>",
+            NSStringFromClass(self.class),
+            self.wrappedMapper];
 }
 
 #pragma mark - <HYDMapper>
@@ -95,6 +88,22 @@
     return [[HYDTypedMapper alloc] initWithMapper:[self.wrappedMapper reverseMapperWithDestinationAccessor:destinationAccessor]
                                      inputClasses:self.allowedOutputClasses
                                     outputClasses:self.allowedInputClasses];
+}
+
+#pragma mark - Private
+
+- (BOOL)isObject:(id)object aSubclassOfAnyClasses:(NSArray *)classes
+{
+    if (!object) {
+        return YES;
+    }
+    Class targetClass = [object class];
+    for (Class aClass in classes) {
+        if ([targetClass isSubclassOfClass:aClass]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

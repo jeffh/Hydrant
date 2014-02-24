@@ -33,6 +33,15 @@
     return self;
 }
 
+#pragma mark - <NSObject>
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %@>",
+            NSStringFromClass(self.class),
+            self.wrappedMapper];
+}
+
 #pragma mark - <HYDMapper>
 
 - (id<HYDAccessor>)destinationAccessor

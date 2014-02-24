@@ -21,6 +21,15 @@
     return self;
 }
 
+#pragma mark - <NSObject>
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: [%@]",
+            NSStringFromClass(self.class),
+            [[self.mappers valueForKey:@"description"] componentsSeparatedByString:@", "]];
+}
+
 #pragma mark - <HYDMapper>
 
 - (id<HYDAccessor>)destinationAccessor
