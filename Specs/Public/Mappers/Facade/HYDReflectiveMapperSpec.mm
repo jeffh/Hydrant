@@ -42,6 +42,7 @@ describe(@"HYDReflectiveMapper", ^{
 
         mapper = ({
             HYDMapReflectively(@"someKey", [HYDSPerson class])
+            .mapClass([NSDate class], HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339))
             .optional(@[@"birthDate", @"homepage", @"siblings"])
             .excluding(@[@"parent"])
             .overriding(@{@"first_name": childMapper2,

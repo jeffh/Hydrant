@@ -15,7 +15,7 @@ typedef void(^HYDPostProcessingBlock)(id sourceObject, id resultingObject, __aut
 /*! Constructs a HYDPostProcessingMapper that accepts two blocks to post-mutate the resulting object given the source object.
  *  The second block is used for reverse mapping.
  *
- *  @warning Use this mapper as a last resort, as they do not provide little error handling
+ *  @warning Use this mapper as a last resort, as they do not provide error handling
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *
@@ -31,7 +31,7 @@ HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostP
 /*! Constructs a HYDPostProcessingMapper that accepts a block to post-mutate the resulting object given the source object.
  *  It's worth noting that the given block is also used for reverse mapping.
  *
- *  @warning Use this mapper as a last resort, as they do not provide little error handling
+ *  @warning Use this mapper as a last resort, as they do not provide error handling
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *
@@ -46,7 +46,7 @@ HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostP
 /*! Constructs a HYDPostProcessingMapper that accepts a block to post-mutate the resulting object given the source object.
  *  It's worth noting that the given block is also used for reverse mapping.
  *
- *  @warning Use this mapper as a last resort, as they do not provide little error handling
+ *  @warning Use this mapper as a last resort, as they do not provide error handling
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *

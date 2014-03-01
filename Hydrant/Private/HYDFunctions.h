@@ -3,6 +3,7 @@
 
 @class HYDError;
 @protocol HYDAccessor;
+@protocol HYDMapper;
 
 
 #define HYDLocalizedStringFormat(FMT, ...) ([NSString localizedStringWithFormat:FMT, ## __VA_ARGS__])
@@ -37,3 +38,7 @@ NSString *HYDPrefixSubsequentLines(NSString *prefix, NSString *raw);
 
 HYD_EXTERN
 NSString *HYDStringifyAccessor(id<HYDAccessor> accessor);
+
+
+HYD_EXTERN
+id<HYDMapper> HYDMapperWithAccessor(id<HYDMapper> mapper, id<HYDAccessor> accessor);

@@ -14,7 +14,7 @@ typedef id(^HYDConversionBlock)(id incomingValue, __autoreleasing HYDError **err
 /*! Constructs a HYDBlockMapper that accepts a block to convert a given value to-and-from.
  *  It's worth noting that the given block is also used for reverse mapping.
  *
- *  @warning Use this mapper as a last resort, as they do not provide little error handling
+ *  @warning Use this mapper as a last resort, as they do not provide error handling
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *
@@ -31,7 +31,7 @@ HYD_REQUIRE_NON_NIL(2);
 /*! Constructs a HYDBlockMapper that accepts two blocks to convert a given value to-and-from.
  *  The second block is used for reverse mapping.
  *
- *  @warning Use this mapper as a last resort, as they do not provide little error handling
+ *  @warning Use this mapper as a last resort, as they do not provide error handling
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *

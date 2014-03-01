@@ -111,3 +111,10 @@ NSString *HYDStringifyAccessor(id<HYDAccessor> accessor)
         return [NSString stringWithFormat:@"[%@]", [fieldNames componentsJoinedByString:@", "]];
     }
 }
+
+HYD_EXTERN
+id<HYDMapper> HYDMapperWithAccessor(id<HYDMapper> mapper, id<HYDAccessor> accessor)
+{
+    return [[mapper reverseMapperWithDestinationAccessor:accessor] reverseMapperWithDestinationAccessor:accessor];
+}
+

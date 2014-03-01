@@ -1,13 +1,11 @@
 #import "HYDReflectiveMapper.h"
 #import "HYDIdentityMapper.h"
 #import "HYDIdentityValueTransformer.h"
-#import "HYDBlockValueTransformer.h"
 #import "HYDObjectMapper.h"
 #import "HYDClassInspector.h"
 #import "HYDProperty.h"
 #import "HYDOptionalMapper.h"
 #import "HYDTypedMapper.h"
-#import "HYDObjectToStringFormatterMapper.h"
 #import "HYDStringToObjectFormatterMapper.h"
 #import "HYDConstants.h"
 #import "HYDAccessor.h"
@@ -15,21 +13,7 @@
 #import "HYDFunctions.h"
 #import "HYDReversedReflectiveMapper.h"
 
-
-@interface HYDReflectiveMapper ()
-
-@property (strong, nonatomic) id<HYDMapper> innerMapper;
-@property (strong, nonatomic) Class sourceClass;
-@property (strong, nonatomic) Class destinationClass;
-
-@property (copy, nonatomic) NSSet *optionalFields;
-@property (copy, nonatomic) NSSet *excludedFields;
-@property (copy, nonatomic) NSDictionary *overriddenMapping;
-@property (strong, nonatomic) NSValueTransformer *destinationToSourceKeyTransformer;
-
-@property (strong, nonatomic) id<HYDMapper> internalMapper;
-
-@end
+#import "HYDReflectiveMapper+Protected.h"
 
 
 @implementation HYDReflectiveMapper
@@ -50,6 +34,7 @@
                  optionalFields:[NSSet set]
                  excludedFields:[NSSet set]
               overriddenMapping:@{}
+                    typeMapping:@{NSStringFromClass([NSURL class]) : HYDMapStringToURL(HYDRootMapper)}
                  keyTransformer:[HYDIdentityValueTransformer new]];
 }
 
@@ -59,6 +44,7 @@
       optionalFields:(NSSet *)optionalFields
       excludedFields:(NSSet *)excludedFields
    overriddenMapping:(NSDictionary *)overriddenMapping
+         typeMapping:(NSDictionary *)typeMapping
       keyTransformer:(NSValueTransformer *)keyTransformer
 {
     self = [super init];
@@ -68,8 +54,11 @@
         self.destinationClass = destinationClass;
         self.optionalFields = optionalFields;
         self.excludedFields = excludedFields;
+        self.typeMapping = typeMapping;
 
-        self.overriddenMapping = HYDNormalizeKeyValueDictionary(overriddenMapping, ^id(NSString *key) { return HYDAccessDefault(key); });
+        self.overriddenMapping = HYDNormalizeKeyValueDictionary(overriddenMapping, ^id(NSString *key) {
+            return HYDAccessDefault(key);
+        });
         self.destinationToSourceKeyTransformer = keyTransformer;
     }
     return self;
@@ -107,10 +96,27 @@
                                                 optionalFields:self.optionalFields
                                                 excludedFields:self.excludedFields
                                              overriddenMapping:HYDReversedKeyValueDictionary(self.overriddenMapping)
+                                                   typeMapping:self.typeMapping
                                                 keyTransformer:self.destinationToSourceKeyTransformer];
 }
 
 #pragma mark - Public
+
+- (HYDReflectiveMapper *(^)(Class destinationClass, id<HYDMapper> mapper))mapClass
+{
+    return ^(Class destinationClass, id<HYDMapper> mapper) {
+        NSMutableDictionary *newClassMapping = [self.typeMapping mutableCopy];
+        newClassMapping[NSStringFromClass(destinationClass)] = mapper;
+        return [[[self class] alloc] initWithMapper:self.innerMapper
+                                        sourceClass:self.sourceClass
+                                   destinationClass:self.destinationClass
+                                     optionalFields:self.optionalFields
+                                     excludedFields:self.excludedFields
+                                  overriddenMapping:self.overriddenMapping
+                                        typeMapping:newClassMapping
+                                     keyTransformer:self.keyTransformer];
+    };
+}
 
 - (HYDReflectiveMapper *(^)(NSArray *))optional
 {
@@ -121,6 +127,7 @@
                                      optionalFields:[NSSet setWithArray:optionalFields]
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
+                                        typeMapping:self.typeMapping
                                      keyTransformer:self.keyTransformer];
     };
 }
@@ -134,6 +141,7 @@
                                      optionalFields:self.optionalFields
                                      excludedFields:[NSSet setWithArray:excludedFields]
                                   overriddenMapping:self.overriddenMapping
+                                        typeMapping:self.typeMapping
                                      keyTransformer:self.keyTransformer];
     };
 }
@@ -147,6 +155,7 @@
                                      optionalFields:self.optionalFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:overriddenMapping
+                                        typeMapping:self.typeMapping
                                      keyTransformer:self.keyTransformer];
     };
 }
@@ -160,6 +169,7 @@
                                      optionalFields:self.optionalFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
+                                        typeMapping:self.typeMapping
                                      keyTransformer:propertyToSourceKeyTransformer];
     };
 }
@@ -169,8 +179,8 @@
 - (id<HYDMapper>)internalMapper
 {
     if (!_internalMapper) {
-        _internalMapper = HYDMapObject(self.innerMapper, self.sourceClass, self.destinationClass, [self buildMapping]);
-        _internalMapper = HYDMapType(_internalMapper, self.sourceClass, self.destinationClass);
+        _internalMapper = HYDMapType(HYDMapObject(self.innerMapper, self.sourceClass, self.destinationClass, [self buildMapping]),
+                                     self.sourceClass, self.destinationClass);
     }
     return _internalMapper;
 }
@@ -179,11 +189,7 @@
 
 - (NSDictionary *)buildMapping
 {
-    NSSet *optionalFields = self.optionalFields;
-    NSSet *excludedFields = self.excludedFields;
-
     NSMutableDictionary *mapping = [NSMutableDictionary dictionary];
-
     HYDClassInspector *inspector = [HYDClassInspector inspectorForClass:self.destinationClass];
 
     for (HYDProperty *property in inspector.allProperties) {
@@ -193,12 +199,12 @@
             continue;
         }
 
-        if ([excludedFields containsObject:destinationKey]) {
+        if ([self.excludedFields containsObject:destinationKey]) {
             continue;
         }
 
         id<HYDMapper> mapper = HYDMapNotNull([self mapperForProperty:property destinationKey:destinationKey]);
-        if ([optionalFields containsObject:destinationKey]) {
+        if ([self.optionalFields containsObject:destinationKey]) {
             mapper = HYDMapNonFatally(mapper);
         }
         mapping[sourceKey] = mapper;
@@ -211,12 +217,17 @@
 - (id<HYDMapper>)mapperForProperty:(HYDProperty *)property destinationKey:(NSString *)destinationKey
 {
     id<HYDMapper> mapper = HYDMapIdentity(destinationKey);
+
     if ([property isObjCObjectType]) {
         Class propertyClass = [property classType];
-        if ([propertyClass isSubclassOfClass:[NSDate class]]) {
-            mapper = HYDMapStringToDate(mapper, HYDDateFormatRFC3339);
+        id<HYDMapper> classMapper = self.typeMapping[NSStringFromClass(propertyClass)]; // TODO: repeat for super classes
+        if (classMapper) {
+            mapper = HYDMapperWithAccessor(classMapper, HYDAccessDefault(destinationKey));
         }
+
+        mapper = HYDMapType(mapper, nil, propertyClass);
     }
+
     return mapper;
 }
 

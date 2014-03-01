@@ -118,7 +118,7 @@ HYDTypedMapper *HYDMapType(NSString *destinationKey, Class expectedInputAndOutpu
 HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapType(NSString *destinationKey, Class expectedInputClass, Class expectedOutputClass)
 {
-    return HYDMapTypes(destinationKey, [NSArray arrayWithObject:expectedInputClass], [NSArray arrayWithObject:expectedOutputClass]);
+    return HYDMapTypes(destinationKey, [NSArray arrayWithObjects:expectedInputClass, nil], [NSArray arrayWithObjects:expectedOutputClass, nil]);
 }
 
 HYD_EXTERN_OVERLOADED
@@ -136,7 +136,7 @@ HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputAndOut
 HYD_EXTERN_OVERLOADED
 HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
 {
-    return HYDMapTypes(mapperToWrap, [NSArray arrayWithObject:expectedInputClass], [NSArray arrayWithObject:expectedOutputClass]);
+    return HYDMapTypes(mapperToWrap, [NSArray arrayWithObjects:expectedInputClass, nil], [NSArray arrayWithObjects:expectedOutputClass, nil]);
 }
 
 HYD_EXTERN_OVERLOADED

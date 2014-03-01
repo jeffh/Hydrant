@@ -8,7 +8,7 @@
  *  own collections.
  *
  *  Reading collections simply requires <HYDMutableCollection> protocol,
- *  where as writing requires this protocol.
+ *  where as writing requires this protocol's methods.
  */
 @protocol HYDMutableCollection <NSObject>
 

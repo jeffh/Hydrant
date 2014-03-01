@@ -1,30 +1,9 @@
 #import "HYDReversedReflectiveMapper.h"
 #import "HYDClassInspector.h"
 #import "HYDProperty.h"
-#import "HYDMapper.h"
-#import "HYDIdentityMapper.h"
 #import "HYDOptionalMapper.h"
-#import "HYDObjectToStringFormatterMapper.h"
-#import "HYDConstants.h"
-
-
-@interface HYDReflectiveMapper (Protected)
-
-@property (strong, nonatomic) id<HYDMapper> innerMapper;
-@property (strong, nonatomic) Class sourceClass;
-@property (strong, nonatomic) Class destinationClass;
-
-@property (copy, nonatomic) NSSet *optionalFields;
-@property (copy, nonatomic) NSSet *excludedFields;
-@property (copy, nonatomic) NSDictionary *overriddenMapping;
-@property (strong, nonatomic) NSValueTransformer *destinationToSourceKeyTransformer;
-
-@property (strong, nonatomic) id<HYDMapper> internalMapper;
-
-- (NSDictionary *)buildMapping;
-- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property;
-
-@end
+#import "HYDDefaultAccessor.h"
+#import "HYDReflectiveMapper+Protected.h"
 
 
 @implementation HYDReversedReflectiveMapper
@@ -64,14 +43,8 @@
 
 - (id<HYDMapper>)mapperForProperty:(HYDProperty *)property destinationKey:(NSString *)destinationKey
 {
-    id<HYDMapper> mapper = HYDMapIdentity(destinationKey);
-    if ([property isObjCObjectType]) {
-        Class propertyClass = [property classType];
-        if ([propertyClass isSubclassOfClass:[NSDate class]]) {
-            mapper = HYDMapDateToString(mapper, HYDDateFormatRFC3339);
-        }
-    }
-    return mapper;
+    id<HYDMapper> mapper = [super mapperForProperty:property destinationKey:destinationKey];
+    return [mapper reverseMapperWithDestinationAccessor:HYDAccessDefault(destinationKey)];
 }
 
 @end

@@ -10,7 +10,7 @@
  *  Eventually, Hydrant-provided mappers should expose a way to
  *  set their factories. When that happens, this should be public.
  */
-@protocol HYDFactory<NSObject>
+@protocol HYDFactory <NSObject>
 
 - (id)newObjectOfClass:(Class)aClass;
 

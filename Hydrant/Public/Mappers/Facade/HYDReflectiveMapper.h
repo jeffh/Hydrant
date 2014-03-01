@@ -9,10 +9,11 @@ typedef NSString *(^KeyTransformBlock)(NSString *propertyName);
          sourceClass:(Class)sourceClass
     destinationClass:(Class)destinationClass;
 
-@property (strong, nonatomic, readonly) HYDReflectiveMapper *(^optional)(NSArray *propertyNames);
-@property (strong, nonatomic, readonly) HYDReflectiveMapper *(^excluding)(NSArray *propertyNames);
-@property (strong, nonatomic, readonly) HYDReflectiveMapper *(^overriding)(NSDictionary *mappingOverrides);
-@property (strong, nonatomic, readonly) HYDReflectiveMapper *(^keyTransformer)(NSValueTransformer *keyTransformer);
+@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^mapClass)(Class destinationClass, id<HYDMapper> mapper);
+@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^optional)(NSArray *propertyNames);
+@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^excluding)(NSArray *propertyNames);
+@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^overriding)(NSDictionary *mappingOverrides);
+@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^keyTransformer)(NSValueTransformer *keyTransformer);
 
 @end
 
