@@ -25,19 +25,22 @@
     return self;
 }
 
-+ (BOOL)allowsReverseTransformation
-{
-    return YES;
-}
-
 - (id)transformedValue:(id)value
 {
-    return self.blockTransformer(value);
+    if (self.blockTransformer) {
+        return self.blockTransformer(value);
+    } else {
+        return nil;
+    }
 }
 
 - (id)reverseTransformedValue:(id)value
 {
-    return self.reversedBlockTransformer(value);
+    if (self.reversedBlockTransformer) {
+        return self.reversedBlockTransformer(value);
+    } else {
+        return nil;
+    }
 }
 
 @end

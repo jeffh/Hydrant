@@ -2,11 +2,6 @@
 
 @implementation HYDIdentityValueTransformer
 
-+ (BOOL)allowsReverseTransformation
-{
-    return YES;
-}
-
 - (id)transformedValue:(id)value
 {
     return value;

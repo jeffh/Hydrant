@@ -16,12 +16,13 @@
 
 // value transformers
 #import "HYDUnderscoreToLowerCamelCaseTransformer.h"
+#import "HYDIdentityValueTransformer.h"
 
 // accessors
 #import "HYDKeyAccessor.h"
 #import "HYDKeyPathAccessor.h"
 
-// container mappers
+// container mappers - mappers that require other child mappers to operate
 #import "HYDCollectionMapper.h"
 #import "HYDTypedMapper.h"
 #import "HYDObjectMapper.h"
@@ -29,7 +30,7 @@
 #import "HYDNotNullMapper.h"
 #import "HYDFirstMapper.h"
 
-// standalone mappers
+// standalone mappers - mappers that don't have to rely on another mapper to function
 #import "HYDStringToObjectFormatterMapper.h"
 #import "HYDObjectToStringFormatterMapper.h"
 #import "HYDEnumMapper.h"
@@ -39,6 +40,8 @@
 
 // mappers composed of other mappers or "abstracts" boilerplate
 #import "HYDOptionalMapper.h"
+
+// facade mappers - mappers that provide easy interfaces to the simple ones above
 #import "HYDReflectiveMapper.h"
 
 // "Escape-Hatch" mappers - Avoid using these when possible.

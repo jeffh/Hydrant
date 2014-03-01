@@ -2,11 +2,6 @@
 
 @implementation HYDUnderscoreToLowerCamelCaseTransformer
 
-+ (BOOL)allowsReverseTransformation
-{
-    return YES;
-}
-
 - (id)transformedValue:(id)value
 {
     if (![value isKindOfClass:[NSString class]]) {
