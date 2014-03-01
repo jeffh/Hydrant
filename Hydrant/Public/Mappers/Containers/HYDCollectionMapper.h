@@ -31,7 +31,7 @@ destinationCollectionClass:(Class)destinationCollectionClass;
  *  @returns A HYDCollectionMapper that can do the conversion.
  */
 HYD_EXTERN_OVERLOADED
-HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class sourceCollectionClass, Class destinationCollectionClass)
+id<HYDMapper> HYDMapCollectionOf(id<HYDMapper> itemMapper, Class sourceCollectionClass, Class destinationCollectionClass)
 HYD_REQUIRE_NON_NIL(1,2,3);
 
 
@@ -44,7 +44,7 @@ HYD_REQUIRE_NON_NIL(1,2,3);
  *  @returns A HYDCollectionMapper that can do the conversion.
  */
 HYD_EXTERN_OVERLOADED
-HYDCollectionMapper *HYDMapCollectionOf(NSString *destinationKey, Class collectionClass)
+id<HYDMapper> HYDMapCollectionOf(NSString *destinationKey, Class collectionClass)
 HYD_REQUIRE_NON_NIL(1,2);
 
 
@@ -57,7 +57,7 @@ HYD_REQUIRE_NON_NIL(1,2);
  *  @returns A HYDCollectionMapper that can do the conversion.
  */
 HYD_EXTERN_OVERLOADED
-HYDCollectionMapper *HYDMapCollectionOf(NSString *destinationKey, Class sourceCollectionClass, Class destinationCollectionClass)
+id<HYDMapper> HYDMapCollectionOf(NSString *destinationKey, Class sourceCollectionClass, Class destinationCollectionClass)
 HYD_REQUIRE_NON_NIL(1,2,3);
 
 
@@ -69,7 +69,7 @@ HYD_REQUIRE_NON_NIL(1,2,3);
  *  @returns A HYDCollectionMapper that can do the conversion.
  */
 HYD_EXTERN_OVERLOADED
-HYDCollectionMapper *HYDMapCollectionOf(id<HYDMapper> itemMapper, Class collectionClass)
+id<HYDMapper> HYDMapCollectionOf(id<HYDMapper> itemMapper, Class collectionClass)
 HYD_REQUIRE_NON_NIL(1,2);
 
 
@@ -80,7 +80,7 @@ HYD_REQUIRE_NON_NIL(1,2);
  *  @returns A HYDCollectionMapper that can do the conversion.
  */
 HYD_EXTERN
-HYDCollectionMapper *HYDMapArrayOf(id<HYDMapper> itemMapper)
+id<HYDMapper> HYDMapArrayOf(id<HYDMapper> itemMapper)
 HYD_REQUIRE_NON_NIL(1);
 
 
@@ -88,7 +88,7 @@ HYD_REQUIRE_NON_NIL(1);
  *  the two arrays. Shorthand for composing HYDMapArrayOf(HYDMapObject(...)).
  */
 HYD_EXTERN_OVERLOADED
-HYDCollectionMapper *HYDMapArrayOfObjects(NSString *destinationKey, Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapArrayOfObjects(NSString *destinationKey, Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3,4);
 
 
@@ -96,5 +96,5 @@ HYD_REQUIRE_NON_NIL(2,3,4);
  *  the two arrays. Shorthand for composing HYDMapArrayOf(HYDMapObject(...)).
  */
 HYD_EXTERN_OVERLOADED
-HYDCollectionMapper *HYDMapArrayOfObjects(NSString *destinationKey, Class destinationItemClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapArrayOfObjects(NSString *destinationKey, Class destinationItemClass, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2,3);

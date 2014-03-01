@@ -19,7 +19,7 @@
  *  @see HYDObjectMapper
  */
 HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapIdentity(id<HYDAccessor> destinationAccessor)
+id<HYDMapper> HYDMapIdentity(id<HYDAccessor> destinationAccessor)
 HYD_REQUIRE_NON_NIL(1);
 
 /*! A mapper that just returns the value it was given.
@@ -32,7 +32,7 @@ HYD_REQUIRE_NON_NIL(1);
  *  @see HYDAccessDefault
  */
 HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
+id<HYDMapper> HYDMapIdentity(NSString *destinationKey)
 HYD_REQUIRE_NON_NIL(1);
 
 /*! A mapper that just returns the value it was given.
@@ -45,7 +45,7 @@ HYD_REQUIRE_NON_NIL(1);
  *  @see HYDAccessKey
  */
 HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapKey(NSString *destinationKey)
+id<HYDMapper> HYDMapKey(NSString *destinationKey)
 HYD_REQUIRE_NON_NIL(1);
 
 /*! A mapper that just returns the value it was given.
@@ -58,5 +58,5 @@ HYD_REQUIRE_NON_NIL(1);
  *  @see HYDAccessKey
  */
 HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapKeyPath(NSString *destinationKey)
+id<HYDMapper> HYDMapKeyPath(NSString *destinationKey)
 HYD_REQUIRE_NON_NIL(1);

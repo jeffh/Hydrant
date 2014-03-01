@@ -25,7 +25,7 @@ typedef void(^HYDPostProcessingBlock)(id sourceObject, id resultingObject, __aut
  *  @returns a mapper that can uses the block to map objects.
  */
 HYD_EXTERN_OVERLOADED
-HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostProcessingBlock block, HYDPostProcessingBlock reverseBlock);
+id<HYDMapper> HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostProcessingBlock block, HYDPostProcessingBlock reverseBlock);
 
 
 /*! Constructs a HYDPostProcessingMapper that accepts a block to post-mutate the resulting object given the source object.
@@ -40,7 +40,7 @@ HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostP
  *  @returns a mapper that can uses the block to map objects.
  */
 HYD_EXTERN_OVERLOADED
-HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostProcessingBlock block);
+id<HYDMapper> HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostProcessingBlock block);
 
 
 /*! Constructs a HYDPostProcessingMapper that accepts a block to post-mutate the resulting object given the source object.
@@ -56,4 +56,4 @@ HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostP
  *  @returns a mapper that can uses the block to map objects.
  */
 HYD_EXTERN_OVERLOADED
-HYDPostProcessingMapper *HYDMapWithPostProcessing(NSString *destinationKey, HYDPostProcessingBlock block);
+id<HYDMapper> HYDMapWithPostProcessing(NSString *destinationKey, HYDPostProcessingBlock block);

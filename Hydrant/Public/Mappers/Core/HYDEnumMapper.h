@@ -21,7 +21,7 @@
  *  @returns a HYDEnumMapper that using the given dictionary to map between values
  */
 HYD_EXTERN_OVERLOADED
-HYDEnumMapper *HYDMapEnum(NSString *destinationKey, NSDictionary *mapping)
+id<HYDMapper> HYDMapEnum(NSString *destinationKey, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(2);
 
 
@@ -37,5 +37,5 @@ HYD_REQUIRE_NON_NIL(2);
  *  @returns a HYDEnumMapper that using the given dictionary to map between values
  */
 HYD_EXTERN_OVERLOADED
-HYDEnumMapper *HYDMapEnum(id<HYDMapper> mapper, NSDictionary *mapping)
+id<HYDMapper> HYDMapEnum(id<HYDMapper> mapper, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(1,2);

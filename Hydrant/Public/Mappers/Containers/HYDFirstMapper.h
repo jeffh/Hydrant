@@ -20,7 +20,7 @@
  *  @returns a mapper that will try each mapper in sequence.
  */
 HYD_EXTERN
-HYDFirstMapper *HYDMapFirstMapperInArray(NSArray *mappers);
+id<HYDMapper> HYDMapFirstMapperInArray(NSArray *mappers);
 
 /*! Creates a mapper that runs through all the given mappers sequentially
  *  until one mapper returns a value object (non-fatal error) or all

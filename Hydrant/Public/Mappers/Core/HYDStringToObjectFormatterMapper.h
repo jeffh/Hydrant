@@ -11,73 +11,73 @@
 #pragma mark - Base Constructor
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToObjectByFormatter(NSString *destinationKey, NSFormatter *formatter)
+id<HYDMapper> HYDMapStringToObjectByFormatter(NSString *destinationKey, NSFormatter *formatter)
 HYD_REQUIRE_NON_NIL(2);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToObjectByFormatter(id<HYDMapper> mapper, NSFormatter *formatter)
+id<HYDMapper> HYDMapStringToObjectByFormatter(id<HYDMapper> mapper, NSFormatter *formatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - NumberFormatter Constructors
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey);
+id<HYDMapper> HYDMapStringToNumber(NSString *destinationKey);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(id<HYDMapper> mapper);
+id<HYDMapper> HYDMapStringToNumber(id<HYDMapper> mapper);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey, NSNumberFormatterStyle numberFormatterStyle);
+id<HYDMapper> HYDMapStringToNumber(NSString *destinationKey, NSNumberFormatterStyle numberFormatterStyle);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(id<HYDMapper> mapper, NSNumberFormatterStyle numberFormatterStyle);
+id<HYDMapper> HYDMapStringToNumber(id<HYDMapper> mapper, NSNumberFormatterStyle numberFormatterStyle);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(NSString *destinationKey, NSNumberFormatter *formatter)
+id<HYDMapper> HYDMapStringToNumber(NSString *destinationKey, NSNumberFormatter *formatter)
 HYD_REQUIRE_NON_NIL(2);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToNumber(id<HYDMapper> mapper, NSNumberFormatter *formatter)
+id<HYDMapper> HYDMapStringToNumber(id<HYDMapper> mapper, NSNumberFormatter *formatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - DateFormatter Constructors
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *destinationKey, NSString *formatString);
+id<HYDMapper> HYDMapStringToDate(NSString *destinationKey, NSString *formatString);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToDate(id<HYDMapper> mapper, NSString *formatString);
+id<HYDMapper> HYDMapStringToDate(id<HYDMapper> mapper, NSString *formatString);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToDate(NSString *destinationKey, NSDateFormatter *dateFormatter)
+id<HYDMapper> HYDMapStringToDate(NSString *destinationKey, NSDateFormatter *dateFormatter)
 HYD_REQUIRE_NON_NIL(2);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToDate(id<HYDMapper> mapper, NSDateFormatter *dateFormatter)
+id<HYDMapper> HYDMapStringToDate(id<HYDMapper> mapper, NSDateFormatter *dateFormatter)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - URLFormatter Constructors
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToURL(NSString *destinationKey);
+id<HYDMapper> HYDMapStringToURL(NSString *destinationKey);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToURL(id<HYDMapper> mapper);
+id<HYDMapper> HYDMapStringToURL(id<HYDMapper> mapper);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToURLOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+id<HYDMapper> HYDMapStringToURLOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
 HYD_REQUIRE_NON_NIL(2);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToURLOfScheme(id<HYDMapper> mapper, NSArray *allowedSchemes)
+id<HYDMapper> HYDMapStringToURLOfScheme(id<HYDMapper> mapper, NSArray *allowedSchemes)
 HYD_REQUIRE_NON_NIL(2);
 
 #pragma mark - UUIDFormatter Constructors
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToUUID(NSString *destinationKey)
+id<HYDMapper> HYDMapStringToUUID(NSString *destinationKey)
 HYD_REQUIRE_NON_NIL(1);
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToUUID(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapStringToUUID(id<HYDMapper> mapper)
 HYD_REQUIRE_NON_NIL(1);

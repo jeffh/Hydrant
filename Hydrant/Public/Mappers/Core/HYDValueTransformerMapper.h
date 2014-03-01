@@ -10,20 +10,20 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDValueTransformerMapper *HYDMapValue(id<HYDMapper> mapper, NSString *valueTransformerName)
+id<HYDMapper> HYDMapValue(id<HYDMapper> mapper, NSString *valueTransformerName)
 HYD_REQUIRE_NON_NIL(2);
 
 
 HYD_EXTERN_OVERLOADED
-HYDValueTransformerMapper *HYDMapValue(id<HYDMapper> mapper, NSValueTransformer *valueTransformer)
+id<HYDMapper> HYDMapValue(id<HYDMapper> mapper, NSValueTransformer *valueTransformer)
 HYD_REQUIRE_NON_NIL(2);
 
 
 HYD_EXTERN_OVERLOADED
-HYDValueTransformerMapper *HYDMapValue(NSString *destinationKey, NSString *valueTransformerName)
+id<HYDMapper> HYDMapValue(NSString *destinationKey, NSString *valueTransformerName)
 HYD_REQUIRE_NON_NIL(2);
 
 
 HYD_EXTERN_OVERLOADED
-HYDValueTransformerMapper *HYDMapValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
+id<HYDMapper> HYDMapValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
 HYD_REQUIRE_NON_NIL(2);

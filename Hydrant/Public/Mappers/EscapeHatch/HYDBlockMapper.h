@@ -24,7 +24,7 @@ typedef id(^HYDConversionBlock)(id incomingValue, __autoreleasing HYDError **err
  *  @returns a mapper that can uses the block to map objects.
  */
 HYD_EXTERN_OVERLOADED
-HYDBlockMapper *HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock)
+id<HYDMapper> HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock)
 HYD_REQUIRE_NON_NIL(2);
 
 
@@ -43,5 +43,5 @@ HYD_REQUIRE_NON_NIL(2);
  *  @returns a mapper that can uses the block to map objects.
  */
 HYD_EXTERN_OVERLOADED
-HYDBlockMapper *HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
+id<HYDMapper> HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
 HYD_REQUIRE_NON_NIL(2,3);
