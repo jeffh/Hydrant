@@ -1,6 +1,28 @@
-#import "HYDUnderscoreToLowerCamelCaseTransformer.h"
+#import "HYDSnakeToCamelCaseValueTransformer.h"
 
-@implementation HYDUnderscoreToLowerCamelCaseTransformer
+
+@interface HYDSnakeToCamelCaseValueTransformer ()
+
+@property (nonatomic, assign) HYDCamelCaseStyle camelCaseStyle;
+
+@end
+
+
+@implementation HYDSnakeToCamelCaseValueTransformer
+
+- (id)init
+{
+    return [self initWithCamelCaseStyle:HYDCamelCaseLowerStyle];
+}
+
+- (id)initWithCamelCaseStyle:(HYDCamelCaseStyle)camelCaseStyle
+{
+    self = [super init];
+    if (self) {
+        self.camelCaseStyle = camelCaseStyle;
+    }
+    return self;
+}
 
 - (id)transformedValue:(id)value
 {
@@ -8,8 +30,7 @@
         return nil;
     }
 
-    NSCharacterSet *characterSet = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
-    NSString *stringValue = [value stringByTrimmingCharactersInSet:characterSet];
+    NSString *stringValue = value;
     NSMutableString *result = [NSMutableString string];
 
     BOOL wasPreviousCharacterUnderscored = NO;
@@ -18,7 +39,8 @@
 
         if (chr != '_') {
             NSString *character = [stringValue substringWithRange:NSMakeRange(i, 1)];
-            if (wasPreviousCharacterUnderscored) {
+
+            if ((self.camelCaseStyle == HYDCamelCaseUpperStyle && i == 0 && [self isAlphaNumericCharacter:chr]) || wasPreviousCharacterUnderscored) {
                 [result appendString:[character uppercaseString]];
             } else {
                 [result appendString:[character lowercaseString]];
@@ -36,21 +58,31 @@
         return nil;
     }
 
-    NSCharacterSet *characterSet = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
-    NSString *stringValue = [value stringByTrimmingCharactersInSet:characterSet];
+    NSString *stringValue = value;
     NSMutableString *result = [NSMutableString string];
 
     for (NSUInteger i=0; i<stringValue.length; i++) {
         NSString *character = [stringValue substringWithRange:NSMakeRange(i, 1)];
 
-        BOOL isCharacterUpperCased = [character isEqualToString:character.uppercaseString];
-        if (isCharacterUpperCased && i != 0) {
+        if ([self isUppercasedString:character] && [self isAlphaNumericCharacter:[character characterAtIndex:0]] && i != 0) {
             [result appendString:@"_"];
         }
         [result appendString:[character lowercaseString]];
     }
 
     return result;
+}
+
+#pragma mark - Private
+
+- (BOOL)isAlphaNumericCharacter:(unichar)chr
+{
+    return [[NSCharacterSet alphanumericCharacterSet] characterIsMember:chr];
+}
+
+- (BOOL)isUppercasedString:(NSString *)string
+{
+    return [string isEqualToString:string.uppercaseString];
 }
 
 @end

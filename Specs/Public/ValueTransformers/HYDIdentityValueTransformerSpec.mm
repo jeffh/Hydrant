@@ -14,10 +14,6 @@ describe(@"HYDIdentityValueTransformer", ^{
         transformer = [[HYDIdentityValueTransformer alloc] init];
     });
 
-    it(@"should indicate its reversability", ^{
-        [HYDIdentityValueTransformer allowsReverseTransformation] should be_truthy;
-    });
-
     describe(@"transforming values", ^{
         it(@"should return any object it receives", ^{
             [transformer transformedValue:@1] should equal(@1);

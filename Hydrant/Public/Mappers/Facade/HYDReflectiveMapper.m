@@ -89,7 +89,7 @@
 - (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
 {
     id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
-    
+
     return [[HYDReversedReflectiveMapper alloc] initWithMapper:reversedInnerMapper
                                                    sourceClass:self.destinationClass
                                               destinationClass:self.sourceClass

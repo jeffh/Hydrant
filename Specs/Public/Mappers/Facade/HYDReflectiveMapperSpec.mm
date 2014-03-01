@@ -137,7 +137,7 @@ describe(@"HYDReflectiveMapper", ^{
             });
         });
     });
-    
+
     describe(@"reverse mapping", ^{
         beforeEach(^{
             HYDSFakeMapper *reverseChildMapper1 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"identifier"];
@@ -156,7 +156,7 @@ describe(@"HYDReflectiveMapper", ^{
                 sourceObject;
             });
         });
-        
+
         itShouldBehaveLike(@"a mapper that does the inverse of the original");
     });
 });

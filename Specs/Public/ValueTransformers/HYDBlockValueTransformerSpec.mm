@@ -1,4 +1,6 @@
-#import "HYDBlockValueTransformer.h"
+// DO NOT include any other library headers here to simulate an API user.
+#import "Hydrant.h"
+
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -23,10 +25,6 @@ describe(@"HYDBlockValueTransformer", ^{
         }];
     });
 
-    it(@"should indicate it is reversable", ^{
-        [HYDBlockValueTransformer allowsReverseTransformation] should be_truthy;
-    });
-
     describe(@"transforming a value", ^{
         __block id result;
 
@@ -38,7 +36,7 @@ describe(@"HYDBlockValueTransformer", ^{
             it(@"should use the block to produce the new value", ^{
                 result should equal(@1);
             });
-            
+
             it(@"should pass along the value it received to the block", ^{
                 blockValue should equal(@"HI");
             });
@@ -66,7 +64,7 @@ describe(@"HYDBlockValueTransformer", ^{
             it(@"should use the block to produce the new value", ^{
                 result should equal(@2);
             });
-            
+
             it(@"should pass along the value it received to the block", ^{
                 reversedBlockValue should equal(@"HI");
             });
