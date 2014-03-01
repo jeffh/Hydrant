@@ -5,7 +5,6 @@
 #import "HYDMutableCollection.h"
 
 // helpers
-#import "HYDDefaultAccessor.h"
 #import "HYDError.h"
 #import "HYDConstants.h"
 
@@ -21,6 +20,7 @@
 #import "HYDReversedValueTransformer.h"
 
 // accessors
+#import "HYDDefaultAccessor.h"
 #import "HYDKeyAccessor.h"
 #import "HYDKeyPathAccessor.h"
 
