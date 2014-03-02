@@ -67,6 +67,27 @@
 
 @end
 
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapReverseValue(id<HYDMapper> mapper, NSString *valueTransformerName)
+{
+    NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:valueTransformerName];
+    if (!transformer) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"No transformer found when doing: [NSValueTransformer: valueTransformerForName:@\"%@\"]",
+                           valueTransformerName];
+    }
+    return HYDMapReverseValue(mapper, transformer);
+}
+
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapReverseValue(id<HYDMapper> mapper, NSValueTransformer *valueTransformer)
+{
+    return [[HYDReversedValueTransformerMapper alloc] initWithMapper:mapper valueTransformer:valueTransformer];
+}
+
+
 HYD_EXTERN_OVERLOADED
 HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, NSString *valueTransformerName)
 {
@@ -79,9 +100,9 @@ HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, 
     return HYDMapReverseValue(destinationKey, transformer);
 }
 
+
 HYD_EXTERN_OVERLOADED
 HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
 {
-    return [[HYDReversedValueTransformerMapper alloc] initWithMapper:HYDMapIdentity(destinationKey)
-                                                    valueTransformer:valueTransformer];
+    return HYDMapReverseValue(HYDMapIdentity(destinationKey), valueTransformer);
 }

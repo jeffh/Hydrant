@@ -10,6 +10,16 @@
 
 
 HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapReverseValue(id<HYDMapper> mapper, NSString *valueTransformerName)
+HYD_REQUIRE_NON_NIL(2);
+
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapReverseValue(id<HYDMapper> mapper, NSValueTransformer *valueTransformer)
+HYD_REQUIRE_NON_NIL(2);
+
+
+HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapReverseValue(NSString *destinationKey, NSString *valueTransformerName)
 HYD_REQUIRE_NON_NIL(2);
 
