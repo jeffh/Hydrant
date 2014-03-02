@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/jeffh/Hydrant"
-  s.license      = { :type => 'MIT', :file => 'LICENSE' }
+  s.license      = { :type => 'BSD', :file => 'LICENSE' }
   s.author             = { "Jeff Hui" => "jeff@jeffhui.net" }
   s.social_media_url = "http://twitter.com/jeffhui"
   s.ios.deployment_target = '6.0'
