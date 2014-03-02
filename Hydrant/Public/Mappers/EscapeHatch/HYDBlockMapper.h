@@ -18,7 +18,7 @@ typedef id(^HYDConversionBlock)(id incomingValue, __autoreleasing HYDError **err
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *
- *  @param destinationAccessor the property hint to the parent mapper to indicate
+ *  @param destinationKey the property hint to the parent mapper to indicate
  *                        where to place the returned value.
  *  @param convertBlock the block the converts the incoming value or returns an error.
  *  @returns a mapper that can uses the block to map objects.
@@ -35,7 +35,7 @@ HYD_REQUIRE_NON_NIL(2);
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *
- *  @param destinationAccessor the property hint to the parent mapper to indicate
+ *  @param destinationKey the property hint to the parent mapper to indicate
  *                        where to place the returned value.
  *  @param convertBlock the block the converts the incoming value or returns an error.
  *  @param reverseConvertBlock the block the converts the incoming value when producing

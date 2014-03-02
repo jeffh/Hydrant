@@ -1,5 +1,5 @@
-#import "HYDMapper.h"
 #import "HYDBase.h"
+#import "HYDMapper.h"
 
 
 @interface HYDFirstMapper : NSObject <HYDMapper>

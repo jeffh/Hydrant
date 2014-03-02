@@ -110,7 +110,6 @@
         }
 
         [[mapper destinationAccessor] setValues:destinationValue
-                                      ofClasses:@[self.destinationClass]
                                        onObject:destinationObject];
     }
 

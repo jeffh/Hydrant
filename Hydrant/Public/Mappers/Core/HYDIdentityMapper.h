@@ -1,8 +1,5 @@
-#import "HYDMapper.h"
 #import "HYDBase.h"
-
-
-@protocol HYDAccessor;
+#import "HYDMapper.h"
 
 
 @interface HYDIdentityMapper : NSObject <HYDMapper>
@@ -13,7 +10,7 @@
 
 /*! A mapper that wraps an accessor to support the HYDMapper protocol.
  *
- *  @param destinationAccessor the property hint to the parent mapper to indicate where to place the returned value.
+ *  @param destinationKey the property hint to the parent mapper to indicate where to place the returned value.
  *  @returns a mapper that returns any value its given.
  *
  *  @see HYDObjectMapper
@@ -25,7 +22,7 @@ HYD_REQUIRE_NON_NIL(1);
 /*! A mapper that just returns the value it was given.
  *  Uses HYDAccessDefault as the default accessor.
  *
- *  @param destinationAccessor the property hint to the parent mapper to indicate where to place the returned value.
+ *  @param destinationKey the property hint to the parent mapper to indicate where to place the returned value.
  *  @returns a mapper that returns any value its given.
  *
  *  @see HYDObjectMapper
@@ -38,7 +35,7 @@ HYD_REQUIRE_NON_NIL(1);
 /*! A mapper that just returns the value it was given.
  *  Uses HYDAccessKey to generate the accessor.
  *
- *  @param destinationAccessor the property hint to the parent mapper to indicate where to place the returned value.
+ *  @param destinationKey the property hint to the parent mapper to indicate where to place the returned value.
  *  @returns a mapper that returns any value its given.
  *
  *  @see HYDObjectMapper
@@ -51,7 +48,7 @@ HYD_REQUIRE_NON_NIL(1);
 /*! A mapper that just returns the value it was given.
  *  Uses HYDAccessKeyPath to generate the accessor.
  *
- *  @param destinationAccessor the property hint to the parent mapper to indicate where to place the returned value.
+ *  @param destinationKey the property hint to the parent mapper to indicate where to place the returned value.
  *  @returns a mapper that returns any value its given.
  *
  *  @see HYDObjectMapper

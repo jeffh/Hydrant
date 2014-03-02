@@ -29,7 +29,6 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
     __block NSArray *values;
     __block HYDError *error;
     __block id target;
-    __block NSArray *destinationClasses;
 
     it(@"should list all the fields it was given", ^{
         [accessor fieldNames] should equal(expectedFieldNames);
@@ -109,13 +108,12 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
 
     describe(@"setting values to a given object", ^{
         subjectAction(^{
-            error = [accessor setValues:values ofClasses:destinationClasses onObject:target];
+            error = [accessor setValues:values onObject:target];
         });
 
         xcontext(@"for the next major release", ^{
             context(@"when the destination class requires NSNull and everything else is valid", ^{
                 beforeEach(^{
-                    destinationClasses = @[[NSDictionary class]];
                     target = [NSMutableDictionary dictionary];
                     values = expectedValuesWithNulls;
                 });
@@ -133,7 +131,6 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
         context(@"when the destination object is valid and it allows nil fields", ^{
             beforeEach(^{
                 target = [[HYDSPerson alloc] init];
-                destinationClasses = @[[HYDSPerson class]];
             });
 
             context(@"and given values are valid", ^{

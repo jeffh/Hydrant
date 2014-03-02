@@ -40,8 +40,16 @@
 #import "HYDValueTransformerMapper.h"
 #import "HYDReversedValueTransformerMapper.h"
 
-// mappers composed of other mappers or "abstracts" boilerplate
+// mappers composed from a set of classes from above
 #import "HYDOptionalMapper.h"
+#import "HYDNumberToStringMapper.h"
+#import "HYDStringToNumberMapper.h"
+#import "HYDDateToStringMapper.h"
+#import "HYDStringToDateMapper.h"
+#import "HYDURLToStringMapper.h"
+#import "HYDStringToURLMapper.h"
+#import "HYDUUIDToString.h"
+#import "HYDStringToUUIDMapper.h"
 
 // facade mappers - mappers that provide easy interfaces to the simple ones above
 #import "HYDReflectiveMapper.h"

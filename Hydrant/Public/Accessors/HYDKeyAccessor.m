@@ -89,7 +89,7 @@
     return values;
 }
 
-- (HYDError *)setValues:(NSArray *)values ofClasses:(NSArray *)destinationClasses onObject:(id)destinationObject
+- (HYDError *)setValues:(NSArray *)values onObject:(id)destinationObject
 {
     if (self.keys.count != values.count) {
         return [HYDError errorWithCode:HYDErrorSetViaAccessorFailed

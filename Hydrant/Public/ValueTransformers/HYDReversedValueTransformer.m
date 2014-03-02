@@ -12,6 +12,11 @@
 
 - (id)initWithValueTransformer:(NSValueTransformer *)valueTransformer
 {
+    if (![[valueTransformer class] allowsReverseTransformation]) {
+        [NSException raise:NSInvalidArgumentException format:@"Provided value transformer (%@) does not support reverse transformations",
+         NSStringFromClass([valueTransformer class])];
+    }
+
     self = [super init];
     if (self) {
         self.valueTransformer = valueTransformer;

@@ -93,7 +93,7 @@
     return values;
 }
 
-- (HYDError *)setValues:(NSArray *)values ofClasses:(NSArray *)destinationClasses onObject:(id)destinationObject
+- (HYDError *)setValues:(NSArray *)values onObject:(id)destinationObject
 {
     if (values.count != self.fieldNames.count) {
         return [HYDError errorWithCode:HYDErrorSetViaAccessorFailed

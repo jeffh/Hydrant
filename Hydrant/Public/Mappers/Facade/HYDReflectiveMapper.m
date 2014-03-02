@@ -6,7 +6,7 @@
 #import "HYDProperty.h"
 #import "HYDOptionalMapper.h"
 #import "HYDTypedMapper.h"
-#import "HYDStringToObjectFormatterMapper.h"
+#import "HYDStringToURLMapper.h"
 #import "HYDConstants.h"
 #import "HYDAccessor.h"
 #import "HYDDefaultAccessor.h"

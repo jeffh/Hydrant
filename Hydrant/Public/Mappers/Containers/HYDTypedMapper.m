@@ -110,15 +110,15 @@
 @end
 
 HYD_EXTERN_OVERLOADED
-HYDTypedMapper *HYDMapType(NSString *destinationKey, Class expectedInputAndOutputClass)
+HYDTypedMapper *HYDMapType(NSString *destinationKey, Class sourceAndDestinationClass)
 {
-    return HYDMapType(destinationKey, expectedInputAndOutputClass, expectedInputAndOutputClass);
+    return HYDMapType(destinationKey, sourceAndDestinationClass, sourceAndDestinationClass);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDTypedMapper *HYDMapType(NSString *destinationKey, Class expectedInputClass, Class expectedOutputClass)
+HYDTypedMapper *HYDMapType(NSString *destinationKey, Class sourceClass, Class destinationClass)
 {
-    return HYDMapTypes(destinationKey, [NSArray arrayWithObjects:expectedInputClass, nil], [NSArray arrayWithObjects:expectedOutputClass, nil]);
+    return HYDMapTypes(destinationKey, [NSArray arrayWithObjects:sourceClass, nil], [NSArray arrayWithObjects:destinationClass, nil]);
 }
 
 HYD_EXTERN_OVERLOADED
@@ -128,21 +128,21 @@ HYDTypedMapper *HYDMapTypes(NSString *destinationKey, NSArray *expectedInputClas
 }
 
 HYD_EXTERN_OVERLOADED
-HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputAndOutputClass)
+HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class sourceAndDestinationClass)
 {
-    return HYDMapType(mapperToWrap, expectedInputAndOutputClass, expectedInputAndOutputClass);
+    return HYDMapType(mapperToWrap, sourceAndDestinationClass, sourceAndDestinationClass);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class expectedInputClass, Class expectedOutputClass)
+HYDTypedMapper *HYDMapType(id<HYDMapper> mapperToWrap, Class sourceClass, Class destinationClass)
 {
-    return HYDMapTypes(mapperToWrap, [NSArray arrayWithObjects:expectedInputClass, nil], [NSArray arrayWithObjects:expectedOutputClass, nil]);
+    return HYDMapTypes(mapperToWrap, [NSArray arrayWithObjects:sourceClass, nil], [NSArray arrayWithObjects:destinationClass, nil]);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDTypedMapper *HYDMapTypes(id<HYDMapper> mapperToWrap, NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
+HYDTypedMapper *HYDMapTypes(id<HYDMapper> mapperToWrap, NSArray *sourceClasses, NSArray *destinationClasses)
 {
     return [[HYDTypedMapper alloc] initWithMapper:mapperToWrap
-                                     inputClasses:expectedInputClasses
-                                    outputClasses:expectedOutputClasses];
+                                     inputClasses:sourceClasses
+                                    outputClasses:destinationClasses];
 }

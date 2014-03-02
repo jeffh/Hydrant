@@ -86,21 +86,9 @@ HYDNonFatalMapper *HYDMapNonFatally(id<HYDMapper> mapper)
 }
 
 HYD_EXTERN_OVERLOADED
-HYDNonFatalMapper *HYDMapNonFatally(NSString *destinationKey)
-{
-    return HYDMapNonFatally(HYDMapIdentity(destinationKey));
-}
-
-HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatallyWithDefault(id<HYDMapper> mapper, id defaultValue)
 {
     return HYDMapNonFatallyWithDefault(mapper, defaultValue, defaultValue);
-}
-
-HYD_EXTERN_OVERLOADED
-HYDNonFatalMapper *HYDMapNonFatallyWithDefault(NSString *destinationKey, id defaultValue)
-{
-    return HYDMapNonFatallyWithDefault(HYDMapIdentity(destinationKey), defaultValue);
 }
 
 HYD_EXTERN_OVERLOADED
@@ -115,12 +103,6 @@ HYD_EXTERN_OVERLOADED
 HYDNonFatalMapper *HYDMapNonFatallyWithDefaultFactory(id<HYDMapper> mapper, HYDValueBlock defaultValueFactory)
 {
     return HYDMapNonFatallyWithDefaultFactory(mapper, defaultValueFactory, defaultValueFactory);
-}
-
-HYD_EXTERN_OVERLOADED
-HYDNonFatalMapper *HYDMapNonFatallyWithDefaultFactory(NSString *destinationKey, HYDValueBlock defaultValueFactory)
-{
-    return HYDMapNonFatallyWithDefaultFactory(HYDMapIdentity(destinationKey), defaultValueFactory);
 }
 
 HYD_EXTERN_OVERLOADED

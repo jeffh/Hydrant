@@ -11,6 +11,5 @@
 @property (strong, nonatomic) NSArray *valuesToSetReceived;
 @property (strong, nonatomic) HYDError *setValuesErrorToReturn;
 @property (strong, nonatomic) id destinationObjectReceived;
-@property (strong, nonatomic) NSArray *destinationClassesReceived;
 
 @end

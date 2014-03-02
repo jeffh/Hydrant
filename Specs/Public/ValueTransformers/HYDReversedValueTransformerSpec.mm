@@ -1,5 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
+#import "HYDSIrreversableValueTransformer.h"
 
 
 using namespace Cedar::Matchers;
@@ -14,6 +15,15 @@ describe(@"HYDReversedValueTransformer", ^{
     beforeEach(^{
         wrappedTransformer = nice_fake_for([NSValueTransformer class]);
         transformer = [[HYDReversedValueTransformer alloc] initWithValueTransformer:wrappedTransformer];
+    });
+
+    context(@"when the wrapped transformer does not support reversability", ^{
+        it(@"should raise an exception", ^{
+            wrappedTransformer = [HYDSIrreversableValueTransformer new];
+            ^{
+                transformer = [[HYDReversedValueTransformer alloc] initWithValueTransformer:wrappedTransformer];
+            } should raise_exception;
+        });
     });
 
     describe(@"transforming a value", ^{

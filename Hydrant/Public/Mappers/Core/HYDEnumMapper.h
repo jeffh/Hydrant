@@ -15,7 +15,7 @@
  *           map to many values or vice-versa will break the reverse mapping
  *           capabilities of this mapper.
  *
- *  @param destinationAccessor the property hint to the parent mapper to indicate
+ *  @param destinationKey the property hint to the parent mapper to indicate
  *                        where to place the returned value.
  *  @param mapping A dictionary of mapping @{ sourceValue: destinationValue }. Must be one-to-one.
  *  @returns a HYDEnumMapper that using the given dictionary to map between values

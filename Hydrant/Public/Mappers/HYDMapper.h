@@ -14,7 +14,7 @@
  *  @see HYDObjectToStringFormatterMapper for a simple mapper implementation.
  *  @see HYDObjectMapper for a complex mapper implementation.
  */
-@protocol HYDMapper<NSObject>
+@protocol HYDMapper <NSObject>
 
 #pragma mark - Translation Strategies
 
@@ -59,7 +59,7 @@
  *  call this method on all its children to build a reversed-parent mapper.
  *
  *  @param destinationAccessor The new destination key path-compatible string representing
- *                        the property name to assign to for the reverse mapper.
+ *                             the property name to assign to for the reverse mapper.
  *  @returns A HYDMapper conforming object that can perform the inverse conversion of
  *           the current mapper.
  */

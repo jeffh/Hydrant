@@ -25,10 +25,9 @@
     return self.valuesToReturn;
 }
 
-- (HYDError *)setValues:(NSArray *)values ofClasses:(NSArray *)destinationClasses onObject:(id)destinationObject
+- (HYDError *)setValues:(NSArray *)values onObject:(id)destinationObject
 {
     self.valuesToSetReceived = values;
-    self.destinationClassesReceived = destinationClasses;
     self.destinationObjectReceived = destinationObject;
 
     [destinationObject setValue:values[0] forKey:self.fieldNames[0]];
