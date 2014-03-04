@@ -132,7 +132,7 @@
     };
 }
 
-- (HYDReflectiveMapper *(^)(NSArray *))excluding
+- (HYDReflectiveMapper *(^)(NSArray *))except
 {
     return ^(NSArray *excludedFields) {
         return [[[self class] alloc] initWithMapper:self.innerMapper
@@ -146,7 +146,7 @@
     };
 }
 
-- (HYDReflectiveMapper *(^)(NSDictionary *))overriding
+- (HYDReflectiveMapper *(^)(NSDictionary *))customMapping
 {
     return ^(NSDictionary *overriddenMapping) {
         return [[[self class] alloc] initWithMapper:self.innerMapper

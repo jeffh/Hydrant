@@ -13,8 +13,8 @@ typedef NSString *(^KeyTransformBlock)(NSString *propertyName);
 
 @property (weak, nonatomic, readonly) HYDReflectiveMapper *(^mapClass)(Class destinationClass, id<HYDMapper> mapper);
 @property (weak, nonatomic, readonly) HYDReflectiveMapper *(^optional)(NSArray *propertyNames);
-@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^excluding)(NSArray *propertyNames);
-@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^overriding)(NSDictionary *mappingOverrides);
+@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^except)(NSArray *propertyNames);
+@property (weak, nonatomic, readonly) HYDReflectiveMapper *(^customMapping)(NSDictionary *mappingOverrides);
 @property (weak, nonatomic, readonly) HYDReflectiveMapper *(^keyTransformer)(NSValueTransformer *keyTransformer);
 
 @end

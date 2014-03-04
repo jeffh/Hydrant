@@ -44,8 +44,8 @@ describe(@"HYDReflectiveMapper", ^{
             HYDMapReflectively(@"someKey", [HYDSPerson class])
             .mapClass([NSDate class], HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339))
             .optional(@[@"birthDate", @"homepage", @"siblings"])
-            .excluding(@[@"parent"])
-            .overriding(@{@"first_name": childMapper2,
+            .except(@[@"parent"])
+            .customMapping(@{@"first_name": childMapper2,
                           fakeAccessor: @"age",
                           @"identifier": childMapper1})
             .keyTransformer([[HYDBlockValueTransformer alloc] initWithBlock:^id(NSString *property) {
