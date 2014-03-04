@@ -8,6 +8,7 @@
 #import "HYDIdentityMapper.h"
 #import "HYDKeyAccessor.h"
 #import "HYDObjectMapper.h"
+#import "HYDTypedObjectMapper.h"
 
 
 @interface HYDCollectionMapper ()
@@ -170,6 +171,18 @@ HYD_EXTERN
 id<HYDMapper> HYDMapArrayOf(id<HYDMapper> itemMapper)
 {
     return HYDMapCollectionOf(itemMapper, [NSArray class]);
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapArrayOfKVCObjects(NSString *destinationKey, Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
+{
+    return HYDMapArrayOf(HYDMapKVCObject(destinationKey, sourceItemClass, destinationItemClass, mapping));
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapArrayOfKVCObjects(NSString *destinationKey, Class destinationItemClass, NSDictionary *mapping)
+{
+    return HYDMapArrayOf(HYDMapKVCObject(destinationKey, destinationItemClass, mapping));
 }
 
 HYD_EXTERN_OVERLOADED

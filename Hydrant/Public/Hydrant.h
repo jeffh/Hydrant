@@ -50,6 +50,7 @@
 #import "HYDStringToURLMapper.h"
 #import "HYDUUIDToString.h"
 #import "HYDStringToUUIDMapper.h"
+#import "HYDTypedObjectMapper.h"
 
 // facade mappers - mappers that provide easy interfaces to the simple ones above
 #import "HYDReflectiveMapper.h"

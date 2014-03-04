@@ -179,7 +179,7 @@
 - (id<HYDMapper>)internalMapper
 {
     if (!_internalMapper) {
-        _internalMapper = HYDMapType(HYDMapObject(self.innerMapper, self.sourceClass, self.destinationClass, [self buildMapping]),
+        _internalMapper = HYDMapType(HYDMapKVCObject(self.innerMapper, self.sourceClass, self.destinationClass, [self buildMapping]),
                                      self.sourceClass, self.destinationClass);
     }
     return _internalMapper;

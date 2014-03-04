@@ -8,10 +8,10 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-SPEC_BEGIN(HYDObjectMapperSpec)
+SPEC_BEGIN(HYDTypedObjectMapperSpec)
 
-describe(@"HYDObjectMapper", ^{
-    __block HYDObjectMapper *mapper;
+describe(@"HYDTypedObjectMapper", ^{
+    __block HYDTypedObjectMapper *mapper;
     __block HYDError *error;
     __block HYDSPerson *expectedPerson;
     __block NSDictionary *validSourceObject;
@@ -37,13 +37,13 @@ describe(@"HYDObjectMapper", ^{
         childMapper2 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"firstName"];
         childMapper2.objectsToReturn = @[@"John"];
 
-        mapper = HYDMapKVCObject(@"destinationAccessor", [NSDictionary class], [HYDSPerson class],
-                                 @{@"first_name" : childMapper2,
-                                   @"last_name" : @"lastName",
-                                   fakeAccessor : @"age",
-                                   @"identifier" : childMapper1});
+        mapper = HYDMapObject(@"destinationAccessor", [NSDictionary class], [HYDSPerson class],
+                              @{@"first_name" : childMapper2,
+                                @"last_name" : @"lastName",
+                                fakeAccessor : @"age",
+                                @"identifier" : childMapper1});
     });
-    
+
     it(@"should return the same destination key it was provided", ^{
         mapper.destinationAccessor should equal(HYDAccessDefault(@"destinationAccessor"));
     });
@@ -94,6 +94,47 @@ describe(@"HYDObjectMapper", ^{
             });
         });
 
+        context(@"when a source object field is an invalid type", ^{
+            beforeEach(^{
+                sourceObject = @{@"identifier": @"transforms",
+                                 @"first_name": @"John",
+                                 @"last_name": @2,
+                                 @"age": @23};
+            });
+
+            it(@"should return a fatal error because of a bad type", ^{
+                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
+                [[[error underlyingErrors] firstObject] code] should equal(HYDErrorInvalidResultingObjectType);
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+        });
+
+        context(@"when child mappers return an invalid type", ^{
+            __block HYDError *childMapperError1;
+            __block HYDError *childMapperError2;
+
+            beforeEach(^{
+                sourceObject = validSourceObject;
+                childMapperError1 = [HYDError fatalError];
+                childMapperError2 = [HYDError fatalError];
+                childMapper1.objectsToReturn = @[@"HI"];
+                childMapper2.objectsToReturn = @[@2];
+            });
+
+            it(@"should wrap all the emitted errors in a fatal error", ^{
+                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
+                [error.userInfo[HYDUnderlyingErrorsKey] valueForKey:@"code"] should equal(@[@(HYDErrorInvalidResultingObjectType),
+                                                                                            @(HYDErrorInvalidResultingObjectType)]);
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+        });
+
         context(@"when child mappers returns fatal errors", ^{
             __block HYDError *childMapperError1;
             __block HYDError *childMapperError2;
@@ -125,7 +166,7 @@ describe(@"HYDObjectMapper", ^{
                 error.userInfo[HYDUnderlyingErrorsKey] should contain(childMapperError1);
                 error.userInfo[HYDUnderlyingErrorsKey] should contain(childMapperError2);
             });
-            
+
             it(@"should return nil", ^{
                 parsedObject should be_nil;
             });

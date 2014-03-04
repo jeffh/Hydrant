@@ -149,7 +149,7 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapKVCObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
     return [[HYDObjectMapper alloc] initWithMapper:mapper
                                          fromClass:sourceClass
@@ -159,21 +159,21 @@ HYDObjectMapper *HYDMapObject(id<HYDMapper> mapper, Class sourceClass, Class des
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectMapper *HYDMapObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapKVCObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(mapper, [NSDictionary class], destinationClass, mapping);
+    return HYDMapKVCObject(mapper, [NSDictionary class], destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectMapper *HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapKVCObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(HYDMapIdentity(destinationKey), sourceClass, destinationClass, mapping);
+    return HYDMapKVCObject(HYDMapIdentity(destinationKey), sourceClass, destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectMapper *HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
+HYDObjectMapper *HYDMapKVCObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(HYDMapIdentity(destinationKey), destinationClass, mapping);
+    return HYDMapKVCObject(HYDMapIdentity(destinationKey), destinationClass, mapping);
 }
