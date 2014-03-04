@@ -6,6 +6,7 @@
 #import "HYDProperty.h"
 #import "HYDFunctions.h"
 #import "HYDDefaultAccessor.h"
+#import "HYDNonFatalMapper.h"
 
 
 @interface HYDTypedObjectMapper ()
@@ -89,11 +90,18 @@
 
 - (id<HYDMapper>)mapperForProperty:(HYDProperty *)property wrappingMapper:(id<HYDMapper>)mapper
 {
+    // TODO: figure out a better method that isKindOfClass for this check
+    BOOL isNonFatal = [mapper isKindOfClass:[HYDNonFatalMapper class]];
+
     if ([property isObjCObjectType]) {
         Class propertyClass = [property classType];
         mapper = HYDMapTypes(mapper, @[], @[propertyClass, [NSNull class]]);
     } else { // TODO: don't assume a numeric type?
         mapper = HYDMapTypes(mapper, @[], @[[NSNumber class], [NSNull class]]);
+    }
+
+    if (isNonFatal) {
+        mapper = HYDMapNonFatally(mapper);
     }
 
     return mapper;
