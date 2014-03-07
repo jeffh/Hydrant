@@ -118,3 +118,17 @@ id<HYDMapper> HYDMapperWithAccessor(id<HYDMapper> mapper, id<HYDAccessor> access
     return [[mapper reverseMapperWithDestinationAccessor:accessor] reverseMapperWithDestinationAccessor:accessor];
 }
 
+HYD_EXTERN
+id HYDGetValueOrValues(NSArray *values)
+{
+    return values.count == 1 ? values.lastObject : values;
+}
+
+HYD_EXTERN
+NSArray *HYDValuesFromValueOrValues(id value)
+{
+    if (!value) {
+        value = [NSNull null];
+    }
+    return [value isKindOfClass:[NSArray class]] ? value : @[value];
+}

@@ -25,6 +25,17 @@
 		1F1217C6188E615200B1CBD1 /* HYDFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1217C5188E615200B1CBD1 /* HYDFunctions.m */; };
 		1F1217C7188E615200B1CBD1 /* HYDFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1217C5188E615200B1CBD1 /* HYDFunctions.m */; };
 		1F1217C8188E615200B1CBD1 /* HYDFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1217C5188E615200B1CBD1 /* HYDFunctions.m */; };
+		1F17F89B18C9971000E818C1 /* HYDForwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F89A18C9971000E818C1 /* HYDForwardMapper.m */; };
+		1F17F89C18C9971000E818C1 /* HYDForwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F89A18C9971000E818C1 /* HYDForwardMapper.m */; };
+		1F17F89D18C9971000E818C1 /* HYDForwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F89A18C9971000E818C1 /* HYDForwardMapper.m */; };
+		1F17F89F18C9971A00E818C1 /* HYDForwardMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F89E18C9971A00E818C1 /* HYDForwardMapperSpec.mm */; };
+		1F17F8A018C9971A00E818C1 /* HYDForwardMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F89E18C9971A00E818C1 /* HYDForwardMapperSpec.mm */; };
+		1F17F8A118C99A0000E818C1 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A847F183B48DD00EAA4E0 /* Cedar.framework */; };
+		1F17F8B518C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */; };
+		1F17F8B618C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */; };
+		1F17F8B718C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */; };
+		1F17F8B918C9A9E600E818C1 /* HYDBackwardMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F8B818C9A9E600E818C1 /* HYDBackwardMapperSpec.mm */; };
+		1F17F8BA18C9A9E600E818C1 /* HYDBackwardMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F8B818C9A9E600E818C1 /* HYDBackwardMapperSpec.mm */; };
 		1F1E3F73180392ED00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
 		1F1E3F9E1803931D00801509 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F72180392ED00801509 /* Foundation.framework */; };
 		1F1E3FA01803931D00801509 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F1E3F9F1803931D00801509 /* CoreGraphics.framework */; };
@@ -99,8 +110,8 @@
 		1F39976818C5AE28002FF753 /* HYDTypedObjectMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F39976618C5AE28002FF753 /* HYDTypedObjectMapperSpec.mm */; };
 		1F71527E18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F71527D18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm */; };
 		1F71527F18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F71527D18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm */; };
-		1F71528B18A88BBD00F59AA8 /* HYDSFakeAccesor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F71528A18A88BBD00F59AA8 /* HYDSFakeAccesor.m */; };
-		1F71528C18A88BBD00F59AA8 /* HYDSFakeAccesor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F71528A18A88BBD00F59AA8 /* HYDSFakeAccesor.m */; };
+		1F71528B18A88BBD00F59AA8 /* HYDSFakeAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F71528A18A88BBD00F59AA8 /* HYDSFakeAccessor.m */; };
+		1F71528C18A88BBD00F59AA8 /* HYDSFakeAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F71528A18A88BBD00F59AA8 /* HYDSFakeAccessor.m */; };
 		1F71528F18A8905000F59AA8 /* HYDKeyAccessorSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F71528E18A8905000F59AA8 /* HYDKeyAccessorSpec.mm */; };
 		1F71529018A8905000F59AA8 /* HYDKeyAccessorSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F71528E18A8905000F59AA8 /* HYDKeyAccessorSpec.mm */; };
 		1F71529218A8B73600F59AA8 /* HYDSharedAccessorExamplesSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F71529118A8B73600F59AA8 /* HYDSharedAccessorExamplesSpec.mm */; };
@@ -121,7 +132,6 @@
 		1FA99484183B49FA001E9F2E /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A8485183B48DD00EAA4E0 /* libCedar-StaticLib.a */; };
 		1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99489183B4A20001E9F2E /* Foundation.framework */; };
 		1FA994A4183C97A8001E9F2E /* HYDBase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C040181A2DC90017FDB4 /* HYDBase.h */; };
-		1FA994C8183CA9EF001E9F2E /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA994B8183CA3B3001E9F2E /* Cedar.framework */; };
 		1FB0F6611883DCDD00120ABC /* HYDError.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6601883DCDD00120ABC /* HYDError.m */; };
 		1FB0F6621883DCDD00120ABC /* HYDError.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6601883DCDD00120ABC /* HYDError.m */; };
 		1FB0F6631883DCDD00120ABC /* HYDError.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6601883DCDD00120ABC /* HYDError.m */; };
@@ -187,8 +197,6 @@
 		1FD4F9E818A3785000DA1AD3 /* HYDNonFatalMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4F9CB18A3785000DA1AD3 /* HYDNonFatalMapperSpec.mm */; };
 		1FD4F9E918A3785000DA1AD3 /* HYDNotNullMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4F9CC18A3785000DA1AD3 /* HYDNotNullMapperSpec.mm */; };
 		1FD4F9EA18A3785000DA1AD3 /* HYDNotNullMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4F9CC18A3785000DA1AD3 /* HYDNotNullMapperSpec.mm */; };
-		1FD4F9EB18A3785000DA1AD3 /* HYDTypedMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4F9CD18A3785000DA1AD3 /* HYDTypedMapperSpec.mm */; };
-		1FD4F9EC18A3785000DA1AD3 /* HYDTypedMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4F9CD18A3785000DA1AD3 /* HYDTypedMapperSpec.mm */; };
 		1FD4F9EF18A3785000DA1AD3 /* HYDEnumMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4F9D018A3785000DA1AD3 /* HYDEnumMapperSpec.mm */; };
 		1FD4F9F018A3785000DA1AD3 /* HYDEnumMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4F9D018A3785000DA1AD3 /* HYDEnumMapperSpec.mm */; };
 		1FD4F9F118A3785000DA1AD3 /* HYDIdentityMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4F9D118A3785000DA1AD3 /* HYDIdentityMapperSpec.mm */; };
@@ -365,6 +373,12 @@
 		1F1217C1188E41CA00B1CBD1 /* HYDError+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HYDError+Spec.m"; sourceTree = "<group>"; };
 		1F1217C4188E615200B1CBD1 /* HYDFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDFunctions.h; sourceTree = "<group>"; };
 		1F1217C5188E615200B1CBD1 /* HYDFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDFunctions.m; sourceTree = "<group>"; };
+		1F17F89918C9971000E818C1 /* HYDForwardMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDForwardMapper.h; sourceTree = "<group>"; };
+		1F17F89A18C9971000E818C1 /* HYDForwardMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDForwardMapper.m; sourceTree = "<group>"; };
+		1F17F89E18C9971A00E818C1 /* HYDForwardMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDForwardMapperSpec.mm; sourceTree = "<group>"; };
+		1F17F8B318C9A4ED00E818C1 /* HYDBackwardMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDBackwardMapper.h; sourceTree = "<group>"; };
+		1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDBackwardMapper.m; sourceTree = "<group>"; };
+		1F17F8B818C9A9E600E818C1 /* HYDBackwardMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDBackwardMapperSpec.mm; sourceTree = "<group>"; };
 		1F1E3F6F180392ED00801509 /* libHydrant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHydrant.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F72180392ED00801509 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F1E3F76180392ED00801509 /* Hydrant-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hydrant-Prefix.pch"; sourceTree = "<group>"; };
@@ -417,8 +431,8 @@
 		1F3D813F1883A632006C0CC4 /* Hydrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hydrant.h; sourceTree = "<group>"; };
 		1F5C80281892468600777C3B /* HYDCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDCollection.h; sourceTree = "<group>"; };
 		1F71527D18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDMapperFieldCompositionSpec.mm; sourceTree = "<group>"; };
-		1F71528918A88BBD00F59AA8 /* HYDSFakeAccesor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDSFakeAccesor.h; sourceTree = "<group>"; };
-		1F71528A18A88BBD00F59AA8 /* HYDSFakeAccesor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDSFakeAccesor.m; sourceTree = "<group>"; };
+		1F71528918A88BBD00F59AA8 /* HYDSFakeAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDSFakeAccessor.h; sourceTree = "<group>"; };
+		1F71528A18A88BBD00F59AA8 /* HYDSFakeAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDSFakeAccessor.m; sourceTree = "<group>"; };
 		1F71528E18A8905000F59AA8 /* HYDKeyAccessorSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDKeyAccessorSpec.mm; sourceTree = "<group>"; };
 		1F71529118A8B73600F59AA8 /* HYDSharedAccessorExamplesSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDSharedAccessorExamplesSpec.mm; sourceTree = "<group>"; };
 		1F71529418A8C08E00F59AA8 /* HYDKeyPathAccessorSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDKeyPathAccessorSpec.mm; sourceTree = "<group>"; };
@@ -431,7 +445,6 @@
 		1F88089518A60F3800CE4C3F /* HYDKeyPathAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDKeyPathAccessor.h; sourceTree = "<group>"; };
 		1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDKeyPathAccessor.m; sourceTree = "<group>"; };
 		1FA99489183B4A20001E9F2E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		1FA994B8183CA3B3001E9F2E /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = ../../DerivedData/Nimbus/Build/Products/Debug/Cedar.framework; sourceTree = "<group>"; };
 		1FB0F65F1883DCDD00120ABC /* HYDError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDError.h; sourceTree = "<group>"; };
 		1FB0F6601883DCDD00120ABC /* HYDError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDError.m; sourceTree = "<group>"; };
 		1FB8CCFC18ADE4220048D5D2 /* HYDDefaultAccessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDDefaultAccessor.h; sourceTree = "<group>"; };
@@ -473,7 +486,6 @@
 		1FD4F9C918A3785000DA1AD3 /* HYDObjectMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDObjectMapperSpec.mm; sourceTree = "<group>"; };
 		1FD4F9CB18A3785000DA1AD3 /* HYDNonFatalMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDNonFatalMapperSpec.mm; sourceTree = "<group>"; };
 		1FD4F9CC18A3785000DA1AD3 /* HYDNotNullMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDNotNullMapperSpec.mm; sourceTree = "<group>"; };
-		1FD4F9CD18A3785000DA1AD3 /* HYDTypedMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDTypedMapperSpec.mm; sourceTree = "<group>"; };
 		1FD4F9D018A3785000DA1AD3 /* HYDEnumMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDEnumMapperSpec.mm; sourceTree = "<group>"; };
 		1FD4F9D118A3785000DA1AD3 /* HYDIdentityMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDIdentityMapperSpec.mm; sourceTree = "<group>"; };
 		1FD4F9D318A3785000DA1AD3 /* HYDObjectToStringFormatterMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDObjectToStringFormatterMapperSpec.mm; sourceTree = "<group>"; };
@@ -536,7 +548,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FA994C8183CA9EF001E9F2E /* Cedar.framework in Frameworks */,
+				1F17F8A118C99A0000E818C1 /* Cedar.framework in Frameworks */,
 				1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,7 +661,6 @@
 		1F1E3F71180392ED00801509 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1FA994B8183CA3B3001E9F2E /* Cedar.framework */,
 				1FA99489183B4A20001E9F2E /* Foundation.framework */,
 				1F1E3F72180392ED00801509 /* Foundation.framework */,
 				1F1E3F9F1803931D00801509 /* CoreGraphics.framework */,
@@ -735,8 +746,8 @@
 			children = (
 				1F1217BB188E2BEC00B1CBD1 /* HYDSCedarMatchers.h */,
 				1F1217BC188E351000B1CBD1 /* HYDSCedarMatchers.mm */,
-				1F71528918A88BBD00F59AA8 /* HYDSFakeAccesor.h */,
-				1F71528A18A88BBD00F59AA8 /* HYDSFakeAccesor.m */,
+				1F71528918A88BBD00F59AA8 /* HYDSFakeAccessor.h */,
+				1F71528A18A88BBD00F59AA8 /* HYDSFakeAccessor.m */,
 				1FEC76411890FB5F003687EF /* HYDSFakeFormatter.h */,
 				1FEC76421890FB5F003687EF /* HYDSFakeFormatter.m */,
 				1F12175B188B9BDF00B1CBD1 /* HYDSFakeMapper.h */,
@@ -896,6 +907,10 @@
 				1FD4F98A18A3776600DA1AD3 /* HYDStringToObjectFormatterMapper.m */,
 				1FD4F98B18A3776600DA1AD3 /* HYDValueTransformerMapper.h */,
 				1FD4F98C18A3776600DA1AD3 /* HYDValueTransformerMapper.m */,
+				1F17F89918C9971000E818C1 /* HYDForwardMapper.h */,
+				1F17F89A18C9971000E818C1 /* HYDForwardMapper.m */,
+				1F17F8B318C9A4ED00E818C1 /* HYDBackwardMapper.h */,
+				1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -919,7 +934,6 @@
 				1FD4F9CB18A3785000DA1AD3 /* HYDNonFatalMapperSpec.mm */,
 				1FD4F9CC18A3785000DA1AD3 /* HYDNotNullMapperSpec.mm */,
 				1FD4F9C918A3785000DA1AD3 /* HYDObjectMapperSpec.mm */,
-				1FD4F9CD18A3785000DA1AD3 /* HYDTypedMapperSpec.mm */,
 			);
 			path = Containers;
 			sourceTree = "<group>";
@@ -933,6 +947,8 @@
 				1FD4F9D418A3785000DA1AD3 /* HYDReversedValueTransformerMapperSpec.mm */,
 				1FD4F9D718A3785000DA1AD3 /* HYDStringToObjectFormatterMapperSpec.mm */,
 				1FD4F9DB18A3785000DA1AD3 /* HYDValueTransformerMapperSpec.mm */,
+				1F17F89E18C9971A00E818C1 /* HYDForwardMapperSpec.mm */,
+				1F17F8B818C9A9E600E818C1 /* HYDBackwardMapperSpec.mm */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1215,6 +1231,7 @@
 				1F88089A18A60F3800CE4C3F /* HYDKeyPathAccessor.m in Sources */,
 				1F357E5918C30805004C4CBA /* HYDStringToURLMapper.m in Sources */,
 				1F357E6F18C31960004C4CBA /* HYDStringToDateMapperSpec.mm in Sources */,
+				1F17F8B518C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */,
 				1FD4F9B018A3776600DA1AD3 /* HYDObjectToStringFormatterMapper.m in Sources */,
 				1FD4F9BC18A3776600DA1AD3 /* HYDBlockMapper.m in Sources */,
 				1FD4F9A418A3776600DA1AD3 /* HYDNotNullMapper.m in Sources */,
@@ -1223,6 +1240,7 @@
 				1F1217C6188E615200B1CBD1 /* HYDFunctions.m in Sources */,
 				1FD4F99218A3776600DA1AD3 /* HYDOptionalMapper.m in Sources */,
 				1FD4F9B318A3776600DA1AD3 /* HYDReversedValueTransformerMapper.m in Sources */,
+				1F17F89B18C9971000E818C1 /* HYDForwardMapper.m in Sources */,
 				1F357E5418C307B5004C4CBA /* HYDStringToDateMapper.m in Sources */,
 				31B738701E5C1FD1663E86ED /* HYDConstants.m in Sources */,
 				1F357E6C18C31960004C4CBA /* HYDNumberToStringMapperSpec.mm in Sources */,
@@ -1254,7 +1272,8 @@
 				1FD4F9B418A3776600DA1AD3 /* HYDReversedValueTransformerMapper.m in Sources */,
 				1FD4FA0918A3785000DA1AD3 /* HYDPostProcessingMapperSpec.mm in Sources */,
 				1F1217C2188E41CA00B1CBD1 /* HYDError+Spec.m in Sources */,
-				1F71528B18A88BBD00F59AA8 /* HYDSFakeAccesor.m in Sources */,
+				1F17F89F18C9971A00E818C1 /* HYDForwardMapperSpec.mm in Sources */,
+				1F71528B18A88BBD00F59AA8 /* HYDSFakeAccessor.m in Sources */,
 				1FD4F9E718A3785000DA1AD3 /* HYDNonFatalMapperSpec.mm in Sources */,
 				1F1E3FA81803931D00801509 /* main.m in Sources */,
 				1FD4F9BA18A3776600DA1AD3 /* HYDValueTransformerMapper.m in Sources */,
@@ -1285,6 +1304,7 @@
 				1FF0EA3118BB280F00ED3021 /* HYDIdentityValueTransformer.m in Sources */,
 				1F26F33218C2F299003A7FB9 /* HYDUUIDToString.m in Sources */,
 				1F1217C7188E615200B1CBD1 /* HYDFunctions.m in Sources */,
+				1F17F89C18C9971000E818C1 /* HYDForwardMapper.m in Sources */,
 				1FD4F9DF18A3785000DA1AD3 /* HYDCollectionMapperSpec.mm in Sources */,
 				1FD4F9A218A3776600DA1AD3 /* HYDNonFatalMapper.m in Sources */,
 				1F71527E18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm in Sources */,
@@ -1292,6 +1312,7 @@
 				1FF0EA2318BB267100ED3021 /* HYDSnakeToCamelCaseValueTransformer.m in Sources */,
 				1FDAC11E18121F6900846B44 /* HYDProperty.m in Sources */,
 				1F26F32D18C2F243003A7FB9 /* HYDURLToStringMapper.m in Sources */,
+				1F17F8B918C9A9E600E818C1 /* HYDBackwardMapperSpec.mm in Sources */,
 				1FD4F9E318A3785000DA1AD3 /* HYDObjectMapperSpec.mm in Sources */,
 				1FD4F9EF18A3785000DA1AD3 /* HYDEnumMapperSpec.mm in Sources */,
 				1FD4F9FD18A3785000DA1AD3 /* HYDStringToObjectFormatterMapperSpec.mm in Sources */,
@@ -1323,9 +1344,9 @@
 				1F26F32818C2F1CB003A7FB9 /* HYDDateToStringMapper.m in Sources */,
 				1FD4F9A818A3776600DA1AD3 /* HYDTypedMapper.m in Sources */,
 				1FD4F99918A3776600DA1AD3 /* HYDFirstMapper.m in Sources */,
+				1F17F8B618C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */,
 				1F357E6A18C31960004C4CBA /* HYDDateToStringMapperSpec.mm in Sources */,
 				1FD4FA0518A3785000DA1AD3 /* HYDValueTransformerMapperSpec.mm in Sources */,
-				1FD4F9EB18A3785000DA1AD3 /* HYDTypedMapperSpec.mm in Sources */,
 				31B733BA614F174EAD9BE5C6 /* HYDURLFormatter.m in Sources */,
 				1FD4F99C18A3776600DA1AD3 /* HYDObjectMapper.m in Sources */,
 				1F71529518A8C08E00F59AA8 /* HYDKeyPathAccessorSpec.mm in Sources */,
@@ -1351,7 +1372,8 @@
 				1FD4F9B518A3776600DA1AD3 /* HYDReversedValueTransformerMapper.m in Sources */,
 				1FD4FA0A18A3785000DA1AD3 /* HYDPostProcessingMapperSpec.mm in Sources */,
 				1F1217C3188E41CA00B1CBD1 /* HYDError+Spec.m in Sources */,
-				1F71528C18A88BBD00F59AA8 /* HYDSFakeAccesor.m in Sources */,
+				1F17F8A018C9971A00E818C1 /* HYDForwardMapperSpec.mm in Sources */,
+				1F71528C18A88BBD00F59AA8 /* HYDSFakeAccessor.m in Sources */,
 				1FD4F9E818A3785000DA1AD3 /* HYDNonFatalMapperSpec.mm in Sources */,
 				1F1E3FC91804EC4F00801509 /* main.m in Sources */,
 				1FD4F9BB18A3776600DA1AD3 /* HYDValueTransformerMapper.m in Sources */,
@@ -1382,6 +1404,7 @@
 				1FF0EA3218BB280F00ED3021 /* HYDIdentityValueTransformer.m in Sources */,
 				1F26F33318C2F299003A7FB9 /* HYDUUIDToString.m in Sources */,
 				1F1217C8188E615200B1CBD1 /* HYDFunctions.m in Sources */,
+				1F17F89D18C9971000E818C1 /* HYDForwardMapper.m in Sources */,
 				1FD4F9E018A3785000DA1AD3 /* HYDCollectionMapperSpec.mm in Sources */,
 				1FD4F9A318A3776600DA1AD3 /* HYDNonFatalMapper.m in Sources */,
 				1F71527F18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm in Sources */,
@@ -1389,6 +1412,7 @@
 				1FF0EA2418BB267100ED3021 /* HYDSnakeToCamelCaseValueTransformer.m in Sources */,
 				1FDAC11F18121F6900846B44 /* HYDProperty.m in Sources */,
 				1F26F32E18C2F243003A7FB9 /* HYDURLToStringMapper.m in Sources */,
+				1F17F8BA18C9A9E600E818C1 /* HYDBackwardMapperSpec.mm in Sources */,
 				1FD4F9E418A3785000DA1AD3 /* HYDObjectMapperSpec.mm in Sources */,
 				1FD4F9F018A3785000DA1AD3 /* HYDEnumMapperSpec.mm in Sources */,
 				1FD4F9FE18A3785000DA1AD3 /* HYDStringToObjectFormatterMapperSpec.mm in Sources */,
@@ -1420,9 +1444,9 @@
 				1F26F32918C2F1CB003A7FB9 /* HYDDateToStringMapper.m in Sources */,
 				1FD4F9A918A3776600DA1AD3 /* HYDTypedMapper.m in Sources */,
 				1FD4F99A18A3776600DA1AD3 /* HYDFirstMapper.m in Sources */,
+				1F17F8B718C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */,
 				1F357E6B18C31960004C4CBA /* HYDDateToStringMapperSpec.mm in Sources */,
 				1FD4FA0618A3785000DA1AD3 /* HYDValueTransformerMapperSpec.mm in Sources */,
-				1FD4F9EC18A3785000DA1AD3 /* HYDTypedMapperSpec.mm in Sources */,
 				31B73418707EF4B3BF67E67E /* HYDURLFormatter.m in Sources */,
 				1FD4F99D18A3776600DA1AD3 /* HYDObjectMapper.m in Sources */,
 				1F71529618A8C08E00F59AA8 /* HYDKeyPathAccessorSpec.mm in Sources */,

@@ -39,6 +39,8 @@
 #import "HYDIdentityMapper.h"
 #import "HYDValueTransformerMapper.h"
 #import "HYDReversedValueTransformerMapper.h"
+#import "HYDForwardMapper.h"
+#import "HYDBackwardMapper.h"
 
 // mappers composed from a set of classes from above
 #import "HYDOptionalMapper.h"
