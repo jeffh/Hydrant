@@ -1,4 +1,5 @@
 #import "HYDReflectiveMapper.h"
+#import "HYDConstants.h"
 #import "HYDIdentityMapper.h"
 #import "HYDIdentityValueTransformer.h"
 #import "HYDObjectMapper.h"
@@ -12,6 +13,10 @@
 #import "HYDDefaultAccessor.h"
 #import "HYDFunctions.h"
 #import "HYDReversedReflectiveMapper.h"
+#import "HYDStringToNumberMapper.h"
+#import "HYDStringToDateMapper.h"
+#import "HYDDotNetDateFormatter.h"
+#import "HYDFirstMapper.h"
 
 #import "HYDReflectiveMapper+Protected.h"
 
@@ -34,7 +39,19 @@
                  optionalFields:[NSSet set]
                  excludedFields:[NSSet set]
               overriddenMapping:@{}
-                    typeMapping:@{NSStringFromClass([NSURL class]) : HYDMapStringToURL(HYDRootMapper)}
+                    typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURL(HYDRootMapper),
+                                  NSStringFromClass([NSNumber class]): HYDMapStringToNumber(HYDRootMapper),
+                                  NSStringFromClass([NSDate class]): HYDMapFirst(HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339_milliseconds),
+                                                                                 HYDMapStringToDate(HYDRootMapper, [HYDDotNetDateFormatter new]),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day_gmt),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day_seconds),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day_seconds_gmt),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_seconds),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_seconds_gmt),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_gmt))}
                  keyTransformer:[HYDIdentityValueTransformer new]];
 }
 
