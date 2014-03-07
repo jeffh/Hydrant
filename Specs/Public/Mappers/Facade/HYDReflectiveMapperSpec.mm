@@ -1,7 +1,7 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
 #import "HYDSPerson.h"
-#import "HYDSFakeAccesor.h"
+#import "HYDSFakeAccessor.h"
 #import "HYDSFakeMapper.h"
 #import "HYDBlockValueTransformer.h"
 
@@ -12,14 +12,14 @@ SPEC_BEGIN(HYDReflectiveMapperSpec)
 
 describe(@"HYDReflectiveMapper", ^{
     __block HYDReflectiveMapper *mapper;
-    __block HYDSFakeAccesor *fakeAccessor;
+    __block HYDSFakeAccessor *fakeAccessor;
     __block HYDSFakeMapper *childMapper1;
     __block HYDSFakeMapper *childMapper2;
     __block HYDSPerson *expectedPerson;
     __block NSDictionary *validSourceObject;
 
     beforeEach(^{
-        fakeAccessor = [[HYDSFakeAccesor alloc] init];
+        fakeAccessor = [[HYDSFakeAccessor alloc] init];
         fakeAccessor.valuesToReturn = @[@23];
         fakeAccessor.fieldNames = @[@"age"];
 
