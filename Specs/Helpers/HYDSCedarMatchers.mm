@@ -39,29 +39,36 @@ bool BeAnError::subset_of_userinfo_matches(const HYDError *error) const {
 }
 
 NSString * BeAnError::failure_message_end() const {
-    return [NSString stringWithFormat:@"be an error (domain=%@, code=%ld, isFatal=%d) with at least userInfo of %@",
-            this->expectedDomain, (long)this->expectedErrorCode, this->isFatal, this->userInfoSubset];
+    return [NSString stringWithFormat:@"be an error (domain=%@%@%@) with at least userInfo of %@",
+            this->expectedDomain,
+            this->checkErrorCode ? [NSString stringWithFormat:@", code=%ld", (long)this->expectedErrorCode] : @"",
+            this->checkFatality ? [NSString stringWithFormat:@", isFatal=%d", this->isFatal] : @"",
+            this->userInfoSubset];
 }
 
-BeAnError & BeAnError::with_code(NSInteger code) {
-    this->checkErrorCode = true;
-    this->expectedErrorCode = code;
-    return *this;
+BeAnError BeAnError::with_code(NSInteger code) const {
+    BeAnError matcher(*this);
+    matcher.checkErrorCode = true;
+    matcher.expectedErrorCode = code;
+    return matcher;
 }
 
-BeAnError & BeAnError::with_domain(NSString *domain) {
-    this->expectedDomain = domain;
-    return *this;
+BeAnError BeAnError::with_domain(NSString *domain) const {
+    BeAnError matcher(*this);
+    matcher.expectedDomain = domain;
+    return matcher;
 }
 
-BeAnError & BeAnError::and_fatal() {
-    this->checkFatality = true;
-    this->isFatal = true;
-    return *this;
+BeAnError BeAnError::and_fatal() const {
+    BeAnError matcher(*this);
+    matcher.checkFatality = true;
+    matcher.isFatal = true;
+    return matcher;
 }
 
-BeAnError & BeAnError::and_non_fatal() {
-    this->checkFatality = true;
-    this->isFatal = false;
-    return *this;
+BeAnError BeAnError::and_non_fatal() const {
+    BeAnError matcher(*this);
+    matcher.checkFatality = true;
+    matcher.isFatal = false;
+    return matcher;
 }

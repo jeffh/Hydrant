@@ -9,10 +9,10 @@ public:
 
     bool matches(const HYDError *) const;
 
-    BeAnError & with_code(NSInteger code);
-    BeAnError & with_domain(NSString *domain);
-    BeAnError & and_fatal();
-    BeAnError & and_non_fatal();
+    BeAnError with_code(NSInteger code) const;
+    BeAnError with_domain(NSString *domain) const;
+    BeAnError and_fatal() const;
+    BeAnError and_non_fatal() const;
 
 protected:
     virtual NSString * failure_message_end() const;
