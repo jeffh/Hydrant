@@ -3,13 +3,62 @@
 /*! A constant that provides a convenient way to set an NSDateFormatter style.
  *
  *  It emits and parses datetimes in this style: "2014-01-14T14:35:23-0800"
- *
- *  The value is:
- *
- *     NSString *HYDRFC3339DateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
- *
  */
 HYD_EXTERN NSString *HYDDateFormatRFC3339;
+
+/*! A constant that provides a convenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "2014-01-14T14:35:23.456-0800"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC3339_milliseconds;
+
+/*! A constant that provides a covenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "Tue, 14 Jan 2014 14:35:32 GMT"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC822_day_seconds_gmt;
+
+/*! A constant that provides a covenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "Tue, 14 Jan 2014 14:35 GMT"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC822_day_gmt;
+
+/*! A constant that provides a covenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "Tue, 14 Jan 2014 14:35:32"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC822_day_seconds;
+
+/*! A constant that provides a covenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "Tue, 14 Jan 2014 14:35"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC822_day;
+
+/*! A constant that provides a covenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "14 Jan 2014 14:35:32 GMT"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC822_seconds_gmt;
+
+/*! A constant that provides a covenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "14 Jan 2014 14:35 GMT"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC822_gmt;
+
+/*! A constant that provides a covenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "14 Jan 2014 14:35:32"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC822_seconds;
+
+/*! A constant that provides a covenient way to set an NSDateFormatter style.
+ *
+ *  It emits and parses datetimes in this style: "14 Jan 2014 14:35"
+ */
+HYD_EXTERN NSString *HYDDateFormatRFC822;
 
 /*! A constant that is used to visually indicate the root of a mapper hierarchy.
  *
