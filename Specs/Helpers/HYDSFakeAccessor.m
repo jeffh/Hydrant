@@ -1,8 +1,8 @@
-#import "HYDSFakeAccesor.h"
+#import "HYDSFakeAccessor.h"
 #import "HYDError.h"
 #import "HYDFunctions.h"
 
-@implementation HYDSFakeAccesor
+@implementation HYDSFakeAccessor
 
 - (NSString *)description
 {
@@ -20,7 +20,7 @@
 
 - (NSArray *)valuesFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    self.sourceValuesReceived = sourceObject;
+    self.sourceValueReceived = sourceObject;
     HYDSetObjectPointer(error, self.sourceErrorToReturn);
     return self.valuesToReturn;
 }
