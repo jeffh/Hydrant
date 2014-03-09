@@ -81,25 +81,22 @@
 - (NSString *)description
 {
     NSString *fatalness = (self.isFatal ? @"[FATAL]" : @"[non-fatal]");
-    NSMutableString *underlyingErrors = [NSMutableString string];
+    NSString *underlyingErrors = @"";
     if (self.isFatal && self.underlyingErrors.count) {
-        for (NSError *error in self.nonHydrantErrors) {
-            NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@",
-                                     error.domain, (long)error.code, error.localizedDescription];
-            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", errorString)];
-        }
+        underlyingErrors = [self errorDescriptionFromNonHydrantErrors:[self underlyingNonHydrantErrors] hydrantErrors:[self rootFatalHydrantErrors]];
+    }
 
-        for (HYDError *error in self.rootFatalHydrantErrors) {
-            NSString *hydrantErrorString = [NSString stringWithFormat:@"%@ (%@)", error.localizedDescription, [error codeAsString]];
-            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", hydrantErrorString)];
+    return [NSString stringWithFormat:@"%@ %@ (code=%@) because \"%@\"\n%@",
+            fatalness, self.domain, [self codeAsString], self.localizedDescription,
+            underlyingErrors];
+}
 
-            NSArray *nonHydrantErrors = [error nonHydrantErrors];
-            for (NSError *otherError in nonHydrantErrors) {
-                NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@",
-                                         otherError.domain, (long)otherError.code, otherError.localizedDescription];
-                [underlyingErrors appendFormat:@"    |- %@\n", HYDPrefixSubsequentLines(@"    ", errorString)];
-            }
-        }
+- (NSString *)fullDescription
+{
+    NSString *fatalness = (self.isFatal ? @"[FATAL]" : @"[non-fatal]");
+    NSString *underlyingErrors = @"";
+    if (self.underlyingErrors.count) {
+        underlyingErrors = [self errorDescriptionFromNonHydrantErrors:[self underlyingNonHydrantErrors] hydrantErrors:[self rootHydrantErrors]];
     }
 
     return [NSString stringWithFormat:@"%@ %@ (code=%@) because \"%@\"\n%@",
@@ -183,37 +180,58 @@
 
 - (NSArray *)underlyingFatalErrors
 {
-    NSMutableArray *fatalErrors = [NSMutableArray array];
-    for (NSError *error in self.underlyingErrors) {
-        if (![error isKindOfClass:[HYDError class]] || [(HYDError *)error isFatal]) {
-            [fatalErrors addObject:error];
-        }
-    }
-    return fatalErrors;
+    return [self underlyingErrorsPassingBlock:^BOOL(NSError *error) {
+        return ![error isKindOfClass:[HYDError class]] || [(HYDError *)error isFatal];
+    }];
 }
 
-- (NSArray *)nonHydrantErrors
+#pragma mark - Private
+
+- (NSString *)errorDescriptionFromNonHydrantErrors:(NSArray *)nonHydrantErrors hydrantErrors:(NSArray *)hydrantErrors
 {
-    NSMutableArray *otherErrors = [NSMutableArray array];
-    for (NSError *error in self.underlyingErrors) {
-        if (![error isKindOfClass:[HYDError class]]) {
-            [otherErrors addObject:error];
+    NSMutableString *underlyingErrors = [NSMutableString string];
+
+    for (NSError *error in nonHydrantErrors) {
+        NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@",
+                                 error.domain, (long)error.code, error.localizedDescription];
+        [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", errorString)];
+    }
+
+    for (HYDError *error in hydrantErrors) {
+        NSString *hydrantErrorString = [NSString stringWithFormat:@"%@ (%@)", error.localizedDescription, [error codeAsString]];
+        [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", hydrantErrorString)];
+
+        for (NSError *otherError in [error underlyingNonHydrantErrors]) {
+            NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@",
+                                     otherError.domain, (long)otherError.code, otherError.localizedDescription];
+            [underlyingErrors appendFormat:@"    |- %@\n", HYDPrefixSubsequentLines(@"       ", errorString)];
         }
     }
-    return otherErrors;
+    return underlyingErrors;
 }
 
-- (NSArray *)rootFatalHydrantErrors
+- (NSArray *)underlyingErrorsPassingBlock:(BOOL(^)(NSError *error))filterBlock
 {
-    NSMutableArray *fatalErrors = [NSMutableArray array];
-    for (NSError *error in self.underlyingFatalErrors) {
+    NSMutableArray *filteredErrors = [NSMutableArray array];
+    for (NSError *error in self.underlyingErrors) {
+        if (filterBlock(error)) {
+            [filteredErrors addObject:error];
+        }
+    }
+    return filteredErrors;
+}
+
+- (NSArray *)flattenedErrorsFromBlock:(NSArray *(^)(HYDError *error))getErrorsBlock
+{
+    NSMutableArray *errors = [NSMutableArray array];
+    for (NSError *error in getErrorsBlock(self)) {
         if ([error isKindOfClass:[self class]]) {
             HYDError *innerError = (HYDError *)error;
-            NSArray *underlyingErrors = [innerError rootFatalHydrantErrors];
+            NSArray *underlyingErrors = [innerError flattenedErrorsFromBlock:getErrorsBlock];
             if (underlyingErrors.count) {
-                [fatalErrors addObjectsFromArray:underlyingErrors];
+                [errors addObjectsFromArray:underlyingErrors];
             } else {
-                [fatalErrors addObject:[HYDError errorFromError:innerError
+                [errors addObject:[HYDError errorFromError:innerError
                                        prependingSourceAccessor:self.sourceAccessor
                                          andDestinationAccessor:self.destinationAccessor
                                         replacementSourceObject:nil
@@ -221,7 +239,35 @@
             }
         }
     }
-    return fatalErrors;
+    return errors;
+}
+
+- (NSArray *)underlyingHydrantErrors
+{
+    return [self underlyingErrorsPassingBlock:^BOOL(NSError *error) {
+        return [error isKindOfClass:[HYDError class]];
+    }];
+}
+
+- (NSArray *)underlyingNonHydrantErrors
+{
+    return [self underlyingErrorsPassingBlock:^BOOL(NSError *error) {
+        return ![error isKindOfClass:[HYDError class]];
+    }];
+}
+
+- (NSArray *)rootHydrantErrors
+{
+    return [self flattenedErrorsFromBlock:^NSArray *(HYDError *error) {
+        return error.underlyingHydrantErrors;
+    }];
+}
+
+- (NSArray *)rootFatalHydrantErrors
+{
+    return [self flattenedErrorsFromBlock:^NSArray *(HYDError *error) {
+        return error.underlyingFatalErrors;
+    }];
 }
 
 - (NSString *)codeAsString

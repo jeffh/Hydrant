@@ -119,12 +119,23 @@
  */
 - (id<HYDAccessor>)destinationAccessor;
 
-/*! Returns a string representation of this error. Emits a tree of all the fatal errors that
- *  this error contains.
+/*! Returns a string representation of this error. Emits a list of all fatal errors that this error contains
+ */
+- (NSString *)description;
+
+/*! Returns a string representation of this error. Emits a list of all errors that this error contains
+ *
+ *  This is like -[description], but all errors are emitted.
+ */
+- (NSString *)fullDescription;
+
+/*! Returns a string representation of this error. Emits a tree of all the fatal errors that this error contains.
  */
 - (NSString *)recursiveDescription;
 
-/*! Returns a string like -[recursiveDescription], but emits non fatal errors too.
+/*! Returns a string representation of this error. Emits a tree of all the errors that this error contains.
+ *
+ *  This is like -[recursiveDescription], but all errors are emitted.
  */
 - (NSString *)fullRecursiveDescription;
 
