@@ -354,3 +354,6 @@ details specific to this `facade`_ class.
 
 .. _facade: http://en.wikipedia.org/wiki/Facade_pattern
 
+That's it! You might like to read up on some of the many mappers you can use.
+But that's all there's to it!
+

@@ -19,10 +19,10 @@ are overloaded they generally conform to the following style::
 
 The first function is a convenience to do the following::
 
-    HYDMapMapperName(HYDIdentityMapper(destinationKey), ...);
+    HYDMapMapperName(HYDMapIdentity(destinationKey), ...);
 
-The identity mapper simply provides direct access to the source object and
-provides a KVC-styled key accessor for parent mappers.
+The :ref:`identity mapper <HYDIdentityMapper>` simply provides direct access to
+the source object and provides a KVC-styled key accessor for parent mappers.
 
 If the mapper is the mapping the source object directly (eg - the top-most
 mapper), then you can use ``HYDRootMapper`` constant as the first argument to
@@ -39,6 +39,9 @@ indicate that::
 
 For autocompleting convenience, all the helper functions are prefixed with
 ``HYDMap``.
+
+.. _HYDEnumMapper:
+.. _HYDMapEnum:
 
 HYDEnumMapper
 =============
@@ -77,6 +80,11 @@ object values. Remember that all values in the mapping need to be an object::
                  @"female": @(PersonGenderFemale),
                  @"unknown": @(PersonGenderUnknown)});
 
+.. _HYDIdentityMapper:
+.. _HYDMapIdentity:
+.. _HYDMapKey:
+.. _HYDMapKeyPath:
+
 HYDIdentityMapper
 =================
 
@@ -104,6 +112,9 @@ argument.
 ``HYDMapKey`` performs only direct key access which can be useful for reading
 dictionary keys that have periods in them. Otherwise, ``HYDMapKeyPath``
 provides KVC key path like traversing behavior which useful in more cases.
+
+.. _HYDObjectToStringFormatterMapper:
+.. _HYDMapObjectToStringByFormatter:
 
 HYDObjectToStringFormatterMapper
 =================================

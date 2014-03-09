@@ -1,13 +1,21 @@
-.. Hydrant documentation master file, created by
-   sphinx-quickstart on Sun Mar  2 15:14:23 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+====================================
+Welcome to the Hydrant Documentation
+====================================
+
+Hydrant is a simple object serializer and data mapper library. Its goal is to
+parse JSON into value objects that you can safely use throughout your
+application. All the input validation and error checking can be done through
+Hydrant.
+
+Contents
+========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-   welcome
+   installation
    getting_started
+   debugging
    mapper_reference
    design
    changelog

@@ -1,16 +1,5 @@
 
-=======================
-Introduction to Hydrant
-=======================
-
-This documents version 1.0 alpha of Hydrant.
-
-Hydrant is a simple object serializer and data mapper library. It's secondary
-goal is to handle invalid input gracefully without throwing exceptions.
-
-If you want a jumpstart, check out the :doc:`Getting Started <getting_started>`
-section.
-
+============
 Installation
 ============
 
