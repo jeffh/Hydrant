@@ -41,8 +41,8 @@
               overriddenMapping:@{}
                     typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURL(HYDRootMapper),
                                   NSStringFromClass([NSNumber class]): HYDMapStringToNumber(HYDRootMapper),
-                                  NSStringFromClass([NSDate class]): HYDMapFirst(HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339_milliseconds),
+                                  NSStringFromClass([NSDate class]): HYDMapFirst(HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339_milliseconds),
+                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339),
                                                                                  HYDMapStringToDate(HYDRootMapper, [HYDDotNetDateFormatter new]),
                                                                                  HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822),
                                                                                  HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day),
