@@ -201,7 +201,8 @@ describe(@"HYDError", ^{
 
         it(@"should have a pretty description with all errors", ^{
             [wrappedError fullDescription] should equal([NSString stringWithFormat:@"[non-fatal] HYDErrorDomain (code=HYDErrorInvalidSourceObjectValue) because \"Could not map from 'preSource.sourceAccessor' to 'preDestination.destinationAccessor'\"\n"
-                                                         @"  - [%@] (code=%ld) %@\n", innerError.domain, innerError.code, innerError.localizedDescription]);
+                                                         @"  - [%@] (code=%ld) %@\n",
+                                                         innerError.domain, (long)innerError.code, innerError.localizedDescription]);
         });
 
         it(@"should have a pretty recursive description with fatal errors", ^{
