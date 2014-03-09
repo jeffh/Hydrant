@@ -78,17 +78,25 @@
               underlyingErrors:errors];
 }
 
-- (NSString *)debugDescription
+- (NSString *)description
 {
     NSString *fatalness = (self.isFatal ? @"[FATAL]" : @"[non-fatal]");
     NSMutableString *underlyingErrors = [NSMutableString string];
     if (self.isFatal && self.underlyingErrors.count) {
+        for (NSError *error in self.nonHydrantErrors) {
+            NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@", error.domain, error.code, error.localizedDescription];
+            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", errorString)];
+        }
+
         for (HYDError *error in self.rootFatalHydrantErrors) {
-            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", error.localizedDescription)];
+            NSString *hydrantErrorString = [NSString stringWithFormat:@"%@ (%@)", error.localizedDescription, [error codeAsString]];
+            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", hydrantErrorString)];
 
             NSArray *nonHydrantErrors = [error nonHydrantErrors];
             for (NSError *otherError in nonHydrantErrors) {
-                [underlyingErrors appendFormat:@"    |- %@\n", HYDPrefixSubsequentLines(@"    ", otherError.localizedDescription)];
+                NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@",
+                                         otherError.domain, otherError.code, otherError.localizedDescription];
+                [underlyingErrors appendFormat:@"    |- %@\n", HYDPrefixSubsequentLines(@"    ", errorString)];
             }
         }
     }
@@ -98,14 +106,20 @@
             underlyingErrors];
 }
 
-- (NSString *)description
+- (NSString *)recursiveDescription
 {
     NSString *fatalness = (self.isFatal ? @"YES" : @"NO");
     NSMutableString *underlyingErrors = [NSMutableString string];
     if (self.isFatal && self.underlyingErrors.count) {
         [underlyingErrors appendString:@" underlyingFatalErrors=(\n"];
         for (NSError *error in self.underlyingFatalErrors) {
-            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", error.description)];
+            NSString *errorDescription = nil;
+            if ([error respondsToSelector:@selector(recursiveDescription)]) {
+                errorDescription = [(HYDError *)error recursiveDescription];
+            } else {
+                errorDescription = error.description;
+            }
+            [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", errorDescription)];
         }
         [underlyingErrors appendString:@")"];
     }
@@ -114,7 +128,7 @@
             self.domain, (long)self.code, fatalness, self.localizedDescription, underlyingErrors];
 }
 
-- (NSString *)fullDescription
+- (NSString *)fullRecursiveDescription
 {
     NSString *fatalness = (self.isFatal ? @"YES" : @"NO");
     NSMutableString *underlyingErrors = [NSMutableString string];
@@ -122,8 +136,8 @@
         [underlyingErrors appendString:@" underlyingErrors=(\n"];
         for (NSError *error in self.underlyingErrors) {
             NSString *errorDescription = nil;
-            if ([error respondsToSelector:@selector(fullDescription)]) {
-                errorDescription = [(HYDError *)error fullDescription];
+            if ([error respondsToSelector:@selector(fullRecursiveDescription)]) {
+                errorDescription = [(HYDError *)error fullRecursiveDescription];
             } else {
                 errorDescription = error.description;
             }

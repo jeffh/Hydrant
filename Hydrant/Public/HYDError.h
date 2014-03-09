@@ -119,9 +119,14 @@
  */
 - (id<HYDAccessor>)destinationAccessor;
 
-/*! Returns a string like -[description], but emits non fatal errors too.
+/*! Returns a string representation of this error. Emits a tree of all the fatal errors that
+ *  this error contains.
  */
-- (NSString *)fullDescription;
+- (NSString *)recursiveDescription;
+
+/*! Returns a string like -[recursiveDescription], but emits non fatal errors too.
+ */
+- (NSString *)fullRecursiveDescription;
 
 /*! Returns the source object that the mapping error occurred on. Returns nil if not known.
  *
