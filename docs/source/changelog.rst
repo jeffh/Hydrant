@@ -1,9 +1,9 @@
 .. For master, place all the bleeding edge changes in the "master" section.
    Otherwise, each version should mention all the changes made.
 
-=======
-Changes
-=======
+=========
+Changelog
+=========
 
 Here lists all the changes that have occurred in Hydrant from version to
 version. They are ordered by version, then by significance of change (from

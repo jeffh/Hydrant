@@ -1,16 +1,26 @@
 .. highlight:: objective-c
 
+===============
 Getting Started
 ===============
 
-New to Hydrant? Let's jump in.
-
 Hydrant is designed to be highly flexible in converting a tree of objects into
-another tree of objects. Yeah, that sounds pretty boring at stupid. But
+another tree of objects. Yeah, that sounds pretty boring and stupid. But
 deconstruct what that means.
 
+You're provided the flexibility of converting any parse JSON (eg - structured
+NSArrays, NSDictionaries) into Value Object graph for your application to use.
+When doing this transformation, it can perform validations when performing
+these operations.
+
+Of course this doesn't have to be just JSON. Parsing XML or converting values
+objects to your views and back are possible.
+
+Enough talk, it's easier to see the usefulness with some code examples. Let's
+jump right in.
+
 The Problem
------------
+===========
 
 Let's look at some json data we just parsed from `NSJSONSerialization <https://developer.apple.com/library/iOS/documentation/Foundation/Reference/NSJSONSerialization_Class/Reference/Reference.html>`_::
 
@@ -44,8 +54,8 @@ And we want to convert it to our person object::
 
 Using this example dictionary, how can we parse this with Hydrant?
 
-First Solution
---------------
+Serializing with Hydrant
+========================
 
 Let's see how you can solve it via Hydrant::
 
@@ -112,8 +122,8 @@ produce Person objects. So after the construction, it can be memoized.
 For easy access, all helper functions that produce mappers are prefixed with
 ``HYDMap``.
 
-What about the Hand-coded solution?
------------------------------------
+Why not manully parse the JSON?
+===============================
 
 Let's take a short aside about the default go-to solution - parsing it
 manually.  Here's a sample method to parse it manually::
@@ -157,7 +167,7 @@ proper guard code starts becoming error-prone, boring, and adds a lot of noise
 to your code.
 
 Error Handling
---------------
+==============
 
 Of course if you don't know when Hydrant failed to parse something that's just
 as unhelpful. So Hydrant mappers also return errors, which can be used to
@@ -178,19 +188,19 @@ mapper parses the source object::
 In practice, checking for ``-[HYDError isFatal]`` is usually the only check you
 need to perform.
 
-Hydrant errors also contain a lot of state of the library when parsing fails.
-These include the source object (or partial object being looked at), any
-internal errors, other mapper errors, fatalness, and properties being mapped to
-and from. They're all stored in userInfo, as ``HYDError`` just provides
-convenient methods.
+Hydrant errors contain a lot of state of the library when parsing fails. These
+include the source object (or partial object being parsed), any internal
+errors, other mapper errors, fatalness, and properties being mapped to and
+from. They're all stored in userInfo, as ``HYDError`` just provides convenient
+methods.
 
 .. warning:: Since Hydrant errors store a lot of information about the source
              object, **you might leak sensitive information from the source
-             object** (eg - user credentials) if you transfer the ``userInfo``
-             over the network.
+             object** (eg - user credentials) if you transfer the
+             ``error.userInfo`` over the network.
 
 So when would errors occur? Here's some examples from our mapper object we
-defined::
+defined:
 
 - Hydrant fails to convert the incoming object to an NSURL for homepage, such
   as a trying to use a non-NSString.
@@ -200,7 +210,7 @@ defined::
   types (eg - "age" key is a string).
 
 Marking fields as Optional
---------------------------
+==========================
 
 Most of time, we still want our users to still use the application despite some
 invalid data. We can mark fields to tell Hydrant that some fatal errors are
@@ -263,7 +273,7 @@ dropping the array when any of the elements fail to parse::
 The composition of these mappers provides the flexibility and power in Hydrant.
 
 Converting it back to JSON
---------------------------
+==========================
 
 Since you've declared the relationship. You can use the mapper to convert the
 person object back into JSON::
@@ -275,9 +285,6 @@ That will give us our JSON back. Easy as that!
 
 Removing Boilerplate
 ====================
-
-Cutting Some of the Boilerplate
--------------------------------
 
 Pretty soon, you'll be typing a lot of these that map to dictionaries. So it is
 implicit as the second argument to ``HYDMapObject``::
@@ -306,21 +313,44 @@ So now we have this::
                                                                               @"last_name": @"lastName",
                                                                               @"age": @"age"}));
 
-Cutting All of the Boilerplate
-------------------------------
+Using Reflection to Remove More Boilerplate
+-------------------------------------------
 
 If your JSON is well formed and just requires a little processing to map
 directly to your objects, you can use ``HYDMapReflectively``, which will use
 introspection of your class to determine how to map your values through.
-Although some information is still required for various types.
+Although some information is still required for various types::
 
     id<HYDMapper> childMapper = HYDMapReflectively(@"children", [Person class]).except(@[@"children"]);
     id<HYDMapper> mapper = HYDMapReflectively(HYDRootMapper, [Person class])
                             .overriding(@{@"children": HYDMapArrayOf(childMapper)});
 
+.. warning:: The caveat for ``HYDMapReflectively`` is that you still need to be explicit on
+             how to emit the JSON, which reflective mapper does not help you with.
 
-Conclusion
-==========
+The reflective mapper tries a bunch of strategies to parse the incoming data
+in to something reasonable. For example, it tries various different NSDate
+formats and permutations to convert an NSString into an NSDate.
 
-Check out more guides ... TODO
+Since the reflective mapper will need more information for emitting the various
+types, we can specify like so::
+
+    // let's say we changed this class to have a birthDate property
+    @interface Person
+    @property (copy, nonatomic) NSString *firstName;
+    @property (copy, nonatomic) NSString *lastName;
+    @property (strong, nonatomic) NSURL *homepage;
+    @property (assign, nonatomic) NSInteger age;
+    @property (strong, nonatomic) NSDate *birthDate;
+    @end 
+
+    id<HYDMapper> mapper = HYDMapReflectively(HYDRootMapper, [Person class])
+                            .emit([NSDate class], HYDMapDateToString(HYDRootMapper, HYDDateFormatRFC3339));
+
+This will explicitly tell Hydrant how to emit the given classes back. Otherwise
+its behavior can be unexpected for certain classes. Read the documentation
+about ``HYDReflectiveMapper``, which is the underlying implementation for more
+details specific to this `facade`_ class.
+
+.. _facade: http://en.wikipedia.org/wiki/Facade_pattern
 
