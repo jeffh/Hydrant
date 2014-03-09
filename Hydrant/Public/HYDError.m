@@ -84,7 +84,8 @@
     NSMutableString *underlyingErrors = [NSMutableString string];
     if (self.isFatal && self.underlyingErrors.count) {
         for (NSError *error in self.nonHydrantErrors) {
-            NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@", error.domain, error.code, error.localizedDescription];
+            NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@",
+                                     error.domain, (long)error.code, error.localizedDescription];
             [underlyingErrors appendFormat:@"  - %@\n", HYDPrefixSubsequentLines(@"    ", errorString)];
         }
 
@@ -95,7 +96,7 @@
             NSArray *nonHydrantErrors = [error nonHydrantErrors];
             for (NSError *otherError in nonHydrantErrors) {
                 NSString *errorString = [NSString stringWithFormat:@"[%@] (code=%ld) %@",
-                                         otherError.domain, otherError.code, otherError.localizedDescription];
+                                         otherError.domain, (long)otherError.code, otherError.localizedDescription];
                 [underlyingErrors appendFormat:@"    |- %@\n", HYDPrefixSubsequentLines(@"    ", errorString)];
             }
         }
