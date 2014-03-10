@@ -12,7 +12,6 @@
 
 @property (strong, nonatomic) id<HYDMapper> childMapper;
 @property (strong, nonatomic) id<HYDAccessor> walkAccessor;
-@property (strong, nonatomic) Class sourceClass;
 @property (strong, nonatomic) Class destinationClass;
 @property (strong, nonatomic) id<HYDFactory> factory;
 
@@ -28,14 +27,12 @@
 
 - (id)initWithMapper:(id<HYDMapper>)mapper
         walkAccessor:(id<HYDAccessor>)walkAccessor
-         sourceClass:(Class)sourceClass
     destinationClass:(Class)destinationClass
 {
     self = [super init];
     if (self) {
         self.childMapper = mapper;
         self.walkAccessor = walkAccessor;
-        self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
         self.factory = [[HYDObjectFactory alloc] init];
     }
@@ -83,28 +80,15 @@
     id<HYDMapper> reversedMapper = [self.childMapper reverseMapperWithDestinationAccessor:destinationAccessor];
     return [[HYDForwardMapper alloc] initWithMapper:reversedMapper
                                        walkAccessor:self.walkAccessor
-                                        sourceClass:self.destinationClass
-                                   destinationClass:self.sourceClass];
+                                        sourceClass:self.destinationClass];
 }
 
 @end
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapBackward(id<HYDAccessor> walkAccessor, Class sourceClass, Class destinationClass, id<HYDMapper> childMapper)
+id<HYDMapper> HYDMapBackward(id<HYDAccessor> walkAccessor, Class destinationClass, id<HYDMapper> childMapper)
 {
-    return [[HYDBackwardMapper alloc] initWithMapper:childMapper walkAccessor:walkAccessor sourceClass:sourceClass destinationClass:destinationClass];
-}
-
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapBackward(NSString *destinationKey, Class sourceClass, Class destinationClass, id<HYDMapper> childMapper)
-{
-    return HYDMapBackward(HYDAccessDefault(destinationKey), sourceClass, destinationClass, childMapper);
-}
-
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapBackward(id<HYDAccessor> accessor, Class destinationClass, id<HYDMapper> childMapper)
-{
-    return HYDMapBackward(accessor, [NSDictionary class], [NSDictionary class], childMapper);
+    return [[HYDBackwardMapper alloc] initWithMapper:childMapper walkAccessor:walkAccessor destinationClass:destinationClass];
 }
 
 HYD_EXTERN_OVERLOADED
@@ -116,7 +100,7 @@ id<HYDMapper> HYDMapBackward(NSString *destinationKey, Class destinationClass, i
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapBackward(id<HYDAccessor> accessor, id<HYDMapper> childMapper)
 {
-    return HYDMapBackward(accessor, [NSDictionary class], [NSDictionary class], childMapper);
+    return HYDMapBackward(accessor, [NSDictionary class], childMapper);
 }
 
 HYD_EXTERN_OVERLOADED

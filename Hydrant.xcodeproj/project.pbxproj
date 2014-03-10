@@ -863,12 +863,12 @@
 				1F357E5818C30805004C4CBA /* HYDStringToURLMapper.m */,
 				1F357E5C18C3086C004C4CBA /* HYDStringToUUIDMapper.h */,
 				1F357E5D18C3086C004C4CBA /* HYDStringToUUIDMapper.m */,
+				1F39975818C5AD66002FF753 /* HYDTypedObjectMapper.h */,
+				1F39975918C5AD66002FF753 /* HYDTypedObjectMapper.m */,
 				1F26F32A18C2F243003A7FB9 /* HYDURLToStringMapper.h */,
 				1F26F32B18C2F243003A7FB9 /* HYDURLToStringMapper.m */,
 				1F26F32F18C2F299003A7FB9 /* HYDUUIDToString.h */,
 				1F26F33018C2F299003A7FB9 /* HYDUUIDToString.m */,
-				1F39975818C5AD66002FF753 /* HYDTypedObjectMapper.h */,
-				1F39975918C5AD66002FF753 /* HYDTypedObjectMapper.m */,
 			);
 			path = Composed;
 			sourceTree = "<group>";
@@ -880,12 +880,12 @@
 				1FD4F97318A3776600DA1AD3 /* HYDCollectionMapper.m */,
 				1FD4F97418A3776600DA1AD3 /* HYDFirstMapper.h */,
 				1FD4F97518A3776600DA1AD3 /* HYDFirstMapper.m */,
-				1FD4F97618A3776600DA1AD3 /* HYDObjectMapper.h */,
-				1FD4F97718A3776600DA1AD3 /* HYDObjectMapper.m */,
 				1FD4F97A18A3776600DA1AD3 /* HYDNonFatalMapper.h */,
 				1FD4F97B18A3776600DA1AD3 /* HYDNonFatalMapper.m */,
 				1FD4F97C18A3776600DA1AD3 /* HYDNotNullMapper.h */,
 				1FD4F97D18A3776600DA1AD3 /* HYDNotNullMapper.m */,
+				1FD4F97618A3776600DA1AD3 /* HYDObjectMapper.h */,
+				1FD4F97718A3776600DA1AD3 /* HYDObjectMapper.m */,
 				1FD4F97E18A3776600DA1AD3 /* HYDTypedMapper.h */,
 				1FD4F97F18A3776600DA1AD3 /* HYDTypedMapper.m */,
 			);
@@ -895,8 +895,12 @@
 		1FD4F98018A3776600DA1AD3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1F17F8B318C9A4ED00E818C1 /* HYDBackwardMapper.h */,
+				1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */,
 				1FD4F98118A3776600DA1AD3 /* HYDEnumMapper.h */,
 				1FD4F98218A3776600DA1AD3 /* HYDEnumMapper.m */,
+				1F17F89918C9971000E818C1 /* HYDForwardMapper.h */,
+				1F17F89A18C9971000E818C1 /* HYDForwardMapper.m */,
 				1FD4F98318A3776600DA1AD3 /* HYDIdentityMapper.h */,
 				1FD4F98418A3776600DA1AD3 /* HYDIdentityMapper.m */,
 				1FD4F98518A3776600DA1AD3 /* HYDObjectToStringFormatterMapper.h */,
@@ -907,10 +911,6 @@
 				1FD4F98A18A3776600DA1AD3 /* HYDStringToObjectFormatterMapper.m */,
 				1FD4F98B18A3776600DA1AD3 /* HYDValueTransformerMapper.h */,
 				1FD4F98C18A3776600DA1AD3 /* HYDValueTransformerMapper.m */,
-				1F17F89918C9971000E818C1 /* HYDForwardMapper.h */,
-				1F17F89A18C9971000E818C1 /* HYDForwardMapper.m */,
-				1F17F8B318C9A4ED00E818C1 /* HYDBackwardMapper.h */,
-				1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
