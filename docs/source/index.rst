@@ -15,7 +15,7 @@ Contents
 
    installation
    getting_started
-   debugging
+   error_handling
    mapper_reference
    design
    changelog
