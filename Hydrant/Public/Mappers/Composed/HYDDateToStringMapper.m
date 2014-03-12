@@ -5,9 +5,9 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *destinationKey, NSString *formatString)
+HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *formatString)
 {
-    return HYDMapDateToString(HYDMapIdentity(destinationKey), formatString);
+    return HYDMapDateToString(HYDMapIdentity(), formatString);
 }
 
 HYD_EXTERN_OVERLOADED
@@ -20,9 +20,9 @@ HYDObjectToStringFormatterMapper *HYDMapDateToString(id<HYDMapper> mapper, NSStr
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *destinationKey, NSDateFormatter *dateFormatter)
+HYDObjectToStringFormatterMapper *HYDMapDateToString(NSDateFormatter *dateFormatter)
 {
-    return HYDMapObjectToStringByFormatter(destinationKey, dateFormatter);
+    return HYDMapObjectToStringByFormatter(HYDMapIdentity(), dateFormatter);
 }
 
 HYD_EXTERN_OVERLOADED

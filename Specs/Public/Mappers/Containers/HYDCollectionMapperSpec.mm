@@ -16,7 +16,7 @@ describe(@"HYDCollectionMapper", ^{
     __block id parsedObject;
 
     beforeEach(^{
-        childMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"key"];
+        childMapper = [[HYDSFakeMapper alloc] init];
         mapper = HYDMapArrayOf(childMapper);
     });
 
@@ -36,10 +36,6 @@ describe(@"HYDCollectionMapper", ^{
                 [m objectFromSourceObject:nil error:nil];
             } should raise_exception;
         });
-    });
-
-    it(@"should return the destination key of its child mapper", ^{
-        [mapper destinationAccessor] should equal(HYDAccessDefault(@"key"));
     });
 
     describe(@"parsing an object", ^{
@@ -217,7 +213,7 @@ describe(@"HYDCollectionMapper", ^{
 
     describe(@"reverse mapper", ^{
         beforeEach(^{
-            HYDSFakeMapper *reverseChildMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDSFakeMapper *reverseChildMapper = [[HYDSFakeMapper alloc] init];
             childMapper.reverseMapperToReturn = reverseChildMapper;
             childMapper.objectsToReturn = @[@2];
             reverseChildMapper.objectsToReturn = @[@1];

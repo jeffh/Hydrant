@@ -16,6 +16,6 @@
 @property (strong, nonatomic) id<HYDMapper> internalMapper;
 
 - (NSDictionary *)buildMapping;
-- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property destinationKey:(NSString *)destinationKey;
+- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property;
 
 @end

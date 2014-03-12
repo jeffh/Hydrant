@@ -5,12 +5,9 @@
 // TODO: test these methods?
 
 /*! Constructs a mapper that is the composition of HYDMapNonFatally(HYDMapNotNull(...)).
- *
- * @param destinationKey The property or key path to store the given value.
  */
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapOptionally(NSString *destinationKey)
-HYD_REQUIRE_NON_NIL(1);
+HYD_EXTERN
+id<HYDMapper> HYDMapOptionally(void);
 
 /*! Constructs a mapper that is the composition of HYDMapNonFatally(HYDMapNotNull(...)).
  *
@@ -18,7 +15,7 @@ HYD_REQUIRE_NON_NIL(1);
  * @returns a mapper that converts all fatal errors into non-fatal ones.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapOptionally(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapOptionallyTo(id<HYDMapper> mapper)
 HYD_REQUIRE_NON_NIL(1);
 
 /*! Constructs a mapper that is the composition of HYDMapNonFatally(HYDMapNotNull(...)).
@@ -27,7 +24,7 @@ HYD_REQUIRE_NON_NIL(1);
  * @param defaultValue The default value to return when the value is nil.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapOptionallyWithDefault(NSString *destinationKey, id defaultValue)
+id<HYDMapper> HYDMapOptionallyWithDefault(id defaultValue)
 HYD_REQUIRE_NON_NIL(1);
 
 /*! Constructs a mapper that is the composition of HYDMapNonFatally(HYDMapNotNull(...)).
@@ -56,8 +53,8 @@ HYD_REQUIRE_NON_NIL(1);
  *                            calling this block each time.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapOptionallyWithDefaultFactory(NSString *destinationKey, HYDValueBlock defaultValueFactory)
-HYD_REQUIRE_NON_NIL(1,2);
+id<HYDMapper> HYDMapOptionallyWithDefaultFactory(HYDValueBlock defaultValueFactory)
+HYD_REQUIRE_NON_NIL(1);
 
 /*! Constructs a mapper that is the composition of HYDMapNonFatally(HYDMapNotNull(...)).
  *

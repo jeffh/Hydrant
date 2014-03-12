@@ -70,14 +70,9 @@
     return resultingObject;
 }
 
-- (id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return [self.childMapper destinationAccessor];
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    id<HYDMapper> reversedMapper = [self.childMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reversedMapper = [self.childMapper reverseMapper];
     return [[HYDForwardMapper alloc] initWithMapper:reversedMapper
                                        walkAccessor:self.walkAccessor
                                         sourceClass:self.destinationClass];

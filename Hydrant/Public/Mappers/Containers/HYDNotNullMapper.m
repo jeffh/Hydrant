@@ -49,7 +49,7 @@
                                               sourceObject:sourceObject
                                             sourceAccessor:nil
                                          destinationObject:nil
-                                       destinationAccessor:self.destinationAccessor
+                                       destinationAccessor:nil
                                                    isFatal:YES
                                           underlyingErrors:nil]);
     }
@@ -57,28 +57,21 @@
     return resultingObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return [[[self class] alloc] initWithMapper:[self.mapper reverseMapperWithDestinationAccessor:destinationAccessor]];
-}
-
-- (id<HYDAccessor>)destinationAccessor
-{
-    return self.mapper.destinationAccessor;
+    return [[[self class] alloc] initWithMapper:[self.mapper reverseMapper]];
 }
 
 @end
 
-
-HYD_EXTERN_OVERLOADED
-HYDNotNullMapper *HYDMapNotNull(NSString *destinationKey)
+HYD_EXTERN
+id<HYDMapper> HYDMapNotNull(void)
 {
-    return HYDMapNotNull(HYDMapIdentity(destinationKey));
+    return HYDMapNotNullFrom(HYDMapIdentity());
 }
 
-
 HYD_EXTERN_OVERLOADED
-HYDNotNullMapper *HYDMapNotNull(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapNotNullFrom(id<HYDMapper> mapper)
 {
     return [[HYDNotNullMapper alloc] initWithMapper:mapper];
 }

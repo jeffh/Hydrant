@@ -3,18 +3,16 @@
 @protocol HYDMapper;
 
 /*! Constructs a mapper that maps strings to URLs.
- *
- *  @params destinationKey The property hint to where the place the mapped value to for other mappers.
  */
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapStringToURL(NSString *destinationKey);
+HYD_EXTERN
+id<HYDMapper> HYDMapStringToURL(void);
 
 /*! Constructs a mapper that maps strings to URLs.
  *
  *  @params mapper The mapper that processes the source value before this mapper.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapStringToURL(id<HYDMapper> mapper);
+id<HYDMapper> HYDMapStringToURLFrom(id<HYDMapper> mapper);
 
 /*! Constructs a mapper that maps strings to URLs.
  *

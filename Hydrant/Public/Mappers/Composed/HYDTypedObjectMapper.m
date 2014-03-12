@@ -7,6 +7,7 @@
 #import "HYDFunctions.h"
 #import "HYDDefaultAccessor.h"
 #import "HYDNonFatalMapper.h"
+#import "HYDMapping.h"
 
 
 @interface HYDTypedObjectMapper ()
@@ -41,14 +42,9 @@
     return [self.internalMapper objectFromSourceObject:sourceObject error:error];
 }
 
-- (id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return [self.innerMapper destinationAccessor];
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    return [self.internalMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    return [self.internalMapper reverseMapper];
 }
 
 #pragma mark - Properties
@@ -66,26 +62,27 @@
 
 - (NSDictionary *)buildMapping
 {
-    NSMutableDictionary *mapping = [NSMutableDictionary dictionaryWithDictionary:self.mapping];
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:self.mapping];
     HYDClassInspector *inspector = [HYDClassInspector inspectorForClass:self.destinationClass];
 
     NSMutableDictionary *reverseAccessorMapping = [NSMutableDictionary dictionary];
     for (id<HYDAccessor> accessor in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[accessor];
-        id<HYDAccessor> destinationAccessor = [mapper destinationAccessor];
-        reverseAccessorMapping[destinationAccessor] = accessor;
+        id<HYDMapping> mapping = self.mapping[accessor];
+        id<HYDAccessor> destinationAccessor = [mapping accessor];
+        reverseAccessorMapping[destinationAccessor] = HYDMap([mapping mapper], accessor);
     }
 
     for (HYDProperty *property in inspector.allProperties) {
-        id<HYDAccessor> sourceKey = reverseAccessorMapping[HYDAccessDefault(property.name)];
-        if (!sourceKey) {
+        id<HYDMapping> sourceMapping = reverseAccessorMapping[HYDAccessDefault(property.name)];
+        if (!sourceMapping) {
             continue;
         }
 
-        mapping[sourceKey] = [self mapperForProperty:property wrappingMapper:self.mapping[sourceKey]];
+        id<HYDMapping> mapping = self.mapping[[sourceMapping accessor]];
+        result[[sourceMapping accessor]] = HYDMap([self mapperForProperty:property wrappingMapper:[mapping mapper]], [mapping accessor]);
     }
 
-    return mapping;
+    return result;
 }
 
 - (id<HYDMapper>)mapperForProperty:(HYDProperty *)property wrappingMapper:(id<HYDMapper>)mapper
@@ -129,14 +126,14 @@ id<HYDMapper> HYDMapObject(id<HYDMapper> mapper, Class destinationClass, NSDicti
 
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapObject(Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(HYDMapIdentity(destinationKey), sourceClass, destinationClass, mapping);
+    return HYDMapObject(HYDMapIdentity(), sourceClass, destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapObject(Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapObject(HYDMapIdentity(destinationKey), destinationClass, mapping);
+    return HYDMapObject(HYDMapIdentity(), destinationClass, mapping);
 }

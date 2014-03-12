@@ -5,14 +5,14 @@
 #import "HYDUUIDFormatter.h"
 
 
-HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToUUID(NSString *destinationKey)
+HYD_EXTERN
+id<HYDMapper> HYDMapStringToUUID(void)
 {
-    return HYDMapStringToUUID(HYDMapIdentity(destinationKey));
+    return HYDMapStringToUUIDFrom(HYDMapIdentity());
 }
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToUUID(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapStringToUUIDFrom(id<HYDMapper> mapper)
 {
     return HYDMapStringToObjectByFormatter(mapper, [[HYDUUIDFormatter alloc] init]);
 }

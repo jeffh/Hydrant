@@ -10,9 +10,8 @@ describe(@"HYDStringToURLMapper", ^{
     __block id<HYDMapper> mapper;
 
     beforeEach(^{
-        mapper = HYDMapStringToURL(@"destinationAccessor");
+        mapper = HYDMapStringToURL();
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"destinationAccessor"] = @"destinationAccessor";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @"http://jeffhui.net";
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @1;
         [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = [NSURL URLWithString:@"http://jeffhui.net"];

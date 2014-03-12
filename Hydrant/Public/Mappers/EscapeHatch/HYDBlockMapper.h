@@ -18,14 +18,12 @@ typedef id(^HYDConversionBlock)(id incomingValue, __autoreleasing HYDError **err
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *
- *  @param destinationKey the property hint to the parent mapper to indicate
- *                        where to place the returned value.
  *  @param convertBlock the block the converts the incoming value or returns an error.
  *  @returns a mapper that can uses the block to map objects.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock)
-HYD_REQUIRE_NON_NIL(2);
+id<HYDMapper> HYDMapWithBlock(HYDConversionBlock convertBlock)
+HYD_REQUIRE_NON_NIL(1);
 
 
 /*! Constructs a HYDBlockMapper that accepts two blocks to convert a given value to-and-from.
@@ -35,13 +33,11 @@ HYD_REQUIRE_NON_NIL(2);
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *
- *  @param destinationKey the property hint to the parent mapper to indicate
- *                        where to place the returned value.
  *  @param convertBlock the block the converts the incoming value or returns an error.
  *  @param reverseConvertBlock the block the converts the incoming value when producing
  *                             a reverse mapper.
  *  @returns a mapper that can uses the block to map objects.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
-HYD_REQUIRE_NON_NIL(2,3);
+id<HYDMapper> HYDMapWithBlock(HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
+HYD_REQUIRE_NON_NIL(1,2);

@@ -44,11 +44,6 @@
 
 #pragma mark - <HYDMapper>
 
-- (id<HYDAccessor>)destinationAccessor
-{
-    return [self.wrappedMapper destinationAccessor];
-}
-
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
     HYDError *innerError = nil;
@@ -67,9 +62,9 @@
     return resultingObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reverseWrappedMapper = [self.wrappedMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reverseWrappedMapper = [self.wrappedMapper reverseMapper];
     return [[[self class] alloc] initWithMapper:reverseWrappedMapper
                                    defaultValue:self.reverseDefaultValueBlock
                             reverseDefaultValue:self.defaultValueBlock];

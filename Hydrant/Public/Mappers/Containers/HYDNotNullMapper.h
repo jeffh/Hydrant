@@ -16,16 +16,13 @@
  *  dictionaries are not nil (as the KeyValueMapper will convert NSNull to
  *  nils.
  *
- *  @param destinationKey The destinationAccessor to pass to HYDMapIdentity that is
- *                        wrapped with a HYDNotNullMapper
  *  @returns a HYDNotNullMapper instance that wraps a HYDIdentityMapper with
  *           the given destinationAccessor
  *  @see HYDMapObject
  *  @see HYDMapIdentity
  */
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapNotNull(NSString *destinationKey)
-HYD_REQUIRE_NON_NIL(1);
+HYD_EXTERN
+id<HYDMapper> HYDMapNotNull(void);
 
 
 /*! Creates a mapper that enforces values that pass through it to not be nil.
@@ -41,5 +38,5 @@ HYD_REQUIRE_NON_NIL(1);
  *  @see HYDMapIdentity
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapNotNull(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapNotNullFrom(id<HYDMapper> mapper)
 HYD_REQUIRE_NON_NIL(1);

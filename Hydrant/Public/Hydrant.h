@@ -7,6 +7,7 @@
 // helpers
 #import "HYDError.h"
 #import "HYDConstants.h"
+#import "HYDMapping.h"
 
 // formatters
 #import "HYDDotNetDateFormatter.h"

@@ -60,21 +60,16 @@
                                               sourceObject:sourceObject
                                             sourceAccessor:nil
                                          destinationObject:nil
-                                       destinationAccessor:self.destinationAccessor
+                                       destinationAccessor:nil
                                                    isFatal:YES
                                           underlyingErrors:nil]);
     }
     return resultingObject;
 }
 
-- (id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return self.innerMapper.destinationAccessor;
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapper];
     return [[HYDStringToObjectFormatterMapper alloc] initWithMapper:reverseInnerMapper
                                                           formatter:self.formatter];
 }
@@ -82,9 +77,9 @@
 @end
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapObjectToStringByFormatter(NSString *destinationKey, NSFormatter *formatter)
+HYDObjectToStringFormatterMapper *HYDMapObjectToStringByFormatter(NSFormatter *formatter)
 {
-    return HYDMapObjectToStringByFormatter(HYDMapIdentity(HYDAccessKey(destinationKey)), formatter);
+    return HYDMapObjectToStringByFormatter(HYDMapIdentity(), formatter);
 }
 
 HYD_EXTERN_OVERLOADED

@@ -12,29 +12,18 @@
 
 - (id)init
 {
-    return [self initWithDestinationKey:nil];
-}
-
-- (id)initWithDestinationKey:(NSString *)destinationKey
-{
-    return [self initWithDestinationAccessor:HYDAccessDefault(destinationKey)];
-}
-
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
     self = [super init];
     if (self) {
         _objectsToReturn = [NSMutableArray array];
         _errorsToReturn = [NSMutableArray array];
         _sourceObjectsReceived = [NSMutableArray array];
-        self.destinationAccessor = destinationAccessor;
     }
     return self;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p: %@>", NSStringFromClass(self.class), self, self.destinationAccessor];
+    return [NSString stringWithFormat:@"<%@ %p>", NSStringFromClass(self.class), self];
 }
 
 #pragma mark - Properties
@@ -84,9 +73,8 @@
     return object;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    self.reverseMapperDestinationAccessorReceived = destinationAccessor;
     return self.reverseMapperToReturn;
 }
 

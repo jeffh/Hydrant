@@ -62,7 +62,7 @@
                                               sourceObject:sourceObject
                                             sourceAccessor:nil
                                          destinationObject:nil
-                                       destinationAccessor:self.destinationAccessor
+                                       destinationAccessor:nil
                                                    isFatal:YES
                                           underlyingErrors:nil]);
         return nil;
@@ -70,19 +70,14 @@
     return result;
 }
 
-- (id<HYDAccessor>)destinationAccessor
-{
-    return self.innerMapper.destinationAccessor;
-}
-
-- (instancetype)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
     NSMutableDictionary *reverseMapping = [[NSMutableDictionary alloc] initWithCapacity:self.mapping.count];
     for (id key in self.mapping) {
         id value = self.mapping[key];
         reverseMapping[value] = key;
     }
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapper];
     return [[HYDEnumMapper alloc] initWithMapper:reversedInnerMapper
                                          mapping:reverseMapping];
 }
@@ -91,9 +86,9 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDEnumMapper *HYDMapEnum(NSString *destinationKey, NSDictionary *mapping)
+HYDEnumMapper *HYDMapEnum(NSDictionary *mapping)
 {
-    return HYDMapEnum(HYDMapIdentity(HYDAccessKey(destinationKey)), mapping);
+    return HYDMapEnum(HYDMapIdentity(), mapping);
 }
 
 HYD_EXTERN_OVERLOADED

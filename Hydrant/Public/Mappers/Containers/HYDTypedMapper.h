@@ -10,33 +10,30 @@
 
 /*! Constructs a mapper that validates the received and output values' types.
  *
- *  @param destinationKey The property hint to indicate where to store the result of this mapper.
  *  @param sourceAndDestinationClass The expected source and destination class.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapType(NSString *destinationKey, Class sourceAndDestinationClass);
+id<HYDMapper> HYDMapType(Class sourceAndDestinationClass);
 
 /*! Constructs a mapper that validates the received and output values' types.
  *
- *  @param destinationKey The property hint to indicate where to store the result of this mapper.
  *  @param sourceClass The expected input class. An invalid input class will result a fatal error.
  *                     Passing in nil will indicate any class is valid.
  *  @param destinationClass The expected output class. An invalid input class will result a fatal error.
  *                          Passing in nil will indicate any class is valid.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapType(NSString *destinationKey, Class sourceClass, Class destinationClass);
+id<HYDMapper> HYDMapType(Class sourceClass, Class destinationClass);
 
 /*! Constructs a mapper that validates the received and output values' types.
  *
- *  @param destinationKey The property hint to indicate where to store the result of this mapper.
  *  @param sourceClasses An array of expected input classes. An invalid input class will result a fatal error.
  *                       Passing in nil or an empty array will indicate any class is valid.
  *  @param destinationClasses An array of expected output classes. An invalid input class will result a fatal error.
  *                       Passing in nil or an empty array will indicate any class is valid.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapTypes(NSString *destinationKey, NSArray *sourceClasses, NSArray *destinationClasses);
+id<HYDMapper> HYDMapTypes(NSArray *sourceClasses, NSArray *destinationClasses);
 
 /*! Constructs a mapper that validates the received and output values' types.
  *

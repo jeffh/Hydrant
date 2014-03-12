@@ -55,14 +55,9 @@
     return resultingObject;
 }
 
-- (id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return self.innerMapper.destinationAccessor;
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapper];
     return [[[self class] alloc] initWithMapper:reversedInnerMapper
                                    processBlock:self.reverseBlock
                             reverseProcessBlock:self.block];
@@ -86,7 +81,7 @@ HYDPostProcessingMapper *HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostP
 
 
 HYD_EXTERN_OVERLOADED
-HYDPostProcessingMapper *HYDMapWithPostProcessing(NSString *destinationKey, HYDPostProcessingBlock block)
+HYDPostProcessingMapper *HYDMapWithPostProcessing(HYDPostProcessingBlock block)
 {
-    return HYDMapWithPostProcessing(HYDMapIdentity(destinationKey), block);
+    return HYDMapWithPostProcessing(HYDMapIdentity(), block);
 }

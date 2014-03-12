@@ -7,33 +7,14 @@
 
 @interface HYDIdentityMapper ()
 
-@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
-
 @end
 
 
 @implementation HYDIdentityMapper
 
-- (id)init
+- (instancetype)init
 {
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
-- (id)initWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    self = [super init];
-    if (self) {
-        self.destinationAccessor = destinationAccessor;
-    }
-    return self;
-}
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@: %@>",
-            NSStringFromClass(self.class),
-            [self.destinationAccessor description] ?: @"HYDRootMapper"];
+    return self = [super init];
 }
 
 #pragma mark - <HYDMapper>
@@ -43,34 +24,15 @@
     return sourceObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return [[[self class] alloc] initWithDestinationAccessor:destinationAccessor];
+    return self;
 }
 
 @end
 
-
-HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapIdentity(id<HYDAccessor> destinationAccessor)
+HYD_EXTERN
+HYDIdentityMapper *HYDMapIdentity(void)
 {
-    return [[HYDIdentityMapper alloc] initWithDestinationAccessor:destinationAccessor];
-}
-
-HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapIdentity(NSString *destinationKey)
-{
-    return HYDMapIdentity(HYDAccessDefault(destinationKey));
-}
-
-HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapKey(NSString *destinationKey)
-{
-    return HYDMapIdentity(HYDAccessKey(destinationKey));
-}
-
-HYD_EXTERN_OVERLOADED
-HYDIdentityMapper *HYDMapKeyPath(NSString *destinationKey)
-{
-    return HYDMapIdentity(HYDAccessKeyPath(destinationKey));
+    return [[HYDIdentityMapper alloc] init];
 }

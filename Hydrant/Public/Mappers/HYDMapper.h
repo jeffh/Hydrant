@@ -43,16 +43,6 @@
 
 #pragma mark - Mapper Composition
 
-/*! The destination key that the parsed object should be stored on for the destination
- *  object. Most mappers use a @property and receive the argument in their constructors.
- *
- *  This is primarily used by a "parent" HYDMapper object to know where to place this mapper's
- *  objects that it produces.
- *
- *  @returns A key path-compatible string representing the property to assign to.
- */
-- (id<HYDAccessor>)destinationAccessor;
-
 /*! The reverse mapper object that does the inverse conversion of this mapper.
  *
  *  This provides a handy way to reverse a mapping operation. Parent mappers can
@@ -63,6 +53,6 @@
  *  @returns A HYDMapper conforming object that can perform the inverse conversion of
  *           the current mapper.
  */
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor;
+- (id<HYDMapper>)reverseMapper;
 
 @end

@@ -26,7 +26,7 @@ describe(@"HYDPostProcessingMapper", ^{
         setOutgoingError = NO;
         blockWasCalled = NO;
         reversedBlockWasCalled = NO;
-        childMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"destinationAccessor"];
+        childMapper = [[HYDSFakeMapper alloc] init];
         mapper = HYDMapWithPostProcessing(childMapper, ^(id theSourceObject, id resultingObject, __autoreleasing HYDError **theError) {
             incomingSourceObject = theSourceObject;
             incomingResultingObject = resultingObject;
@@ -38,10 +38,6 @@ describe(@"HYDPostProcessingMapper", ^{
         }, ^(id theSourceObject, id resultingObject, __autoreleasing HYDError **theError) {
             reversedBlockWasCalled = YES;
         });
-    });
-
-    it(@"should return the destination key it was given", ^{
-        [mapper destinationAccessor] should equal(HYDAccessDefault(@"destinationAccessor"));
     });
 
     describe(@"parsing an object", ^{
@@ -100,7 +96,7 @@ describe(@"HYDPostProcessingMapper", ^{
 
     describe(@"reverse mapping", ^{
         beforeEach(^{
-            HYDSFakeMapper *reverseChildMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDSFakeMapper *reverseChildMapper = [[HYDSFakeMapper alloc] init];
             reverseChildMapper.objectsToReturn = @[@"LOL"];
             childMapper.reverseMapperToReturn = reverseChildMapper;
 
@@ -111,7 +107,7 @@ describe(@"HYDPostProcessingMapper", ^{
         itShouldBehaveLike(@"a mapper that does the inverse of the original");
 
         it(@"should call the reversed block", ^{
-            [[mapper reverseMapperWithDestinationAccessor:HYDAccessKey(@"key")] objectFromSourceObject:@1 error:nil];
+            [[mapper reverseMapper] objectFromSourceObject:@1 error:nil];
 
             blockWasCalled should_not be_truthy;
             reversedBlockWasCalled should be_truthy;

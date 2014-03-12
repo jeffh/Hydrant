@@ -12,11 +12,7 @@ describe(@"HYDIdentityMapper", ^{
     __block id parsedObject;
 
     beforeEach(^{
-        mapper = [[HYDIdentityMapper alloc] initWithDestinationAccessor:HYDAccessKey(@"destinationAccessor")];
-    });
-
-    it(@"should have the destinationAccessor it was provided", ^{
-        [mapper destinationAccessor] should equal(HYDAccessKey(@"destinationAccessor"));
+        mapper = HYDMapIdentity();
     });
 
     describe(@"parsing an object", ^{
@@ -32,7 +28,6 @@ describe(@"HYDIdentityMapper", ^{
             parsedObject should equal(@1);
         });
     });
-
 
     describe(@"reverse mapper", ^{
         beforeEach(^{

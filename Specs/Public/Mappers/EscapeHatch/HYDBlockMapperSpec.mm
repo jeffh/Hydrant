@@ -15,7 +15,7 @@ describe(@"HYDBlockMapper", ^{
         objectToReturn = @"1";
         errorToReturn = nil;
 
-        mapper = HYDMapWithBlock(@"key", ^id(id incomingValue, __autoreleasing HYDError **error) {
+        mapper = HYDMapWithBlock(^id(id incomingValue, __autoreleasing HYDError **error) {
             if (![@1 isEqual:incomingValue]) {
                 if (error) {
                     *error = [HYDError errorWithCode:0
@@ -34,7 +34,6 @@ describe(@"HYDBlockMapper", ^{
         });
 
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"destinationAccessor"] = @"key";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @1;
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
         [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = @"parsedObject";

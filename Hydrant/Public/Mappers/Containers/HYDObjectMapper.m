@@ -5,6 +5,7 @@
 #import "HYDFunctions.h"
 #import "HYDDefaultAccessor.h"
 #import "HYDIdentityMapper.h"
+#import "HYDMapping.h"
 
 
 @interface HYDObjectMapper ()
@@ -65,7 +66,8 @@
 
     id destinationObject = [self.factory newObjectOfClass:self.destinationClass];
     for (id<HYDAccessor> sourceAccessor in self.mapping) {
-        id<HYDMapper> mapper = self.mapping[sourceAccessor];
+        id<HYDMapping> mapping = self.mapping[sourceAccessor];
+        id<HYDMapper> mapper = [mapping mapper];
         HYDError *innerError = nil;
 
         NSArray *sourceValues = [sourceAccessor valuesFromSourceObject:sourceObject error:&innerError];
@@ -74,14 +76,13 @@
             // TODO: test wrapping error
             [errors addObject:[HYDError errorFromError:innerError
                               prependingSourceAccessor:sourceAccessor
-                                andDestinationAccessor:nil
+                                andDestinationAccessor:[mapping accessor]
                                replacementSourceObject:nil
                                                isFatal:YES]];
             continue;
         }
 
-        BOOL isCollectionOfValues = (sourceValues.count != 1);
-        id sourceValue = (isCollectionOfValues ? sourceValues : sourceValues[0]);
+        id sourceValue = HYDGetValueOrValues(sourceValues);
 
         id destinationValue = [mapper objectFromSourceObject:sourceValue
                                                        error:&innerError];
@@ -90,7 +91,7 @@
             hasFatalError = hasFatalError || [innerError isFatal];
             [errors addObject:[HYDError errorFromError:innerError
                               prependingSourceAccessor:sourceAccessor
-                                andDestinationAccessor:nil
+                                andDestinationAccessor:[mapping accessor]
                                replacementSourceObject:sourceValue
                                                isFatal:innerError.isFatal]];
         }
@@ -103,14 +104,15 @@
             destinationValue = [NSNull null];
         }
 
-        id<HYDAccessor> destinationAccessor = [mapper destinationAccessor];
+        id<HYDAccessor> destinationAccessor = [mapping accessor];
 
         if (destinationAccessor.fieldNames.count == 1) {
             destinationValue = @[destinationValue];
         }
 
-        [[mapper destinationAccessor] setValues:destinationValue
-                                       onObject:destinationObject];
+        HYDError *setterError = [destinationAccessor setValues:destinationValue
+                                                      onObject:destinationObject];
+        NSAssert(setterError == nil, @"Error: %@", setterError);
     }
 
     if (errors.count) {
@@ -118,7 +120,7 @@
                                               sourceObject:sourceObject
                                             sourceAccessor:nil
                                          destinationObject:nil
-                                       destinationAccessor:self.destinationAccessor
+                                       destinationAccessor:nil
                                                    isFatal:hasFatalError
                                           underlyingErrors:errors]);
     }
@@ -130,9 +132,9 @@
     return destinationObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapper];
     return [[[self class] alloc] initWithMapper:reversedInnerMapper
                                       fromClass:self.destinationClass
                                         toClass:self.sourceClass
@@ -140,16 +142,11 @@
 
 }
 
-- (id<HYDAccessor>)destinationAccessor
-{
-    return [self.innerMapper destinationAccessor];
-}
-
 @end
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectMapper *HYDMapKVCObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapKVCObject(id<HYDMapper> mapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
     return [[HYDObjectMapper alloc] initWithMapper:mapper
                                          fromClass:sourceClass
@@ -159,21 +156,21 @@ HYDObjectMapper *HYDMapKVCObject(id<HYDMapper> mapper, Class sourceClass, Class 
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectMapper *HYDMapKVCObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapKVCObject(id<HYDMapper> mapper, Class destinationClass, NSDictionary *mapping)
 {
     return HYDMapKVCObject(mapper, [NSDictionary class], destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectMapper *HYDMapKVCObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapKVCObject(Class sourceClass, Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapKVCObject(HYDMapIdentity(destinationKey), sourceClass, destinationClass, mapping);
+    return HYDMapKVCObject(HYDMapIdentity(), sourceClass, destinationClass, mapping);
 }
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectMapper *HYDMapKVCObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapKVCObject( Class destinationClass, NSDictionary *mapping)
 {
-    return HYDMapKVCObject(HYDMapIdentity(destinationKey), destinationClass, mapping);
+    return HYDMapKVCObject(HYDMapIdentity(), destinationClass, mapping);
 }

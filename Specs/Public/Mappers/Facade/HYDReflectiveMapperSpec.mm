@@ -35,19 +35,19 @@ describe(@"HYDReflectiveMapper", ^{
                               @"siblings": @[], // never gets parsed since keyTransform doesn't specify it
                               @"parent": @{}};
 
-        childMapper1 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"identifier"];
+        childMapper1 = [[HYDSFakeMapper alloc] init];
         childMapper1.objectsToReturn = @[@5];
-        childMapper2 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"firstName"];
+        childMapper2 = [[HYDSFakeMapper alloc] init];
         childMapper2.objectsToReturn = @[@"John"];
 
         mapper = ({
-            HYDMapReflectively(@"someKey", [HYDSPerson class])
-            .mapClass([NSDate class], HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339))
+            HYDMapReflectively([HYDSPerson class])
+            .mapClass([NSDate class], HYDMapStringToDate(HYDDateFormatRFC3339))
             .optional(@[@"birthDate", @"homepage", @"siblings"])
             .except(@[@"parent"])
-            .customMapping(@{@"first_name": childMapper2,
+            .customMapping(@{@"first_name": @[childMapper2, @"firstName"],
                           fakeAccessor: @"age",
-                          @"identifier": childMapper1})
+                          @"identifier": @[childMapper1, @"identifier"]})
             .keyTransformer([[HYDBlockValueTransformer alloc] initWithBlock:^id(NSString *property) {
                 NSDictionary *mapping = @{@"lastName": @"last_name",
                                           @"homepage": @"homepage",
@@ -62,10 +62,6 @@ describe(@"HYDReflectiveMapper", ^{
                 return mapping[key];
             }]);
         });
-    });
-
-    it(@"should return the same destination key it was provided", ^{
-        [mapper destinationAccessor] should equal(HYDAccessDefault(@"someKey"));
     });
 
     describe(@"parsing a source object", ^{
@@ -140,11 +136,11 @@ describe(@"HYDReflectiveMapper", ^{
 
     describe(@"reverse mapping", ^{
         beforeEach(^{
-            HYDSFakeMapper *reverseChildMapper1 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"identifier"];
+            HYDSFakeMapper *reverseChildMapper1 = [[HYDSFakeMapper alloc] init];
             childMapper1.reverseMapperToReturn = reverseChildMapper1;
             reverseChildMapper1.objectsToReturn = @[@"transforms"];
 
-            HYDSFakeMapper *reverseChildMapper2 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"first_name"];
+            HYDSFakeMapper *reverseChildMapper2 = [[HYDSFakeMapper alloc] init];
             childMapper2.reverseMapperToReturn = reverseChildMapper2;
             reverseChildMapper2.objectsToReturn = @[@"John"];
 

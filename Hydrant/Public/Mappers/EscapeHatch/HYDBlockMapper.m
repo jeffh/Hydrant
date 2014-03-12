@@ -48,21 +48,16 @@
                                               sourceObject:blockError.sourceObject
                                             sourceAccessor:blockError.sourceAccessor
                                          destinationObject:blockError.destinationObject
-                                       destinationAccessor:self.destinationAccessor
+                                       destinationAccessor:nil
                                                    isFatal:blockError.isFatal
                                           underlyingErrors:blockError.underlyingErrors]);
     }
     return result;
 }
 
-- (id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return self.innerMapper.destinationAccessor;
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapper];
     return [[[self class] alloc] initWithMapper:reverseInnerMapper
                                    convertBlock:self.reverseConvertBlock
                                    reverseBlock:self.convertBlock];
@@ -72,15 +67,15 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDBlockMapper *HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock)
+HYDBlockMapper *HYDMapWithBlock(HYDConversionBlock convertBlock)
 {
-    return HYDMapWithBlock(destinationKey, convertBlock, convertBlock);
+    return HYDMapWithBlock(convertBlock, convertBlock);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDBlockMapper *HYDMapWithBlock(NSString *destinationKey, HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
+HYDBlockMapper *HYDMapWithBlock(HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
 {
-    return [[HYDBlockMapper alloc] initWithMapper:HYDMapIdentity(destinationKey)
+    return [[HYDBlockMapper alloc] initWithMapper:HYDMapIdentity()
                                      convertBlock:convertBlock
                                      reverseBlock:reverseConvertBlock];
 }

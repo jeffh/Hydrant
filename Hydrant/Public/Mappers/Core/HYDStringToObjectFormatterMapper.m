@@ -54,9 +54,8 @@
         HYDSetObjectPointer(error, nil);
     } else {
         if (!errorDescription) {
-            errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@ for key '%@'",
-                                                        sourceObject,
-                                                        HYDStringifyAccessor(self.destinationAccessor));
+            errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@",
+                                                        sourceObject);
         }
 
         NSError *originalError = [NSError errorWithDomain:NSCocoaErrorDomain
@@ -66,7 +65,7 @@
                                               sourceObject:sourceObject
                                             sourceAccessor:nil
                                          destinationObject:nil
-                                       destinationAccessor:self.destinationAccessor
+                                       destinationAccessor:nil
                                                    isFatal:YES
                                           underlyingErrors:@[originalError]]);
         resultingObject = nil;
@@ -74,14 +73,9 @@
     return resultingObject;
 }
 
-- (id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return self.innerMapper.destinationAccessor;
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapper];
     return [[HYDObjectToStringFormatterMapper alloc] initWithMapper:reverseInnerMapper
                                                           formatter:self.formatter];
 }
@@ -89,9 +83,9 @@
 @end
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToObjectByFormatter(NSString *destinationKey, NSFormatter *formatter)
+HYDStringToObjectFormatterMapper *HYDMapStringToObjectByFormatter(NSFormatter *formatter)
 {
-    return HYDMapStringToObjectByFormatter(HYDMapIdentity(destinationKey), formatter);
+    return HYDMapStringToObjectByFormatter(HYDMapIdentity(), formatter);
 }
 
 HYD_EXTERN_OVERLOADED

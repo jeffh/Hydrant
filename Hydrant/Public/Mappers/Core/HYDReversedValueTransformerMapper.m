@@ -53,16 +53,11 @@
     return [self.valueTransformer reverseTransformedValue:sourceObject];
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapper];
     return [[HYDValueTransformerMapper alloc] initWithMapper:reversedInnerMapper
                                             valueTransformer:self.valueTransformer];
-}
-
-- (id<HYDAccessor>)destinationAccessor
-{
-    return [self.innerMapper destinationAccessor];
 }
 
 @end
@@ -89,7 +84,7 @@ id<HYDMapper> HYDMapReverseValue(id<HYDMapper> mapper, NSValueTransformer *value
 
 
 HYD_EXTERN_OVERLOADED
-HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, NSString *valueTransformerName)
+HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *valueTransformerName)
 {
     NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:valueTransformerName];
     if (!transformer) {
@@ -97,12 +92,12 @@ HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, 
                     format:@"No transformer found when doing: [NSValueTransformer: valueTransformerForName:@\"%@\"]",
                            valueTransformerName];
     }
-    return HYDMapReverseValue(destinationKey, transformer);
+    return HYDMapReverseValue(transformer);
 }
 
 
 HYD_EXTERN_OVERLOADED
-HYDReversedValueTransformerMapper *HYDMapReverseValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
+HYDReversedValueTransformerMapper *HYDMapReverseValue(NSValueTransformer *valueTransformer)
 {
-    return HYDMapReverseValue(HYDMapIdentity(destinationKey), valueTransformer);
+    return HYDMapReverseValue(HYDMapIdentity(), valueTransformer);
 }

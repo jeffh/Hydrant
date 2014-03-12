@@ -13,11 +13,7 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
 
     beforeEach(^{
         formatter = nice_fake_for([NSFormatter class]);
-        mapper = HYDMapObjectToStringByFormatter(@"destinationAccessor", formatter);
-    });
-
-    it(@"should return the same destination key it was given", ^{
-        mapper.destinationAccessor should equal(HYDAccessKey(@"destinationAccessor"));
+        mapper = HYDMapObjectToStringByFormatter(formatter);
     });
 
     describe(@"parsing an object", ^{
@@ -78,7 +74,7 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
 
     describe(@"reverse mapper", ^{
         beforeEach(^{
-            mapper = HYDMapObjectToStringByFormatter(@"destinationAccessor", [[NSNumberFormatter alloc] init]);
+            mapper = HYDMapObjectToStringByFormatter([[NSNumberFormatter alloc] init]);
             [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
             [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @1;
         });

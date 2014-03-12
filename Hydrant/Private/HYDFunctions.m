@@ -2,6 +2,7 @@
 #import "HYDNotNullMapper.h"
 #import "HYDAccessor.h"
 #import "HYDKeyPathAccessor.h"
+#import "HYDMapping.h"
 
 HYD_EXTERN
 void HYDSetValueForKeyIfNotNil(NSMutableDictionary *dict, id key, id value)
@@ -68,10 +69,15 @@ NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccess
         }
 
         if (field) {
-            if ([value conformsToProtocol:@protocol(HYDMapper)]) {
+            if ([value conformsToProtocol:@protocol(HYDMapping)]) {
                 normalizedMapping[field] = value;
+            } else if ([value isKindOfClass:[NSArray class]]) {
+                normalizedMapping[field] = HYDMap([value firstObject], [value lastObject]);
             } else if ([value isKindOfClass:[NSString class]]) {
-                normalizedMapping[field] = HYDMapNotNull(value);
+                normalizedMapping[field] = HYDMap(HYDMapNotNull(), value);
+            } else {
+                [NSException raise:NSInvalidArgumentException
+                            format:@"Unknown mapping %@ to %@; value isn't an NSArray, NSString, or HYDMapping", field, value];
             }
         }
     }
@@ -80,12 +86,12 @@ NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccess
 }
 
 HYD_EXTERN
-NSDictionary *HYDReversedKeyValueDictionary(NSDictionary *mapping)
+NSDictionary *HYDReversedKeyValueDictionary(NSDictionary *accessorToMappingDictionary)
 {
-    NSMutableDictionary *invertedMapping = [NSMutableDictionary dictionaryWithCapacity:mapping.count];
-    for (id<HYDAccessor> sourceAccessor in mapping) {
-        id<HYDMapper> mapper = mapping[sourceAccessor];
-        invertedMapping[mapper.destinationAccessor] = [mapper reverseMapperWithDestinationAccessor:sourceAccessor];
+    NSMutableDictionary *invertedMapping = [NSMutableDictionary dictionaryWithCapacity:accessorToMappingDictionary.count];
+    for (id<HYDAccessor> sourceAccessor in accessorToMappingDictionary) {
+        id<HYDMapping> mapping = accessorToMappingDictionary[sourceAccessor];
+        invertedMapping[[mapping accessor]] = HYDMap([[mapping mapper] reverseMapper], sourceAccessor);
     }
     return invertedMapping;
 }
@@ -115,7 +121,7 @@ NSString *HYDStringifyAccessor(id<HYDAccessor> accessor)
 HYD_EXTERN
 id<HYDMapper> HYDMapperWithAccessor(id<HYDMapper> mapper, id<HYDAccessor> accessor)
 {
-    return [[mapper reverseMapperWithDestinationAccessor:accessor] reverseMapperWithDestinationAccessor:accessor];
+    return [[mapper reverseMapper] reverseMapper];
 }
 
 HYD_EXTERN

@@ -14,8 +14,8 @@ describe(@"HYDOptionalTypedMapper", ^{
     __block id result;
 
     beforeEach(^{
-        mapper = HYDMapObject(HYDRootMapper, [HYDSPerson class],
-                              @{@"first_name": HYDMapOptionally(@"firstName")});
+        mapper = HYDMapObject([HYDSPerson class],
+                              @{@"first_name": @[HYDMapOptionally(), @"firstName"]});
 
         id sourceObject = @{@"first_name": @1};
 

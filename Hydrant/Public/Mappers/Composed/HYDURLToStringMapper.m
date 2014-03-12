@@ -5,23 +5,23 @@
 #import "HYDIdentityMapper.h"
 
 
-HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToString(NSString *destinationKey)
+HYD_EXTERN
+HYDObjectToStringFormatterMapper *HYDMapURLToString(void)
 {
-    return HYDMapURLToString(HYDMapIdentity(destinationKey));
+    return HYDMapURLToStringFrom(HYDMapIdentity());
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToString(id<HYDMapper> mapper)
+HYDObjectToStringFormatterMapper *HYDMapURLToStringFrom(id<HYDMapper> mapper)
 {
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] init];
     return HYDMapObjectToStringByFormatter(mapper, formatter);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(NSString *destinationKey, NSArray *allowedSchemes)
+HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(NSArray *allowedSchemes)
 {
-    return HYDMapURLToStringOfScheme(HYDMapIdentity(destinationKey), allowedSchemes);
+    return HYDMapURLToStringOfScheme(HYDMapIdentity(), allowedSchemes);
 }
 
 HYD_EXTERN_OVERLOADED

@@ -51,7 +51,7 @@
                             sourceObject:sourceObject
                           sourceAccessor:nil
                        destinationObject:nil
-                     destinationAccessor:self.destinationAccessor
+                     destinationAccessor:nil
                                  isFatal:YES
                         underlyingErrors:nil];
         return nil;
@@ -70,7 +70,7 @@
                                               sourceObject:sourceObject
                                             sourceAccessor:nil
                                          destinationObject:nil
-                                       destinationAccessor:self.destinationAccessor
+                                       destinationAccessor:nil
                                                    isFatal:YES
                                           underlyingErrors:nil]);
         return nil;
@@ -79,14 +79,9 @@
     return object;
 }
 
-- (id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return self.wrappedMapper.destinationAccessor;
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    return [[HYDTypedMapper alloc] initWithMapper:[self.wrappedMapper reverseMapperWithDestinationAccessor:destinationAccessor]
+    return [[HYDTypedMapper alloc] initWithMapper:[self.wrappedMapper reverseMapper]
                                      inputClasses:self.allowedOutputClasses
                                     outputClasses:self.allowedInputClasses];
 }
@@ -110,21 +105,21 @@
 @end
 
 HYD_EXTERN_OVERLOADED
-HYDTypedMapper *HYDMapType(NSString *destinationKey, Class sourceAndDestinationClass)
+HYDTypedMapper *HYDMapType(Class sourceAndDestinationClass)
 {
-    return HYDMapType(destinationKey, sourceAndDestinationClass, sourceAndDestinationClass);
+    return HYDMapType(sourceAndDestinationClass, sourceAndDestinationClass);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDTypedMapper *HYDMapType(NSString *destinationKey, Class sourceClass, Class destinationClass)
+HYDTypedMapper *HYDMapType(Class sourceClass, Class destinationClass)
 {
-    return HYDMapTypes(destinationKey, [NSArray arrayWithObjects:sourceClass, nil], [NSArray arrayWithObjects:destinationClass, nil]);
+    return HYDMapTypes([NSArray arrayWithObjects:sourceClass, nil], [NSArray arrayWithObjects:destinationClass, nil]);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDTypedMapper *HYDMapTypes(NSString *destinationKey, NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
+HYDTypedMapper *HYDMapTypes(NSArray *expectedInputClasses, NSArray *expectedOutputClasses)
 {
-    return HYDMapTypes(HYDMapIdentity(destinationKey), expectedInputClasses, expectedOutputClasses);
+    return HYDMapTypes(HYDMapIdentity(), expectedInputClasses, expectedOutputClasses);
 }
 
 HYD_EXTERN_OVERLOADED

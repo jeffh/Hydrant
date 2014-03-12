@@ -28,18 +28,16 @@ HYD_REQUIRE_NON_NIL(2);
 
 /*! Constructs a mapper that uses the transformValue from an NSValueTransformer to map values.
  *
- *  @params destinationKey The property hint to where the place the mapped value to for other mappers.
  *  @params valueTransformerName The name of the value transformer to look up and use.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapValue(NSString *destinationKey, NSString *valueTransformerName)
-HYD_REQUIRE_NON_NIL(2);
+id<HYDMapper> HYDMapValue(NSString *valueTransformerName)
+HYD_REQUIRE_NON_NIL(1);
 
 /*! Constructs a mapper that uses the transformValue from an NSValueTransformer to map values.
  *
- *  @params destinationKey The property hint to where the place the mapped value to for other mappers.
  *  @params valueTransformer The value transformer instance to use to map values.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapValue(NSString *destinationKey, NSValueTransformer *valueTransformer)
-HYD_REQUIRE_NON_NIL(2);
+id<HYDMapper> HYDMapValue(NSValueTransformer *valueTransformer)
+HYD_REQUIRE_NON_NIL(1);

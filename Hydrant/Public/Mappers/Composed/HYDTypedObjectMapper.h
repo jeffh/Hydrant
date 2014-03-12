@@ -23,10 +23,10 @@ HYD_REQUIRE_NON_NIL(2,3);
 
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapObject(NSString *destinationKey, Class sourceClass, Class destinationClass, NSDictionary *mapping)
-HYD_REQUIRE_NON_NIL(2,3,4);
+id<HYDMapper> HYDMapObject(Class sourceClass, Class destinationClass, NSDictionary *mapping)
+HYD_REQUIRE_NON_NIL(1,2,3);
 
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapObject(NSString *destinationKey, Class destinationClass, NSDictionary *mapping)
-HYD_REQUIRE_NON_NIL(2,3);
+id<HYDMapper> HYDMapObject(Class destinationClass, NSDictionary *mapping)
+HYD_REQUIRE_NON_NIL(1,2);

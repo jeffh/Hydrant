@@ -58,11 +58,6 @@
 
 #pragma mark - <HYDMapper>
 
-- (id<HYDAccessor>)destinationAccessor
-{
-    return [self.wrappedMapper destinationAccessor];
-}
-
 - (id)objectFromSourceObject:(id)sourceCollection error:(__autoreleasing HYDError **)error
 {
     HYDSetObjectPointer(error, nil);
@@ -71,7 +66,7 @@
                                               sourceObject:sourceCollection
                                             sourceAccessor:nil
                                          destinationObject:nil
-                                       destinationAccessor:self.destinationAccessor
+                                       destinationAccessor:nil
                                                    isFatal:YES
                                           underlyingErrors:nil]);
         return nil;
@@ -110,16 +105,16 @@
                                                 sourceObject:sourceCollection
                                               sourceAccessor:nil
                                            destinationObject:resultingCollection
-                                         destinationAccessor:self.destinationAccessor
+                                         destinationAccessor:nil
                                                      isFatal:hasFatalError]);
     }
 
     return (hasFatalError ? nil : resultingCollection);
 }
 
-- (instancetype)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reverseChildMapper = [self.wrappedMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reverseChildMapper = [self.wrappedMapper reverseMapper];
     return [[[self class] alloc] initWithItemMapper:reverseChildMapper
                               sourceCollectionClass:self.destinationCollectionClass
                          destinationCollectionClass:self.sourceCollectionClass];
@@ -144,16 +139,16 @@ id<HYDMapper> HYDMapCollectionOf(id<HYDMapper> itemMapper, Class collectionClass
 
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapCollectionOf(NSString *destinationKey, Class sourceCollectionClass, Class destinationCollectionClass)
+id<HYDMapper> HYDMapCollectionOf(Class sourceCollectionClass, Class destinationCollectionClass)
 {
-    return HYDMapCollectionOf(HYDMapIdentity(destinationKey), sourceCollectionClass, destinationCollectionClass);
+    return HYDMapCollectionOf(HYDMapIdentity(), sourceCollectionClass, destinationCollectionClass);
 }
 
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapCollectionOf(NSString *destinationKey, Class collectionClass)
+id<HYDMapper> HYDMapCollectionOf(Class collectionClass)
 {
-    return HYDMapCollectionOf(HYDMapIdentity(destinationKey), collectionClass, collectionClass);
+    return HYDMapCollectionOf(HYDMapIdentity(), collectionClass, collectionClass);
 }
 
 
@@ -174,25 +169,25 @@ id<HYDMapper> HYDMapArrayOf(id<HYDMapper> itemMapper)
 }
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapArrayOfKVCObjects(NSString *destinationKey, Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapArrayOfKVCObjects(Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
 {
-    return HYDMapArrayOf(HYDMapKVCObject(destinationKey, sourceItemClass, destinationItemClass, mapping));
+    return HYDMapArrayOf(HYDMapKVCObject(sourceItemClass, destinationItemClass, mapping));
 }
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapArrayOfKVCObjects(NSString *destinationKey, Class destinationItemClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapArrayOfKVCObjects(Class destinationItemClass, NSDictionary *mapping)
 {
-    return HYDMapArrayOf(HYDMapKVCObject(destinationKey, destinationItemClass, mapping));
+    return HYDMapArrayOf(HYDMapKVCObject(destinationItemClass, mapping));
 }
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapArrayOfObjects(NSString *destinationKey, Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapArrayOfObjects(Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
 {
-    return HYDMapArrayOf(HYDMapObject(destinationKey, sourceItemClass, destinationItemClass, mapping));
+    return HYDMapArrayOf(HYDMapObject(sourceItemClass, destinationItemClass, mapping));
 }
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapArrayOfObjects(NSString *destinationKey, Class destinationItemClass, NSDictionary *mapping)
+id<HYDMapper> HYDMapArrayOfObjects(Class destinationItemClass, NSDictionary *mapping)
 {
-    return HYDMapArrayOf(HYDMapObject(destinationKey, destinationItemClass, mapping));
+    return HYDMapArrayOf(HYDMapObject(destinationItemClass, mapping));
 }

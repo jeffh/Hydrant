@@ -12,9 +12,8 @@ describe(@"HYDStringToUUIDFormatter", ^{
 
     beforeEach(^{
         uuid = [NSUUID UUID];
-        mapper = HYDMapStringToUUID(@"destinationAccessor");
+        mapper = HYDMapStringToUUID();
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"destinationAccessor"] = @"destinationAccessor";
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = [uuid UUIDString];
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @1;
         [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = uuid;

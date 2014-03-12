@@ -26,17 +26,7 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
 
     beforeEach(^{
         error = nil;
-        reverseMapper = [mapper reverseMapperWithDestinationAccessor:reverseAccessor];
-    });
-
-    it(@"should have the given key as its new destination key", ^{
-        reverseMapper.destinationAccessor should equal(reverseAccessor);
-    });
-
-    it(@"should invert all its child mappers", ^{
-        for (HYDSFakeMapper *childMapper in childMappers) {
-            childMapper.reverseMapperDestinationAccessorReceived should equal([childMapper.reverseMapperToReturn destinationAccessor]);
-        }
+        reverseMapper = [mapper reverseMapper];
     });
 
     it(@"should be the inverse of the current mapper", ^{
@@ -55,11 +45,11 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
     __block id validSourceObject;
     __block id invalidSourceObject;
     __block id expectedParsedObject;
-    __block NSString *destinationKey;
+    __block id<HYDAccessor> destinationAccessor;
 
     beforeEach(^{
         mapper = scope[@"mapper"];
-        destinationKey = scope[@"destinationAccessor"];
+        destinationAccessor = scope[@"destinationAccessor"];
         validSourceObject = scope[@"validSourceObject"];
         invalidSourceObject = scope[@"invalidSourceObject"];
         expectedParsedObject = scope[@"expectedParsedObject"];
@@ -68,10 +58,6 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
     __block id sourceObject;
     __block id parsedObject;
     __block HYDError *error;
-
-    it(@"should report the same destination key", ^{
-        [mapper destinationAccessor] should equal(HYDAccessDefault(destinationKey));
-    });
 
     describe(@"parsing the source object", ^{
         subjectAction(^{
@@ -99,7 +85,9 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
 
             it(@"should provide a fatal error", ^{
                 error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
-                error.userInfo[HYDDestinationAccessorKey] should equal(HYDAccessDefault(destinationKey));
+                if (destinationAccessor) {
+                    error.userInfo[HYDDestinationAccessorKey] should equal(destinationAccessor);
+                }
             });
 
             it(@"should return nil", ^{
@@ -118,7 +106,9 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
 
             it(@"should produce a fatal error", ^{
                 error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
-                error.userInfo[HYDDestinationAccessorKey] should equal(HYDAccessDefault(destinationKey));
+                if (destinationAccessor) {
+                    error.userInfo[HYDDestinationAccessorKey] should equal(destinationAccessor);
+                }
             });
         });
     });

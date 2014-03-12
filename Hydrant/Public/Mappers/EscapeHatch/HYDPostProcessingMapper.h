@@ -50,10 +50,8 @@ id<HYDMapper> HYDMapWithPostProcessing(id<HYDMapper> mapper, HYDPostProcessingBl
  *           semantics like other mappers. The block you provide will have to do all the
  *           error checking of the incoming object and emitting the correct HYDErrors.
  *
- *  @param destinationKey the property hint to the parent mapper to indicate
- *                        where to place the returned value.
  *  @param block the block that mutates the resultingObject based on the source object.
  *  @returns a mapper that can uses the block to map objects.
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapWithPostProcessing(NSString *destinationKey, HYDPostProcessingBlock block);
+id<HYDMapper> HYDMapWithPostProcessing(HYDPostProcessingBlock block);

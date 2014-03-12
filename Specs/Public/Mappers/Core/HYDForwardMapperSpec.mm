@@ -20,14 +20,10 @@ describe(@"HYDForwardMapper", ^{
     beforeEach(^{
         validSourceObject = @{@"walk": @{@"to": @"me"}};
         expectedDestinationObject = @"you";
-        childMapper = [[HYDSFakeMapper alloc] initWithDestinationKey:@"key"];
+        childMapper = [[HYDSFakeMapper alloc] init]; //WithDestinationKey:@"key"];
         accessor = [[HYDSFakeAccessor alloc] init];
         accessor.fieldNames = @[@"walk.to"];
         mapper = HYDMapForward(accessor, childMapper);
-    });
-
-    it(@"should return the destination accessor of both of the child mapper", ^{
-        [mapper destinationAccessor] should equal(HYDAccessDefault(@"key"));
     });
 
     describe(@"parsing an object", ^{
@@ -123,7 +119,7 @@ describe(@"HYDForwardMapper", ^{
             // fake accessor doesn't support key paths
             mapper = HYDMapForward(HYDAccessDefault(@"walk.to"), childMapper);
 
-            HYDSFakeMapper *reverseChildMapper = [[HYDSFakeMapper alloc] initWithDestinationAccessor:HYDAccessDefault(@"walk.to")];
+            HYDSFakeMapper *reverseChildMapper = [[HYDSFakeMapper alloc] init];
             reverseChildMapper.objectsToReturn = @[@"me"];
             childMapper.reverseMapperToReturn = reverseChildMapper;
 

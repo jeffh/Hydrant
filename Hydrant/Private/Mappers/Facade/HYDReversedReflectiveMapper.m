@@ -4,6 +4,7 @@
 #import "HYDOptionalMapper.h"
 #import "HYDDefaultAccessor.h"
 #import "HYDReflectiveMapper+Protected.h"
+#import "HYDMapping.h"
 
 
 @implementation HYDReversedReflectiveMapper
@@ -30,21 +31,21 @@
             continue;
         }
 
-        id<HYDMapper> mapper = HYDMapNotNull([self mapperForProperty:property destinationKey:destinationKey]);
+        id<HYDMapper> mapper = HYDMapNotNullFrom([self mapperForProperty:property]);
         if ([optionalFields containsObject:sourceKey]) {
             mapper = HYDMapNonFatally(mapper);
         }
-        mapping[sourceKey] = mapper;
+        mapping[sourceKey] = HYDMap(mapper, HYDAccessDefault(destinationKey));
     }
 
     [mapping addEntriesFromDictionary:self.overriddenMapping];
     return mapping;
 }
 
-- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property destinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property
 {
-    id<HYDMapper> mapper = [super mapperForProperty:property destinationKey:destinationKey];
-    return [mapper reverseMapperWithDestinationAccessor:HYDAccessDefault(destinationKey)];
+    id<HYDMapper> mapper = [super mapperForProperty:property];
+    return [mapper reverseMapper];
 }
 
 @end

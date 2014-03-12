@@ -4,26 +4,26 @@
 #import "HYDIdentityMapper.h"
 
 
-HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey)
+HYD_EXTERN
+id<HYDMapper> HYDMapDecimalNumberToString(void)
 {
-    return HYDMapNumberToString(destinationKey, NSNumberFormatterDecimalStyle);
+    return HYDMapNumberToString(NSNumberFormatterDecimalStyle);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapNumberToString(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapNumberToString(id<HYDMapper> mapper)
 {
     return HYDMapNumberToString(mapper, NSNumberFormatterDecimalStyle);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey, NSNumberFormatterStyle numberFormatStyle)
+id<HYDMapper> HYDMapNumberToString(NSNumberFormatterStyle numberFormatStyle)
 {
-    return HYDMapNumberToString(HYDMapIdentity(destinationKey), numberFormatStyle);
+    return HYDMapNumberToString(HYDMapIdentity(), numberFormatStyle);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatterStyle numberFormatStyle)
+id<HYDMapper> HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatterStyle numberFormatStyle)
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     numberFormatter.numberStyle = numberFormatStyle;
@@ -31,13 +31,13 @@ HYDObjectToStringFormatterMapper *HYDMapNumberToString(id<HYDMapper> mapper, NSN
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapNumberToString(NSString *destinationKey, NSNumberFormatter *numberFormatter)
+id<HYDMapper> HYDMapNumberToString(NSNumberFormatter *numberFormatter)
 {
-    return HYDMapNumberToString(HYDMapIdentity(destinationKey), numberFormatter);
+    return HYDMapNumberToString(HYDMapIdentity(), numberFormatter);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatter *numberFormatter)
+id<HYDMapper> HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatter *numberFormatter)
 {
     return HYDMapObjectToStringByFormatter(mapper, numberFormatter);
 }

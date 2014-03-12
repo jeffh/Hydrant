@@ -19,14 +19,10 @@ describe(@"HYDFirstMapper", ^{
 
     beforeEach(^{
         sourceObject = @"source";
-        child1 = [[HYDSFakeMapper alloc] initWithDestinationKey:nil];
-        child2 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"LOL"];
-        child3 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"OK"];
+        child1 = [[HYDSFakeMapper alloc] init];
+        child2 = [[HYDSFakeMapper alloc] init];
+        child3 = [[HYDSFakeMapper alloc] init];
         mapper = HYDMapFirst(child1, child2, child3);
-    });
-
-    it(@"should return the first non-nil destination key as its destination key", ^{
-        [mapper destinationAccessor] should equal(HYDAccessDefault(@"LOL"));
     });
 
     describe(@"parsing an object", ^{
@@ -116,9 +112,9 @@ describe(@"HYDFirstMapper", ^{
 
     describe(@"reverse mapping", ^{
         beforeEach(^{
-            HYDSFakeMapper *reversedChild1 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
-            HYDSFakeMapper *reversedChild2 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
-            HYDSFakeMapper *reversedChild3 = [[HYDSFakeMapper alloc] initWithDestinationKey:@"otherKey"];
+            HYDSFakeMapper *reversedChild1 = [[HYDSFakeMapper alloc] init];
+            HYDSFakeMapper *reversedChild2 = [[HYDSFakeMapper alloc] init];
+            HYDSFakeMapper *reversedChild3 = [[HYDSFakeMapper alloc] init];
             child1.reverseMapperToReturn = reversedChild1;
             child2.reverseMapperToReturn = reversedChild2;
             child3.reverseMapperToReturn = reversedChild3;

@@ -32,16 +32,6 @@
 
 #pragma mark - <HYDMapper>
 
-- (id<HYDAccessor>)destinationAccessor
-{
-    for (id<HYDMapper> mapper in self.mappers) {
-        if ([mapper destinationAccessor]) {
-            return [mapper destinationAccessor];
-        }
-    }
-    return nil;
-}
-
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
     NSMutableArray *errors = [NSMutableArray array];
@@ -66,18 +56,18 @@
                                                 sourceObject:sourceObject
                                               sourceAccessor:nil
                                            destinationObject:nil
-                                         destinationAccessor:self.destinationAccessor
+                                         destinationAccessor:nil
                                                      isFatal:!hasObject]);
     }
 
     return destinationObject;
 }
 
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
     NSMutableArray *reversedMappers = [NSMutableArray arrayWithCapacity:self.mappers.count];
     for (id<HYDMapper> mapper in self.mappers) {
-        [reversedMappers addObject:[mapper reverseMapperWithDestinationAccessor:destinationAccessor]];
+        [reversedMappers addObject:[mapper reverseMapper]];
     }
     return [[[self class] alloc] initWithMappers:reversedMappers];
 }

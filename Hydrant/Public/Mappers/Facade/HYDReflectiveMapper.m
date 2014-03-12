@@ -19,6 +19,7 @@
 #import "HYDFirstMapper.h"
 
 #import "HYDReflectiveMapper+Protected.h"
+#import "HYDMapping.h"
 
 
 @implementation HYDReflectiveMapper
@@ -39,19 +40,19 @@
                  optionalFields:[NSSet set]
                  excludedFields:[NSSet set]
               overriddenMapping:@{}
-                    typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURL(HYDRootMapper),
-                                  NSStringFromClass([NSNumber class]): HYDMapStringToNumber(HYDRootMapper),
-                                  NSStringFromClass([NSDate class]): HYDMapFirst(HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339_milliseconds),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC3339),
-                                                                                 HYDMapStringToDate(HYDRootMapper, [HYDDotNetDateFormatter new]),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day_gmt),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day_seconds),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_day_seconds_gmt),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_seconds),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_seconds_gmt),
-                                                                                 HYDMapStringToDate(HYDRootMapper, HYDDateFormatRFC822_gmt))}
+                    typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURL(),
+                                  NSStringFromClass([NSNumber class]): HYDMapStringToDecimalNumber(),
+                                  NSStringFromClass([NSDate class]): HYDMapFirst(HYDMapStringToDate(HYDDateFormatRFC3339_milliseconds),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC3339),
+                                                                                 HYDMapStringToDate([HYDDotNetDateFormatter new]),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC822),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_day),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_day_gmt),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_day_seconds),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_day_seconds_gmt),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_seconds),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_seconds_gmt),
+                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_gmt))}
                  keyTransformer:[HYDIdentityValueTransformer new]];
 }
 
@@ -98,14 +99,9 @@
     return [self.internalMapper objectFromSourceObject:sourceObject error:error];
 }
 
-- (id<HYDAccessor>)destinationAccessor
+- (id<HYDMapper>)reverseMapper
 {
-    return [self.innerMapper destinationAccessor];
-}
-
-- (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor
-{
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapperWithDestinationAccessor:destinationAccessor];
+    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapper];
 
     return [[HYDReversedReflectiveMapper alloc] initWithMapper:reversedInnerMapper
                                                    sourceClass:self.destinationClass
@@ -206,7 +202,7 @@
 
 - (NSDictionary *)buildMapping
 {
-    NSMutableDictionary *mapping = [NSMutableDictionary dictionary];
+    NSMutableDictionary *results = [NSMutableDictionary dictionary];
     HYDClassInspector *inspector = [HYDClassInspector inspectorForClass:self.destinationClass];
 
     for (HYDProperty *property in inspector.allProperties) {
@@ -220,29 +216,26 @@
             continue;
         }
 
-        id<HYDMapper> mapper = HYDMapNotNull([self mapperForProperty:property destinationKey:destinationKey]);
+        id<HYDMapper> mapper = HYDMapNotNullFrom([self mapperForProperty:property]);
         if ([self.optionalFields containsObject:destinationKey]) {
             mapper = HYDMapNonFatally(mapper);
         }
-        mapping[sourceKey] = mapper;
+
+        results[sourceKey] = HYDMap(mapper, HYDAccessDefault(destinationKey));
     }
 
-    [mapping addEntriesFromDictionary:self.overriddenMapping];
-    return mapping;
+    [results addEntriesFromDictionary:self.overriddenMapping];
+    return results;
 }
 
-- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property destinationKey:(NSString *)destinationKey
+- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property
 {
-    id<HYDMapper> mapper = HYDMapIdentity(destinationKey);
+    id<HYDMapper> mapper = HYDMapIdentity();
 
     if ([property isObjCObjectType]) {
         Class propertyClass = [property classType];
         id<HYDMapper> classMapper = self.typeMapping[NSStringFromClass(propertyClass)]; // TODO: repeat for super classes
-        if (classMapper) {
-            mapper = HYDMapperWithAccessor(classMapper, HYDAccessDefault(destinationKey));
-        }
-
-        mapper = HYDMapType(mapper, nil, propertyClass);
+        mapper = HYDMapType(classMapper ?: mapper, nil, propertyClass);
     }
 
     return mapper;
@@ -266,13 +259,13 @@ HYDReflectiveMapper *HYDMapReflectively(id<HYDMapper> innerMapper, Class destina
 }
 
 HYD_EXTERN_OVERLOADED
-HYDReflectiveMapper *HYDMapReflectively(NSString *destinationKey, Class sourceClass, Class destinationClass)
+HYDReflectiveMapper *HYDMapReflectively(Class sourceClass, Class destinationClass)
 {
-    return HYDMapReflectively(HYDMapIdentity(destinationKey), sourceClass, destinationClass);
+    return HYDMapReflectively(HYDMapIdentity(), sourceClass, destinationClass);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDReflectiveMapper *HYDMapReflectively(NSString *destinationKey, Class destinationClass)
+HYDReflectiveMapper *HYDMapReflectively(Class destinationClass)
 {
-    return HYDMapReflectively(destinationKey, [NSDictionary class], destinationClass);
+    return HYDMapReflectively([NSDictionary class], destinationClass);
 }

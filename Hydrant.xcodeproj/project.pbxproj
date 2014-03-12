@@ -219,6 +219,9 @@
 		1FDAC11D18121F6900846B44 /* HYDProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11918121F6900846B44 /* HYDProperty.m */; };
 		1FDAC11E18121F6900846B44 /* HYDProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11918121F6900846B44 /* HYDProperty.m */; };
 		1FDAC11F18121F6900846B44 /* HYDProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11918121F6900846B44 /* HYDProperty.m */; };
+		1FE4B27618CEBC5F00144A98 /* HYDMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4B27518CEBC5F00144A98 /* HYDMapping.m */; };
+		1FE4B27718CEBC5F00144A98 /* HYDMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4B27518CEBC5F00144A98 /* HYDMapping.m */; };
+		1FE4B27818CEBC5F00144A98 /* HYDMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4B27518CEBC5F00144A98 /* HYDMapping.m */; };
 		1FEC76431890FB5F003687EF /* HYDSFakeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FEC76421890FB5F003687EF /* HYDSFakeFormatter.m */; };
 		1FEC76441890FB5F003687EF /* HYDSFakeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FEC76421890FB5F003687EF /* HYDSFakeFormatter.m */; };
 		1FEC764F1890FE20003687EF /* HYDSharedMapperExamplesSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FEC764E1890FE20003687EF /* HYDSharedMapperExamplesSpec.mm */; };
@@ -498,6 +501,8 @@
 		1FDAC11718121F6900846B44 /* HYDClassInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDClassInspector.m; sourceTree = "<group>"; };
 		1FDAC11818121F6900846B44 /* HYDProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDProperty.h; sourceTree = "<group>"; };
 		1FDAC11918121F6900846B44 /* HYDProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDProperty.m; sourceTree = "<group>"; };
+		1FE4B27418CEBC5F00144A98 /* HYDMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDMapping.h; sourceTree = "<group>"; };
+		1FE4B27518CEBC5F00144A98 /* HYDMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDMapping.m; sourceTree = "<group>"; };
 		1FEC76411890FB5F003687EF /* HYDSFakeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDSFakeFormatter.h; sourceTree = "<group>"; };
 		1FEC76421890FB5F003687EF /* HYDSFakeFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDSFakeFormatter.m; sourceTree = "<group>"; };
 		1FEC764E1890FE20003687EF /* HYDSharedMapperExamplesSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDSharedMapperExamplesSpec.mm; sourceTree = "<group>"; };
@@ -842,6 +847,8 @@
 				1FD4F98D18A3776600DA1AD3 /* EscapeHatch */,
 				1F7BA20E18BAB1FE009686C5 /* Facade */,
 				1F26F31F18C29BCE003A7FB9 /* HYDMapper.h */,
+				1FE4B27418CEBC5F00144A98 /* HYDMapping.h */,
+				1FE4B27518CEBC5F00144A98 /* HYDMapping.m */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -1087,7 +1094,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = HYD;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Jeff Hui";
 			};
 			buildConfigurationList = 1F1E3F6A180392ED00801509 /* Build configuration list for PBXProject "Hydrant" */;
@@ -1229,6 +1236,7 @@
 				1F357E7518C31960004C4CBA /* HYDStringToURLMapperSpec.mm in Sources */,
 				1FDAC11A18121F6900846B44 /* HYDClassInspector.m in Sources */,
 				1F88089A18A60F3800CE4C3F /* HYDKeyPathAccessor.m in Sources */,
+				1FE4B27618CEBC5F00144A98 /* HYDMapping.m in Sources */,
 				1F357E5918C30805004C4CBA /* HYDStringToURLMapper.m in Sources */,
 				1F357E6F18C31960004C4CBA /* HYDStringToDateMapperSpec.mm in Sources */,
 				1F17F8B518C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */,
@@ -1307,6 +1315,7 @@
 				1F17F89C18C9971000E818C1 /* HYDForwardMapper.m in Sources */,
 				1FD4F9DF18A3785000DA1AD3 /* HYDCollectionMapperSpec.mm in Sources */,
 				1FD4F9A218A3776600DA1AD3 /* HYDNonFatalMapper.m in Sources */,
+				1FE4B27718CEBC5F00144A98 /* HYDMapping.m in Sources */,
 				1F71527E18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm in Sources */,
 				1F357E4718C30768004C4CBA /* HYDStringToNumberMapper.m in Sources */,
 				1FF0EA2318BB267100ED3021 /* HYDSnakeToCamelCaseValueTransformer.m in Sources */,
@@ -1407,6 +1416,7 @@
 				1F17F89D18C9971000E818C1 /* HYDForwardMapper.m in Sources */,
 				1FD4F9E018A3785000DA1AD3 /* HYDCollectionMapperSpec.mm in Sources */,
 				1FD4F9A318A3776600DA1AD3 /* HYDNonFatalMapper.m in Sources */,
+				1FE4B27818CEBC5F00144A98 /* HYDMapping.m in Sources */,
 				1F71527F18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm in Sources */,
 				1F357E4818C30768004C4CBA /* HYDStringToNumberMapper.m in Sources */,
 				1FF0EA2418BB267100ED3021 /* HYDSnakeToCamelCaseValueTransformer.m in Sources */,
@@ -1491,7 +1501,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1533,7 +1542,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1596,7 +1604,6 @@
 		1F1E3FB01803931D00801509 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1624,7 +1631,6 @@
 		1F1E3FB11803931D00801509 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
