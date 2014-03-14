@@ -68,17 +68,19 @@
     for (id<HYDAccessor> sourceAccessor in self.mapping) {
         id<HYDMapping> mapping = self.mapping[sourceAccessor];
         id<HYDMapper> mapper = [mapping mapper];
+        id<HYDAccessor> destinationAccessor = [mapping accessor];
         HYDError *innerError = nil;
 
         NSArray *sourceValues = [sourceAccessor valuesFromSourceObject:sourceObject error:&innerError];
         if (innerError) {
             hasFatalError = hasFatalError || [innerError isFatal];
-            // TODO: test wrapping error
-            [errors addObject:[HYDError errorFromError:innerError
-                              prependingSourceAccessor:sourceAccessor
-                                andDestinationAccessor:[mapping accessor]
-                               replacementSourceObject:nil
-                                               isFatal:YES]];
+            [errors addObject:[HYDError errorWithCode:HYDErrorGetViaAccessorFailed
+                                         sourceObject:innerError.sourceObject
+                                       sourceAccessor:sourceAccessor
+                                    destinationObject:innerError.destinationObject
+                                  destinationAccessor:destinationAccessor
+                                              isFatal:innerError.isFatal
+                                     underlyingErrors:nil]];
             continue;
         }
 
@@ -104,15 +106,22 @@
             destinationValue = [NSNull null];
         }
 
-        id<HYDAccessor> destinationAccessor = [mapping accessor];
-
         if (destinationAccessor.fieldNames.count == 1) {
             destinationValue = @[destinationValue];
         }
 
         HYDError *setterError = [destinationAccessor setValues:destinationValue
                                                       onObject:destinationObject];
-        NSAssert(setterError == nil, @"Error: %@", setterError);
+        if (setterError) {
+            hasFatalError = hasFatalError || [setterError isFatal];
+            [errors addObject:[HYDError errorWithCode:setterError.code
+                                         sourceObject:sourceObject
+                                       sourceAccessor:sourceAccessor
+                                    destinationObject:setterError.destinationObject
+                                  destinationAccessor:setterError.destinationAccessor
+                                              isFatal:setterError.isFatal
+                                     underlyingErrors:nil]];
+        }
     }
 
     if (errors.count) {

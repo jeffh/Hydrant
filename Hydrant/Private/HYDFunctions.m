@@ -72,7 +72,12 @@ NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccess
             if ([value conformsToProtocol:@protocol(HYDMapping)]) {
                 normalizedMapping[field] = value;
             } else if ([value isKindOfClass:[NSArray class]]) {
-                normalizedMapping[field] = HYDMap([value firstObject], [value lastObject]);
+                id accessor = [value lastObject];
+                if ([accessor conformsToProtocol:@protocol(HYDAccessor)]) {
+                    normalizedMapping[field] = HYDMap([value firstObject], (id<HYDAccessor>)accessor);
+                } else if ([accessor isKindOfClass:[NSString class]]) {
+                    normalizedMapping[field] = HYDMap([value firstObject], (NSString *)accessor);
+                }
             } else if ([value isKindOfClass:[NSString class]]) {
                 normalizedMapping[field] = HYDMap(HYDMapNotNull(), value);
             } else {

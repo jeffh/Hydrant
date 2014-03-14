@@ -19,12 +19,16 @@ describe(@"HYDObjectMapper", ^{
     __block id parsedObject;
     __block HYDSFakeMapper *childMapper1;
     __block HYDSFakeMapper *childMapper2;
-    __block HYDSFakeAccessor *fakeAccessor;
+    __block HYDSFakeAccessor *fakeGetter;
+    __block HYDSFakeAccessor *fakeSetter;
 
     beforeEach(^{
-        fakeAccessor = [[HYDSFakeAccessor alloc] init];
-        fakeAccessor.valuesToReturn = @[@23];
-        fakeAccessor.fieldNames = @[@"age"];
+        fakeGetter = [[HYDSFakeAccessor alloc] init];
+        fakeGetter.valuesToReturn = @[@23];
+        fakeGetter.fieldNames = @[@"age"];
+
+        fakeSetter = [[HYDSFakeAccessor alloc] init];
+        fakeSetter.fieldNames = @[@"age"];
 
         expectedPerson = [[HYDSPerson alloc] initWithFixtureData];
         validSourceObject = @{@"identifier": @"transforms",
@@ -40,7 +44,7 @@ describe(@"HYDObjectMapper", ^{
         mapper = HYDMapKVCObject([NSDictionary class], [HYDSPerson class],
                                  @{@"first_name" : @[childMapper2, @"firstName"],
                                    @"last_name" : @"lastName",
-                                   fakeAccessor : @"age",
+                                   fakeGetter : @[HYDMapIdentity(), fakeSetter],
                                    @"identifier" : HYDMap(childMapper1, @"identifier")});
     });
 
@@ -56,6 +60,10 @@ describe(@"HYDObjectMapper", ^{
 
             it(@"should not have any error", ^{
                 error should be_nil;
+            });
+
+            it(@"should use the custom set accessor", ^{
+                fakeSetter.valuesToSetReceived should equal(@[@23]);
             });
 
             it(@"should produce an instance of the class given", ^{
@@ -87,6 +95,50 @@ describe(@"HYDObjectMapper", ^{
                 HYDSPerson *personWithOutLastName = [[HYDSPerson alloc] initWithFixtureData];
                 personWithOutLastName.lastName = nil;
                 parsedObject should equal(personWithOutLastName);
+            });
+        });
+
+        context(@"when the getter accessor fails", ^{
+            beforeEach(^{
+                sourceObject = validSourceObject;
+                fakeGetter.sourceErrorToReturn = [HYDError errorWithCode:HYDErrorGetViaAccessorFailed
+                                                            sourceObject:sourceObject
+                                                          sourceAccessor:fakeGetter
+                                                       destinationObject:nil
+                                                     destinationAccessor:fakeSetter
+                                                                 isFatal:YES
+                                                        underlyingErrors:nil];
+            });
+
+            it(@"should return the setter error", ^{
+                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
+                error.userInfo[HYDUnderlyingErrorsKey] should equal(@[fakeGetter.sourceErrorToReturn]);
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+        });
+
+        context(@"when the setter accessor fails", ^{
+            beforeEach(^{
+                sourceObject = validSourceObject;
+                fakeSetter.setValuesErrorToReturn = [HYDError errorWithCode:HYDErrorSetViaAccessorFailed
+                                                               sourceObject:sourceObject
+                                                             sourceAccessor:fakeGetter
+                                                          destinationObject:@23
+                                                        destinationAccessor:fakeSetter
+                                                                    isFatal:YES
+                                                           underlyingErrors:nil];
+            });
+
+            it(@"should return the setter error", ^{
+                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
+                error.userInfo[HYDUnderlyingErrorsKey] should equal(@[fakeSetter.setValuesErrorToReturn]);
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
             });
         });
 
@@ -216,6 +268,8 @@ describe(@"HYDObjectMapper", ^{
             childMapper2.reverseMapperToReturn = reverseChildMapper2;
 
             reverseMapper = [mapper reverseMapper];
+
+            fakeSetter.valuesToReturn = @[@23];
         });
 
         it(@"should produce the original mapper's source object", ^{

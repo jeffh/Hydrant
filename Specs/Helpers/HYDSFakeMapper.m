@@ -35,9 +35,11 @@
 
 - (void)setErrorsToReturn:(NSArray *)errorsToReturn
 {
+    BOOL isValid = YES;
     for (id obj in errorsToReturn) {
-        NSParameterAssert([obj isKindOfClass:[NSError class]] || [obj isEqual:[NSNull null]]);
+        isValid = isValid && ([obj isKindOfClass:[NSError class]] || [obj isEqual:[NSNull null]]);
     }
+    NSParameterAssert(isValid);
     _errorsToReturn = [errorsToReturn mutableCopy];
 }
 
