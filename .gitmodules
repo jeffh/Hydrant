@@ -3,4 +3,4 @@
 	url = https://github.com/jeffh/thrust.git
 [submodule "Externals/cedar"]
 	path = Externals/cedar
-	url = https://github.com/pivotal/cedar.git
+	url = https://github.com/jeffh/cedar.git
