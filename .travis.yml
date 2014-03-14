@@ -5,4 +5,5 @@ before_install:
     - unzip ios-sim-1.9.0.zip
     - cd `ls | grep phonegap-ios-sim`
     - rake install prefix=/usr/local/
+    - cd ..
 script: rake ci
