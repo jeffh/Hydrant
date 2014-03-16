@@ -1,9 +1,4 @@
 language: objective-c
 before_install:
-    #- brew install ios-sim
-    - curl -L https://github.com/phonegap/ios-sim/zipball/1.9.0 -o ios-sim-1.9.0.zip
-    - unzip ios-sim-1.9.0.zip
-    - cd `ls | grep phonegap-ios-sim`
-    - rake install prefix=/usr/local/
-    - cd ..
+  - brew install ios-sim
 script: rake ci
