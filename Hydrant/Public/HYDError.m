@@ -4,6 +4,7 @@
 
 
 @interface HYDError ()
+
 @property (assign, nonatomic, getter = isFatal) BOOL fatal;
 @property (strong, nonatomic) id sourceObject;
 @property (strong, nonatomic) id destinationObject;
@@ -11,6 +12,7 @@
 @property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
 @property (strong, nonatomic) NSArray *underlyingErrors;
 @property (strong, nonatomic) NSArray *underlyingFatalErrors;
+
 @end
 
 

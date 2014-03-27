@@ -5,11 +5,6 @@
 #import "HYDKeyAccessor.h"
 
 
-@interface HYDIdentityMapper ()
-
-@end
-
-
 @implementation HYDIdentityMapper
 
 - (instancetype)init

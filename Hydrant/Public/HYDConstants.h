@@ -66,8 +66,10 @@ HYD_EXTERN NSString *HYDDateFormatRFC822;
  *
  *     id<HYDMapper> mapper = HYDMapObject(HYDRootMapper, ...);
  *
+ *  @warning Deprecated. Do not use anymore.
+ *
  */
-HYD_EXTERN id HYDRootMapper;
+DEPRECATED_ATTRIBUTE HYD_EXTERN id HYDRootMapper;
 
 /*! The error domain that all Hydrant mappers emit.
  */
@@ -109,6 +111,9 @@ HYD_EXTERN const NSInteger HYDErrorGetViaAccessorFailed;
 HYD_EXTERN const NSInteger HYDErrorSetViaAccessorFailed;
 
 /*! The HYDError's userInfo key used to store the fact if this error is fatal.
+ *  Fatal errors indicate failure to parse the given source object that meet all the
+ *  requirements specified.
+ *
  */
 HYD_EXTERN NSString *HYDIsFatalKey;
 
