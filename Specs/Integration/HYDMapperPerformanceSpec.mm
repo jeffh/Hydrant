@@ -2,6 +2,8 @@
 #import "Hydrant.h"
 #import <objc/runtime.h>
 #import "HYDSPerson.h"
+// use for internal cache smashing
+#import "HYDClassInspector.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -45,6 +47,7 @@ SPEC_BEGIN(HYDMapperPerformanceSpec)
 
 describe(@"HYDMapperPerformance", ^{
     __block NSDictionary *invalidObject;
+    __block id<HYDMapper> nonFatalMapper;
 
     beforeEach(^{
         invalidObject = @{@"id": @1,
@@ -54,6 +57,54 @@ describe(@"HYDMapperPerformance", ^{
                           @"birthDate": @"Not A Real Date",
                           @"gender": @"haha",
                           @"age": @"lulzwut"};
+        nonFatalMapper = HYDMapArrayOfObjects([HYDSPerson class],
+                                              @{@"name.first": @[HYDMapOptionally(), @"firstName"],
+                                                @"name.last": @[HYDMapOptionally(), @"lastName"],
+                                                @"age": @[HYDMapOptionallyTo(HYDMapNumberToString(NSNumberFormatterDecimalStyle)), @"age"],
+                                                @"siblings": @[HYDMapOptionally(), @"siblings"],
+                                                @"id": @"identifier",
+                                                @"birthDate": @[HYDMapOptionallyTo(HYDMapDateToString(HYDDateFormatRFC3339_milliseconds)), @"birthDate"],
+                                                @"gender": @[HYDMapOptionallyWithDefault(HYDMapEnum(@{@"male": @(HYDSPersonGenderMale),
+                                                                                                      @"female": @(HYDSPersonGenderFemale)}),
+                                                                                         @(HYDSPersonGenderUnknown)),
+                                                             @"gender"]});
+    });
+
+    context(@"parsing an object", ^{
+        it(@"should not have a large number of property reflection objects", ^{
+            [HYDClassInspector clearInstanceCache];
+
+            NSInteger numberOfProperties = 9;
+            NSArray *sourceObject = numberOfObjects(1000, invalidObject);
+            numberOfAllocationsOf("HYDProperty", ^{
+                HYDError *error = nil;
+                [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
+                [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
+            }) should be_less_than_or_equal_to(numberOfProperties);
+        });
+
+        it(@"should not have a large number of class reflection objects", ^{
+            [HYDClassInspector clearInstanceCache];
+
+            NSArray *sourceObject = numberOfObjects(1000, invalidObject);
+            numberOfAllocationsOf("HYDClassInspector", ^{
+                HYDError *error = nil;
+                [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
+                [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
+            }) should be_less_than_or_equal_to(1);
+        });
+    });
+
+    context(@"parsing an object that generates supressed errors", ^{
+        // This example exists to avoid a large number of string allocations because HYDError tend to use +[NSString stringWithFormat:]
+        // that caused significant performance regressions.
+        it(@"should not have a large number of allocations of strings", ^{
+            NSArray *sourceObject = numberOfObjects(1000, invalidObject);
+            numberOfAllocationsOf("NSString", ^{
+                HYDError *error = nil;
+                [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
+            }) should equal(0);
+        });
     });
 
     context(@"parsing an object that generates a fatal error", ^{
@@ -81,34 +132,6 @@ describe(@"HYDMapperPerformance", ^{
                 [mapper objectFromSourceObject:sourceObject error:&error];
                 [error description];
             }) should be_less_than(sourceObject.count);
-        });
-    });
-
-    context(@"parsing an object that generates supressed errors", ^{
-        __block id<HYDMapper> mapper;
-
-        beforeEach(^{
-            mapper = HYDMapArrayOfObjects([HYDSPerson class],
-                                          @{@"name.first": @[HYDMapOptionally(), @"firstName"],
-                                            @"name.last": @[HYDMapOptionally(), @"lastName"],
-                                            @"age": @[HYDMapOptionallyTo(HYDMapNumberToString(NSNumberFormatterDecimalStyle)), @"age"],
-                                            @"siblings": @[HYDMapOptionally(), @"siblings"],
-                                            @"id": @"identifier",
-                                            @"birthDate": @[HYDMapOptionallyTo(HYDMapDateToString(HYDDateFormatRFC3339_milliseconds)), @"birthDate"],
-                                            @"gender": @[HYDMapOptionallyWithDefault(HYDMapEnum(@{@"male": @(HYDSPersonGenderMale),
-                                                                                                  @"female": @(HYDSPersonGenderFemale)}),
-                                                                                     @(HYDSPersonGenderUnknown)),
-                                                         @"gender"]});
-        });
-
-        // This example exists to avoid a large number of string allocations because HYDError tend to use +[NSString stringWithFormat:]
-        // that caused significant performance regressions.
-        it(@"should not have a large number of allocations of strings", ^{
-            NSArray *sourceObject = numberOfObjects(1000, invalidObject);
-            numberOfAllocationsOf("NSString", ^{
-                HYDError *error = nil;
-                [mapper objectFromSourceObject:sourceObject error:&error];
-            }) should equal(0);
         });
     });
 });

@@ -2,6 +2,17 @@
 #import <objc/runtime.h>
 
 
+@interface HYDProperty ()
+
+@property (strong, nonatomic) NSString *encodingType;
+@property (strong, nonatomic) NSString *ivarName;
+@property (strong, nonatomic) NSString *encodingTypeObjCDeclaration;
+@property (strong, nonatomic) Class classType;
+@property (assign, nonatomic, getter = isObjCObjectType) BOOL objCObjectType;
+
+@end
+
+
 @implementation HYDProperty
 
 - (id)initWithName:(NSString *)name attributes:(NSDictionary *)attributes
@@ -9,6 +20,9 @@
     if (self = [super init]) {
         self.name = name;
         self.attributes = attributes;
+        self.encodingType = attributes[@"T"];
+        self.ivarName = attributes[@"V"];
+        self.objCObjectType = [self.encodingType characterAtIndex:0] == '@';
     }
     return self;
 }
@@ -18,69 +32,39 @@
     return [NSString stringWithFormat:@"<%@ name=%@ attributes=%@>", NSStringFromClass([self class]), self.name, self.attributes];
 }
 
-- (NSString *)encodingType
-{
-    return self.attributes[@"T"];
-}
-
-- (NSString *)ivarName
-{
-    return self.attributes[@"V"];
-}
-
 - (NSString *)encodingTypeObjCDeclaration
 {
-    NSString *encodingType = self.encodingType;
-    if (self.isObjCObjectType) {
+    if (self.isObjCObjectType && !_encodingTypeObjCDeclaration) {
+        NSString *encodingType = self.encodingType;
         if (encodingType.length > 3 &&
             [encodingType characterAtIndex:1] == '"' &&
             [encodingType characterAtIndex:encodingType.length-1] == '"') {
             return [encodingType substringWithRange:NSMakeRange(2, encodingType.length - 3)];
         }
-        return @"NSObject";
+        _encodingTypeObjCDeclaration = @"NSObject";
     }
-    return nil;
+    return _encodingTypeObjCDeclaration;
 }
 
 - (Class)classType
 {
-    if (!self.isObjCObjectType) {
-        return nil;
+    if (self.isObjCObjectType && !_classType) {
+        NSString *declaration = [self encodingTypeObjCDeclaration];
+        NSString *className = @"";
+        NSRange protocolStart = [declaration rangeOfString:@"<"];
+        if (protocolStart.location == NSNotFound){
+            className = declaration;
+        } else {
+            className = [declaration substringToIndex:protocolStart.location];
+        }
+        _classType = NSClassFromString(className);
     }
-    NSString *declaration = [self encodingTypeObjCDeclaration];
-    NSString *className = @"";
-    NSRange protocolStart = [declaration rangeOfString:@"<"];
-    if (protocolStart.location == NSNotFound){
-        className = declaration;
-    } else {
-        className = [declaration substringToIndex:protocolStart.location];
-    }
-    return NSClassFromString(className);
+    return _classType;
 }
 
 - (BOOL)isEncodingType:(const char *)encoding
 {
     return strcmp(self.encodingType.UTF8String, encoding) == 0;
-}
-
-- (BOOL)isObjCObjectType
-{
-    return [self.encodingType characterAtIndex:0] == '@';
-}
-
-- (BOOL)isWeak
-{
-    return self.attributes[@"W"] != nil;
-}
-
-- (BOOL)isNonAtomic
-{
-    return self.attributes[@"N"] != nil;
-}
-
-- (BOOL)isReadOnly
-{
-    return self.attributes[@"R"] != nil;
 }
 
 @end

@@ -41,9 +41,6 @@ NSString *HYDStringifyAccessor(id<HYDAccessor> accessor);
 
 
 HYD_EXTERN
-id<HYDMapper> HYDMapperWithAccessor(id<HYDMapper> mapper, id<HYDAccessor> accessor);
-
-HYD_EXTERN
 id HYDGetValueOrValues(NSArray *values);
 
 HYD_EXTERN

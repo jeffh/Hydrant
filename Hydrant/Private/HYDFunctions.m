@@ -124,12 +124,6 @@ NSString *HYDStringifyAccessor(id<HYDAccessor> accessor)
 }
 
 HYD_EXTERN
-id<HYDMapper> HYDMapperWithAccessor(id<HYDMapper> mapper, id<HYDAccessor> accessor)
-{
-    return [[mapper reverseMapper] reverseMapper];
-}
-
-HYD_EXTERN
 id HYDGetValueOrValues(NSArray *values)
 {
     return values.count == 1 ? values.lastObject : values;

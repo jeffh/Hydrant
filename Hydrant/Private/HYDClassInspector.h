@@ -8,6 +8,7 @@
 @property (strong, nonatomic, readonly) NSArray *nonWeakProperties;
 
 + (instancetype)inspectorForClass:(Class)aClass;
++ (void)clearInstanceCache;
 - (id)initWithClass:(Class)aClass;
 
 @end

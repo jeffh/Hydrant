@@ -13,8 +13,5 @@
 - (Class)classType;
 - (BOOL)isEncodingType:(const char *)encoding;
 - (BOOL)isObjCObjectType;
-- (BOOL)isWeak;
-- (BOOL)isNonAtomic;
-- (BOOL)isReadOnly;
 
 @end

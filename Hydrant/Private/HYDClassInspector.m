@@ -7,8 +7,7 @@
 
 @property (strong, nonatomic) Class aClass;
 @property (strong, nonatomic, readwrite) NSArray *properties;
-@property (strong, nonatomic, readwrite) NSArray *weakProperties;
-@property (strong, nonatomic, readwrite) NSArray *nonWeakProperties;
+@property (strong, nonatomic, readwrite) NSArray *allProperties;
 
 @end
 
@@ -31,6 +30,13 @@ static NSMutableDictionary *inspectors__;
     }
 }
 
++ (void)clearInstanceCache
+{
+    @synchronized (self) {
+        inspectors__ = nil;
+    }
+}
+
 - (id)initWithClass:(Class)aClass
 {
     if (self = [super init]) {
@@ -40,22 +46,6 @@ static NSMutableDictionary *inspectors__;
 }
 
 #pragma mark - Properties
-
-- (NSArray *)nonWeakProperties
-{
-    if (!_nonWeakProperties){
-        _nonWeakProperties = [self.allProperties filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isWeak = NO"]];
-    }
-    return _nonWeakProperties;
-}
-
-- (NSArray *)weakProperties
-{
-    if (!_weakProperties){
-        _weakProperties = [self.allProperties filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isWeak = YES"]];
-    }
-    return _weakProperties;
-}
 
 - (NSArray *)properties
 {
@@ -90,19 +80,23 @@ static NSMutableDictionary *inspectors__;
 
 - (NSArray *)allProperties
 {
-    NSArray *classProperties = self.properties;
-    NSSet *classPropertyNames = [NSSet setWithArray:[classProperties valueForKey:@"name"]];
-    NSMutableArray *properties = [NSMutableArray new];
-    Class parentClass = class_getSuperclass(self.aClass);
-    if (parentClass && parentClass != [NSObject class]) {
-        for (HYDProperty *property in [[HYDClassInspector inspectorForClass:parentClass] allProperties]) {
-            if (![classPropertyNames containsObject:property.name]) {
-                [properties addObject:property];
+    if (!_allProperties) {
+        NSArray *classProperties = self.properties;
+        NSSet *classPropertyNames = [NSSet setWithArray:[classProperties valueForKey:@"name"]];
+        NSMutableArray *properties = [NSMutableArray new];
+        Class parentClass = class_getSuperclass(self.aClass);
+        if (parentClass && parentClass != [NSObject class]) {
+            for (HYDProperty *property in [[HYDClassInspector inspectorForClass:parentClass] allProperties]) {
+                if (![classPropertyNames containsObject:property.name]) {
+                    [properties addObject:property];
+                }
             }
         }
+        [properties addObjectsFromArray:classProperties];
+        return properties;
+        _allProperties = properties;
     }
-    [properties addObjectsFromArray:classProperties];
-    return properties;
+    return _allProperties;
 }
 
 @end
