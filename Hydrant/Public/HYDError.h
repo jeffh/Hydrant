@@ -35,6 +35,9 @@
  *  - HYDErrorInvalidResultingObjectType to indicate the resulting object produced was an invalid type
  *  - HYDErrorMultipleErrors to indicate multiple parsing errors have occurred
  *
+ *  For performance reasons, HYDErrors lazily generate their userInfo since the majority
+ *  of the time errors are unaccessed when generated from child mappers.
+ *
  */
 @interface HYDError : NSError
 

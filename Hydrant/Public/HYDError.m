@@ -2,7 +2,34 @@
 #import "HYDFunctions.h"
 #import "HYDConstants.h"
 
-@implementation HYDError
+
+@interface HYDError ()
+@property (assign, nonatomic, getter = isFatal) BOOL fatal;
+@property (strong, nonatomic) id sourceObject;
+@property (strong, nonatomic) id destinationObject;
+@property (strong, nonatomic) id<HYDAccessor> sourceAccessor;
+@property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
+@property (strong, nonatomic) NSArray *underlyingErrors;
+@property (strong, nonatomic) NSArray *underlyingFatalErrors;
+@end
+
+
+@implementation HYDError {
+    NSDictionary *_userInfo;
+}
+
++ (instancetype)errorWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict
+{
+    HYDError *error = [super errorWithDomain:domain code:code userInfo:dict];
+    error.sourceObject = dict[HYDSourceObjectKey];
+    error.sourceAccessor = dict[HYDSourceAccessorKey];
+    error.destinationObject = dict[HYDDestinationObjectKey];
+    error.destinationAccessor = dict[HYDDestinationAccessorKey];
+    error.fatal = [dict[HYDIsFatalKey] boolValue];
+    error.underlyingErrors = dict[HYDUnderlyingErrorsKey];
+    error->_userInfo = dict;
+    return error;
+}
 
 + (instancetype)errorWithCode:(NSInteger)code
                  sourceObject:(id)sourceObject
@@ -12,35 +39,14 @@
                       isFatal:(BOOL)isFatal
              underlyingErrors:(NSArray *)underlyingErrors
 {
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-
-    userInfo[HYDIsFatalKey] = @(isFatal);
-
-    underlyingErrors = [NSArray arrayWithArray:underlyingErrors];
-    if (underlyingErrors.count) {
-        userInfo[NSUnderlyingErrorKey] = underlyingErrors[0];
-        userInfo[HYDUnderlyingErrorsKey] = underlyingErrors;
-    }
-
-    HYDSetValueForKeyIfNotNil(userInfo, HYDSourceObjectKey, sourceObject);
-    HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationObjectKey, destinationObject);
-    HYDSetValueForKeyIfNotNil(userInfo, HYDSourceAccessorKey, sourceAccessor);
-    HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationAccessorKey, destinationAccessor);
-
-    if (code == HYDErrorMultipleErrors) {
-        NSString *predicate = [NSString stringWithFormat:@"userInfo.%@ = YES", HYDIsFatalKey];
-        NSArray *fatalUnderlyingErrors = [underlyingErrors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:predicate]];
-        userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Multiple parsing errors occurred (fatal=%lu, total=%lu)",
-                                                                       (unsigned long)fatalUnderlyingErrors.count,
-                                                                       (unsigned long)underlyingErrors.count);
-    } else if (!sourceAccessor && !destinationAccessor) {
-        userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map objects");
-    } else {
-        userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'",
-                                                                       HYDStringifyAccessor(sourceAccessor),
-                                                                       HYDStringifyAccessor(destinationAccessor));
-    }
-    return [super errorWithDomain:HYDErrorDomain code:code userInfo:userInfo];
+    HYDError *error = [super errorWithDomain:HYDErrorDomain code:code userInfo:nil];
+    error.sourceObject = sourceObject;
+    error.sourceAccessor = sourceAccessor;
+    error.destinationObject = destinationObject;
+    error.destinationAccessor = destinationAccessor;
+    error.fatal = isFatal;
+    error.underlyingErrors = underlyingErrors;
+    return error;
 }
 
 + (instancetype)errorFromError:(HYDError *)error
@@ -59,7 +65,7 @@
              destinationObject:error.destinationObject
            destinationAccessor:destinationAccessor
                        isFatal:isFatal
-              underlyingErrors:error.userInfo[HYDUnderlyingErrorsKey]];
+              underlyingErrors:error.underlyingErrors];
 }
 
 + (instancetype)errorFromErrors:(NSArray *)errors
@@ -148,41 +154,48 @@
             self.domain, (long)self.code, fatalness, self.localizedDescription, underlyingErrors];
 }
 
-- (BOOL)isFatal
+- (NSDictionary *)userInfo
 {
-    return [self.userInfo[HYDIsFatalKey] boolValue];
-}
-
-- (NSString *)sourceAccessor
-{
-    return self.userInfo[HYDSourceAccessorKey];
-}
-
-- (NSString *)destinationAccessor
-{
-    return self.userInfo[HYDDestinationAccessorKey];
-}
-
-- (id)sourceObject
-{
-    return self.userInfo[HYDSourceObjectKey];
-}
-
-- (id)destinationObject
-{
-    return self.userInfo[HYDDestinationObjectKey];
-}
-
-- (NSArray *)underlyingErrors
-{
-    return self.userInfo[HYDUnderlyingErrorsKey];
+    if (!_userInfo) {
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+        
+        userInfo[HYDIsFatalKey] = @(self.isFatal);
+        
+        NSArray *underlyingErrors = [NSArray arrayWithArray:self.underlyingErrors];
+        if (underlyingErrors.count) {
+            userInfo[NSUnderlyingErrorKey] = underlyingErrors[0];
+            userInfo[HYDUnderlyingErrorsKey] = underlyingErrors;
+        }
+        
+        HYDSetValueForKeyIfNotNil(userInfo, HYDSourceObjectKey, self.sourceObject);
+        HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationObjectKey, self.destinationObject);
+        HYDSetValueForKeyIfNotNil(userInfo, HYDSourceAccessorKey, self.sourceAccessor);
+        HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationAccessorKey, self.destinationAccessor);
+        
+        if (self.code == HYDErrorMultipleErrors) {
+            userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Multiple parsing errors occurred (fatal=%lu, total=%lu)",
+                                                                           (unsigned long)self.underlyingFatalErrors.count,
+                                                                           (unsigned long)self.underlyingErrors.count);
+        } else if (!self.sourceAccessor && !self.destinationAccessor) {
+            userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map objects");
+        } else {
+            userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'",
+                                                                           HYDStringifyAccessor(self.sourceAccessor),
+                                                                           HYDStringifyAccessor(self.destinationAccessor));
+        }
+        _userInfo = [userInfo copy];
+    }
+    return _userInfo;
 }
 
 - (NSArray *)underlyingFatalErrors
 {
-    return [self underlyingErrorsPassingBlock:^BOOL(NSError *error) {
-        return ![error isKindOfClass:[HYDError class]] || [(HYDError *)error isFatal];
-    }];
+    if (!_underlyingFatalErrors) {
+        _underlyingFatalErrors = [self underlyingErrorsPassingBlock:^BOOL(NSError *error) {
+            return ![error isKindOfClass:[HYDError class]] || [(HYDError *)error isFatal];
+        }];
+    }
+    return _underlyingFatalErrors;
 }
 
 #pragma mark - Private

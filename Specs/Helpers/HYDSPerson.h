@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, HYDPersonGender) {
-    HYDPersonGenderUnknown,
-    HYDPersonGenderMale,
-    HYDPersonGenderFemale,
+typedef NS_ENUM(NSUInteger, HYDSPersonGender) {
+    HYDSPersonGenderUnknown,
+    HYDSPersonGenderMale,
+    HYDSPersonGenderFemale,
 };
 
 @interface HYDSPerson : NSObject
@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, HYDPersonGender) {
 @property (strong, nonatomic) NSArray *siblings;
 @property (assign, nonatomic) NSInteger identifier;
 @property (strong, nonatomic) NSDate *birthDate;
-@property (assign, nonatomic) HYDPersonGender gender;
+@property (assign, nonatomic) HYDSPersonGender gender;
 @property (strong, nonatomic) NSURL *homepage;
 
 - (id)initWithFixtureData;

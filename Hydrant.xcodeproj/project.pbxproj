@@ -129,6 +129,8 @@
 		1F88089A18A60F3800CE4C3F /* HYDKeyPathAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */; };
 		1F88089B18A60F3800CE4C3F /* HYDKeyPathAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */; };
 		1F88089C18A60F3800CE4C3F /* HYDKeyPathAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */; };
+		1FA35AA718E3CC2600D99840 /* HYDMapperPerformanceSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */; };
+		1FA35AA818E3CC2600D99840 /* HYDMapperPerformanceSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */; };
 		1FA99484183B49FA001E9F2E /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A8485183B48DD00EAA4E0 /* libCedar-StaticLib.a */; };
 		1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99489183B4A20001E9F2E /* Foundation.framework */; };
 		1FA994A4183C97A8001E9F2E /* HYDBase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C040181A2DC90017FDB4 /* HYDBase.h */; };
@@ -447,6 +449,7 @@
 		1F88089418A60F3800CE4C3F /* HYDKeyAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDKeyAccessor.m; sourceTree = "<group>"; };
 		1F88089518A60F3800CE4C3F /* HYDKeyPathAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDKeyPathAccessor.h; sourceTree = "<group>"; };
 		1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDKeyPathAccessor.m; sourceTree = "<group>"; };
+		1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDMapperPerformanceSpec.mm; sourceTree = "<group>"; };
 		1FA99489183B4A20001E9F2E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		1FB0F65F1883DCDD00120ABC /* HYDError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDError.h; sourceTree = "<group>"; };
 		1FB0F6601883DCDD00120ABC /* HYDError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDError.m; sourceTree = "<group>"; };
@@ -605,6 +608,7 @@
 				1FD4F96718A36E9B00DA1AD3 /* HYDMappingOptionalArraysSpec.mm */,
 				1F71527D18A882CF00F59AA8 /* HYDMapperFieldCompositionSpec.mm */,
 				1FBE9B7918C5C426004BA594 /* HYDOptionalTypedMapperSpec.mm */,
+				1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */,
 			);
 			path = Integration;
 			sourceTree = "<group>";
@@ -1286,6 +1290,7 @@
 				1F1E3FA81803931D00801509 /* main.m in Sources */,
 				1FD4F9BA18A3776600DA1AD3 /* HYDValueTransformerMapper.m in Sources */,
 				1FD4F9F718A3785000DA1AD3 /* HYDReversedValueTransformerMapperSpec.mm in Sources */,
+				1FA35AA718E3CC2600D99840 /* HYDMapperPerformanceSpec.mm in Sources */,
 				1FEC76551891B5DB003687EF /* HYDObjectFactory.m in Sources */,
 				1FD4F96818A36E9B00DA1AD3 /* HYDMappingOptionalArraysSpec.mm in Sources */,
 				1FD4F9AB18A3776600DA1AD3 /* HYDEnumMapper.m in Sources */,
@@ -1387,6 +1392,7 @@
 				1F1E3FC91804EC4F00801509 /* main.m in Sources */,
 				1FD4F9BB18A3776600DA1AD3 /* HYDValueTransformerMapper.m in Sources */,
 				1FD4F9F818A3785000DA1AD3 /* HYDReversedValueTransformerMapperSpec.mm in Sources */,
+				1FA35AA818E3CC2600D99840 /* HYDMapperPerformanceSpec.mm in Sources */,
 				1FEC76561891B5DB003687EF /* HYDObjectFactory.m in Sources */,
 				1FD4F96918A36E9B00DA1AD3 /* HYDMappingOptionalArraysSpec.mm in Sources */,
 				1FD4F9AC18A3776600DA1AD3 /* HYDEnumMapper.m in Sources */,

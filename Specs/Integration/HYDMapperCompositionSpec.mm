@@ -26,9 +26,9 @@ describe(@"Mapper Composition", ^{
                                                            HYDAccessKey(@"birth.date") : @[HYDMapStringToDate(dotNetDateFormatter), @"birthDate"]}),
                                               @"parent"],
                                 @"identifier" : HYDMap(HYDMapNonFatally(HYDMapIdentity()), @"identifier"),
-                                @"gender" : @[HYDMapEnum(@{@"unknown" : @(HYDPersonGenderUnknown),
-                                                           @"male" : @(HYDPersonGenderMale),
-                                                           @"female" : @(HYDPersonGenderFemale)}),
+                                @"gender" : @[HYDMapEnum(@{@"unknown" : @(HYDSPersonGenderUnknown),
+                                                           @"male" : @(HYDSPersonGenderMale),
+                                                           @"female" : @(HYDSPersonGenderFemale)}),
                                               @"gender"],
                                 @"children" : @[HYDMapArrayOf(HYDMapObject([NSDictionary class], [HYDSPerson class],
                                                                          @{@"first" : @"firstName",
@@ -47,7 +47,7 @@ describe(@"Mapper Composition", ^{
                                     @"gender": @"male"};
         expectedObjectGraph = [[HYDSPerson alloc] init];
         expectedObjectGraph.identifier = 42;
-        expectedObjectGraph.gender = HYDPersonGenderMale;
+        expectedObjectGraph.gender = HYDSPersonGenderMale;
         expectedObjectGraph.parent = ({
             HYDSPerson *parent = [[HYDSPerson alloc] init];
             parent.identifier = 1;

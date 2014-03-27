@@ -13,9 +13,9 @@ describe(@"HYDEnumMapper", ^{
 
     beforeEach(^{
         error = nil;
-        mapper = HYDMapEnum(@{@(HYDPersonGenderUnknown) : @"Unknown",
-                              @(HYDPersonGenderMale) : @"Male",
-                              @(HYDPersonGenderFemale) : @"Female"});
+        mapper = HYDMapEnum(@{@(HYDSPersonGenderUnknown) : @"Unknown",
+                              @(HYDSPersonGenderMale) : @"Male",
+                              @(HYDSPersonGenderFemale) : @"Female"});
     });
 
     describe(@"parsing the source object", ^{
@@ -28,7 +28,7 @@ describe(@"HYDEnumMapper", ^{
 
         context(@"when an enumerable value is provided", ^{
             beforeEach(^{
-                sourceObject = @(HYDPersonGenderFemale);
+                sourceObject = @(HYDSPersonGenderFemale);
             });
 
             it(@"should not have any error", ^{
@@ -78,7 +78,7 @@ describe(@"HYDEnumMapper", ^{
 
         context(@"with a female value", ^{
             beforeEach(^{
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDPersonGenderFemale);
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderFemale);
             });
 
             itShouldBehaveLike(@"a mapper that does the inverse of the original");
@@ -86,7 +86,7 @@ describe(@"HYDEnumMapper", ^{
 
         context(@"with a male value", ^{
             beforeEach(^{
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDPersonGenderMale);
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderMale);
             });
 
             itShouldBehaveLike(@"a mapper that does the inverse of the original");
@@ -94,7 +94,7 @@ describe(@"HYDEnumMapper", ^{
 
         context(@"with an unknown value", ^{
             beforeEach(^{
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDPersonGenderUnknown);
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderUnknown);
             });
 
             itShouldBehaveLike(@"a mapper that does the inverse of the original");
