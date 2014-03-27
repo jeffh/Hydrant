@@ -14,27 +14,27 @@
 
 @implementation HYDClassInspector
 
-static NSMutableDictionary *inspectors__;
+static NSCache *inspectors__;
+
++ (void)initialize
+{
+    inspectors__ = [[NSCache alloc] init];
+}
 
 + (instancetype)inspectorForClass:(Class)aClass
 {
     NSString *key = NSStringFromClass(aClass);
-    @synchronized (self) {
-        if (!inspectors__) {
-            inspectors__ = [NSMutableDictionary new];
-        }
-        if (!inspectors__[key]) {
-            inspectors__[key] = [[self alloc] initWithClass:aClass];
-        }
-        return inspectors__[key];
+    HYDClassInspector *inspector = [inspectors__ objectForKey:key];
+    if (!inspector) {
+        inspector = [[self alloc] initWithClass:aClass];
+        [inspectors__ setObject:inspector forKey:key];
     }
+    return inspector;
 }
 
 + (void)clearInstanceCache
 {
-    @synchronized (self) {
-        inspectors__ = nil;
-    }
+    [inspectors__ removeAllObjects];
 }
 
 - (id)initWithClass:(Class)aClass

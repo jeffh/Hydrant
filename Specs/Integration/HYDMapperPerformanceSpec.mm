@@ -70,28 +70,32 @@ describe(@"HYDMapperPerformance", ^{
                                                              @"gender"]});
     });
 
+    // reflection is a slow operation and should be cached when possible.
     context(@"parsing an object", ^{
         it(@"should not have a large number of property reflection objects", ^{
             [HYDClassInspector clearInstanceCache];
 
             NSInteger numberOfProperties = 9;
             NSArray *sourceObject = numberOfObjects(1000, invalidObject);
-            numberOfAllocationsOf("HYDProperty", ^{
+            NSUInteger numberOfPropertyAllocations = numberOfAllocationsOf("HYDProperty", ^{
                 HYDError *error = nil;
                 [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
                 [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
-            }) should be_less_than_or_equal_to(numberOfProperties);
+            });
+            numberOfPropertyAllocations should be_less_than_or_equal_to(numberOfProperties);
+            numberOfPropertyAllocations should be_greater_than(0);
         });
 
         it(@"should not have a large number of class reflection objects", ^{
             [HYDClassInspector clearInstanceCache];
 
             NSArray *sourceObject = numberOfObjects(1000, invalidObject);
-            numberOfAllocationsOf("HYDClassInspector", ^{
+            NSUInteger numberOfInspectorAllocations = numberOfAllocationsOf("HYDClassInspector", ^{
                 HYDError *error = nil;
                 [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
                 [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
-            }) should be_less_than_or_equal_to(1);
+            });
+            numberOfInspectorAllocations should equal(1);
         });
     });
 
