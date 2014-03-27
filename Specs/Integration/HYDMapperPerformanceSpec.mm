@@ -14,7 +14,8 @@ NSArray *numberOfObjects(NSInteger times, id object) {
     return items;
 }
 
-NSUInteger numberOfAllocationsOfPrefix(const char *classPrefix, void(^block)()) {
+// This captures all object allocations that fix a particular class prefix
+NSUInteger numberOfAllocationsOf(const char *classPrefix, void(^block)()) {
     __block NSUInteger allocationCount = 0;
     __block BOOL capturing = NO;
     size_t classPrefixLength = strlen(classPrefix);
@@ -75,7 +76,7 @@ describe(@"HYDMapperPerformance", ^{
         // that caused significant performance regressions.
         it(@"should not have a large number of allocations of strings", ^{
             NSArray *sourceObject = numberOfObjects(1000, invalidObject);
-            numberOfAllocationsOfPrefix("NSString", ^{
+            numberOfAllocationsOf("NSString", ^{
                 HYDError *error = nil;
                 [mapper objectFromSourceObject:sourceObject error:&error];
                 [error description];
@@ -104,7 +105,7 @@ describe(@"HYDMapperPerformance", ^{
         // that caused significant performance regressions.
         it(@"should not have a large number of allocations of strings", ^{
             NSArray *sourceObject = numberOfObjects(1000, invalidObject);
-            numberOfAllocationsOfPrefix("NSString", ^{
+            numberOfAllocationsOf("NSString", ^{
                 HYDError *error = nil;
                 [mapper objectFromSourceObject:sourceObject error:&error];
             }) should equal(0);
