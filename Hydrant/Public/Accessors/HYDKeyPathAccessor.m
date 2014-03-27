@@ -8,8 +8,10 @@
 
 
 @interface HYDKeyPathAccessor ()
+
 @property (copy, nonatomic) NSArray *fieldNames;
 @property (strong, nonatomic) id<HYDFactory> factory;
+
 @end
 
 

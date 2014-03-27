@@ -86,8 +86,8 @@
         if (itemError) {
             NSString *indexString = [NSString stringWithFormat:@"%lu", (unsigned long)(index-1)];
             [errors addObject:[HYDError errorFromError:itemError
-                              prependingSourceAccessor:HYDAccessKey(indexString)//indexString
-                                andDestinationAccessor:HYDAccessKey(indexString)//indexString
+                              prependingSourceAccessor:HYDAccessKey(indexString)
+                                andDestinationAccessor:HYDAccessKey(indexString)
                                replacementSourceObject:sourceObject
                                                isFatal:itemError.isFatal]];
             hasFatalError = hasFatalError || itemError.isFatal;

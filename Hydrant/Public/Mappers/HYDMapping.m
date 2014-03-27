@@ -57,13 +57,25 @@
 @end
 
 HYD_EXTERN_OVERLOADED
-HYDMapping *HYDMap(id<HYDMapper> mapper, NSString *destinationKey)
+id<HYDMapping> HYDMap(id<HYDMapper> mapper, NSString *destinationKey)
 {
     return [[HYDMapping alloc] initWithMapper:mapper accessor:HYDAccessDefault(destinationKey)];
 }
 
 HYD_EXTERN_OVERLOADED
-HYDMapping *HYDMap(id<HYDMapper> mapper, id<HYDAccessor> accessor)
+id<HYDMapping> HYDMap(NSString *destinationKey, id<HYDMapper> mapper)
+{
+    return [[HYDMapping alloc] initWithMapper:mapper accessor:HYDAccessDefault(destinationKey)];
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapping> HYDMap(id<HYDMapper> mapper, id<HYDAccessor> accessor)
+{
+    return [[HYDMapping alloc] initWithMapper:mapper accessor:accessor];
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapping> HYDMap(id<HYDAccessor> accessor, id<HYDMapper> mapper)
 {
     return [[HYDMapping alloc] initWithMapper:mapper accessor:accessor];
 }

@@ -87,7 +87,7 @@
 
 - (id<HYDMapper>)mapperForProperty:(HYDProperty *)property wrappingMapper:(id<HYDMapper>)mapper
 {
-    // TODO: figure out a better method that isKindOfClass for this check
+    // TODO: figure out a better method than isKindOfClass for this check
     BOOL isNonFatal = [mapper isKindOfClass:[HYDNonFatalMapper class]];
 
     if ([property isObjCObjectType]) {
