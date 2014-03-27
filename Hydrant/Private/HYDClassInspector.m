@@ -18,7 +18,7 @@ static NSCache *inspectors__;
 
 + (void)initialize
 {
-    inspectors__ = [[NSCache alloc] init];
+    inspectors__ = [NSCache new];
 }
 
 + (instancetype)inspectorForClass:(Class)aClass
