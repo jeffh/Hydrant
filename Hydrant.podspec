@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Hydrant"
-  s.version      = "0.5.0"
+  s.version      = "0.9.0"
   s.summary      = "A simple data mapper / object serializer for objective-c"
 
   s.description  = <<-DESC
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.social_media_url = "http://twitter.com/jeffhui"
   s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.8'
-  s.source       = { :git => "https://github.com/jeffh/Hydrant.git", :branch => "master" }
+  s.source       = { :git => "https://github.com/jeffh/Hydrant.git", :tag => "v0.9.0" }
   s.source_files  = 'Hydrant/**/*.{h,m}'
   s.public_header_files = 'Hydrant/Public/**/*.h'
   s.requires_arc = true
