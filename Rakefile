@@ -27,7 +27,7 @@ task :clean do
 end
 
 task :osx_specs do
-  xcbuild("build -project Externals/cedar/Cedar.xcodeproj -configuration Debug -target Cedart c SYMROOT=#{BUILD_DIR.inspect}")
+  xcbuild("build -project Externals/cedar/Cedar.xcodeproj -configuration Debug -target Cedar SYMROOT=#{BUILD_DIR.inspect}")
   xcbuild("build -scheme OSXSpecs -configuration Debug SYMROOT=#{BUILD_DIR.inspect}")
   system_or_exit("env DYLD_FRAMEWORK_PATH=build/Debug/ build/Debug/OSXSpecs")
 end
