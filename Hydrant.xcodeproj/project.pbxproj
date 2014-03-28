@@ -1884,6 +1884,7 @@
 				1FA35AD418E5380200D99840 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
