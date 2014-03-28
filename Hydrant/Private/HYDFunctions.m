@@ -4,13 +4,6 @@
 #import "HYDKeyPathAccessor.h"
 #import "HYDMapping.h"
 
-HYD_EXTERN
-void HYDSetValueForKeyIfNotNil(NSMutableDictionary *dict, id key, id value)
-{
-    if (value) {
-        dict[key] = value;
-    }
-}
 
 HYD_EXTERN
 id<HYDAccessor> HYDJoinedStringFromKeyPaths(id<HYDAccessor> previousKeyPath, id<HYDAccessor> nextKeyPath)
@@ -44,14 +37,6 @@ NSString *HYDKeyToString(NSString *key)
         return [NSString stringWithFormat:@"\"%@\"", escapedKey];
     }
     return key;
-}
-
-HYD_EXTERN
-void HYDSetObjectPointer(__autoreleasing id *objPtr, id value)
-{
-    if (objPtr) {
-        *objPtr = value;
-    }
 }
 
 HYD_EXTERN
@@ -121,19 +106,4 @@ NSString *HYDStringifyAccessor(id<HYDAccessor> accessor)
     } else {
         return [NSString stringWithFormat:@"[%@]", [fieldNames componentsJoinedByString:@", "]];
     }
-}
-
-HYD_EXTERN
-id HYDGetValueOrValues(NSArray *values)
-{
-    return values.count == 1 ? values.lastObject : values;
-}
-
-HYD_EXTERN
-NSArray *HYDValuesFromValueOrValues(id value)
-{
-    if (!value) {
-        value = [NSNull null];
-    }
-    return [value isKindOfClass:[NSArray class]] ? value : @[value];
 }

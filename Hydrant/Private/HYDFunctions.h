@@ -8,22 +8,11 @@
 
 #define HYDLocalizedStringFormat(FMT, ...) ([NSString localizedStringWithFormat:FMT, ## __VA_ARGS__])
 
-
-HYD_EXTERN
-void HYDSetValueForKeyIfNotNil(NSMutableDictionary *dict, id key, id value);
-
-
 HYD_EXTERN
 id<HYDAccessor> HYDJoinedStringFromKeyPaths(id<HYDAccessor> previousKeyPath, id<HYDAccessor> nextKeyPath);
 
-
 HYD_EXTERN
 NSString *HYDKeyToString(NSString *key);
-
-
-HYD_EXTERN
-void HYDSetObjectPointer(__autoreleasing id *objPtr, id value);
-
 
 HYD_EXTERN
 NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccessor>(^fieldFromString)(NSString *));
@@ -40,8 +29,33 @@ HYD_EXTERN
 NSString *HYDStringifyAccessor(id<HYDAccessor> accessor);
 
 
-HYD_EXTERN
-id HYDGetValueOrValues(NSArray *values);
+HYD_INLINE
+void HYDSetValueForKeyIfNotNil(NSMutableDictionary *dict, id key, id value)
+{
+    if (value) {
+        dict[key] = value;
+    }
+}
 
-HYD_EXTERN
-NSArray *HYDValuesFromValueOrValues(id value);
+HYD_INLINE
+void HYDSetObjectPointer(__autoreleasing id *objPtr, id value)
+{
+    if (objPtr) {
+        *objPtr = value;
+    }
+}
+
+HYD_INLINE
+id HYDGetValueOrValues(NSArray *values)
+{
+    return values.count == 1 ? values.lastObject : values;
+}
+
+HYD_INLINE
+NSArray *HYDValuesFromValueOrValues(id value)
+{
+    if (!value) {
+        value = [NSNull null];
+    }
+    return [value isKindOfClass:[NSArray class]] ? value : @[value];
+}

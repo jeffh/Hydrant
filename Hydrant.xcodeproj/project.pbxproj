@@ -30,7 +30,6 @@
 		1F17F89D18C9971000E818C1 /* HYDForwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F89A18C9971000E818C1 /* HYDForwardMapper.m */; };
 		1F17F89F18C9971A00E818C1 /* HYDForwardMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F89E18C9971A00E818C1 /* HYDForwardMapperSpec.mm */; };
 		1F17F8A018C9971A00E818C1 /* HYDForwardMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F89E18C9971A00E818C1 /* HYDForwardMapperSpec.mm */; };
-		1F17F8A118C99A0000E818C1 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A847F183B48DD00EAA4E0 /* Cedar.framework */; };
 		1F17F8B518C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */; };
 		1F17F8B618C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */; };
 		1F17F8B718C9A4ED00E818C1 /* HYDBackwardMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F17F8B418C9A4ED00E818C1 /* HYDBackwardMapper.m */; };
@@ -131,6 +130,11 @@
 		1F88089C18A60F3800CE4C3F /* HYDKeyPathAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */; };
 		1FA35AA718E3CC2600D99840 /* HYDMapperPerformanceSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */; };
 		1FA35AA818E3CC2600D99840 /* HYDMapperPerformanceSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */; };
+		1FA35AC318E5380200D99840 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA35AC218E5380200D99840 /* SenTestingKit.framework */; };
+		1FA35AC418E5380200D99840 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99489183B4A20001E9F2E /* Foundation.framework */; };
+		1FA35AC618E5380200D99840 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA35AC518E5380200D99840 /* UIKit.framework */; };
+		1FA35AD718E539B600D99840 /* placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FA35AD518E5382300D99840 /* placeholder.m */; };
+		1FA35AF418E53B9200D99840 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A847F183B48DD00EAA4E0 /* Cedar.framework */; };
 		1FA99484183B49FA001E9F2E /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A8485183B48DD00EAA4E0 /* libCedar-StaticLib.a */; };
 		1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99489183B4A20001E9F2E /* Foundation.framework */; };
 		1FA994A4183C97A8001E9F2E /* HYDBase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C040181A2DC90017FDB4 /* HYDBase.h */; };
@@ -332,19 +336,26 @@
 			remoteGlobalIDString = AE02E7E4184EABCD00414F19;
 			remoteInfo = iOSFrameworkSpecs;
 		};
+		1FA35AD018E5380200D99840 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F1E3F67180392ED00801509 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F1E3F9B1803931D00801509;
+			remoteInfo = Specs;
+		};
+		1FA35AF218E53B8C00D99840 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AEEE1FB511DC271300029872;
+			remoteInfo = Cedar;
+		};
 		1FA9947F183B4920001E9F2E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = AEEE222811DC2B0600029872;
 			remoteInfo = "Cedar-StaticLib";
-		};
-		1FA994C9183CA9F2001E9F2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AEEE1FB511DC271300029872;
-			remoteInfo = Cedar;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -450,6 +461,11 @@
 		1F88089518A60F3800CE4C3F /* HYDKeyPathAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDKeyPathAccessor.h; sourceTree = "<group>"; };
 		1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDKeyPathAccessor.m; sourceTree = "<group>"; };
 		1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDMapperPerformanceSpec.mm; sourceTree = "<group>"; };
+		1FA35AC118E5380100D99840 /* SpecsBundle.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpecsBundle.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FA35AC218E5380200D99840 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		1FA35AC518E5380200D99840 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		1FA35AD518E5382300D99840 /* placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = placeholder.m; sourceTree = "<group>"; };
+		1FA35AED18E53A8600D99840 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		1FA99489183B4A20001E9F2E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		1FB0F65F1883DCDD00120ABC /* HYDError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDError.h; sourceTree = "<group>"; };
 		1FB0F6601883DCDD00120ABC /* HYDError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDError.m; sourceTree = "<group>"; };
@@ -556,8 +572,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F17F8A118C99A0000E818C1 /* Cedar.framework in Frameworks */,
+				1FA35AF418E53B9200D99840 /* Cedar.framework in Frameworks */,
 				1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FA35ABE18E5380100D99840 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FA35AC318E5380200D99840 /* SenTestingKit.framework in Frameworks */,
+				1FA35AC618E5380200D99840 /* UIKit.framework in Frameworks */,
+				1FA35AC418E5380200D99840 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,6 +689,7 @@
 				1F1E3F6F180392ED00801509 /* libHydrant.a */,
 				1F1E3F9C1803931D00801509 /* Specs.app */,
 				1F1E3FC01804EC4E00801509 /* OSXSpecs */,
+				1FA35AC118E5380100D99840 /* SpecsBundle.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -670,9 +697,12 @@
 		1F1E3F71180392ED00801509 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FA35AED18E53A8600D99840 /* Foundation.framework */,
 				1FA99489183B4A20001E9F2E /* Foundation.framework */,
 				1F1E3F72180392ED00801509 /* Foundation.framework */,
 				1F1E3F9F1803931D00801509 /* CoreGraphics.framework */,
+				1FA35AC218E5380200D99840 /* SenTestingKit.framework */,
+				1FA35AC518E5380200D99840 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -775,6 +805,7 @@
 			isa = PBXGroup;
 			children = (
 				1F1E3FC81804EC4F00801509 /* main.m */,
+				1FA35AD518E5382300D99840 /* placeholder.m */,
 				1F1E3FC41804EC4E00801509 /* Supporting Files */,
 			);
 			path = OSXSpecs;
@@ -1084,12 +1115,30 @@
 			buildRules = (
 			);
 			dependencies = (
-				1FA994CA183CA9F2001E9F2E /* PBXTargetDependency */,
+				1FA35AF318E53B8C00D99840 /* PBXTargetDependency */,
 			);
 			name = OSXSpecs;
 			productName = OSXSpecs;
 			productReference = 1F1E3FC01804EC4E00801509 /* OSXSpecs */;
 			productType = "com.apple.product-type.tool";
+		};
+		1FA35AC018E5380100D99840 /* SpecsBundle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FA35AD218E5380200D99840 /* Build configuration list for PBXNativeTarget "SpecsBundle" */;
+			buildPhases = (
+				1FA35ABD18E5380100D99840 /* Sources */,
+				1FA35ABE18E5380100D99840 /* Frameworks */,
+				1FA35ABF18E5380100D99840 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1FA35AD118E5380200D99840 /* PBXTargetDependency */,
+			);
+			name = SpecsBundle;
+			productName = SpecsBundle;
+			productReference = 1FA35AC118E5380100D99840 /* SpecsBundle.octest */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -1100,6 +1149,11 @@
 				CLASSPREFIX = HYD;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Jeff Hui";
+				TargetAttributes = {
+					1FA35AC018E5380100D99840 = {
+						TestTargetID = 1F1E3F9B1803931D00801509;
+					};
+				};
 			};
 			buildConfigurationList = 1F1E3F6A180392ED00801509 /* Build configuration list for PBXProject "Hydrant" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1122,6 +1176,7 @@
 				1F1E3F6E180392ED00801509 /* Hydrant */,
 				1F1E3F9B1803931D00801509 /* Specs */,
 				1F1E3FBF1804EC4E00801509 /* OSXSpecs */,
+				1FA35AC018E5380100D99840 /* SpecsBundle */,
 			);
 		};
 /* End PBXProject section */
@@ -1205,6 +1260,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F1E3FA61803931D00801509 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FA35ABF18E5380100D99840 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1476,18 +1538,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1FA35ABD18E5380100D99840 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FA35AD718E539B600D99840 /* placeholder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1FA35AD118E5380200D99840 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F1E3F9B1803931D00801509 /* Specs */;
+			targetProxy = 1FA35AD018E5380200D99840 /* PBXContainerItemProxy */;
+		};
+		1FA35AF318E53B8C00D99840 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cedar;
+			targetProxy = 1FA35AF218E53B8C00D99840 /* PBXContainerItemProxy */;
+		};
 		1FA99480183B4920001E9F2E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Cedar-StaticLib";
 			targetProxy = 1FA9947F183B4920001E9F2E /* PBXContainerItemProxy */;
-		};
-		1FA994CA183CA9F2001E9F2E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Cedar;
-			targetProxy = 1FA994C9183CA9F2001E9F2E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1640,7 +1715,6 @@
 				);
 				INFOPLIST_FILE = "Specs/Specs-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1682,7 +1756,10 @@
 		1F1E3FCD1804EC4F00801509 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OSXSpecs/OSXSpecs-Prefix.pch";
@@ -1702,7 +1779,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OSXSpecs/OSXSpecs-Prefix.pch";
@@ -1714,6 +1794,47 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1FA35AD318E5380200D99840 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Specs.app/Specs";
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		1FA35AD418E5380200D99840 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Specs.app/Specs";
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
@@ -1755,6 +1876,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		1FA35AD218E5380200D99840 /* Build configuration list for PBXNativeTarget "SpecsBundle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FA35AD318E5380200D99840 /* Debug */,
+				1FA35AD418E5380200D99840 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
