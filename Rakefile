@@ -28,25 +28,25 @@ end
 
 task :osx_specs do
   xcbuild("build -project Externals/cedar/Cedar.xcodeproj -configuration Debug -target Cedar SYMROOT=#{BUILD_DIR.inspect}")
-  xcbuild("build -scheme OSXSpecs -configuration Debug SYMROOT=#{BUILD_DIR.inspect}")
-  system_or_exit("env DYLD_FRAMEWORK_PATH=build/Debug/ build/Debug/OSXSpecs")
+  xcbuild("build -scheme HydrantOSXSpecs -configuration Debug SYMROOT=#{BUILD_DIR.inspect}")
+  system_or_exit("env DYLD_FRAMEWORK_PATH=build/Debug/ build/Debug/HydrantOSXSpecs")
 end
 
 task :specs71 do
   kill_simulator
-  xcbuild("test -scheme Specs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone Retina (4-inch),OS=7.1' SYMROOT=#{BUILD_DIR.inspect}")
+  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone Retina (4-inch),OS=7.1' SYMROOT=#{BUILD_DIR.inspect}")
   puts
 end
 
 task :specs70 do
   kill_simulator
-  xcbuild("test -scheme Specs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone Retina (4-inch),OS=7.0' SYMROOT=#{BUILD_DIR.inspect}")
+  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone Retina (4-inch),OS=7.0' SYMROOT=#{BUILD_DIR.inspect}")
   puts
 end
 
 task :specs61 do
   kill_simulator
-  xcbuild("test -scheme Specs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone Retina (4-inch),OS=6.1' SYMROOT=#{BUILD_DIR.inspect}")
+  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone Retina (4-inch),OS=6.1' SYMROOT=#{BUILD_DIR.inspect}")
   puts
 end
 

@@ -398,7 +398,7 @@
 		1F1E3F6F180392ED00801509 /* libHydrant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHydrant.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F72180392ED00801509 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F1E3F76180392ED00801509 /* Hydrant-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hydrant-Prefix.pch"; sourceTree = "<group>"; };
-		1F1E3F9C1803931D00801509 /* Specs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Specs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1E3F9C1803931D00801509 /* Specs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Specs.app; path = HydrantSpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F9F1803931D00801509 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1F1E3FA31803931D00801509 /* Specs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Specs-Info.plist"; sourceTree = "<group>"; };
 		1F1E3FA51803931D00801509 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -406,7 +406,7 @@
 		1F1E3FA91803931D00801509 /* Specs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Specs-Prefix.pch"; sourceTree = "<group>"; };
 		1F1E3FB81803966400801509 /* HYDSPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDSPerson.h; sourceTree = "<group>"; };
 		1F1E3FB91803966400801509 /* HYDSPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDSPerson.m; sourceTree = "<group>"; };
-		1F1E3FC01804EC4E00801509 /* OSXSpecs */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OSXSpecs; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1E3FC01804EC4E00801509 /* OSXSpecs */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = OSXSpecs; path = HydrantOSXSpecs; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3FC51804EC4E00801509 /* OSXSpecs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSXSpecs-Prefix.pch"; sourceTree = "<group>"; };
 		1F1E3FC81804EC4F00801509 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1F26F30518C28847003A7FB9 /* HYDIdentityValueTransformerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDIdentityValueTransformerSpec.mm; sourceTree = "<group>"; };
@@ -461,7 +461,7 @@
 		1F88089518A60F3800CE4C3F /* HYDKeyPathAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDKeyPathAccessor.h; sourceTree = "<group>"; };
 		1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDKeyPathAccessor.m; sourceTree = "<group>"; };
 		1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDMapperPerformanceSpec.mm; sourceTree = "<group>"; };
-		1FA35AC118E5380100D99840 /* SpecsBundle.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpecsBundle.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FA35AC118E5380100D99840 /* HydrantSpecsBundle.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydrantSpecsBundle.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA35AC218E5380200D99840 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		1FA35AC518E5380200D99840 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		1FA35AD518E5382300D99840 /* placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = placeholder.m; sourceTree = "<group>"; };
@@ -689,7 +689,7 @@
 				1F1E3F6F180392ED00801509 /* libHydrant.a */,
 				1F1E3F9C1803931D00801509 /* Specs.app */,
 				1F1E3FC01804EC4E00801509 /* OSXSpecs */,
-				1FA35AC118E5380100D99840 /* SpecsBundle.octest */,
+				1FA35AC118E5380100D99840 /* HydrantSpecsBundle.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1087,9 +1087,9 @@
 			productReference = 1F1E3F6F180392ED00801509 /* libHydrant.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		1F1E3F9B1803931D00801509 /* Specs */ = {
+		1F1E3F9B1803931D00801509 /* HydrantSpecs */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1F1E3FAF1803931D00801509 /* Build configuration list for PBXNativeTarget "Specs" */;
+			buildConfigurationList = 1F1E3FAF1803931D00801509 /* Build configuration list for PBXNativeTarget "HydrantSpecs" */;
 			buildPhases = (
 				1F1E3F981803931D00801509 /* Sources */,
 				1F1E3F991803931D00801509 /* Frameworks */,
@@ -1100,14 +1100,14 @@
 			dependencies = (
 				1FA99480183B4920001E9F2E /* PBXTargetDependency */,
 			);
-			name = Specs;
+			name = HydrantSpecs;
 			productName = Specs;
 			productReference = 1F1E3F9C1803931D00801509 /* Specs.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1F1E3FBF1804EC4E00801509 /* OSXSpecs */ = {
+		1F1E3FBF1804EC4E00801509 /* HydrantOSXSpecs */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1F1E3FCC1804EC4F00801509 /* Build configuration list for PBXNativeTarget "OSXSpecs" */;
+			buildConfigurationList = 1F1E3FCC1804EC4F00801509 /* Build configuration list for PBXNativeTarget "HydrantOSXSpecs" */;
 			buildPhases = (
 				1F1E3FBD1804EC4E00801509 /* Sources */,
 				1F1E3FBE1804EC4E00801509 /* Frameworks */,
@@ -1117,14 +1117,14 @@
 			dependencies = (
 				1FA35AF318E53B8C00D99840 /* PBXTargetDependency */,
 			);
-			name = OSXSpecs;
+			name = HydrantOSXSpecs;
 			productName = OSXSpecs;
 			productReference = 1F1E3FC01804EC4E00801509 /* OSXSpecs */;
 			productType = "com.apple.product-type.tool";
 		};
-		1FA35AC018E5380100D99840 /* SpecsBundle */ = {
+		1FA35AC018E5380100D99840 /* HydrantSpecsBundle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1FA35AD218E5380200D99840 /* Build configuration list for PBXNativeTarget "SpecsBundle" */;
+			buildConfigurationList = 1FA35AD218E5380200D99840 /* Build configuration list for PBXNativeTarget "HydrantSpecsBundle" */;
 			buildPhases = (
 				1FA35ABD18E5380100D99840 /* Sources */,
 				1FA35ABE18E5380100D99840 /* Frameworks */,
@@ -1135,9 +1135,9 @@
 			dependencies = (
 				1FA35AD118E5380200D99840 /* PBXTargetDependency */,
 			);
-			name = SpecsBundle;
+			name = HydrantSpecsBundle;
 			productName = SpecsBundle;
-			productReference = 1FA35AC118E5380100D99840 /* SpecsBundle.octest */;
+			productReference = 1FA35AC118E5380100D99840 /* HydrantSpecsBundle.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -1174,9 +1174,9 @@
 			projectRoot = "";
 			targets = (
 				1F1E3F6E180392ED00801509 /* Hydrant */,
-				1F1E3F9B1803931D00801509 /* Specs */,
-				1F1E3FBF1804EC4E00801509 /* OSXSpecs */,
-				1FA35AC018E5380100D99840 /* SpecsBundle */,
+				1F1E3F9B1803931D00801509 /* HydrantSpecs */,
+				1F1E3FBF1804EC4E00801509 /* HydrantOSXSpecs */,
+				1FA35AC018E5380100D99840 /* HydrantSpecsBundle */,
 			);
 		};
 /* End PBXProject section */
@@ -1551,7 +1551,7 @@
 /* Begin PBXTargetDependency section */
 		1FA35AD118E5380200D99840 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1F1E3F9B1803931D00801509 /* Specs */;
+			target = 1F1E3F9B1803931D00801509 /* HydrantSpecs */;
 			targetProxy = 1FA35AD018E5380200D99840 /* PBXContainerItemProxy */;
 		};
 		1FA35AF318E53B8C00D99840 /* PBXTargetDependency */ = {
@@ -1800,7 +1800,7 @@
 		1FA35AD318E5380200D99840 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Specs.app/Specs";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HydrantSpecs.app/HydrantSpecs";
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1820,7 +1820,7 @@
 		1FA35AD418E5380200D99840 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Specs.app/Specs";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HydrantSpecs.app/HydrantSpecs";
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1859,7 +1859,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1F1E3FAF1803931D00801509 /* Build configuration list for PBXNativeTarget "Specs" */ = {
+		1F1E3FAF1803931D00801509 /* Build configuration list for PBXNativeTarget "HydrantSpecs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1F1E3FB01803931D00801509 /* Debug */,
@@ -1868,7 +1868,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1F1E3FCC1804EC4F00801509 /* Build configuration list for PBXNativeTarget "OSXSpecs" */ = {
+		1F1E3FCC1804EC4F00801509 /* Build configuration list for PBXNativeTarget "HydrantOSXSpecs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1F1E3FCD1804EC4F00801509 /* Debug */,
@@ -1877,7 +1877,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1FA35AD218E5380200D99840 /* Build configuration list for PBXNativeTarget "SpecsBundle" */ = {
+		1FA35AD218E5380200D99840 /* Build configuration list for PBXNativeTarget "HydrantSpecsBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1FA35AD318E5380200D99840 /* Debug */,
