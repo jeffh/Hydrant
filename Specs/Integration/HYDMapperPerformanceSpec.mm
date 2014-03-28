@@ -8,7 +8,7 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-NSArray *numberOfObjects(NSInteger times, id object) {
+NSArray *numberOfObjects(NSUInteger times, id object) {
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:times];
     for (NSInteger i=0; i<times; i++) {
         [items addObject:object];

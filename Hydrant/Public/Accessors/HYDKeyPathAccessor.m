@@ -73,6 +73,7 @@
                                        destinationAccessor:nil
                                                    isFatal:YES
                                           underlyingErrors:nil]);
+        return nil;
     }
 
     NSMutableArray *values = [NSMutableArray arrayWithCapacity:self.fieldNames.count];
