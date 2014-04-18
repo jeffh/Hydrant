@@ -51,7 +51,7 @@ task :specs61 do
 end
 
 task :lint do
-  system_or_exit('pod spec lint')
+  system_or_exit('pod spec lint Hydrant.podspec')
 end
 
 task :default => [:clean, :osx_specs, :specs71, :specs61]
