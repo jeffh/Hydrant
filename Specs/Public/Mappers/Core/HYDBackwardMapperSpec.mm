@@ -125,7 +125,7 @@ describe(@"HYDBackwardMapper", ^{
             [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper];
             [SpecHelper specHelper].sharedExampleContext[@"reverseAccessor"] = HYDAccessDefault(@"walk.to");
         });
-        
+
         itShouldBehaveLike(@"a mapper that does the inverse of the original");
     });
 });

@@ -39,8 +39,15 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    BOOL success = NO;
+    HYDError *err = nil;
 
+    sourceObject = [self.innerMapper objectFromSourceObject:sourceObject error:&err];
+    HYDSetObjectPointer(error, err);
+    if ([err isFatal]) {
+        return nil;
+    }
+
+    BOOL success = NO;
     id resultingObject = nil;
     NSString *errorDescription = nil;
 
@@ -50,9 +57,7 @@
                                 errorDescription:&errorDescription];
     }
 
-    if (success) {
-        HYDSetObjectPointer(error, nil);
-    } else {
+    if (!success) {
         if (!errorDescription) {
             errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@",
                                                         sourceObject);

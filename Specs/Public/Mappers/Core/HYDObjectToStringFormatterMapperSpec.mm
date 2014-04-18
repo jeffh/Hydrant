@@ -1,5 +1,7 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
+#import "HYDError+Spec.h"
+#import "HYDSFakeMapper.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -10,10 +12,12 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
     __block HYDObjectToStringFormatterMapper *mapper;
     __block NSFormatter *formatter;
     __block HYDError *error;
+    __block HYDSFakeMapper *innerMapper;
 
     beforeEach(^{
+        innerMapper = [[HYDSFakeMapper alloc] init];
         formatter = nice_fake_for([NSFormatter class]);
-        mapper = HYDMapObjectToStringByFormatter(formatter);
+        mapper = HYDMapObjectToStringByFormatter(innerMapper, formatter);
     });
 
     describe(@"parsing an object", ^{
@@ -28,9 +32,14 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
             parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
         });
 
-        context(@"when the source object is valid", ^{
+        context(@"when the source object is valid for the formatter", ^{
             beforeEach(^{
-                formatter stub_method(@selector(stringForObjectValue:)).and_return(@"Yep");
+                innerMapper.objectsToReturn = @[@2];
+                formatter stub_method(@selector(stringForObjectValue:)).with(@2).and_return(@"Yep");
+            });
+
+            it(@"should call the inner mapper", ^{
+                innerMapper.sourceObjectsReceived should equal(@[sourceObject]);
             });
 
             it(@"should return the formatter's object", ^{
@@ -42,9 +51,52 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
             });
         });
 
-        context(@"when the source object is invalid", ^{
+        context(@"when the source object is produces a nonfatal error for the inner mapper", ^{
             beforeEach(^{
+                innerMapper.objectsToReturn = @[@2];
+                innerMapper.errorsToReturn = @[[HYDError nonFatalError]];
+                formatter stub_method(@selector(stringForObjectValue:)).with(@2).and_return(@"Oh");
+            });
+
+            it(@"should call the inner mapper", ^{
+                innerMapper.sourceObjectsReceived should equal(@[sourceObject]);
+            });
+
+            it(@"should return the formatter result", ^{
+                parsedObject should equal(@"Oh");
+            });
+
+            it(@"should return the non-fatal error", ^{
+                error should equal([HYDError nonFatalError]);
+            });
+        });
+
+        context(@"when the source object is produces a fatal error for the inner mapper", ^{
+            beforeEach(^{
+                innerMapper.errorsToReturn = @[[HYDError fatalError]];
+            });
+
+            it(@"should not call the formatter", ^{
+                formatter should_not have_received(@selector(stringForObjectValue:));
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+
+            it(@"should return the fatal error", ^{
+                error should equal([HYDError fatalError]);
+            });
+        });
+
+        context(@"when the source object is invalid for the formatter", ^{
+            beforeEach(^{
+                innerMapper.objectsToReturn = @[@2];
                 formatter stub_method(@selector(stringForObjectValue:)).and_return((id)nil);
+            });
+
+            it(@"should call the inner mapper", ^{
+                innerMapper.sourceObjectsReceived should equal(@[sourceObject]);
             });
 
             it(@"should return nil", ^{
@@ -58,8 +110,12 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
 
         context(@"when the source object is nil", ^{
             beforeEach(^{
+                innerMapper.objectsToReturn = @[[NSNull null]];
                 formatter stub_method(@selector(stringForObjectValue:)).and_return((id)nil);
-                sourceObject = nil;
+            });
+
+            it(@"should call the inner mapper", ^{
+                innerMapper.sourceObjectsReceived should equal(@[sourceObject]);
             });
 
             it(@"should return nil", ^{

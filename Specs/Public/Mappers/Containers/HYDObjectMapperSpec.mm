@@ -19,6 +19,7 @@ describe(@"HYDObjectMapper", ^{
     __block id parsedObject;
     __block HYDSFakeMapper *childMapper1;
     __block HYDSFakeMapper *childMapper2;
+    __block HYDSFakeMapper *innerMapper;
     __block HYDSFakeAccessor *fakeGetter;
     __block HYDSFakeAccessor *fakeSetter;
 
@@ -36,12 +37,13 @@ describe(@"HYDObjectMapper", ^{
                               @"last_name": @"Doe",
                               @"age": @23};
 
+        innerMapper = [[HYDSFakeMapper alloc] init];
         childMapper1 = [[HYDSFakeMapper alloc] init];
         childMapper1.objectsToReturn = @[@5];
         childMapper2 = [[HYDSFakeMapper alloc] init];
         childMapper2.objectsToReturn = @[@"John"];
 
-        mapper = HYDMapKVCObject([NSDictionary class], [HYDSPerson class],
+        mapper = HYDMapKVCObject(innerMapper, [NSDictionary class], [HYDSPerson class],
                                  @{@"first_name" : @[childMapper2, @"firstName"],
                                    @"last_name" : @"lastName",
                                    fakeGetter : @[HYDMapIdentity(), fakeSetter],
@@ -50,12 +52,14 @@ describe(@"HYDObjectMapper", ^{
 
     describe(@"parsing the source object", ^{
         subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+            parsedObject = [mapper objectFromSourceObject:sourceObject
+                                                    error:&error];
         });
 
         context(@"when a valid source object is given", ^{
             beforeEach(^{
-                sourceObject = validSourceObject;
+                sourceObject = @1;
+                innerMapper.objectsToReturn = @[validSourceObject];
             });
 
             it(@"should not have any error", ^{
@@ -75,12 +79,25 @@ describe(@"HYDObjectMapper", ^{
             });
         });
 
+        context(@"when the inner child mapper returns a nonfatal error", ^{
+            beforeEach(^{
+                sourceObject = @1;
+                innerMapper.errorsToReturn = @[[HYDError nonFatalError]];
+            });
+
+            it(@"should return the error", ^{
+                error should equal([HYDError nonFatalError]);
+            });
+        });
+
         context(@"when a NSNull is given", ^{
             beforeEach(^{
-                sourceObject = @{@"first_name": @"John",
-                                 @"last_name": [NSNull null],
-                                 @"age": @23,
-                                 @"identifier": @"transforms"};
+                sourceObject = @1;
+                NSDictionary *object = @{@"first_name": @"John",
+                                         @"last_name": [NSNull null],
+                                         @"age": @23,
+                                         @"identifier": @"transforms"};
+                innerMapper.objectsToReturn = @[object];
             });
 
             it(@"should not have any error", ^{
@@ -100,7 +117,8 @@ describe(@"HYDObjectMapper", ^{
 
         context(@"when the getter accessor fails", ^{
             beforeEach(^{
-                sourceObject = validSourceObject;
+                sourceObject = @1;
+                innerMapper.objectsToReturn = @[validSourceObject];
                 fakeGetter.sourceErrorToReturn = [HYDError errorWithCode:HYDErrorGetViaAccessorFailed
                                                             sourceObject:sourceObject
                                                           sourceAccessor:fakeGetter
@@ -122,9 +140,10 @@ describe(@"HYDObjectMapper", ^{
 
         context(@"when the setter accessor fails", ^{
             beforeEach(^{
-                sourceObject = validSourceObject;
+                sourceObject = @1;
+                innerMapper.objectsToReturn = @[validSourceObject];
                 fakeSetter.setValuesErrorToReturn = [HYDError errorWithCode:HYDErrorSetViaAccessorFailed
-                                                               sourceObject:sourceObject
+                                                               sourceObject:validSourceObject
                                                              sourceAccessor:fakeGetter
                                                           destinationObject:@23
                                                         destinationAccessor:fakeSetter
@@ -142,12 +161,28 @@ describe(@"HYDObjectMapper", ^{
             });
         });
 
+        context(@"when the inner child mapper returns a fatal error", ^{
+            beforeEach(^{
+                sourceObject = @1;
+                innerMapper.errorsToReturn = @[[HYDError fatalError]];
+            });
+
+            it(@"should return the error", ^{
+                error should equal([HYDError fatalError]);
+            });
+
+            it(@"should return nil", ^{
+                parsedObject should be_nil;
+            });
+        });
+
         context(@"when child mappers returns fatal errors", ^{
             __block HYDError *childMapperError1;
             __block HYDError *childMapperError2;
 
             beforeEach(^{
                 sourceObject = validSourceObject;
+                innerMapper.objectsToReturn = @[validSourceObject];
                 childMapperError1 = [HYDError fatalError];
                 childMapperError2 = [HYDError fatalError];
                 childMapper1.objectsToReturn = nil;
@@ -173,7 +208,7 @@ describe(@"HYDObjectMapper", ^{
                 error.userInfo[HYDUnderlyingErrorsKey] should contain(childMapperError1);
                 error.userInfo[HYDUnderlyingErrorsKey] should contain(childMapperError2);
             });
-            
+
             it(@"should return nil", ^{
                 parsedObject should be_nil;
             });
@@ -184,7 +219,8 @@ describe(@"HYDObjectMapper", ^{
             __block HYDError *childMapperError2;
 
             beforeEach(^{
-                sourceObject = validSourceObject;
+                sourceObject = @1;
+                innerMapper.objectsToReturn = @[validSourceObject];
                 childMapperError1 = [HYDError nonFatalError];
                 childMapperError2 = [HYDError nonFatalError];
                 childMapper1.objectsToReturn = @[@1];
@@ -220,8 +256,9 @@ describe(@"HYDObjectMapper", ^{
 
         context(@"when a field is missing in the provided source object", ^{
             beforeEach(^{
-                sourceObject = @{@"age": @23,
-                                 @"identifier": @"transforms"};
+                sourceObject = @1;
+                innerMapper.objectsToReturn = @[@{@"age": @23,
+                                                  @"identifier": @"transforms"}];
                 childMapper2.objectsToReturn = @[[NSNull null]];
             });
 
@@ -259,6 +296,9 @@ describe(@"HYDObjectMapper", ^{
         __block HYDSFakeMapper *reverseChildMapper2;
 
         beforeEach(^{
+            innerMapper.objectsToReturn = @[validSourceObject];
+            innerMapper.reverseMapperToReturn = HYDMapIdentity();
+
             reverseChildMapper1 = [[HYDSFakeMapper alloc] init];
             reverseChildMapper1.objectsToReturn = @[@"transforms"];
             childMapper1.reverseMapperToReturn = reverseChildMapper1;

@@ -14,27 +14,37 @@
 
 @implementation HYDClassInspector
 
-static NSCache *inspectors__;
+static NSMutableDictionary *inspectors__;
+static dispatch_queue_t singletonQueue__;
 
 + (void)initialize
 {
-    inspectors__ = [NSCache new];
+    static BOOL wasInitialized;
+    if (!wasInitialized) {
+        singletonQueue__ = dispatch_queue_create("net.jeffhui.hydrant.singleton", DISPATCH_QUEUE_SERIAL);
+        inspectors__ = [NSMutableDictionary dictionary];
+        wasInitialized = YES;
+    }
 }
 
 + (instancetype)inspectorForClass:(Class)aClass
 {
     NSString *key = NSStringFromClass(aClass);
-    HYDClassInspector *inspector = [inspectors__ objectForKey:key];
-    if (!inspector) {
-        inspector = [[self alloc] initWithClass:aClass];
-        [inspectors__ setObject:inspector forKey:key];
-    }
+    __block HYDClassInspector *inspector = nil;
+    dispatch_sync(singletonQueue__, ^{
+        inspector = inspectors__[key];
+        if (!inspector) {
+            inspectors__[key] = inspector = [[self alloc] initWithClass:aClass];
+        }
+    });
     return inspector;
 }
 
 + (void)clearInstanceCache
 {
-    [inspectors__ removeAllObjects];
+    dispatch_sync(singletonQueue__, ^{
+        [inspectors__ removeAllObjects];
+    });
 }
 
 - (id)initWithClass:(Class)aClass
@@ -43,6 +53,13 @@ static NSCache *inspectors__;
         self.aClass = aClass;
     }
     return self;
+}
+
+#pragma mark - <NSObject>
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<HYDClassInspector: %p for %@>", self, NSStringFromClass(self.aClass)];
 }
 
 #pragma mark - Properties
@@ -93,7 +110,6 @@ static NSCache *inspectors__;
             }
         }
         [properties addObjectsFromArray:classProperties];
-        return properties;
         _allProperties = properties;
     }
     return _allProperties;

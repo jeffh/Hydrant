@@ -139,12 +139,14 @@
         return;
     }
 
-    NSMutableArray *keyComponents = [[keyPath componentsSeparatedByString:@"."] mutableCopy];
+    NSArray *keyComponents = [keyPath componentsSeparatedByString:@"."];
     NSString *keyToMutate = keyComponents.lastObject;
-    [keyComponents removeLastObject];
 
     id keyTarget = object;
     for (NSString *key in keyComponents) {
+        if (keyToMutate == key) {
+            break;
+        }
         id previousTarget = keyTarget;
         keyTarget = [keyTarget valueForKey:key];
         if (!keyTarget) {

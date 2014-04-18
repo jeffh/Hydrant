@@ -260,14 +260,14 @@ describe(@"HYDError", ^{
                                                           @"  - Could not map from 'source.sourceAccessor' to 'destination.destinationAccessor' (HYDErrorInvalidSourceObjectValue)\n"
                                                           @"    |- [NSCocoaErrorDomain] (code=2) The operation couldn’t be completed. (Cocoa error 2.)\n");
             });
-            
+
             it(@"should have a pretty description with all errors", ^{
                 [errorContainer fullDescription] should equal(@"[FATAL] HYDErrorDomain (code=HYDErrorMultipleErrors) because \"Multiple parsing errors occurred (fatal=1, total=2)\"\n"
                                                               @"  - Could not map from 'source.sourceAccessor' to 'destination.destinationAccessor' (HYDErrorInvalidSourceObjectValue)\n"
                                                               @"    |- [NSCocoaErrorDomain] (code=2) The operation couldn’t be completed. (Cocoa error 2.)\n"
                                                               @"  - Could not map from 'source.sourceAccessor' to 'destination.destinationAccessor' (HYDErrorInvalidSourceObjectValue)\n");
             });
-            
+
             it(@"should have a pretty recursive description that includes fatal errors", ^{
                 NSString *format = @"HYDErrorDomain code=%lu isFatal=YES reason=\"Multiple parsing errors occurred (fatal=1, total=2)\" underlyingFatalErrors=(\n"
                 @"  - HYDErrorDomain code=1 isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor'\" underlyingFatalErrors=(\n"
@@ -283,7 +283,7 @@ describe(@"HYDError", ^{
             it(@"should have a pretty description with no child errors", ^{
                 [errorContainer description] should equal(@"[non-fatal] HYDErrorDomain (code=HYDErrorMultipleErrors) because \"Multiple parsing errors occurred (fatal=1, total=2)\"\n");
             });
-            
+
             it(@"should have a pretty description with all errors", ^{
                 [errorContainer fullDescription] should equal(@"[non-fatal] HYDErrorDomain (code=HYDErrorMultipleErrors) because \"Multiple parsing errors occurred (fatal=1, total=2)\"\n"
                                                               @"  - Could not map from 'source.sourceAccessor' to 'destination.destinationAccessor' (HYDErrorInvalidSourceObjectValue)\n"

@@ -48,14 +48,20 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
+    HYDError *err = nil;
+    sourceObject = [self.innerMapper objectFromSourceObject:sourceObject error:&err];
+
+    HYDSetObjectPointer(error, err);
+    if ([err isFatal]) {
+        return nil;
+    }
+
     id resultingObject = nil;
     if (sourceObject) {
         resultingObject = [self.formatter stringForObjectValue:sourceObject];
     }
 
-    if (resultingObject) {
-        HYDSetObjectPointer(error, nil);
-    } else {
+    if (!resultingObject) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
                                               sourceObject:sourceObject
                                             sourceAccessor:nil

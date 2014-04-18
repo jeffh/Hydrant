@@ -55,9 +55,14 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDSetObjectPointer(error, nil);
+    HYDError *err = nil;
+    sourceObject = [self.innerMapper objectFromSourceObject:sourceObject error:&err];
+    HYDSetObjectPointer(error, err);
+    if ([err isFatal]) {
+        return nil;
+    }
+
     if (!sourceObject) {
-        *error = nil;
         return nil;
     }
 

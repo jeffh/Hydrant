@@ -398,7 +398,7 @@
 		1F1E3F6F180392ED00801509 /* libHydrant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHydrant.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F72180392ED00801509 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F1E3F76180392ED00801509 /* Hydrant-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hydrant-Prefix.pch"; sourceTree = "<group>"; };
-		1F1E3F9C1803931D00801509 /* Specs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Specs.app; path = HydrantSpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1E3F9C1803931D00801509 /* HydrantSpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HydrantSpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3F9F1803931D00801509 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1F1E3FA31803931D00801509 /* Specs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Specs-Info.plist"; sourceTree = "<group>"; };
 		1F1E3FA51803931D00801509 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -406,7 +406,7 @@
 		1F1E3FA91803931D00801509 /* Specs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Specs-Prefix.pch"; sourceTree = "<group>"; };
 		1F1E3FB81803966400801509 /* HYDSPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDSPerson.h; sourceTree = "<group>"; };
 		1F1E3FB91803966400801509 /* HYDSPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDSPerson.m; sourceTree = "<group>"; };
-		1F1E3FC01804EC4E00801509 /* OSXSpecs */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = OSXSpecs; path = HydrantOSXSpecs; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F1E3FC01804EC4E00801509 /* HydrantOSXSpecs */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HydrantOSXSpecs; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F1E3FC51804EC4E00801509 /* OSXSpecs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSXSpecs-Prefix.pch"; sourceTree = "<group>"; };
 		1F1E3FC81804EC4F00801509 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1F26F30518C28847003A7FB9 /* HYDIdentityValueTransformerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDIdentityValueTransformerSpec.mm; sourceTree = "<group>"; };
@@ -687,8 +687,8 @@
 			isa = PBXGroup;
 			children = (
 				1F1E3F6F180392ED00801509 /* libHydrant.a */,
-				1F1E3F9C1803931D00801509 /* Specs.app */,
-				1F1E3FC01804EC4E00801509 /* OSXSpecs */,
+				1F1E3F9C1803931D00801509 /* HydrantSpecs.app */,
+				1F1E3FC01804EC4E00801509 /* HydrantOSXSpecs */,
 				1FA35AC118E5380100D99840 /* HydrantSpecsBundle.octest */,
 			);
 			name = Products;
@@ -1102,7 +1102,7 @@
 			);
 			name = HydrantSpecs;
 			productName = Specs;
-			productReference = 1F1E3F9C1803931D00801509 /* Specs.app */;
+			productReference = 1F1E3F9C1803931D00801509 /* HydrantSpecs.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1F1E3FBF1804EC4E00801509 /* HydrantOSXSpecs */ = {
@@ -1119,7 +1119,7 @@
 			);
 			name = HydrantOSXSpecs;
 			productName = OSXSpecs;
-			productReference = 1F1E3FC01804EC4E00801509 /* OSXSpecs */;
+			productReference = 1F1E3FC01804EC4E00801509 /* HydrantOSXSpecs */;
 			productType = "com.apple.product-type.tool";
 		};
 		1FA35AC018E5380100D99840 /* HydrantSpecsBundle */ = {
@@ -1604,6 +1604,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1653,6 +1654,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
