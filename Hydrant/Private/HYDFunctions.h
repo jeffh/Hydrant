@@ -60,3 +60,15 @@ NSArray *HYDValuesFromValueOrValues(id value)
     }
     return [value isKindOfClass:[NSArray class]] ? value : @[value];
 }
+
+HYD_INLINE
+BOOL HYDIsProtocol(id protocol)
+{
+    return object_getClass(protocol) == NSClassFromString(@"Protocol");
+}
+
+HYD_INLINE
+BOOL HYDIsSubclassOrConformsToProtocol(id object, id classOrProtocol)
+{
+    return [object isKindOfClass:classOrProtocol] || (HYDIsProtocol(classOrProtocol) && [object conformsToProtocol:classOrProtocol]);
+}

@@ -12,12 +12,15 @@ describe(@"HYDDispatchMapper", ^{
     __block HYDDispatchMapper *mapper;
     __block HYDSFakeMapper *childMapper1;
     __block HYDSFakeMapper *childMapper2;
+    __block HYDSFakeMapper *childMapper3;
 
     beforeEach(^{
         childMapper1 = [[HYDSFakeMapper alloc] init];
         childMapper2 = [[HYDSFakeMapper alloc] init];
+        childMapper3 = [[HYDSFakeMapper alloc] init];
         mapper = HYDMapDispatch(@[@[[NSNumberFormatter class], childMapper1, [NSNumber class]],
-                                  @[[NSFormatter class], childMapper2, [NSNumber class]]]);
+                                  @[[NSFormatter class], childMapper2, [NSNumber class]],
+                                  @[@protocol(HYDMapper), childMapper3, [NSString class]]]);
     });
 
     describe(@"parsing an object", ^{
@@ -64,6 +67,25 @@ describe(@"HYDDispatchMapper", ^{
 
             it(@"should dispatch the child mapper associated with that type", ^{
                 childMapper2.sourceObjectsReceived should equal(@[sourceObject]);
+            });
+        });
+
+        context(@"when given a valid source object of a protocol", ^{
+            beforeEach(^{
+                sourceObject = [[HYDSFakeMapper alloc] init];
+                childMapper3.objectsToReturn = @[@1];
+            });
+
+            it(@"should return no error", ^{
+                error should be_nil;
+            });
+
+            it(@"should return the value from the child mapper of superclass", ^{
+                parsedObject should equal(@1);
+            });
+
+            it(@"should dispatch the child mapper associated with that type", ^{
+                childMapper3.sourceObjectsReceived should equal(@[sourceObject]);
             });
         });
 
@@ -127,9 +149,12 @@ describe(@"HYDDispatchMapper", ^{
             HYDSFakeMapper *reverseMapper2 = [[HYDSFakeMapper alloc] init];
             childMapper2.reverseMapperToReturn = reverseMapper2;
 
+            HYDSFakeMapper *reverseMapper3 = [[HYDSFakeMapper alloc] init];
+            childMapper3.reverseMapperToReturn = reverseMapper3;
+
             [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
             [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = placeholderValue;
-            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
+            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2, childMapper3];
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

@@ -7,7 +7,7 @@ NSArray *HYDMappingTuple(NSArray *mappingTuples)
 {
     for (NSArray *mappingTuple in mappingTuples) {
         NSCAssert(mappingTuple.count == 3, @"Mapping tuple should have EXACTLY three items [sourceClass, mapper, destinationClass]");
-        NSCAssert([mappingTuple[1] conformsToProtocol:@protocol(HYDMapper)], @"the second element ofr the mapping tuple should be a HYDMapper (got %@)", mappingTuple[1]);
+        NSCAssert([mappingTuple[1] conformsToProtocol:@protocol(HYDMapper)], @"the second element of the mapping tuple should be a HYDMapper (got %@)", mappingTuple[1]);
     }
     return mappingTuples;
 }
@@ -35,9 +35,9 @@ NSArray *HYDMappingTuple(NSArray *mappingTuples)
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
     for (NSArray *mappingTuple in self.mappingTuple) {
-        Class targetClass = mappingTuple[0];
+        id targetClassOrProtocol = mappingTuple[0];
         id<HYDMapper> mapper = mappingTuple[1];
-        if ([sourceObject isKindOfClass:targetClass]) {
+        if (HYDIsSubclassOrConformsToProtocol(sourceObject, targetClassOrProtocol)) {
             return [mapper objectFromSourceObject:sourceObject error:error];
         }
     }
