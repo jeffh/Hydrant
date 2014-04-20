@@ -1,4 +1,5 @@
 #import "HYDBase.h"
+#import <objc/runtime.h>
 
 
 @class HYDError;

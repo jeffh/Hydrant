@@ -33,6 +33,7 @@
 #import "HYDNotNullMapper.h"
 #import "HYDFirstMapper.h"
 #import "HYDThreadMapper.h"
+#import "HYDDispatchMapper.h"
 
 // standalone mappers - mappers that don't have to rely on another mapper to function
 #import "HYDStringToObjectFormatterMapper.h"
