@@ -83,22 +83,6 @@ HYD_REQUIRE_NON_NIL(1);
 
 
 /*! Returns a mapper from two NSArrays where itemMapper can map each element between
- *  the two arrays. Shorthand for composing HYDMapArrayOf(HYDMapKVCObject(...)).
- */
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapArrayOfKVCObjects(Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
-HYD_REQUIRE_NON_NIL(2,3);
-
-
-/*! Returns a mapper from two NSArrays where itemMapper can map each element between
- *  the two arrays. Shorthand for composing HYDMapArrayOf(HYDMapKVCObject(...)).
- */
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapArrayOfKVCObjects(Class destinationItemClass, NSDictionary *mapping)
-HYD_REQUIRE_NON_NIL(2);
-
-
-/*! Returns a mapper from two NSArrays where itemMapper can map each element between
  *  the two arrays. Shorthand for composing HYDMapArrayOf(HYDMapObject(...)).
  */
 HYD_EXTERN_OVERLOADED

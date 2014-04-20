@@ -168,17 +168,6 @@ id<HYDMapper> HYDMapArrayOf(id<HYDMapper> itemMapper)
     return HYDMapCollectionOf(itemMapper, [NSArray class]);
 }
 
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapArrayOfKVCObjects(Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
-{
-    return HYDMapArrayOf(HYDMapKVCObject(sourceItemClass, destinationItemClass, mapping));
-}
-
-HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapArrayOfKVCObjects(Class destinationItemClass, NSDictionary *mapping)
-{
-    return HYDMapArrayOf(HYDMapKVCObject(destinationItemClass, mapping));
-}
 
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapArrayOfObjects(Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
