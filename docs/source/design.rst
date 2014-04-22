@@ -58,12 +58,18 @@ Abstractions over Concretions
 
 Concrete classes should ideally never have to know about each other by working
 through a protocol. These protocols can be given on object construction to
-provide flexibility. Protocols are also easy to :ref:`test <TDD>` since provide
-a stronger assumption of having less intimate knowledge of the collaborating
-object.
+provide flexibility. Protocols are also easy to :ref:`test <_TestDriven>`. They
+provide a stronger assumption of having less intimate knowledge of the
+collaborating object.
+
+The only exception to this rule are `Value Objects`_ which should not perform
+complex behavior, but be a vessel for storing data. :ref:`HYDError` is an
+example.
 
 Good abstractions can be utilized through the library and should thought through
 carefully. Which leads to...
+
+.. _`Value Objects`: http://martinfowler.com/bliki/ValueObject.html
 
 Have Small Abstractions
 -----------------------
@@ -80,7 +86,7 @@ implementation of getting and setting data.
 Abstractions are fractal, so it may not be immediately obvious that smaller
 ones exist, but they do and provide a more flexible system in less code.
 
-.. _TDD:
+.. _TestDriven:
 
 Test-Driven Code
 ----------------

@@ -622,6 +622,8 @@ There are many helper functions which relate to producing default values::
 Which provides a variety of producing default values when fatal errors
 are received. By default, ``nil`` is returned.
 
+Also, you might want to use :ref:`HYDMapOptionally`, which composition this
+with :ref:`HYDMapNotNull`.
 
 .. _HYDMapNotNull:
 .. _HYDMapNotNullFrom:
@@ -643,6 +645,52 @@ There are helper functions::
 
     HYDMapNotNull()
     HYDMapNotNullFrom(id<HYDMapper> innerMapper)
+
+Also, you might want to use :ref:`HYDMapOptionally`, which composition this
+with :ref:`HYDMapNonFatally`.
+
+.. _HYDMapOptionally:
+.. _HYDMapOptionallyTo:
+.. _HYDMapOptionallyWithDefault:
+.. _HYDMapOptionallyWithDefaultFactory:
+
+HYDMapOptionally
+================
+
+This is the composition of :ref:`HYDMapNonFatally` and :ref:`HYDMapNotNull`
+which produces a mapper that converts ``nil``, ``[NSNull null]`` or any
+unmappable values into a default value provided.
+
+The helper functions are based on the composition::
+
+    HYDMapOptionally()
+    HYDMapOptionallyTo(id<HYDMapper> innerMapper)
+    HYDMapOptionallyWithDefault(id defaultValue)
+    HYDMapOptionallyWithDefault(id<HYDMapper> innerMapper, id defaultValue)
+    HYDMapOptionallyWithDefault(id<HYDMapper> innerMapper, id defaultValue, id reverseDefaultValue)
+    HYDMapOptionallyWithDefaultFactory(HYDValueBlock defaultValueFactory)
+    HYDMapOptionallyWithDefaultFactory(id<HYDMapper> innerMapper, HYDValueBlock defaultValueFactory)
+    HYDMapOptionallyWithDefaultFactory(id<HYDMapper> innerMapper,
+                                       HYDValueBlock defaultValueFactory,
+                                       HYDValueBlock reverseDefaultValueFactory)
+
+This is commonly used for conditionally allowing fields when
+mapping with :ref:`HYDMapObject`::
+
+    // first name is optional, last name is required
+    HYDMapObject([Person class],
+                 @{@"first": @[HYDMapOptionally(), @"firstName"],
+                   @"last": @"lastName"});
+
+    // this json causes a fatal error:
+    id json = @{@"first": @"John"};
+
+    // this json will produce a non-fatal error, and map to a Person object
+    id json = @{@"last": @"Doe"};
+
+    // this json will produce no error and map to a Person object
+    id json = @{@"first": @"John",
+                @"last": @"Doe"};
 
 
 .. _HYDMapType:
