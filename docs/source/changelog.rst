@@ -13,10 +13,3 @@ Master (bleeding edge)
 ======================
 
 Initial public release. Includes documentation (such as this file).
-
-
-Version 0.5
-===========
-
-First release.
-

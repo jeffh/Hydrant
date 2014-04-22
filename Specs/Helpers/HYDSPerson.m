@@ -16,7 +16,9 @@
 
 - (BOOL)isEqual:(id)object
 {
-    return (self.firstName == [object firstName] || [self.firstName isEqual:[object firstName]]) &&
+    return \
+        (self.fullName == [object fullName] || [self.fullName isEqual:[object fullName]]) &&
+        (self.firstName == [object firstName] || [self.firstName isEqual:[object firstName]]) &&
         (self.lastName == [object lastName] || [self.lastName isEqual:[object lastName]]) &&
         self.age == [object age] &&
         (self.parent == (HYDSPerson *)[object parent] || [self.parent isEqual:[object parent]]) &&
@@ -28,9 +30,10 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%lu homepage=%@>",
+    return [NSString stringWithFormat:@"<%@: %p fullName=%@ firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%lu homepage=%@>",
             NSStringFromClass([self class]),
             self,
+            self.fullName,
             self.firstName,
             self.lastName,
             (unsigned long)self.age,

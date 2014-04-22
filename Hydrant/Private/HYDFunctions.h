@@ -16,7 +16,7 @@ HYD_EXTERN
 NSString *HYDKeyToString(NSString *key);
 
 HYD_EXTERN
-NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccessor>(^fieldFromString)(NSString *));
+NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccessor>(^fieldFromString)(NSArray *));
 
 HYD_EXTERN
 NSDictionary *HYDReversedKeyValueDictionary(NSDictionary *mapping);

@@ -5,7 +5,8 @@ Mapper Reference
 ================
 
 Here lists all the mappers currently available in Hydrant. Composing these
-mappers together provides the ability to do data mapping and serialization.
+mappers together provides the ability to (de)serialize for a wide variety of
+use cases.
 
 Constructor Helper Functions
 ============================
@@ -14,37 +15,64 @@ Nearly all mappers come with helper functions. These are simply overloaded c
 functions that provide a way to construct mappers more succinctly. Since they
 are overloaded they generally conform to the following style::
 
-    HYDMapMapperName(NSString *destinationKey, ...);
-    HYDMapMapperName(id<HYDMapper> mapper, ...);
+    HYDMapMapperName(...)
+    HYDMapMapperName(id<HYDMapper> innerMapper, ...);
 
-The first function is a convenience to do the following::
+The former function is a convenience that converts to the latter function::
 
-    HYDMapMapperName(HYDMapIdentity(destinationKey), ...);
+    HYDMapMapperName(HYDMapIdentity(), ...);
 
 The :ref:`identity mapper <HYDIdentityMapper>` simply provides direct access to
 the source object and provides a KVC-styled key accessor for parent mappers.
 
-If the mapper is the mapping the source object directly (eg - the top-most
-mapper), then you can use ``HYDRootMapper`` constant as the first argument to
-indicate that::
+Inner mappers are receive the source object before the current mapper. This
+allows chaining of complex conversion methods. For example::
 
-    // HYDMapObject is top-most mapper, use HYDRootMapper
-    id<HYDMapper> mapper = HYDMapObject(
-        HYDRootMapper, [Person class],
-        // this mapper is part of the object mapper, which would want to know
-        // where this url is mapped to on the Person class, so we have to
-        // specify it here.
-        @{@"homepage": HYDMapStringToURL(@"homepage")}
-    );
+    id<HYDMapper> mapper = HYDMapURLToStringFrom(HYDMapStringToURL())
+
+This mapper composition produces strings that are valid URLs. Strings that
+are not URLs fail to parse for this mapper. For readability, you can also
+compose mappers in a chain using :ref:`HYDMapThread`.
 
 For autocompleting convenience, all the helper functions are prefixed with
-``HYDMap``.
+``HYDMap``. So :ref:`HYDEnumMapper` exposes constructor functions with
+:ref:`HYDMapEnum`.
+
+You might be thinking these overload functions require Objective-C++, but
+`you'd be wrong`_.
+
+.. _`you'd be wrong`: http://clang.llvm.org/docs/AttributeReference.html#overloadable
+
+
+.. _TheReverseMapper:
+
+The Reverse Mapper
+==================
+
+All mappers defined here fully support Hydrant's :ref:`HYDMapper` protocol
+unless explicitly state otherwise. This means each mapper can create an
+equivalent mapper that undoes the current mapper::
+
+    id<HYDMapper> mapper = HYDMapStringToURL();
+    id<HYDMapper> reversedMapper = [mapper reverseMapper];
+
+    NSString *URI = @"http://jeffhui.net";
+    // never pass nil to error, but here for brevity
+    NSURL *url = [mapper objectFromSourceObject:URI error:nil];
+    NSString *reversedURI = [reversedMapper objectFromSourceObject:url error:nil];
+
+    assert [URI isEqual:reversedURI]; // equal
+
+Mappers that are **lossy** cannot ensure the reversability will be exactly
+equal, this currently only applies to :ref:`HYDMapForward` and
+:ref:`HYDMapBackward`.
+
 
 .. _HYDEnumMapper:
 .. _HYDMapEnum:
 
-HYDEnumMapper
-=============
+HYDMapEnum
+==========
 
 The enum mapper uses a dictionary to map values from the source object to the
 destination object. This is typically used for mapping strings to an enum
@@ -61,8 +89,8 @@ error. To provide an optional default, wrap with ``HYDOptionalMapper``.
 
 The following helper functions are available for this mapper::
 
-    HYDMapEnum(NSString *destinationKey, NSDictionary *mapping);
-    HYDMapEnum(id<HYDMapper> mapper, NSDictionary *mapping);
+    HYDMapEnum(NSDictionary *mapping);
+    HYDMapEnum(id<HYDMapper> innerMapper, NSDictionary *mapping);
 
 With the ``mapping`` dictionary mapping source object values to destination
 object values. Remember that all values in the mapping need to be an object::
@@ -80,44 +108,28 @@ object values. Remember that all values in the mapping need to be an object::
                  @"female": @(PersonGenderFemale),
                  @"unknown": @(PersonGenderUnknown)});
 
+The internal implementation class is ``HYDEnumMapper``.
+
+
 .. _HYDIdentityMapper:
 .. _HYDMapIdentity:
-.. _HYDMapKey:
-.. _HYDMapKeyPath:
 
-HYDIdentityMapper
-=================
+HYDMapIdentity
+==============
 
-This mapper, as its name suggests, is a pass through mapper. It simply returns
+This mapper, as its name suggests, is a passthrough mapper. It simply returns
 the source object as its destination object.
 
-Sounds pretty useless, but it conforms to the ``HYDMapper`` protocol, and
-provides the bridging between the ``HYDAccessor`` interface for
-``-[destinationAccessor]`` of the mapper protocol. Because of this, this mapper
-is used by helper functions for nearly all the other mappers in Hydrant.
+Sounds pretty useless, but it is used by other mappers as the "default" inner
+mapper that can be used for chaining. Because of this, this mapper is used by
+helper functions for nearly all the other mappers in Hydrant.
 
-The helper functions are available for this mapper::
-
-    HYDMapIdentity(id<HYDAccessor> destinationAccessor);
-    HYDMapIdentity(NSString *destinationKey);
-    HYDMapKey(NSString *destinationKey);
-    HYDMapKeyPath(NSString *destinationKey);
-
-The first function is the fundamental function with all the others are built on
-top of. HYDMapIdentity uses the default accessor that Hydrant uses internally,
-which is currently ``HYDMapKeyPath``. Helper functions for other mappers use
-``HYDMapIdentity`` internally when they accept a ``NSString *destinationKey``
-argument.
-
-``HYDMapKey`` performs only direct key access which can be useful for reading
-dictionary keys that have periods in them. Otherwise, ``HYDMapKeyPath``
-provides KVC key path like traversing behavior which useful in more cases.
 
 .. _HYDObjectToStringFormatterMapper:
 .. _HYDMapObjectToStringByFormatter:
 
-HYDObjectToStringFormatterMapper
-================================
+HYDMapObjectToStringByFormatter
+===============================
 
 This mapper utilizes `NSFormatter`_ to convert objects to strings. It uses the
 ``-[NSFormatter stringForObjectValue:]`` internally for this mapping while
@@ -127,24 +139,25 @@ Formatters that return ``nil`` will make this mapper produce a fatal Hydrant
 error.
 
 For the reverse -- mapping a string to an object with an `NSFormatter`_, use
-:ref:`HYDStringToObjectMapper`.
+:ref:`HYDMapStringToObject`. Calling ``-[reverseMapper]`` will do this with the
+same parameters provided to this mapper.
 
 The helper functions are available for this mapper::
 
-    HYDMapObjectToStringByFormatter(NSString *destinationKey, NSFormatter *formatter);
-    HYDMapObjectToStringByFormatter(id<HYDMapper> mapper, NSFormatter *formatter);
+    HYDMapObjectToStringByFormatter(NSFormatter *formatter);
+    HYDMapObjectToStringByFormatter(id<HYDMapper> innerMapper, NSFormatter *formatter);
 
 This mapper is the underpinning for other mappers that utilize this internally:
 
-- :ref:`HYDDateToStringMapper`, :ref:`HYDMapDateToString`
-- :ref:`HYDURLToStringMapper`, :ref:`HYDMapURLToString`
-- :ref:`HYDNumberToStringMapper`, :ref:`HYDMapNumberToString`
-- :ref:`HYDUUIDToStringMapper`, :ref:`HYDMapUUIDToString`
+- :ref:`HYDMapDateToString` - Converts a NSDate to NSString
+- :ref:`HYDMapURLToString` - Converts an NSURL to NSString
+- :ref:`HYDMapNumberToString` - Converts a number to NSString
+- :ref:`HYDMapUUIDToString` - Converts an NSUUID to NSString
 
 .. _HYDStringToObjectFormatterMapper:
 .. _HYDMapStringToObjectByFormatter:
 
-HYDStringToObjectFormatterMapper
+HYDMapStringToObjectByFormatter
 ================================
 
 This mapper utilizes `NSFormatter`_ to convert strings to objects. It uses
@@ -156,8 +169,8 @@ before passing it through to the formatter. When an error description is
 returned, Hydrant will insert it into an NSError instance like::
 
     [NSError errorWithDomain:NSCocoaErrorDomain
-        code:NSFormattingError
-        userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
+                        code:NSFormattingError
+                    userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
 
 If errorDescription is not provided but success is still ``NO``, then a generic
 errorDescription is created as a placeholder.
@@ -166,28 +179,203 @@ Following the creating of the NSError, it is wrapped inside a Hydrant error for
 compatibility with the reset of Hydrant as a fatal error.
 
 For the reverse -- mapping an object to a string with an `NSFormatter`_, use
-:ref:`HYDObjectToStringFormatterMapper`.
+:ref:`HYDMapObjectToStringByFormatter`.
 
 The helper functions are available for this mapper::
 
-    HYDMapStringToObjectByFormatter(NSString *destinationKey, NSFormatter *formatter);
+    HYDMapStringToObjectByFormatter(NSFormatter *formatter);
     HYDMapStringToObjectByFormatter(id<HYDMapper> mapper, NSFormatter *formatter);
 
 This mapper is the underpinning for other mappers that utilize this
 internally:
 
-- :ref:`HYDStringToDateMapper`, :ref:`HYDMapStringToDate`
-- :ref:`HYDStringToURLMapper`, :ref:`HYDMapStringToURL`
-- :ref:`HYDStringToNumberMapper`, :ref:`HYDMapStringToNumber`
-- :ref:`HYDStringToUUIDMapper`, :ref:`HYDMapStringToUUID`
+- :ref:`HYDMapStringToDate` - Converts a NSString to NSDate
+- :ref:`HYDMapStringToURL` - Convert a NSString to NSURL
+- :ref:`HYDMapStringToNumber` - Converts a NSString to NSNumber
+- :ref:`HYDMapStringToUUID` - Converts a NSString to NSUUID
 
 .. _NSFormatter: https://developer.apple.com/library/mac/documentation/cocoa/reference/foundation/classes/NSFormatter_Class/Reference/Reference.html
+
+
+.. _HYDMapDateToString:
+
+HYDMapDateToString
+==================
+
+This wraps around :ref:`HYDMapObjectToStringByFormatter` and provides
+conviences for using an `NSDateFormatter`_ to map a date to a string.
+
+The following helper functions are available::
+
+    HYDMapDateToString(NSString *formatString);
+    HYDMapDateToString(NSDateFormatter *dateFormatter)
+    HYDMapDateToString(id<HYDMapper> innerMapper, NSString *formatString);
+    HYDMapDateToString(id<HYDMapper> innerMapper, NSDateFormatter *dateFormatter)
+
+Either you can provide date format string (or use one of Hydrant's
+:ref:`DateFormatConstants`) or use a customized ``NSDateFormatter`` instance.
+
+The reverse of this mapper is :ref:`HYDMapStringToDate`.
+
+
+.. _HYDMapStringToDate:
+
+HYDMapStringToDate
+==================
+
+This wraps around :ref:`HYDMapStringToObjectByFormatter` and provides
+conviences for using an `NSDateFormatter`_ to map a string to a date.
+
+The following helper functions are available::
+
+    HYDMapStringToDate(NSString *formatString);
+    HYDMapStringToDate(NSDateFormatter *dateFormatter)
+    HYDMapStringToDate(id<HYDMapper> innerMapper, NSString *formatString);
+    HYDMapStringToDate(id<HYDMapper> innerMapper, NSDateFormatter *dateFormatter)
+
+Either you can provide date format string (or use one of Hydrant's
+:ref:`DateFormatConstants`) or use a customized ``NSDateFormatter`` instance.
+
+The reverse of this mapper is :ref:`HYDMapDateToString`.
+
+.. _NSDateFormatter: https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSDateFormatter_Class/Reference/Reference.html
+
+
+.. _HYDMapStringToNumber:
+
+HYDMapStringToNumber
+====================
+
+This provides conviences to :ref:`HYDMapStringToObjectByFormatter` by using
+`NSNumberFormatter`_ to convert a string to an `NSNumber`_.
+
+The following helper functions are available::
+
+    HYDMapStringToDecimalNumber()
+    HYDMapStringToNumber(id<HYDMapper> mapper)
+    HYDMapStringToNumber(NSNumberFormatterStyle numberFormatStyle)
+    HYDMapStringToNumber(id<HYDMapper> mapper, NSNumberFormatterStyle numberFormatStyle)
+    HYDMapStringToNumber(NSNumberFormatter *numberFormatter)
+    HYDMapStringToNumber(id<HYDMapper> mapper, NSNumberFormatter *numberFormatter)
+
+The reverse of this mapper is :ref:`HYDMapNumberToString`.
+
+Converting an NSNumber to a c-native numeric type is not the
+responsibility of this mapper, that is what :ref:`HYDMapKVCObject` does.
+
+
+.. _HYDMapNumberToString:
+
+HYDMapNumberToString
+====================
+
+This provides conviences to :ref:`HYDMapStringToObjectByFormatter` by using
+`NSNumberFormatter`_ to convert an `NSNumber`_ to a string.
+
+The following helper functions are available::
+
+    HYDMapDecimalNumberToString()
+    HYDMapNumberToString(id<HYDMapper> mapper)
+    HYDMapNumberToString(NSNumberFormatterStyle numberFormatStyle)
+    HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatterStyle numberFormatStyle)
+    HYDMapNumberToString(NSNumberFormatter *numberFormatter)
+    HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatter *numberFormatter)
+
+The reverse of this mapper is :ref:`HYDMapStringToNumber`.
+
+Converting a c-native numeric type to an NSNumber is not the
+responsibility of this mapper, that is what :ref:`HYDMapKVCObject` does.
+
+.. _NSNumberFormatter: https://developer.apple.com/library/mac/documentation/cocoa/reference/foundation/classes/NSNumberFormatter_Class/Reference/Reference.html
+.. _NSNumber: https://developer.apple.com/library/mac/documentation/cocoa/reference/foundation/classes/nsnumber_class/Reference/Reference.html
+
+.. _HYDMapURLToString:
+
+HYDMapURLToString
+=================
+
+This provides conviences to :ref:`HYDMapObjectToStringByFormatter` by using
+:ref:`HYDURLFormatter` to convert an `NSURL` to a string.
+
+The following helper functions are available::
+
+    HYDMapURLToString();
+    HYDMapURLToStringFrom(id<HYDMapper> innerMapper);
+    HYDMapURLToStringOfScheme(NSArray *allowedSchemes)
+    HYDMapURLToStringOfScheme(id<HYDMapper> mapper, NSArray *allowedSchemes)
+
+An array of schemes can be provided that the URL must conform to be valid. For
+example, this mapper only accepts http urls::
+
+    HYDMapURLToStringOfScheme(@["http", @"https"])
+
+The reverse of this mapper is :ref:`HYDMapStringToDate`.
+
+
+.. _HYDMapStringToURL:
+
+HYDMapStringToURL
+=================
+
+This provides conviences to :ref:`HYDMapStringToObjectByFormatter` by using
+:ref:`HYDURLFormatter` to convert a string to an `NSURL`_.
+
+The following helper functions are available::
+
+    HYDMapStringToURL();
+    HYDMapStringToURLFrom(id<HYDMapper> innerMapper);
+    HYDMapStringToURLOfScheme(NSArray *allowedSchemes)
+    HYDMapStringToURLOfScheme(id<HYDMapper> mapper, NSArray *allowedSchemes)
+
+An array of schemes can be provided that the URL must conform to be valid. For
+example, this mapper only accepts http urls::
+
+    HYDMapStringToURLOfScheme(@["http", @"https"])
+
+The reverse of this mapper is :ref:`HYDMapDateToString`.
+
+.. _NSURL: https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/Reference/Reference.html
+
+
+.. _HYDMapUUIDToString:
+
+HYDMapUUIDToString
+==================
+
+This provides conviences to :ref:`HYDMapObjectToStringByFormatter` by using
+:ref:`HYDUUIDFormatter` to convert an `NSUUID`_ to a string.
+
+The following helper functions are available::
+
+    HYDMapUUIDToString();
+    HYDMapUUIDToStringFrom(id<HYDMapper> innerMapper);
+
+The reverse of this mapper is :ref:`HYDMapStringToUUID`.
+
+
+.. _HYDMapStringToUUID:
+
+HYDMapStringToUUID
+==================
+
+This provides conviences to :ref:`HYDMapStringToObjectByFormatter` by using
+:ref:`HYDUUIDFormatter` to convert a string to an `NSUUID`_.
+
+The following helper functions are available::
+
+    HYDMapStringToUUID();
+    HYDMapStringToUUIDFrom(id<HYDMapper> innerMapper);
+
+The reverse of this mapper is :ref:`HYDMapUUIDToString`.
+
+.. _NSUUID: https://developer.apple.com/library/mac/documentation/Foundation/Reference/NSUUID_Class/Reference/Reference.html
+
 
 .. _HYDValueTransformerMapper:
 .. _HYDMapValue:
 
-HYDValueTransformerMapper
-=========================
+HYDMapValue
+===========
 
 This mapper utilizes `NSValueTransformer`_ to convert from one value to
 another. It utilizes ``-[NSValueTransformer transformValue:]`` internally for
@@ -206,41 +394,42 @@ will throw an exception.
 
 The helper functions are available for this mapper::
 
-    HYDMapValue(NSString *destinationKey, NSValueTransformer *valueTransformer);
-    HYDMapValue(id<HYDMapper> mapper, NSValueTransformer *valueTransformer);
-    HYDMapValue(NSString *destinationKey, NSString *valueTransformerName);
-    HYDMapValue(id<HYDMapper> mapper, NSString *valueTransformerName);
+    HYDMapValue(NSValueTransformer *valueTransformer);
+    HYDMapValue(id<HYDMapper> innerMapper, NSValueTransformer *valueTransformer);
+    HYDMapValue(NSString *valueTransformerName);
+    HYDMapValue(id<HYDMapper> innerMapper, NSString *valueTransformerName);
 
 If your value transformer is registered as a singleton via
 ``+[NSValueTransformer setValueTransformer:forName:]``, then using the
 constructor functions that accept a string as the second argument can be used
 to easily fetch the value transformer by that name.
 
+
 .. _HYDReversedValueTransformerMapper:
 .. _HYDMapReverseValue:
 
-HYDReversedValueTransformerMapper
-=================================
+HYDMapReverseValue
+==================
 
 This mapper utilizes `NSValueTransformer`_ to convert from one value to
 another. It utilizes ``-[NSValueTransformer reverseTransformedValue:]``
 internally to produce the resulting object.
 
-HYDReversedValueTransformerMapper assumes that all validation will be handled
-by the value transformer. No additional validation is done. **It is impossible
-for this mapper to return Hydrant errors**.
+This mapper assumes that all validation will be handled by the value
+transformer. No additional validation is done. **It is impossible for this
+mapper to return Hydrant errors**.
 
 If constructing this mapper with a value transformer that cannot be reversed
 will throw an exception. For the reverse of this mapper, see
-:ref:`HYDValueTransformerMapper` if you want to map values using
+:ref:`HYDMapValue` if you want to map values using
 ``-[NSValueTransformer transformValue:]``.
 
 The helper functions are available for this mapper::
 
-    HYDMapReverseValue(NSString *destinationKey, NSValueTransformer *valueTransformer);
-    HYDMapReverseValue(id<HYDMapper> mapper, NSValueTransformer *valueTransformer);
-    HYDMapReverseValue(NSString *destinationKey, NSString *valueTransformerName);
-    HYDMapReverseValue(id<HYDMapper> mapper, NSString *valueTransformerName);
+    HYDMapReverseValue(NSValueTransformer *valueTransformer);
+    HYDMapReverseValue(id<HYDMapper> innerMapper, NSValueTransformer *valueTransformer);
+    HYDMapReverseValue(NSString *valueTransformerName);
+    HYDMapReverseValue(id<HYDMapper> innerMapper, NSString *valueTransformerName);
 
 If your value transformer is registered as a singleton via
 ``+[NSValueTransformer setValueTransformer:forName:]``, then using the
@@ -249,11 +438,12 @@ to easily fetch the value transformer by that name.
 
 .. _NSValueTransformer: https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSValueTransformer_Class/Reference/Reference.html
 
+
 .. _HYDForwardMapper:
 .. _HYDMapFoward:
 
-HYDForwardMapper
-================
+HYDMapForward
+=============
 
 This mapper traverses the source object before sending the traversed sub-source
 object to the child mapper its given. This allows for selectively ignoring
@@ -271,14 +461,14 @@ various parts of a data structure from the incoming source object::
 
 Since this is lossy, reversing this mapper cannot produce any extra data that
 was truncated by the traversal. The reversed mapper of this produces a
-:ref:`HYDBackwardMapper`.
+:ref:`HYDMapBackward`.
 
 The helper functions available for this mapper::
 
-    HYDMapForward(NSString *walkKey, Class sourceClass, id<HYDMapper> childMapper); 
-    HYDMapForward(id<HYDAccessor> walkAccessor, Class sourceClass, id<HYDMapper> childMapper); 
-    HYDMapForward(NSString *walkKey, id<HYDMapper> childMapper); 
-    HYDMapForward(id<HYDAccessor> walkAccessor, id<HYDMapper> childMapper); 
+    HYDMapForward(NSString *walkKey, Class sourceClass, id<HYDMapper> childMapper);
+    HYDMapForward(id<HYDAccessor> walkAccessor, Class sourceClass, id<HYDMapper> childMapper);
+    HYDMapForward(NSString *walkKey, id<HYDMapper> childMapper);
+    HYDMapForward(id<HYDAccessor> walkAccessor, id<HYDMapper> childMapper);
 
 The first argument for all these constructors are how to walk through through
 the incoming mapping. The last argument is the child mapper to process the
@@ -287,11 +477,12 @@ subset of the source object being traversed by the first argument.
 When not provided, ``sourceClass`` defaults to ``[NSDictionary class]``, this is
 to hint to the reversed mapper how to produce the parent object.
 
+
 .. _HYDBackwardMapper:
 .. _HYDMapBackward:
 
-HYDBackwardMapper
-=================
+HYDMapBackward
+==============
 
 This mapper is the reverse of :ref:`HYDForwardMapper` it generates a series of
 repeated objects to that would allow the :ref:`HYDForwardMapper` to function on
@@ -304,7 +495,7 @@ the resulting object produced::
     Person *person = [[Person alloc] initWithFirstName:@"John"];
 
     HYDError *error = nil;
-    id json = [mapper objectFromSourceObject:json error:&error];
+    id json = [mapper objectFromSourceObject:person error:&error];
     // json => @{@"person": @{@"account": @{@"first": @"John"}}};
 
 Since this mapper simply recursively creates the class it was given to produce
@@ -312,10 +503,10 @@ the hierarchy.
 
 The helper functions available for this mapper::
 
-    HYDMapBackward(NSString *walkKey, Class destinationClass, id<HYDMapper> childMapper); 
-    HYDMapBackward(id<HYDAccessor> walkAccessor, Class destinationClass, id<HYDMapper> childMapper); 
-    HYDMapBackward(NSString *walkKey, id<HYDMapper> childMapper); 
-    HYDMapBackward(id<HYDAccessor> walkAccessor, id<HYDMapper> childMapper); 
+    HYDMapBackward(NSString *walkKey, Class destinationClass, id<HYDMapper> childMapper);
+    HYDMapBackward(id<HYDAccessor> walkAccessor, Class destinationClass, id<HYDMapper> childMapper);
+    HYDMapBackward(NSString *walkKey, id<HYDMapper> childMapper);
+    HYDMapBackward(id<HYDAccessor> walkAccessor, id<HYDMapper> childMapper);
 
 The first argument for all these constructors are the path of the keys to
 create recursively. The last argument is the child mapper to produce the final
@@ -329,22 +520,24 @@ class supports ``NSMutableCopying``, then a mutableCopy is created to work with
 immutable data types (eg - NSDictionary which needs to be converted to
 NSMutableDictionary).
 
+
 .. _HYDCollectionMapper:
 .. _HYDMapCollectionOf:
 .. _HYDMapArrayOf:
 .. _HYDMapArrayOfObjects:
 .. _HYDMapArrayOfKVCObjects:
 
-HYDCollectionMapper
-===================
+HYDMapCollectionOf / HYDMapArrayOf
+==================================
 
 This mapper applies a child mapper to process a collection, usually an array of
 items. Although this can apply to sets any other collection of items to map.
 The child mapper is used to map each individual element of the collection::
 
-    id<HYDMapper> childMapper = HYDMapObject(HYDRootMapper, [Person class],
+    id<HYDMapper> childMapper = HYDMapObject([Person class],
                                              @{@"first": @"firstName"});
-    id<HYDMapper> mapper = HYDMapCollectionOf(childMapper, [NSArray class], [NSArray class]);
+    id<HYDMapper> mapper = HYDMapCollectionOf(childMapper,
+                                              [NSArray class], [NSArray class]);
 
     HYDError *error = nil;
     id json = @[
@@ -358,3 +551,381 @@ The child mapper is used to map each individual element of the collection::
 HYDCollectionMapper will validate the incoming source object's enumerability
 by checking if it is the given source class.
 
+The helper functions available for this mapper::
+
+    HYDMapCollectionOf(id<HYDMapper> itemMapper, Class sourceCollectionClass, Class destinationCollectionClass)
+    HYDMapCollectionOf(Class collectionClass)
+    HYDMapCollectionOf(Class sourceCollectionClass, Class destinationCollectionClass)
+    HYDMapCollectionOf(id<HYDMapper> itemMapper, Class collectionClass)
+    HYDMapArrayOf(id<HYDMapper> itemMapper)
+    HYDMapArrayOfObjects(Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
+    HYDMapArrayOfObjects(Class destinationItemClass, NSDictionary *mapping)
+
+``HYDMapArrayOf`` are a set of convience functions that assume the source
+and destination collection to be NSArrays. Further conviences are built
+on top that to convert an array of objects into another array of objects.
+
+``HYDMapArrayOfObjects`` is simply the composition::
+
+    HYDMapArrayOf(HYDMapObject(...))
+
+See :ref:`HYDMapObject` for more information on that mapper.
+
+
+.. _HYDMapFirst:
+.. _HYDMapFirstMapperInArray:
+.. _HYDFirstMapper:
+
+HYDMapFirst
+===========
+
+This mapper tries to apply each mapper its given until one succeeds (does not
+return a fatal error). Using this mapper can provide an ordered list of mappers
+to attempt. An example is an array that has different object types::
+
+    id<HYDMapper> personMapper = HYDMapObject([Person class], {...});
+    id<HYDMapper> employeeMapper = HYDMapObject([Person class], {...});
+    id<HYDMapper> mapper = HYDMapArrayOf(HYDMapFirst(personMapper, employeeMapper));
+
+``mapper`` will try using ``personMapper``, but if that mapper generates a fatal
+error, then ``employeeMapper`` is used instead. If that fails, then it is
+returned to the consumer of ``mapper``.
+
+``HYDMapFirst`` is a macro around the constructor function::
+
+    HYDMapFirstMapperInArray(NSArray *mappers)
+
+
+.. _HYDMapNonFatally:
+.. _HYDMapNonFatallyWithDefault:
+.. _HYDMapNonFatallyWithDefaultFactory:
+.. _HYDMapNonFatalMapper:
+
+HYDMapNonFatally
+================
+
+The non-fatal mapper takes child mapper to process and converts any fatal
+error that the child mapper produces into non-fatal ones::
+
+    // This mapper will attempt to convert a string to an NSURL
+    // or returns nil otherwise
+    id<HYDMapper> mapper = HYDMapNonFatally(HYDMapStringToURL(...))
+
+There are many helper functions which relate to producing default values::
+
+    HYDMapNonFatally(id<HYDMapper> childMapper)
+    HYDMapNonFatallyWithDefault(id<HYDMapper> childMapper, id defaultValue)
+    HYDMapNonFatallyWithDefault(id<HYDMapper> childMapper, id defaultValue, id reverseDefault)
+    HYDMapNonFatallyWithDefaultFactory(id<HYDMapper> childMapper, HYDValueBlock defaultValueFactory)
+    HYDMapNonFatallyWithDefaultFactory(id<HYDMapper> childMapper, HYDValueBlock reversedDefaultFactory)
+
+Which provides a variety of producing default values when fatal errors
+are received. By default, ``nil`` is returned.
+
+
+.. _HYDMapNotNull:
+.. _HYDMapNotNullFrom:
+.. _HYDNotNullMapper:
+
+HYDMapNotNull
+=============
+
+The mapper produces fatal errors if a ``nil`` or ``[NSNull null]`` is returned
+by a given mapper::
+
+    id<HYDMapper> mapper = HYDMapNotNull();
+    id json = [NSNull null];
+    HYDError *error = nil;
+    // => produces fatal error
+    [mapper objectFromSourceObject:json error:&error];
+
+There are helper functions::
+
+    HYDMapNotNull()
+    HYDMapNotNullFrom(id<HYDMapper> innerMapper)
+
+
+.. _HYDMapType:
+.. _HYDMapTypes:
+.. _HYDTypedMapper:
+
+HYDMapType(s)
+=============
+
+This mapper does type checking to ensure the given type is as intended.
+Using this mapper can provide type checking to filter out nefarious input that
+can potentially crash your application. If you're looking to apply this
+upon an object's properties, use :ref:`HYDMapObject` instead -- which uses
+this mapper internally. :ref:`HYDMapCollectionOf` also does some type checking
+for the collection source class.
+
+The mapper simply uses ``-[isKindOfClass:]`` to verify expected inputs and
+outputs - returning a fatal error if this check fails.
+
+Here are the following functions to construct this mapper::
+
+    HYDMapType(Class sourceAndDestinationClass)
+    HYDMapType(Class sourceClass, Class destinationClass)
+    HYDMapTypes(NSArray *sourceClasses, NSArray *destinationClasses)
+    HYDMapType(id<HYDMapper> innerMapper, Class sourceAndDestinationClass)
+    HYDMapType(id<HYDMapper> innerMapper, Class sourceClass, Class destinationClass)
+    HYDMapTypes(id<HYDMapper> innerMapper, NSArray *sourceClasses, NSArray *destinationClasses)
+
+As the arguments suggest, you can provide multiple classes that are valid for
+inputs or outputs. Passing ``nil`` as a class argument will allow
+**any classes**. Source classes indicate values provided to the mapper, and
+destination classes represent output (usually from the innerMapper).
+
+For functions that accept an array, passing an empty array will also behave
+like passing ``nil``.
+
+.. _HYDMapTypeNote:
+.. note:: This mapper can behave in unintuitive ways for inherited
+          `class clusters`_. So specifying ``NSMutableDictionary`` and
+          ``NSMutableArray`` will cause fatal type-checking errors. Use
+          ``NSDictionary`` and ``NSArray`` instead.
+
+
+.. _HYDMapKVCObject:
+.. _HYDObjectMapper:
+
+HYDMapKVCObject
+===============
+
+This uses Key-Value Coding to map arbitrary objects to one another, or the more
+commonly known methods: ``-[setValue:forKey:]`` and ``-[valueForKey:]``. This
+mapper provides a data-structure mapping DSL that conforms to a specific design
+that is mentioned in the :ref:`MappingDataStructure`. But at an overview, they
+usually look like one of two forms::
+
+    @{@"get.KeyPath": @"set.KeyPath"}
+    @{@"get.KeyPath": @[myMapper, @"set.KeyPath"]}
+
+They both conform to KeyPath-like semantics, similar to the ``-[valueForKeyPath:]``
+method, but without the aggregation features. They all read similarly to:
+
+    Map 'get.KeyPath' to 'set.KeyPath' using myMapper
+
+This is simply used as an abbreviated form to specify the mapping for each
+property without the visual noise of objective-c styled object construction.
+Again, read up on the :ref:`MappingDataStructure` to see the internal
+representation this mapper uses after processing this data structure.
+
+.. note:: Since this mapper uses ``setValue:forKey:`` and ``valueForKey:``, all
+          the same consequences apply -- such as possibly setting invalid
+          object types to properties. Use :ref:`HYDMapObject`, which adds
+          type checking before mapping values to their destinations.
+
+          And since this uses KVC, it will correctly convert boxed objects into
+          their c-native types due to the implementation of KVC. This allows the
+          rest of the mappers of Hydrant to use ``NSNumber`` which can get
+          converted to integers, floats, doubles, etc.
+
+If your key paths have dots, explicitly use :ref:`HYDKeyAccessor` and specify
+the key::
+
+    @{HYDKeyAccessor("json.key.with.dots"): @"key"}
+
+Which can be useful for JSON that has dots in its key.
+
+The following helper functions exist for this mapper::
+
+    HYDMapKVCObject(id<HYDMapper> innerMapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+    HYDMapKVCObject(id<HYDMapper> innerMapper, Class destinationClass, NSDictionary *mapping)
+    HYDMapKVCObject(Class sourceClass, Class destinationClass, NSDictionary *mapping)
+    HYDMapKVCObject(Class destinationClass, NSDictionary *mapping)
+
+The all functions, except for the first one, are derived off the first helper
+function. If no mapper is provided, then :ref:`HYDMapIdentity` is used.
+Similarly, if no sourceClass is provided, ``[NSDictionary class]`` is used.
+
+The ``mapping`` argument conforms to the :ref:`MappingDataStructure`.
+
+When specifying classes, this mapper will auto-promote them to their mutable
+types. All destination classes are constructed using ``[destinationClass new]``.
+Classes that support `NSMutableCopying`_ are created using
+``[[destinationClass new] mutableCopy]``.
+
+This makes it safe to use ``[NSDictionary class]`` and ``[NSArray class]`` as
+arguments for the ``sourceClass`` and ``destinationClass``.
+
+.. _NSMutableCopying: https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Protocols/NSMutableCopying_Protocol/Reference/Reference.html
+
+This object fully supports reverseMapping, which allows you to quickly create
+a serializer and deserializer combination.
+
+
+.. _HYDMapObject:
+.. _HYDTypedObjectMapper:
+
+HYDMapObject
+============
+
+This maps arbitrary properties from one object to another using a KeyPath-like
+mapping system. This mapper composes :ref:`HYDMapKVCObject` and
+:ref:`HYDMapType` to produce a mapper that can check types as it is mapped to
+its resulting object.
+
+This mapper currently has tight-coupling around handling :ref:`HYDMapNonFatally`
+to ensure that optional mappings can still work as intended.
+
+The following helper functions exist similar to ``HYDMapKVCObject``::
+
+    HYDMapObject(id<HYDMapper> innerMapper, Class sourceClass, Class destinationClass, NSDictionary *mapping)
+    HYDMapObject(id<HYDMapper> innerMapper, Class destinationClass, NSDictionary *mapping)
+    HYDMapObject(Class sourceClass, Class destinationClass, NSDictionary *mapping)
+    HYDMapObject(Class destinationClass, NSDictionary *mapping)
+
+And like ``HYDMapKVCObject``, the same default values apply:
+
+    - ``innerMapper`` defaults to :ref:`HYDMapIdentity`
+    - ``sourceClass`` defaults to ``[NSDictionary class]``
+
+Not surprisingly this also accepts a ``mapping`` argument described
+in the :ref:`MappingDataStructure`. One notable difference is that using
+``HYDMapType`` are implicit for all arguments.
+
+.. note:: This mapper also verifies the types of source and destination classes
+          using :ref:`HYDMapType`, so the :ref:`same notice <HYDMapTypeNote>`
+          applies here for all types that are verified.
+
+If you're mapping a collection of objects (such as an array of objects), see
+:ref:`HYDMapArrayOfObjects` which is a composition of this mapper and
+``HYDMapArrayOf``.
+
+If you prefer to not have type checking but still have the mapping
+functionality, use the lower-level :ref:`HYDMapKVCObject` instead.
+
+.. _class clusters: https://developer.apple.com/library/ios/documentation/general/conceptual/devpedia-cocoacore/ClassCluster.html
+
+
+.. _HYDMapWithBlock:
+.. _HYDBlockMapper:
+
+HYDMapWithBlock
+===============
+
+.. note:: This is a convience to create custom Hydrant mappers. Blocks
+          that execute custom code are subject to the same error handling that
+          Hydrant expects for mappers conforming to :ref:`TheMapperProtocol`
+          in order to be exception-free.
+
+This is a mapper that accepts one or two blocks for you to manually do the
+conversion. Unlike most other mappers, this does not provide any safety, but
+allows you do make trade-offs that go against Hydrant's design::
+
+    - Make a certain subset of the object graph being mapped to be more
+      performant (instead of defensively checking the data as Hydrant does).
+    - Make a certain subset of the object graph "unsafe" and venerable to
+      exceptions for easier debuggability.
+    - Perform complex mappings that cannot be sanely abstracted
+    - Quickly do one-off mappings for the perticular kind of data structure
+      you're mapping (then ask: why are you using Hydrant then?)
+    - Store mutable state during the mapping to do more complex mappings that
+      Hydrant does not support.
+
+**Try to avoid using this mapper**, because it provides no benefits from
+implementing the serialization yourself.
+
+These blocks take the same arguments as the ``HYDMapper`` protocol::
+
+    typedef id(^HYDConversionBlock)(id incomingValue, __autoreleasing HYDError **error);
+
+Where errors can be filled to indicate to parent mappers that mapping has
+failed.
+
+The helper functions for this mapper::
+
+    HYDMapWithBlock(HYDConversionBlock convertBlock)
+    HYDMapWithBlock(HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
+
+Where the former function is an alias to latter as::
+
+    HYDMapWithBlock(convertBlock, convertBlock)
+
+The ``reverseConvertBlock`` is called when ``-[reverseMapper]`` is called on
+the created mapper.
+
+
+.. _HYDMapWithPostProcessing:
+.. _HYDPostProcessingMapper:
+
+HYDMapWithPostProcessing
+========================
+
+.. note:: This is a convience to create custom Hydrant mappers. Blocks
+          that execute custom code are subject to the same error handling that
+          Hydrant expects for mappers conforming to :ref:`TheMapperProtocol`
+          in order to be exception-free.
+
+This is a mapper that allows you to perform "post processing" from another
+mapper's work. Use this to "migrate" data structures that don't map cleanly
+from the source objects to the destination objects.
+
+Unlike :ref:`HYDMapWithBlock`, this mapper provides access to the source input
+value and the resulting input value after executing the inner mapper.
+
+Complex mappings across multiple source value fields can be done with this
+mapper, at the same expenses the ``HYDMapWithBlock`` does::
+
+    - Produce mappings that require composing multiple distinct parts of the
+      source object.
+    - Allows extra mutation after the creation of an resulting object.
+
+**Try to avoid using this mapper**, because it provides no benefits from
+implementing the serialization yourself. If you want to map multiple keys
+to a single value, see :ref:`MappingMultipleValues`.
+
+The helpers functions for this mapper::
+
+    typedef void(^HYDPostProcessingBlock)(id sourceObject, id resultingObject, __autoreleasing HYDError **error);
+
+    HYDMapWithPostProcessing(HYDPostProcessingBlock block)
+    HYDMapWithPostProcessing(id<HYDMapper> innerMapper, HYDPostProcessingBlock block)
+    HYDMapWithPostProcessing(id<HYDMapper> innerMapper, HYDPostProcessingBlock block, HYDPostProcessingBlock reverseBlock)
+
+Where the first function is aliased to the last function as::
+
+    HYDMapWithPostProcessing(HYDMapIdentity(), block, block)
+
+and ``reverseBlock`` is the block that is invoked by the :ref:`TheReversedMapper`.
+
+An easy example is to convert an array of keys and values into a dictionary and
+then store it in a property of the resulting object::
+
+    id<HYDMapper> personMapper = ...; // defined somewhere else
+
+    // warning: there's no checking of sourceObject here, but you should
+    // if it is coming from an unknown source or hasn't been composed
+    // with HYDMapType
+    id<HYDMapper> mapper = \
+        HYDMapWithPostProcessing(personMapper, ^(id sourceObject, id resultingObject, __autoreleasing HYDError **error) {
+            Person *person = resultingObject;
+            person.phonesToFriends = [NSDictionary dictionaryWithObjects:sourceObject[@"names"] forKeys:sourceObject[@"numbers"]];
+        });
+
+    // example json
+    id json = @{...
+                @"names": [@"John", @"Jane"],
+                @"numbers": @[@1234567, @7654321]};
+
+    // post processor essentially does this:
+    person.phonesToFriends = [NSDictionary dictionaryWithObjects:json[@"names"] forKeys:json[@"numbers"]]
+
+
+.. _HYDMapDispatch:
+.. _HYDDispatchMapper:
+
+HYDMapDispatch
+==============
+
+.. warning:: WIP: Please do not use yet.
+
+
+.. _HYDMapThread:
+.. _HYDThreadMapper:
+
+HYDThreadMapper
+===============
+
+.. warning:: WIP: Please do not use yet.

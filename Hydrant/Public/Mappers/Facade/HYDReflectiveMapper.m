@@ -74,8 +74,8 @@
         self.excludedFields = excludedFields;
         self.typeMapping = typeMapping;
 
-        self.overriddenMapping = HYDNormalizeKeyValueDictionary(overriddenMapping, ^id(NSString *key) {
-            return HYDAccessDefault(key);
+        self.overriddenMapping = HYDNormalizeKeyValueDictionary(overriddenMapping, ^id(NSArray *keys) {
+            return HYDAccessDefault(keys);
         });
         self.destinationToSourceKeyTransformer = keyTransformer;
     }

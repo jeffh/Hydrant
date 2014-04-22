@@ -18,6 +18,9 @@ mappers. This also applies when writing your own mappers. For example,
 that already. A facade object, ``HYDTypedObjectMapper`` composes both of these
 mappers to provide an object mapper that has type checking.
 
+.. _TheMapperProtocol:
+.. _HYDMapper:
+
 The Mapper Protocol
 ===================
 
@@ -26,8 +29,7 @@ Let's look at the mapper protocol which is the foundation to Hydrant's design::
     @protocol HYDMapper <NSObject>
 
     - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error;
-    - (id<HYDAccessor>)destinationAccessor;
-    - (id<HYDMapper>)reverseMapperWithDestinationAccessor:(id<HYDAccessor>)destinationAccessor;
+    - (id<HYDMapper>)reverseMapper;
 
     @end
 
@@ -53,6 +55,9 @@ should conform to Hydrant's error handling policies. This includes:
 It is the responsibility of each mapper to **avoid throwing exceptions**. This
 matches `Apple's convention`_ of `exceptions in Objective-C`_, where they should
 be used to indicate programmer error.
+
+For easy of discovery, many mappers will validate its construction instead of
+possibly raising exceptions on ``-[objectFromSourceObject:error:]``.
 
 .. _Apple's convention: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Exceptions/Exceptions.html
 .. _exceptions in Objective-C: http://stackoverflow.com/questions/4648952/objective-c-exceptions
@@ -89,6 +94,38 @@ The Accessor Protocol
 
 TBD
 
+.. _MappingDataStructure:
+
+Mapping Data Structure
+======================
+
+Various mappers built on top of :ref:`HYDMapKVCObject` utilize an informal
+data structure based format for describing field-to-field mapping which follows
+the form of::
+
+    @{<HYDAccessor>: <HYDMapping>}
+
+Where's ``HYDMapping``? It's just a tuple, which is fancy for saying an array::
+
+    @[<HYDMapper>, <HYDAccessor>]
+
+So in summary, mapping dictionaries are just::
+
+    @{<HYDAccessor1>: @[<HYDMapper>, <HYDAccessor2>]}
+
+Which reads, map ``<HYDAccessor1>`` to ``<HYDAccessor2>`` using ``<HYDMapper>``.
+
+To get this mapping into this form, it is first normalized by:
+
+    - Converting all keys that are strings into :ref:`HYDAccessKeyPaths <HYDAccessKeyPath>`.
+    - Converting all keys that are arrays into :ref:`HYDAccessKeyPaths <HYDAccessKeyPath>` with an array.
+    - Converting all values that are strings into a mapping of :ref:`HYDMapIdentity` and :ref:`HYDKeyPathAccessors <HYDKeyPathAccessor>`.
+    - Converting all values that are arrays into a mapping of :ref:`HYDMapIdentity` and :ref:`HYDKeyPathAccessors <HYDKeyPathAccessor>`.
+
+And that's it! Anything else specific must be done explicitly using the
+array-styled syntax. If you so choose, you can use your own tuple-like object
+for the ``HYDMapping`` protocol.
+
 Composition over Inheritance
 ============================
 
@@ -102,4 +139,3 @@ Internally, Hydrant uses subclasses dictated by Apple's frameworks (eg -
 NSFormatter or NSValueTransformer). Any other subclasses in Hydrant are
 **quickfix temporary solutions** and should not be considered public for
 explicit use.
-

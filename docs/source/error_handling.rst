@@ -19,7 +19,7 @@ If ``[error isFatal]`` is ``NO``, but there is a non-nil error, then a
 non-fatal error has occurred. This is happens when a fallback parse option has
 taken place. A simple example of this is with :ref:`HYDMapOptionally`::
 
-    id<HYDMapper> mapper = HYDMapOptionally(HYDMapStringToURL(HYDRootMapper));
+    id<HYDMapper> mapper = HYDMapOptionallyTo(HYDMapStringToURL(HYDRootMapper));
 
     id invalidURL = @1;
 
@@ -136,4 +136,3 @@ multiple errors::
 
 This will store the underlying errors for debugging via ``-[description]`` and
 similar methods.
-

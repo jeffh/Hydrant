@@ -132,7 +132,7 @@ describe(@"HYDMapperPerformance", ^{
         it(@"should not have a large number of property reflection objects", ^{
             [HYDClassInspector clearInstanceCache];
 
-            NSInteger numberOfProperties = 9;
+            NSInteger numberOfProperties = 10;
             NSArray *sourceObject = numberOfObjects(1000, invalidObject);
             NSUInteger numberOfPropertyAllocations = numberOfAllocationsOf("HYDProperty", ^{
                 HYDError *error = nil;

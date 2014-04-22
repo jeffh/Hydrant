@@ -34,7 +34,7 @@
         self.innerMapper = mapper;
         self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
-        self.mapping = HYDNormalizeKeyValueDictionary(mapping, ^id(NSString *key) { return HYDAccessDefault(key); });
+        self.mapping = HYDNormalizeKeyValueDictionary(mapping, ^id(NSArray *keys) { return HYDAccessDefault(keys); });
         self.factory = [[HYDObjectFactory alloc] init];
     }
     return self;

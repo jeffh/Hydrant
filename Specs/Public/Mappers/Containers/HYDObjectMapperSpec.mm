@@ -32,9 +32,11 @@ describe(@"HYDObjectMapper", ^{
         fakeSetter.fieldNames = @[@"age"];
 
         expectedPerson = [[HYDSPerson alloc] initWithFixtureData];
+        expectedPerson.fullName = @[@"John", @"James", @"Doe"];
         validSourceObject = @{@"identifier": @"transforms",
                               @"first_name": @"John",
                               @"last_name": @"Doe",
+                              @"middle_name": @"James",
                               @"age": @23};
 
         innerMapper = [[HYDSFakeMapper alloc] init];
@@ -46,6 +48,7 @@ describe(@"HYDObjectMapper", ^{
         mapper = HYDMapKVCObject(innerMapper, [NSDictionary class], [HYDSPerson class],
                                  @{@"first_name" : @[childMapper2, @"firstName"],
                                    @"last_name" : @"lastName",
+                                   @[@"first_name", @"middle_name", @"last_name"]: @"fullName",
                                    fakeGetter : @[HYDMapIdentity(), fakeSetter],
                                    @"identifier" : HYDMap(childMapper1, @"identifier")});
     });
@@ -95,6 +98,7 @@ describe(@"HYDObjectMapper", ^{
                 sourceObject = @1;
                 NSDictionary *object = @{@"first_name": @"John",
                                          @"last_name": [NSNull null],
+                                         @"middle_name": @"James",
                                          @"age": @23,
                                          @"identifier": @"transforms"};
                 innerMapper.objectsToReturn = @[object];
@@ -111,6 +115,7 @@ describe(@"HYDObjectMapper", ^{
             it(@"should set all the properties on the parsed object based on the mapping provided", ^{
                 HYDSPerson *personWithOutLastName = [[HYDSPerson alloc] initWithFixtureData];
                 personWithOutLastName.lastName = nil;
+                personWithOutLastName.fullName = @[@"John", @"James", [NSNull null]];
                 parsedObject should equal(personWithOutLastName);
             });
         });

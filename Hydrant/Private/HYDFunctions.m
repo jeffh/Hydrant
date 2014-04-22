@@ -40,7 +40,7 @@ NSString *HYDKeyToString(NSString *key)
 }
 
 HYD_EXTERN
-NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccessor>(^fieldFromString)(NSString *))
+NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccessor>(^fieldFromString)(NSArray *))
 {
     NSMutableDictionary *normalizedMapping = [NSMutableDictionary dictionaryWithCapacity:mapping.count];
     for (id key in mapping) {
@@ -50,6 +50,8 @@ NSDictionary *HYDNormalizeKeyValueDictionary(NSDictionary *mapping, id<HYDAccess
         if ([key conformsToProtocol:@protocol(HYDAccessor)]) {
             field = key;
         } else if ([key isKindOfClass:[NSString class]]) {
+            field = fieldFromString(@[key]);
+        } else if ([key isKindOfClass:[NSArray class]]) {
             field = fieldFromString(key);
         }
 

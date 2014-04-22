@@ -59,15 +59,16 @@ Serializing with Hydrant
 
 Let's see how you can solve it via Hydrant::
 
-    id<HYDMapper> mapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [Person class],
+    id<HYDMapper> mapper = HYDMapObject([NSDictionary class], [Person class],
                                         @{@"first_name": @"firstName",
                                           @"last_name": @"lastName",
-                                          @"homepage": HYDMapStringToURL(@"homepage"),
+                                          @"homepage": @[HYDMapStringToURL(), @"homepage"],
                                           @"age": @"age",
-                                          @"children": HYDMapArrayOf(HYDMapObject(@"children", [NSDictionary class], [Person class],
-                                                                                  @{@"first_name": @"firstName",
-                                                                                    @"last_name": @"lastName",
-                                                                                    @"age": @"age"}));
+                                          @"children": @[HYDMapArrayOf(HYDMapObject([NSDictionary class], [Person class],
+                                                                                    @{@"first_name": @"firstName",
+                                                                                      @"last_name": @"lastName",
+                                                                                      @"age": @"age"})
+                                                         @"children"]);
 
     HYDError *error = nil;
     Person *john = [mapper objectFromSourceObject:json error:&error];
@@ -221,11 +222,11 @@ possible or a fallback value is used instead.
 
 The way to do this is with ``HYDMapOptionally``::
 
-    id<HYDMapper> mapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [Person class],
+    id<HYDMapper> mapper = HYDMapObject[NSDictionary class], [Person class],
                                         @{@"first_name": @"firstName",
                                           @"last_name": @"lastName",
-                                          @"homepage": HYDMapOptionally(HYDMapStringToURL(@"homepage")),
-                                          @"age": HYDMapOptionally(@"age"),
+                                          @"homepage": @[HYDMapOptionallyTo(HYDMapStringToURL()), @"homepage"],
+                                          @"age": @[HYDMapOptionally(), @"age"],
                                           @"children": HYDMapArrayOf(HYDMapObject(@"children", [NSDictionary class], [Person class],
                                                                                   @{@"first_name": @"firstName",
                                                                                     @"last_name": @"lastName",
@@ -250,7 +251,7 @@ parse::
 
     HYDError *error = nil;
     NSArray *people = [mapper objectFromSourceObject:json error:&error];
-    
+
     people // => @[<Person: John>]
     error // => non-fatal error
 
@@ -266,7 +267,7 @@ dropping the array when any of the elements fail to parse::
 
     HYDError *error = nil;
     NSArray *people = [mapper objectFromSourceObject:json error:&error];
-    
+
     people // => nil
     error // => non-fatal error
 
@@ -342,7 +343,7 @@ types, we can specify like so::
     @property (strong, nonatomic) NSURL *homepage;
     @property (assign, nonatomic) NSInteger age;
     @property (strong, nonatomic) NSDate *birthDate;
-    @end 
+    @end
 
     id<HYDMapper> mapper = HYDMapReflectively(HYDRootMapper, [Person class])
                             .emit([NSDate class], HYDMapDateToString(HYDRootMapper, HYDDateFormatRFC3339));
@@ -356,4 +357,3 @@ details specific to this `facade`_ class.
 
 That's it! You might like to read up on some of the many mappers you can use.
 But that's all there's to it!
-
