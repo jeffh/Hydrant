@@ -807,7 +807,7 @@ HYDMapWithBlock
 
 .. note:: This is a convience to create custom Hydrant mappers. Blocks
           that execute custom code are subject to the same error handling that
-          Hydrant expects for mappers conforming to :ref:`TheMapperProtocol`
+          Hydrant expects for mappers to conform to :ref:`HYDMapper`
           in order to be exception-free.
 
 This is a mapper that accepts one or two blocks for you to manually do the
@@ -855,7 +855,7 @@ HYDMapWithPostProcessing
 
 .. note:: This is a convience to create custom Hydrant mappers. Blocks
           that execute custom code are subject to the same error handling that
-          Hydrant expects for mappers conforming to :ref:`TheMapperProtocol`
+          Hydrant expects for mappers to conform to :ref:`HYDMapper`
           in order to be exception-free.
 
 This is a mapper that allows you to perform "post processing" from another

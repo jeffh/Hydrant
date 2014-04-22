@@ -14,15 +14,91 @@ choose to write code that conforms to these protocols.
 
 Whenever possible, compose mappers than reimplementing features from existing
 mappers. This also applies when writing your own mappers. For example,
-``HYDObjectMapper`` does not do type checking, since ``HYDTypedMapper`` does
-that already. A facade object, ``HYDTypedObjectMapper`` composes both of these
+:ref:`HYDMapKVCObject` doesn't do type checking, since :ref:`HYDMapType` does
+that already. A facade object, :ref:`HYDMapObject` composes both of these
 mappers to provide an object mapper that has type checking.
 
-.. _TheMapperProtocol:
+Philosophies
+============
+
+Hydrant has some opinions that are reflected in its code base and design -- some
+more strongly than others. Individually, they are useful, but as more of
+these philosophies are combine, they become greater than the sum of their parts.
+
+.. _Composition:
+
+Composition over Inheritance
+----------------------------
+
+Hydrant is a composition library. Inheritance is strongly discouraged when
+building mappers or accessors. They tightly couple child classes and parent
+classes, break encapsulation, and increase overhead when learning a code base.
+A subclass implementation requires knowledge of the parent classes'
+implementation too.
+
+Hydrant uses subclasses as dictated by Apple's frameworks (eg -
+NSFormatter or NSValueTransformer). Any other subclasses in Hydrant are
+**quickfix temporary solutions** and are never to be considered public APIs.
+
+Immutability over Mutability
+----------------------------
+
+Hydrant makes an unusual stance to hide all internal properties. Whenever
+possible, Hydrant prefers immutability over mutation. This makes classes
+significantly easier to consume and debug.
+
+Having mutable properties also makes the classes less viable for being
+shared across threads. Mutation can break assumptions about objects that
+conform to an :ref:`abstraction <Abstractions>`.
+
+.. _Abstractions:
+
+Abstractions over Concretions
+-----------------------------
+
+Concrete classes should ideally never have to know about each other by working
+through a protocol. These protocols can be given on object construction to
+provide flexibility. Protocols are also easy to :ref:`test <TDD>` since provide
+a stronger assumption of having less intimate knowledge of the collaborating
+object.
+
+Good abstractions can be utilized through the library and should thought through
+carefully. Which leads to...
+
+Have Small Abstractions
+-----------------------
+
+The best abstractions are as narrow as possible, to allow the most flexibility
+of an implementation. Conviences should be built on top of them but not be
+included into the abstraction.
+
+A large abstraction is usually indicative of multiple abstractions that need
+to be split apart. Originally, :ref:`HYDMapper` and :ref:`HYDAccessor` were
+one protocol, which exposed itself because of the duplicated work required for
+implementation of getting and setting data.
+
+Abstractions are fractal, so it may not be immediately obvious that smaller
+ones exist, but they do and provide a more flexible system in less code.
+
+.. _TDD:
+
+Test-Driven Code
+----------------
+
+While you may not agree with `TDD`_/`BDD`_, Hydrant should have thorough test
+coverage for various scenarios. After all, nefarious input is being processed
+by this library.
+
+All public classes should have tests covering their proper behavior. Any bugs
+fixed with associated tests that verify the bug.
+
+.. _TDD: http://en.wikipedia.org/wiki/Test-driven_development
+.. _BDD: http://en.wikipedia.org/wiki/Behavior-driven_development
+
 .. _HYDMapper:
 
-The Mapper Protocol
-===================
+Mapper Protocol
+===============
 
 Let's look at the mapper protocol which is the foundation to Hydrant's design::
 
@@ -89,6 +165,8 @@ Typical Mapper Implementations
 
 TBD
 
+.. _HYDAccessor:
+
 The Accessor Protocol
 =====================
 
@@ -125,17 +203,3 @@ To get this mapping into this form, it is first normalized by:
 And that's it! Anything else specific must be done explicitly using the
 array-styled syntax. If you so choose, you can use your own tuple-like object
 for the ``HYDMapping`` protocol.
-
-Composition over Inheritance
-============================
-
-Hydrant is a composition library. Inheritance is strongly discouraged when
-building mappers or accessors. They tightly couple child classes and parent
-classes, break encapsulation, and increase overhead when learning/familiarizing
-with a child class implementation (since it requires knowledge of the parent
-classes' implementation too).
-
-Internally, Hydrant uses subclasses dictated by Apple's frameworks (eg -
-NSFormatter or NSValueTransformer). Any other subclasses in Hydrant are
-**quickfix temporary solutions** and should not be considered public for
-explicit use.

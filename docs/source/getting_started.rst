@@ -307,7 +307,7 @@ So now we have this::
     id<HYDMapper> mapper = HYDMapObject(HYDRootMapper, [Person class],
                                         @{@"first_name": @"firstName",
                                           @"last_name": @"lastName",
-                                          @"homepage": HYDMapStringToURL(@"homepage"),
+                                          @"homepage": @[HYDMapStringToURL(), @"homepage"],
                                           @"age": @"age",
                                           @"children": HYDMapArrayOfObjects(@"children", [Person class],
                                                                             @{@"first_name": @"firstName",

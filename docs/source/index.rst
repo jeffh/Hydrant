@@ -16,8 +16,8 @@ Contents
    installation
    getting_started
    error_handling
+   design
    advanced_mapping
    mapper_reference
    formatter_reference
-   design
    changelog
