@@ -14,39 +14,36 @@ for other purposes.
 .. _NSValueTransformers:  https://developer.apple.com/library/mac/documentation/cocoa/reference/foundation/classes/NSFormatter_Class/Reference/Reference.html
 
 
-.. _HYDDotNetDateFormatter:
+.. _HYDBlockValueTransformer:
 
-HYDDotNetDateFormatter
-======================
+HYDBlockValueTransformer
+========================
 
-This is an `NSDateFormatter`_ subclass that supports parsing of microsoft AJAX
-date formats which look like ``@"/Date(123456)/"``.
-
-Since formatter sets some internal state from ``NSDateFormatter``, so changing
-this formatter via properties may break its intended behavior.
-
-.. _NSDateFormatter: https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSDateFormatter_Class/Reference/Reference.html
+This value transformer is a simple abstraction to allow custom blocks instead of
+having to implement a custom block value transformer.
 
 
-.. _HYDURLFormatter:
+.. _HYDIdentityValueTransformer:
 
-HYDURLFormatter
-===============
+HYDIdentityValueTransformer
+===========================
 
-This formatter utilizes `NSURL`_ to generate URLs and adds some extra safety
-by checking inputs before trying to construct an ``NSURL``.
-
-It can optionally be constructed with a set of schemes to allow.
-
-.. _NSURL: https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/Reference/Reference.html
+This value transformer is a no-op, simply returning the value it has received.
 
 
-.. _HYDUUIDFormatter:
+.. _HYDReversedValueTransformer:
 
-HYDUUIDFormatter
-================
+HYDReversedValueTransformer
+===========================
 
-This formatter utilizes `NSUUID`_ to generate UUIDs and adds some extra safety
-by checking inputs before trying to construct an ``NSUUID``.
+This value transformer reverses another value transformer. The given value
+transformer should be reverseable.
 
-.. _NSUUID: https://developer.apple.com/library/mac/documentation/Foundation/Reference/NSUUID_Class/Reference/Reference.html
+
+.. _HYDSnakeToCamelCaseValueTransformer:
+
+HYDSnakeToCamelCaseValueTransformer
+===================================
+
+This value transformer converts snake case to camel case. You can optionally
+specific if it is UpperCamelCase or lowerCamelCase.
