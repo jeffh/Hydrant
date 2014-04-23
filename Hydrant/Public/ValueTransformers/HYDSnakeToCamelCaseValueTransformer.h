@@ -15,6 +15,8 @@ typedef NS_ENUM(NSUInteger, HYDCamelCaseStyle) {
  *
  *  This is useful for key transforming for the reflective mapper.
  *
+ *  The default constructor uses HYDCamelCaseLowerStyle.
+ *
  *  @see HYDReflectiveMapper
  */
 @interface HYDSnakeToCamelCaseValueTransformer : NSValueTransformer

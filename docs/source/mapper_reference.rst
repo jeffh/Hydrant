@@ -6,7 +6,8 @@ Mapper Reference
 
 Here lists all the mappers currently available in Hydrant. Composing these
 mappers together provides the ability to (de)serialize for a wide variety of
-use cases.
+use cases. All the functions listed here return objects that conform to the
+:ref:`HYDMapper` protocol.
 
 Constructor Helper Functions
 ============================
@@ -39,9 +40,7 @@ For autocompleting convenience, all the helper functions are prefixed with
 :ref:`HYDMapEnum`.
 
 You might be thinking these overload functions require Objective-C++, but
-`you'd be wrong`_.
-
-.. _`you'd be wrong`: http://clang.llvm.org/docs/AttributeReference.html#overloadable
+:ref:`you'd be wrong <FunctionOverloading>`_.
 
 
 .. _TheReverseMapper:
@@ -571,6 +570,13 @@ on top that to convert an array of objects into another array of objects.
 
 See :ref:`HYDMapObject` for more information on that mapper.
 
+This mapper has some extra behavior based on the result of the child mapper.
+Specifically, if a child mapper produces a ``nil`` value and a non-fatal error,
+then its value is excluded from an array. This allows selective exclusion of
+items from the source array in the resulting array.
+
+For more details, see :ref:`OptionalArrayMapping`.
+
 
 .. _HYDMapFirst:
 .. _HYDMapFirstMapperInArray:
@@ -873,7 +879,8 @@ allows you do make trade-offs that go against Hydrant's design::
       Hydrant does not support.
 
 **Try to avoid using this mapper**, because it provides no benefits from
-implementing the serialization yourself.
+implementing the serialization yourself. See :ref:`MappingTechniques` for
+some tactics for mapping values without using this mapper.
 
 These blocks take the same arguments as the ``HYDMapper`` protocol::
 
@@ -960,6 +967,24 @@ then store it in a property of the resulting object::
     // post processor essentially does this:
     person.phonesToFriends = [NSDictionary dictionaryWithObjects:json[@"names"] forKeys:json[@"numbers"]]
 
+
+.. _HYDMapReflectively:
+.. _HYDReflectiveMapper:
+
+HYDMapReflectively
+==================
+
+This builds upon various mappers and the Objective-C runtime to achieve the
+dryest code possible, at the expense of internal complexity. It uses the runtime
+to try and intelligently fill mappings:
+
+    - Convert strings to dates with :ref:`HYDStringToDate`
+    - Type check incoming values with :ref:`HYDMapType`
+
+Since this mapper cannot determine the intended reverse mapping, you must
+explicitly state them.
+
+// TODO: write more
 
 .. _HYDMapDispatch:
 .. _HYDDispatchMapper:

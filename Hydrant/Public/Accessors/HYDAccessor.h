@@ -16,7 +16,7 @@
  *  A simple implementation is HYDKeyAccessor, which uses
  *  Key-Value Coding to extract and set values.
  *
- *  Mappers that are utilizing this abstract should bubble errors
+ *  Mappers that are utilizing this abstraction should bubble errors
  *  that accessors produce similarly to child mappers.
  *
  *  @see HYDKeyAccessor
@@ -53,7 +53,7 @@
  *  This is simply for debuggability purposes. HYDError emits field names to make it easier to debug
  *  errors in mapping operations.
  *
- *  While there is no standard format, each element should be in KVC-style form.
+ *  While there is currently no standard format.
  */
 - (NSArray *)fieldNames;
 

@@ -19,7 +19,7 @@ If ``[error isFatal]`` is ``NO``, but there is a non-nil error, then a
 non-fatal error has occurred. This is happens when a fallback parse option has
 taken place. A simple example of this is with :ref:`HYDMapOptionally`::
 
-    id<HYDMapper> mapper = HYDMapOptionallyTo(HYDMapStringToURL(HYDRootMapper));
+    id<HYDMapper> mapper = HYDMapOptionallyTo(HYDMapStringToURL());
 
     id invalidURL = @1;
 
@@ -42,7 +42,7 @@ Currently HYDErrors provides a human-friendly output when using
 ``debugDescription`` or ``description``::
 
     (lldb) po error
-    [FATAL] HYDErrorDomain (code=HYDErrorMultipleErrors) because "Multiple parsing errors occurred (fatal=1, total=1)"
+    [FATAL] HYDErrorDomain (code=HYDErrorMultipleErrors) because "Multiple parsing errors occurred (fatal=1, total=2)"
     - Could not map from 'name.first' to 'firstName' (HYDErrorInvalidResultingObjectType)
 
 The default description will emit all the fatal errors that have occurred when
@@ -50,7 +50,7 @@ parsing. Non-fatal errors are suppressed from output. If you want to see all
 the errors, use ``-[HYDError fullDescription]``::
 
     (lldb) po [error fullDescription]
-    [FATAL] HYDErrorDomain (code=HYDErrorMultipleErrors) because "Multiple parsing errors occurred (fatal=1, total=1)"
+    [FATAL] HYDErrorDomain (code=HYDErrorMultipleErrors) because "Multiple parsing errors occurred (fatal=1, total=2)"
     - Could not map from 'name.first' to 'firstName' (HYDErrorInvalidResultingObjectType)
     - Could not map from 'name.last' to 'lastName' (HYDErrorInvalidResultingObjectType)
 
@@ -108,9 +108,13 @@ also helper methods to construct conforming Hydrant errors::
                           isFatal:(BOOL)isFatal
                  underlyingErrors:(NSArray *)underlyingErrors;
 
-This will properly construct the object with all the information. While not all
-the information is required. Providing more information will help with tracing
-down parse errors. The only required parameters are ``code`` and ``isFatal``.
+This will properly construct the object with all possible information. While not
+all the arguments are required. Providing more information will help with
+tracing down parse errors. The only required parameters are ``code`` and
+``isFatal`` -- any other parameter can accept ``nil``.
+
+``underlyingErrors`` is an array of NSErrors, which can include other Hydrant
+errors.
 
 If your mapper contains other mappers, it can wrap errors with more
 information::
@@ -121,8 +125,10 @@ information::
            replacementSourceObject:(id)sourceObject
                            isFatal:(BOOL)isFatal;
 
-This method use existing values from the source error with potential overrides
-or additions based on the context of the mapper's usage.
+This method uses existing values from the source error with potential overrides
+or additions based on the context of the mapper's usage. Passing in ``nil``
+will use the underlying error's values. Only ``error`` and ``isFatal`` are
+required.
 
 If your mapper uses multiple child mappers, you can create a HYDError with
 multiple errors::

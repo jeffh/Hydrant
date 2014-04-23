@@ -17,7 +17,9 @@ Contents
    getting_started
    error_handling
    design
-   advanced_mapping
+   mapping_techniques
    mapper_reference
+   accessor_reference
    formatter_reference
+   value_transformer_reference
    changelog

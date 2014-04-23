@@ -6,12 +6,12 @@ Getting Started
 
 Hydrant is designed to be highly flexible in converting a tree of objects into
 another tree of objects. Yeah, that sounds pretty boring and stupid. But
-deconstruct what that means.
+let's deconstruct what that means.
 
-You're provided the flexibility of converting any parse JSON (eg - structured
-NSArrays, NSDictionaries) into Value Object graph for your application to use.
-When doing this transformation, it can perform validations when performing
-these operations.
+You can flexibility parse any parse JSON (eg - structured NSArrays,
+NSDictionaries) into Value Objects for your application to use.
+When doing this transformation, Hydrant can perform validations to ensure the
+data coming in is what you expect.
 
 Of course this doesn't have to be just JSON. Parsing XML or converting values
 objects to your views and back are possible.
@@ -167,6 +167,9 @@ one liked crashes: you, your customers, Apple reviewers. And writing all the
 proper guard code starts becoming error-prone, boring, and adds a lot of noise
 to your code.
 
+But wait, I don't need to error check anything! Well, then you don't need to
+use Hydrant. Simple as that. No hard feelings that you're not using my library.
+
 Error Handling
 ==============
 
@@ -258,7 +261,7 @@ parse::
 But swapping to two map functions will change the behavior to optionally
 dropping the array when any of the elements fail to parse::
 
-    id<HYDMapper> mapper = HYDMapOptionally(HYDMapArrayOf(HYDMapObject(HYDRootMapper, [NSDictionary class], [Person class],
+    id<HYDMapper> mapper = HYDMapOptionally(HYDMapArrayOf(HYDMapObject([NSDictionary class], [Person class],
                                                                        @{@"name": @"firstName"})));
 
     json = @[@{},
@@ -291,28 +294,29 @@ Pretty soon, you'll be typing a lot of these that map to dictionaries. So it is
 implicit as the second argument to ``HYDMapObject``::
 
 
-    id<HYDMapper> mapper = HYDMapObject(HYDRootMapper, [NSDictionary class], [Person class], ...);
+    id<HYDMapper> mapper = HYDMapObject([NSDictionary class], [Person class], ...);
     // can become (both are equivalent)
-    id<HYDMapper> mapper = HYDMapObject(HYDRootMapper, [Person class], ...);
+    id<HYDMapper> mapper = HYDMapObject([Person class], ...);
 
 Likewise with arrays::
 
     // partial snippet from above
-    @"children": HYDMapArrayOf(HYDMapObject(@"children", [NSDictionary class], [Person class], ...))
+    @"children": HYDMapArrayOf(HYDMapObject([NSDictionary class], [Person class], ...))
     // can become (both are equivalent)
-    @"children": HYDMapArrayOfObjects(@"children", [Person class], ...)
+    @"children": HYDMapArrayOfObjects([Person class], ...)
 
 So now we have this::
 
-    id<HYDMapper> mapper = HYDMapObject(HYDRootMapper, [Person class],
+    id<HYDMapper> mapper = HYDMapObject([Person class],
                                         @{@"first_name": @"firstName",
                                           @"last_name": @"lastName",
                                           @"homepage": @[HYDMapStringToURL(), @"homepage"],
                                           @"age": @"age",
-                                          @"children": HYDMapArrayOfObjects(@"children", [Person class],
-                                                                            @{@"first_name": @"firstName",
-                                                                              @"last_name": @"lastName",
-                                                                              @"age": @"age"}));
+                                          @"children": @[HYDMapArrayOfObjects([Person class],
+                                                                              @{@"first_name": @"firstName",
+                                                                                @"last_name": @"lastName",
+                                                                                @"age": @"age"}),
+                                                         @"children"]});
 
 Using Reflection to Remove More Boilerplate
 -------------------------------------------
@@ -320,33 +324,33 @@ Using Reflection to Remove More Boilerplate
 If your JSON is well formed and just requires a little processing to map
 directly to your objects, you can use ``HYDMapReflectively``, which will use
 introspection of your class to determine how to map your values through.
-Although some information is still required for various types::
+Although some information is still required for container types::
 
-    id<HYDMapper> childMapper = HYDMapReflectively(@"children", [Person class]).except(@[@"children"]);
-    id<HYDMapper> mapper = HYDMapReflectively(HYDRootMapper, [Person class])
-                            .overriding(@{@"children": HYDMapArrayOf(childMapper)});
-
-.. warning:: The caveat for ``HYDMapReflectively`` is that you still need to be explicit on
-             how to emit the JSON, which reflective mapper does not help you with.
+    HYDSnakeToCamelCaseValueTransformer *snakeToCamelCaseTransformer = \
+        [[HYDSnakeToCamelCaseValueTransformer alloc] init];
+    id<HYDMapper> childMapper = HYDMapReflectively([Person class])
+                                 .propertyToSourceKeyTransformer(snakeToCamelCaseTransformer)
+                                 .except(@[@"children"]);
+    id<HYDMapper> mapper = HYDMapReflectively([Person class])
+                            .propertyToSourceKeyTransformer(snakeToCamelCaseTransformer)
+                            .overriding(@{@"children": @[HYDMapArrayOf(childMapper), @"children"]});
 
 The reflective mapper tries a bunch of strategies to parse the incoming data
 in to something reasonable. For example, it tries various different NSDate
 formats and permutations to convert an NSString into an NSDate.
 
-Since the reflective mapper will need more information for emitting the various
-types, we can specify like so::
+The reflective mapper cannot predict how to convert it back to JSON since it
+tries a number of strategies for parsing the JSON. We can specify it like so::
 
     // let's say we changed this class to have a birthDate property
     @interface Person
-    @property (copy, nonatomic) NSString *firstName;
-    @property (copy, nonatomic) NSString *lastName;
-    @property (strong, nonatomic) NSURL *homepage;
-    @property (assign, nonatomic) NSInteger age;
+    // ...
     @property (strong, nonatomic) NSDate *birthDate;
     @end
 
     id<HYDMapper> mapper = HYDMapReflectively(HYDRootMapper, [Person class])
-                            .emit([NSDate class], HYDMapDateToString(HYDRootMapper, HYDDateFormatRFC3339));
+                            .propertyToSourceKeyTransformer(snakeToCamelCaseTransformer)
+                            .emit([NSDate class], HYDMapDateToString(HYDDateFormatRFC3339));
 
 This will explicitly tell Hydrant how to emit the given classes back. Otherwise
 its behavior can be unexpected for certain classes. Read the documentation
@@ -357,3 +361,6 @@ details specific to this `facade`_ class.
 
 That's it! You might like to read up on some of the many mappers you can use.
 But that's all there's to it!
+
+Got some more complicated parsing you need to do? Check out the
+:ref:`MappingTechniques` section for more details.
