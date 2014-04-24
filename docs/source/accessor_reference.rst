@@ -10,7 +10,7 @@ abstract the details of getting and setting values from objects so that each
 listed here return objects that conform to the :ref:`HYDAccessor` protocol.
 
 You might be thinking the overload functions listed require Objective-C++, but
-:ref:`you'd be wrong <FunctionOverloading>`_.
+:ref:`you'd be wrong <FunctionOverloading>`.
 
 
 .. _HYDAccessKeyPath:

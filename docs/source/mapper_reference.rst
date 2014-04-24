@@ -40,7 +40,7 @@ For autocompleting convenience, all the helper functions are prefixed with
 :ref:`HYDMapEnum`.
 
 You might be thinking these overload functions require Objective-C++, but
-:ref:`you'd be wrong <FunctionOverloading>`_.
+:ref:`you'd be wrong <FunctionOverloading>`.
 
 
 .. _TheReverseMapper:
@@ -138,8 +138,8 @@ Formatters that return ``nil`` will make this mapper produce a fatal Hydrant
 error.
 
 For the reverse -- mapping a string to an object with an `NSFormatter`_, use
-:ref:`HYDMapStringToObject`. Calling ``-[reverseMapper]`` will do this with the
-same parameters provided to this mapper.
+:ref:`HYDMapStringToObjectByFormatter`. Calling ``-[reverseMapper]`` will do
+this with the same parameters provided to this mapper.
 
 The helper functions are available for this mapper::
 
@@ -439,7 +439,7 @@ to easily fetch the value transformer by that name.
 
 
 .. _HYDForwardMapper:
-.. _HYDMapFoward:
+.. _HYDMapForward:
 
 HYDMapForward
 =============
@@ -703,8 +703,8 @@ mapping with :ref:`HYDMapObject`::
 .. _HYDMapTypes:
 .. _HYDTypedMapper:
 
-HYDMapType(s)
-=============
+HYDMapTypes
+===========
 
 This mapper does type checking to ensure the given type is as intended.
 Using this mapper can provide type checking to filter out nefarious input that
@@ -943,7 +943,7 @@ Where the first function is aliased to the last function as::
 
     HYDMapWithPostProcessing(HYDMapIdentity(), block, block)
 
-and ``reverseBlock`` is the block that is invoked by the :ref:`TheReversedMapper`.
+and ``reverseBlock`` is the block that is invoked by the :ref:`TheReverseMapper`.
 
 An easy example is to convert an array of keys and values into a dictionary and
 then store it in a property of the resulting object::
@@ -978,7 +978,7 @@ This builds upon various mappers and the Objective-C runtime to achieve the
 dryest code possible, at the expense of internal complexity. It uses the runtime
 to try and intelligently fill mappings:
 
-    - Convert strings to dates with :ref:`HYDStringToDate`
+    - Convert strings to dates with :ref:`HYDMapStringToDate`
     - Type check incoming values with :ref:`HYDMapType`
 
 Since this mapper cannot determine the intended reverse mapping, you must

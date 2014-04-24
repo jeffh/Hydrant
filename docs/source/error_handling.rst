@@ -1,3 +1,7 @@
+.. highlight:: objective-c
+
+.. _HYDError:
+
 =======================
 Handling Hydrant Errors
 =======================
@@ -93,6 +97,8 @@ easily::
 .. warning:: It's worth noting that sourceObject and destinationObject could
              leak sensitive information. Be careful when you're sending
              HYDError's userInfo over the network or logging to disk.
+
+.. _CreatingHydrantErrors:
 
 Creating Hydrant Errors
 =======================

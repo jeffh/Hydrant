@@ -58,7 +58,7 @@ Abstractions over Concretions
 
 Ideally, concrete classes should never have to know about each other by working
 through a protocol. These protocols can be given on object construction to
-provide flexibility. Protocols are also easy to :ref:`test <_TestDriven>`. They
+provide flexibility. Protocols are also easy to :ref:`test <TestDriven>`. They
 provide a stronger assumption of having less intimate knowledge of the
 collaborating object.
 
@@ -169,8 +169,8 @@ exists for syntactic reasons of the DSL.
 
 .. _HYDAccessor:
 
-The Accessor Protocol
-=====================
+Accessor Protocol
+=================
 
 Some mappers use a smaller abstraction called accessors. Accessors describe
 how to set and get values. Surprisingly, they are larger than the :ref:`HYDMapper`

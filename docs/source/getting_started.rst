@@ -230,10 +230,11 @@ The way to do this is with ``HYDMapOptionally``::
                                           @"last_name": @"lastName",
                                           @"homepage": @[HYDMapOptionallyTo(HYDMapStringToURL()), @"homepage"],
                                           @"age": @[HYDMapOptionally(), @"age"],
-                                          @"children": HYDMapArrayOf(HYDMapObject(@"children", [NSDictionary class], [Person class],
-                                                                                  @{@"first_name": @"firstName",
-                                                                                    @"last_name": @"lastName",
-                                                                                    @"age": HYDMapOptionally(@"age")}));
+                                          @"children": @[HYDMapArrayOf(HYDMapObject([NSDictionary class], [Person class],
+                                                                                    @{@"first_name": @"firstName",
+                                                                                      @"last_name": @"lastName",
+                                                                                      @"age": HYDMapOptionally(@"age")}))
+                                                         @"children"];
 
 Here we're making the age and homepage keys optional. Any invalid values will
 produce nil or the zero-value:
@@ -291,14 +292,15 @@ Removing Boilerplate
 ====================
 
 Pretty soon, you'll be typing a lot of these that map to dictionaries. So it is
-implicit as the second argument to ``HYDMapObject``::
+implicit as the second argument to :ref:`HYDMapObject`::
 
 
     id<HYDMapper> mapper = HYDMapObject([NSDictionary class], [Person class], ...);
     // can become (both are equivalent)
     id<HYDMapper> mapper = HYDMapObject([Person class], ...);
 
-Likewise with arrays::
+Likewise with arrays, you can merge :ref:`HYDMapObject` and :ref:`HYDMapArrayOf`
+into :ref:`HYDMapArrayOfObjects`::
 
     // partial snippet from above
     @"children": HYDMapArrayOf(HYDMapObject([NSDictionary class], [Person class], ...))
@@ -318,11 +320,11 @@ So now we have this::
                                                                                 @"age": @"age"}),
                                                          @"children"]});
 
-Using Reflection to Remove More Boilerplate
--------------------------------------------
+Using Reflection to all the Boilerplate
+---------------------------------------
 
 If your JSON is well formed and just requires a little processing to map
-directly to your objects, you can use ``HYDMapReflectively``, which will use
+directly to your objects, you can use :ref:`HYDMapReflectively`, which will use
 introspection of your class to determine how to map your values through.
 Although some information is still required for container types::
 
@@ -335,8 +337,11 @@ Although some information is still required for container types::
                             .propertyToSourceKeyTransformer(snakeToCamelCaseTransformer)
                             .overriding(@{@"children": @[HYDMapArrayOf(childMapper), @"children"]});
 
+The ``mapper`` variable above will map incoming source objects by converting
+snake cased keys to their camel cased variants to map properties together.
+
 The reflective mapper tries a bunch of strategies to parse the incoming data
-in to something reasonable. For example, it tries various different NSDate
+into something reasonable. For example, it tries various different NSDate
 formats and permutations to convert an NSString into an NSDate.
 
 The reflective mapper cannot predict how to convert it back to JSON since it
