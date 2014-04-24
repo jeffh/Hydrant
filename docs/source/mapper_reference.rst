@@ -984,7 +984,7 @@ to try and intelligently fill mappings:
 Since this mapper cannot determine the intended reverse mapping, you must
 explicitly state them.
 
-// TODO: write more
+.. warning:: WIP: Please do not use yet.
 
 .. _HYDMapDispatch:
 .. _HYDDispatchMapper:
