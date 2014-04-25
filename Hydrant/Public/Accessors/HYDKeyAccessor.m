@@ -84,8 +84,7 @@
     NSMutableArray *values = [NSMutableArray arrayWithCapacity:self.keys.count];
     for (NSString *key in self.keys) {
         if ([self canReadKey:key fromSourceObject:sourceObject]) {
-            id value = [sourceObject valueForKey:key];
-            [values addObject:value];
+            [values addObject:[sourceObject valueForKey:key] ?: [NSNull null]];
         } else {
             return nil; // We should return an error; but for backwards compatibility
         }

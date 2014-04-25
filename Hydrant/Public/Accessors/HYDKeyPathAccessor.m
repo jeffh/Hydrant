@@ -79,7 +79,7 @@
     NSMutableArray *values = [NSMutableArray arrayWithCapacity:self.fieldNames.count];
     for (NSString *keyPath in self.fieldNames) {
         if ([self canReadKeyPath:keyPath fromSourceObject:sourceObject]) {
-            [values addObject:[sourceObject valueForKeyPath:keyPath]];
+            [values addObject:[sourceObject valueForKeyPath:keyPath] ?: [NSNull null]];
         } else {
             /* We should return an error, but for backwards compatibility...
             HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorGetViaAccessorFailed

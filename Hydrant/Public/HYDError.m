@@ -1,6 +1,7 @@
 #import "HYDError.h"
 #import "HYDFunctions.h"
 #import "HYDConstants.h"
+#import "HYDAccessor.h"
 
 
 @interface HYDError ()
@@ -12,6 +13,7 @@
 @property (strong, nonatomic) id<HYDAccessor> destinationAccessor;
 @property (strong, nonatomic) NSArray *underlyingErrors;
 @property (strong, nonatomic) NSArray *underlyingFatalErrors;
+@property (strong, nonatomic) NSString *localizedDescription;
 
 @end
 
@@ -173,21 +175,59 @@
         HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationObjectKey, self.destinationObject);
         HYDSetValueForKeyIfNotNil(userInfo, HYDSourceAccessorKey, self.sourceAccessor);
         HYDSetValueForKeyIfNotNil(userInfo, HYDDestinationAccessorKey, self.destinationAccessor);
-        
-        if (self.code == HYDErrorMultipleErrors) {
-            userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Multiple parsing errors occurred (fatal=%lu, total=%lu)",
-                                                                           (unsigned long)self.underlyingFatalErrors.count,
-                                                                           (unsigned long)self.underlyingErrors.count);
-        } else if (!self.sourceAccessor && !self.destinationAccessor) {
-            userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map objects");
-        } else {
-            userInfo[NSLocalizedDescriptionKey] = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'",
-                                                                           HYDStringifyAccessor(self.sourceAccessor),
-                                                                           HYDStringifyAccessor(self.destinationAccessor));
-        }
+        HYDSetValueForKeyIfNotNil(userInfo, NSLocalizedDescriptionKey, self.localizedDescription);
         _userInfo = [userInfo copy];
     }
     return _userInfo;
+}
+
+- (NSString *)localizedDescription
+{
+    if (!_localizedDescription) {
+        switch (self.code) {
+            case HYDErrorMultipleErrors:
+                _localizedDescription = HYDLocalizedStringFormat(@"Multiple parsing errors occurred (fatal=%lu, total=%lu)",
+                                                                 (unsigned long)self.underlyingFatalErrors.count,
+                                                                 (unsigned long)self.underlyingErrors.count);
+                break;
+            case HYDErrorInvalidSourceObjectValue:
+            case HYDErrorInvalidSourceObjectType:
+                _localizedDescription = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@': got a type of %@",
+                                                                 HYDStringifyAccessor(self.sourceAccessor),
+                                                                 HYDStringifyAccessor(self.destinationAccessor),
+                                                                 NSStringFromClass([self.sourceObject class]));
+                break;
+            case HYDErrorInvalidResultingObjectType:
+                _localizedDescription = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@': mapper produced a type of %@ from a source type of %@",
+                                                                 HYDStringifyAccessor(self.sourceAccessor),
+                                                                 HYDStringifyAccessor(self.destinationAccessor),
+                                                                 NSStringFromClass([self.destinationObject class]),
+                                                                 NSStringFromClass([self.sourceObject class]));
+                break;
+
+            case HYDErrorGetViaAccessorFailed:
+                _localizedDescription = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@': failed to read %@ from source object",
+                                                                 HYDStringifyAccessor(self.sourceAccessor),
+                                                                 HYDStringifyAccessor(self.destinationAccessor),
+                                                                 [self.sourceAccessor fieldNames]);
+                break;
+
+            case HYDErrorSetViaAccessorFailed:
+                _localizedDescription = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@': failed to write %@ from destination object",
+                                                                 HYDStringifyAccessor(self.sourceAccessor),
+                                                                 HYDStringifyAccessor(self.destinationAccessor),
+                                                                 [self.destinationAccessor fieldNames]);
+                break;
+
+            default: {
+                _localizedDescription = HYDLocalizedStringFormat(@"Could not map from '%@' to '%@'",
+                                                                 HYDStringifyAccessor(self.sourceAccessor),
+                                                                 HYDStringifyAccessor(self.destinationAccessor));
+                break;
+            }
+        }
+    }
+    return _localizedDescription;
 }
 
 - (NSArray *)underlyingFatalErrors

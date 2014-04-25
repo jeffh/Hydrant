@@ -75,40 +75,38 @@ DEPRECATED_ATTRIBUTE HYD_EXTERN id HYDRootMapper;
  */
 HYD_EXTERN NSString *HYDErrorDomain;
 
-/*! The code that indicates the incoming source object was invalid or a partial
- *  parse error occurred. For mappers that check types, HYDErrorInvalidSourceObjectType
- *  may be returned instead.
- */
-HYD_EXTERN const NSInteger HYDErrorInvalidSourceObjectValue;
-
-/*! The code that indicates the incoming source object's type is invalid.
- *  Not all mappers return this error code.
- */
-HYD_EXTERN const NSInteger HYDErrorInvalidSourceObjectType;
-
-/*! The code that indicates the resulting value it produced, or that a child mapper
- *  produced was an invalid type.
- */
-HYD_EXTERN const NSInteger HYDErrorInvalidResultingObjectType;
-
-/*! The code that indicates the current HYDError contains multiple errors.
- *  This is common for mappers that contain multiple mappers, or apply the same mapper
- *  across multiple objects.
- */
-HYD_EXTERN const NSInteger HYDErrorMultipleErrors;
-
-/*! The code that indicates there was an error when trying to access a given field on
- *  the source object. This can be due to invalid source object (eg - can't access the
- *  fields requested).
- */
-HYD_EXTERN const NSInteger HYDErrorGetViaAccessorFailed;
-
-/*! The code that indicates there was an error when trying to write to a given field on
- *  the source object. This can be due to invalid source object (eg - can't write to the
- *  fields requested), or because the values provided do not match the expected number
- *  of fields to update.
- */
-HYD_EXTERN const NSInteger HYDErrorSetViaAccessorFailed;
+typedef NS_ENUM(NSInteger, HYDErrorCode) {
+    /*! The code that indicates the incoming source object was invalid or a partial
+     *  parse error occurred. For mappers that check types, HYDErrorInvalidSourceObjectType
+     *  may be returned instead.
+     */
+    HYDErrorInvalidSourceObjectValue = 1,
+    /*! The code that indicates the incoming source object's type is invalid.
+     *  Not all mappers return this error code.
+     */
+    HYDErrorInvalidSourceObjectType = 2,
+    /*! The code that indicates the resulting value it produced, or that a child mapper
+     *  produced was an invalid type.
+     */
+    HYDErrorInvalidResultingObjectType = 3,
+    
+    /*! The code that indicates the current HYDError contains multiple errors.
+     *  This is common for mappers that contain multiple mappers, or apply the same mapper
+     *  across multiple objects.
+     */
+    HYDErrorMultipleErrors = 4,
+    /*! The code that indicates there was an error when trying to access a given field on
+     *  the source object. This can be due to invalid source object (eg - can't access the
+     *  fields requested).
+     */
+    HYDErrorGetViaAccessorFailed = 5,
+    /*! The code that indicates there was an error when trying to write to a given field on
+     *  the source object. This can be due to invalid source object (eg - can't write to the
+     *  fields requested), or because the values provided do not match the expected number
+     *  of fields to update.
+     */
+    HYDErrorSetViaAccessorFailed = 6,
+};
 
 /*! The HYDError's userInfo key used to store the fact if this error is fatal.
  *  Fatal errors indicate failure to parse the given source object that meet all the

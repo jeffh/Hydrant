@@ -10,8 +10,8 @@ typedef NS_ENUM(NSUInteger, HYDCamelCaseStyle) {
     HYDCamelCaseUpperStyle,
 };
 
-/*! A value transformer that converts from strings in snake case (snake_case)
- *  into camel case (camelCase or CamelCase).
+/*! A value transformer that converts from strings in
+ *  camel case (camelCase or CamelCase) into snake case (snake_case).
  *
  *  This is useful for key transforming for the reflective mapper.
  *
@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, HYDCamelCaseStyle) {
  *
  *  @see HYDReflectiveMapper
  */
-@interface HYDSnakeToCamelCaseValueTransformer : NSValueTransformer
+@interface HYDCamelToSnakeCaseValueTransformer : NSValueTransformer
 
 - (id)init;
 - (id)initWithCamelCaseStyle:(HYDCamelCaseStyle)camelCaseStyle;

@@ -15,7 +15,7 @@
 #import "HYDUUIDFormatter.h"
 
 // value transformers
-#import "HYDSnakeToCamelCaseValueTransformer.h"
+#import "HYDCamelToSnakeCaseValueTransformer.h"
 #import "HYDIdentityValueTransformer.h"
 #import "HYDBlockValueTransformer.h"
 #import "HYDReversedValueTransformer.h"

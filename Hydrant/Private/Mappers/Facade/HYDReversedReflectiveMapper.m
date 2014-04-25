@@ -27,6 +27,10 @@
             continue;
         }
 
+        if (self.onlyFields.count && ![self.onlyFields containsObject:destinationKey]) {
+            continue;
+        }
+
         if ([excludedFields containsObject:sourceKey]) {
             continue;
         }

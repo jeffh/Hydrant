@@ -4,25 +4,21 @@
 Getting Started
 ===============
 
-Hydrant is designed to be highly flexible in converting a tree of objects into
-another tree of objects. Yeah, that sounds pretty boring and stupid. But
-let's deconstruct what that means.
+Hydrant is designed to be highly flexible in parsing JSON or any other
+structured data (eg - structured NSArrays, NSDictionaries) into Value Objects
+for your application to use. Hydrant can perform validations to ensure the
+data coming in is what you expect when doing these transformations.
 
-You can flexibility parse any parse JSON (eg - structured NSArrays,
-NSDictionaries) into Value Objects for your application to use.
-When doing this transformation, Hydrant can perform validations to ensure the
-data coming in is what you expect.
+This doesn't have to be just JSON. Parsing XML or converting values
+objects to your views and back is possible, but this tutorial will focus on
+JSON.
 
-Of course this doesn't have to be just JSON. Parsing XML or converting values
-objects to your views and back are possible.
-
-Enough talk, it's easier to see the usefulness with some code examples. Let's
-jump right in.
+Enough talk, it's easier to see the usefulness with some code examples.
 
 The Problem
 ===========
 
-Let's look at some json data we just parsed from `NSJSONSerialization <https://developer.apple.com/library/iOS/documentation/Foundation/Reference/NSJSONSerialization_Class/Reference/Reference.html>`_::
+Let's look at some json data we just parsed from `NSJSONSerialization`_::
 
     id json = @{
         @"first_name": @"John",
@@ -39,6 +35,8 @@ Let's look at some json data we just parsed from `NSJSONSerialization <https://d
         ]
     };
 
+.. _NSJSONSerialization: https://developer.apple.com/library/iOS/documentation/Foundation/Reference/NSJSONSerialization_Class/Reference/Reference.html
+
 And we want to convert it to our person object::
 
     @interface Person : NSObject
@@ -52,7 +50,7 @@ And we want to convert it to our person object::
     @implementation Person
     @end
 
-Using this example dictionary, how can we parse this with Hydrant?
+How can we parse this with Hydrant?
 
 Serializing with Hydrant
 ========================
@@ -83,34 +81,28 @@ several variables for readability. But we're doing this to easily see the
 code flow of function calls for a function-by-function breakdown.
 
 This is a declarative way to define how Hydrant should map fields
-from one object to another. In short, we're defining a schema of the JSON
-structure we're expecting to parse. Let's break it down:
+from one object to another. We're defining a schema of the JSON structure we're
+expecting to parse. Let's break it down:
 
-- The first ``HYDMapObject`` is a helper function that constructs an object for
+- The first :ref:`HYDMapObject` is a helper function that constructs an object for
   us to use. The function takes 4 arguments: an id, two classes, and a
-  dictionary. The dictionary's keys correspond to the *first class* while the
-  value corresponds to the *second class*. This defines a mapping from an
+  dictionary. The dictionary's keys correspond to the **first class** while the
+  value corresponds to the **second class**. This defines a mapping from an
   NSDictionary to a Person class. So it's key will map in the same direction.
-  The values can be strings or other objects that support the HYDMapper
+  The values can be strings or other objects that support the :ref:`HYDMapper`
   protocol.
-- ``HYDRootMapper`` is a sentinel value to indicate this argument isn't used.
-  Since the first argument is common to most of Hydrant's helper functions,
-  this is a placeholder value to indicate nothing. It currently maps directly
-  to ``nil``, but that may change in future versions.
-- ``HHYDMapStringToURL`` is another helper function that constructs a HYDMapper
-  object. It converts strings into NSURLs for our Person class.  It only takes
-  an argument of where the URL result is stored -- to the homepage property of
-  the Person class.
-- ``HYDMapArrayOf`` is yet another helper function that constructs a HYDMapper
-  compatible object. It takes an argument of another HYDMapper and uses it to
-  parse an array of objects.
-- The second ``HYDMapObject`` We've seen this again. But now the first argument
+- :ref:`HYDMapStringToURL` is another helper function that constructs a HYDMapper
+  object. It converts strings into ``NSURLs`` for our ``Person`` class.
+- :ref:`HYDMapArrayOf` is yet another helper function that constructs another
+  ``HYDMapper`` object. It takes an argument of another ``HYDMapper`` and uses
+  it to parse an array of objects.
+- Now the second :ref:`HYDMapObject`. But now the first argument
   becomes obvious, it provides the destination of the results of the operation
   -- in this example, to the children property.
 - ``[mapper objectFromSourceObject:json error:nil]`` This actually does the
   conversion on the given JSON data structure and produces a Person class.  The
-  mapper will produce an error if the parsing failed. When it produces a parse
-  error is flexible, but we'll cover that shortly.
+  mapper will produce an error if the parsing failed. This method comes from
+  the :ref:`HYDMapper` protocol.
 - ``[error isFatal]`` This checks the ``HYDError`` for fatalness. Hydrant has two
   notions of errors: fatal and non-fatal errors. Fatal errors are given when
   the object could not be produced under the given requirements.  Non-fatal
@@ -120,14 +112,14 @@ structure we're expecting to parse. Let's break it down:
 The ``mapper`` object can be reused for parsing that same JSON structure to
 produce Person objects. So after the construction, it can be memoized.
 
-For easy access, all helper functions that produce mappers are prefixed with
-``HYDMap``.
+All helper functions that produce ``HYDMapper`` are prefixed with ``HYDMap`` for
+easy auto-completing goodness.
 
 Why not manully parse the JSON?
 ===============================
 
-Let's take a short aside about the default go-to solution - parsing it
-manually.  Here's a sample method to parse it manually::
+Let's take a short aside to talk about the go-to solution - parsing it manually.
+Here's an example of parsing the JSON we got manually::
 
     Person *johnDoe = [Person new];
     johnDoe.firstName = json[@"first_name"];
@@ -163,19 +155,18 @@ Or something less nefarious, but may potentially happen::
 
 That's now going to crash your program when you try to treat NSNull as another
 object you expected (``NSArray``, ``NSNumber``, ``NSString``).  Last time I checked no
-one liked crashes: you, your customers, Apple reviewers. And writing all the
-proper guard code starts becoming error-prone, boring, and adds a lot of noise
-to your code.
+one liked crashes. And writing all the proper guard code starts becoming error-prone,
+boring, and adds a lot of noise to your code.
 
-But wait, I don't need to error check anything! Well, then you don't need to
+But wait, you don't need to error check anything! Then you don't need to
 use Hydrant. Simple as that. No hard feelings that you're not using my library.
 
 Error Handling
 ==============
 
-Of course if you don't know when Hydrant failed to parse something that's just
-as unhelpful. So Hydrant mappers also return errors, which can be used to
-handle errors when parsing the source object. There are three states after the
+Of course, if you don't know when Hydrant failed to parse something that's just
+as unhelpful. So Hydrant mappers return errors, which can be used to handle
+errors when parsing the source object. There are three states after the
 mapper parses the source object::
 
     HYDError *error = nil;
@@ -189,8 +180,8 @@ mapper parses the source object::
         // use john ... it's valid
     }
 
-In practice, checking for ``-[HYDError isFatal]`` is usually the only check you
-need to perform.
+Checking for ``-[HYDError isFatal]`` is usually the only check you need to
+perform in practice. Hydrant errors inherit from ``NSError``.
 
 Hydrant errors contain a lot of state of the library when parsing fails. These
 include the source object (or partial object being parsed), any internal
@@ -213,6 +204,8 @@ defined:
 - Any of the properties that are set that aren't their corresponding property
   types (eg - "age" key is a string).
 
+Read :doc:`error_handling` for more on this topic.
+
 Marking fields as Optional
 ==========================
 
@@ -220,10 +213,10 @@ Most of time, we still want our users to still use the application despite some
 invalid data. We can mark fields to tell Hydrant that some fatal errors are
 actually non-fatal.
 
-This produces the effect of having optional fields that are parsed when
-possible or a fallback value is used instead.
+This produces the effect of having optional fields that are parsed or a fallback
+value is used instead.
 
-The way to do this is with ``HYDMapOptionally``::
+The way to do this is with :ref:`HYDMapOptionally`::
 
     id<HYDMapper> mapper = HYDMapObject[NSDictionary class], [Person class],
                                         @{@"first_name": @"firstName",
@@ -236,18 +229,24 @@ The way to do this is with ``HYDMapOptionally``::
                                                                                       @"age": HYDMapOptionally(@"age")}))
                                                          @"children"];
 
-Here we're making the age and homepage keys optional. Any invalid values will
-produce nil or the zero-value:
+Here we're making the **age** and **homepage** keys optional. Any invalid values
+will produce nil or the zero-value:
 
     - If homepage isn't a valid NSURL, it is nil
     - If age isn't a valid number, it is 0
+
+The format of the dictionary mapper ``HYDMapObject`` expects is::
+
+    @{<KeyPathToRead>: @[<HYDMapper>, <KeyPathToWrite>],
+      <KeyPathToRead>: <KeyPathToWrite>}
 
 We can use this new mapper to selectively populate our array with values that
 are parsable.  We can make our mapper ignore children objects that fail to
 parse::
 
-    id<HYDMapper> mapper = HYDMapArrayOf(HYDMapOptionally(HYDMapObject(HYDRootMapper, [NSDictionary class], [Person class],
-                                                                       @{@"name": @"firstName"})));
+    id<HYDMapper> personMapper = HYDMapObject([NSDictionary class], [Person class],
+                                              @{@"name": @"firstName"});
+    id<HYDMapper> mapper = HYDMapArrayOf(HYDMapOptionallyTo(personMapper));
 
     json = @[@{},
              @{"name": @"John"},
@@ -259,11 +258,12 @@ parse::
     people // => @[<Person: John>]
     error // => non-fatal error
 
-But swapping to two map functions will change the behavior to optionally
+But swapping the two map functions will change the behavior to optionally
 dropping the array when any of the elements fail to parse::
 
-    id<HYDMapper> mapper = HYDMapOptionally(HYDMapArrayOf(HYDMapObject([NSDictionary class], [Person class],
-                                                                       @{@"name": @"firstName"})));
+    id<HYDMapper> personMapper = HYDMapObject([NSDictionary class], [Person class],
+                                              @{@"name": @"firstName"});
+    id<HYDMapper> mapper = HYDMapOptionallyTo(HYDMapArrayOf(personMapper));
 
     json = @[@{},
              @{"name": @"John"},
@@ -280,32 +280,31 @@ The composition of these mappers provides the flexibility and power in Hydrant.
 Converting it back to JSON
 ==========================
 
-Since you've declared the relationship. You can use the mapper to convert the
-person object back into JSON::
+You can use the mapper to convert the person object back into JSON since we just
+declaratively described the JSON structure::
 
-    id<HYDMapper> reversedMapper = [mapper reverseMapperWithDestinationAccessor:HYDRootMapper];
-    id json = [reverseMapper objectFromSourceObject:john error:nil];
+    id<HYDMapper> reversedMapper = [mapper reverseMapper];
+    id json = [reverseMapper objectFromSourceObject:john error:&err];
 
 That will give us our JSON back. Easy as that!
 
 Removing Boilerplate
 ====================
 
-Pretty soon, you'll be typing a lot of these that map to dictionaries. So it is
-implicit as the second argument to :ref:`HYDMapObject`::
-
+Soon, you'll be typing a lot of these maps to dictionaries. We can cut some of
+the cruft we have to type. ``[NSDictionary class]`` is implicit as the second
+argument to :ref:`HYDMapObject`::
 
     id<HYDMapper> mapper = HYDMapObject([NSDictionary class], [Person class], ...);
-    // can become (both are equivalent)
+    // can is equivalent to
     id<HYDMapper> mapper = HYDMapObject([Person class], ...);
 
 Likewise with arrays, you can merge :ref:`HYDMapObject` and :ref:`HYDMapArrayOf`
 into :ref:`HYDMapArrayOfObjects`::
 
-    // partial snippet from above
-    @"children": HYDMapArrayOf(HYDMapObject([NSDictionary class], [Person class], ...))
-    // can become (both are equivalent)
-    @"children": HYDMapArrayOfObjects([Person class], ...)
+    HYDMapArrayOf(HYDMapObject([NSDictionary class], [Person class], ...))
+    // can become
+    HYDMapArrayOfObjects([Person class], ...)
 
 So now we have this::
 
@@ -320,22 +319,24 @@ So now we have this::
                                                                                 @"age": @"age"}),
                                                          @"children"]});
 
+But we can do even better.
+
 Using Reflection to all the Boilerplate
 ---------------------------------------
 
 If your JSON is well formed and just requires a little processing to map
 directly to your objects, you can use :ref:`HYDMapReflectively`, which will use
-introspection of your class to determine how to map your values through.
+introspection of your classes to determine how to map your values.
 Although some information is still required for container types::
 
-    HYDSnakeToCamelCaseValueTransformer *snakeToCamelCaseTransformer = \
-        [[HYDSnakeToCamelCaseValueTransformer alloc] init];
+    HYDCamelToSnakeCaseValueTransformer *transformer = \
+        [[HYDCamelToSnakeCaseValueTransformer alloc] init];
     id<HYDMapper> childMapper = HYDMapReflectively([Person class])
-                                 .propertyToSourceKeyTransformer(snakeToCamelCaseTransformer)
+                                 .keyTransformer(transformer)
                                  .except(@[@"children"]);
     id<HYDMapper> mapper = HYDMapReflectively([Person class])
-                            .propertyToSourceKeyTransformer(snakeToCamelCaseTransformer)
-                            .overriding(@{@"children": @[HYDMapArrayOf(childMapper), @"children"]});
+                            .keyTransformer(transformer)
+                            .customMapping(@{@"children": @[HYDMapArrayOf(childMapper), @"children"]});
 
 The ``mapper`` variable above will map incoming source objects by converting
 snake cased keys to their camel cased variants to map properties together.
@@ -353,16 +354,13 @@ tries a number of strategies for parsing the JSON. We can specify it like so::
     @property (strong, nonatomic) NSDate *birthDate;
     @end
 
-    id<HYDMapper> mapper = HYDMapReflectively(HYDRootMapper, [Person class])
-                            .propertyToSourceKeyTransformer(snakeToCamelCaseTransformer)
-                            .emit([NSDate class], HYDMapDateToString(HYDDateFormatRFC3339));
+    id<HYDMapper> mapper = HYDMapReflectively([NSDictionary class], [Person class])
+                            .keyTransformer(snakeToCamelCaseTransformer)
+                            .mapClass([NSDate class], HYDMapDateToString(HYDDateFormatRFC3339));
 
-This will explicitly tell Hydrant how to emit the given classes back. Otherwise
-its behavior can be unexpected for certain classes. Read the documentation
-about ``HYDReflectiveMapper``, which is the underlying implementation for more
-details specific to this `facade`_ class.
-
-.. _facade: http://en.wikipedia.org/wiki/Facade_pattern
+This will explicitly tell Hydrant how to map types to and from your source
+object. Otherwise its behavior can be unexpected for certain classes. Read the
+documentation about :ref:`HYDMapReflectively` for more details.
 
 That's it! You might like to read up on some of the many mappers you can use.
 But that's all there's to it!

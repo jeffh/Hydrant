@@ -1,14 +1,14 @@
-#import "HYDSnakeToCamelCaseValueTransformer.h"
+#import "HYDCamelToSnakeCaseValueTransformer.h"
 
 
-@interface HYDSnakeToCamelCaseValueTransformer ()
+@interface HYDCamelToSnakeCaseValueTransformer ()
 
 @property (nonatomic, assign) HYDCamelCaseStyle camelCaseStyle;
 
 @end
 
 
-@implementation HYDSnakeToCamelCaseValueTransformer
+@implementation HYDCamelToSnakeCaseValueTransformer
 
 - (id)init
 {
@@ -33,20 +33,13 @@
     NSString *stringValue = value;
     NSMutableString *result = [NSMutableString string];
 
-    BOOL wasPreviousCharacterUnderscored = NO;
     for (NSUInteger i=0; i<stringValue.length; i++) {
-        unichar chr = [stringValue characterAtIndex:i];
+        NSString *character = [stringValue substringWithRange:NSMakeRange(i, 1)];
 
-        if (chr != '_') {
-            NSString *character = [stringValue substringWithRange:NSMakeRange(i, 1)];
-
-            if ((self.camelCaseStyle == HYDCamelCaseUpperStyle && i == 0 && [self isAlphaNumericCharacter:chr]) || wasPreviousCharacterUnderscored) {
-                [result appendString:[character uppercaseString]];
-            } else {
-                [result appendString:[character lowercaseString]];
-            }
+        if ([self isUppercasedString:character] && [self isAlphaNumericCharacter:[character characterAtIndex:0]] && i != 0) {
+            [result appendString:@"_"];
         }
-        wasPreviousCharacterUnderscored = (chr == '_');
+        [result appendString:[character lowercaseString]];
     }
 
     return result;
@@ -61,13 +54,20 @@
     NSString *stringValue = value;
     NSMutableString *result = [NSMutableString string];
 
+    BOOL wasPreviousCharacterUnderscored = NO;
     for (NSUInteger i=0; i<stringValue.length; i++) {
-        NSString *character = [stringValue substringWithRange:NSMakeRange(i, 1)];
+        unichar chr = [stringValue characterAtIndex:i];
 
-        if ([self isUppercasedString:character] && [self isAlphaNumericCharacter:[character characterAtIndex:0]] && i != 0) {
-            [result appendString:@"_"];
+        if (chr != '_') {
+            NSString *character = [stringValue substringWithRange:NSMakeRange(i, 1)];
+
+            if ((self.camelCaseStyle == HYDCamelCaseUpperStyle && i == 0 && [self isAlphaNumericCharacter:chr]) || wasPreviousCharacterUnderscored) {
+                [result appendString:[character uppercaseString]];
+            } else {
+                [result appendString:[character lowercaseString]];
+            }
         }
-        [result appendString:[character lowercaseString]];
+        wasPreviousCharacterUnderscored = (chr == '_');
     }
 
     return result;

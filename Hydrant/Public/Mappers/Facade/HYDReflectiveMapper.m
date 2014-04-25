@@ -38,6 +38,7 @@
                     sourceClass:sourceClass
                destinationClass:destinationClass
                  optionalFields:[NSSet set]
+                     onlyFields:[NSSet set]
                  excludedFields:[NSSet set]
               overriddenMapping:@{}
                     typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURL(),
@@ -60,17 +61,20 @@
          sourceClass:(Class)sourceClass
     destinationClass:(Class)destinationClass
       optionalFields:(NSSet *)optionalFields
+          onlyFields:(NSSet *)onlyFields
       excludedFields:(NSSet *)excludedFields
    overriddenMapping:(NSDictionary *)overriddenMapping
          typeMapping:(NSDictionary *)typeMapping
       keyTransformer:(NSValueTransformer *)keyTransformer
 {
+    NSAssert(!(onlyFields.count && excludedFields.count), @"Ambigious mapping. Cannot have only(%@) and exclude(%@) specified.", onlyFields, excludedFields);
     self = [super init];
     if (self) {
         self.innerMapper = innerMapper;
         self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
         self.optionalFields = optionalFields;
+        self.onlyFields = onlyFields;
         self.excludedFields = excludedFields;
         self.typeMapping = typeMapping;
 
@@ -107,6 +111,7 @@
                                                    sourceClass:self.destinationClass
                                               destinationClass:self.sourceClass
                                                 optionalFields:self.optionalFields
+                                                    onlyFields:self.onlyFields
                                                 excludedFields:self.excludedFields
                                              overriddenMapping:HYDReversedKeyValueDictionary(self.overriddenMapping)
                                                    typeMapping:self.typeMapping
@@ -114,6 +119,21 @@
 }
 
 #pragma mark - Public
+
+- (HYDReflectiveMapper *(^)(NSArray *propertyNames))only
+{
+    return ^(NSArray *propertyNames) {
+        return [[[self class] alloc] initWithMapper:self.innerMapper
+                                        sourceClass:self.sourceClass
+                                   destinationClass:self.destinationClass
+                                     optionalFields:self.optionalFields
+                                         onlyFields:[NSSet setWithArray:propertyNames]
+                                     excludedFields:self.excludedFields
+                                  overriddenMapping:self.overriddenMapping
+                                        typeMapping:self.typeMapping
+                                     keyTransformer:self.destinationToSourceKeyTransformer];
+    };
+}
 
 - (HYDReflectiveMapper *(^)(Class destinationClass, id<HYDMapper> mapper))mapClass
 {
@@ -124,10 +144,11 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                         onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
                                         typeMapping:newClassMapping
-                                     keyTransformer:self.keyTransformer];
+                                     keyTransformer:self.destinationToSourceKeyTransformer];
     };
 }
 
@@ -138,10 +159,11 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:[NSSet setWithArray:optionalFields]
+                                         onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
                                         typeMapping:self.typeMapping
-                                     keyTransformer:self.keyTransformer];
+                                     keyTransformer:self.destinationToSourceKeyTransformer];
     };
 }
 
@@ -152,10 +174,11 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                         onlyFields:self.onlyFields
                                      excludedFields:[NSSet setWithArray:excludedFields]
                                   overriddenMapping:self.overriddenMapping
                                         typeMapping:self.typeMapping
-                                     keyTransformer:self.keyTransformer];
+                                     keyTransformer:self.destinationToSourceKeyTransformer];
     };
 }
 
@@ -166,10 +189,11 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                         onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:overriddenMapping
                                         typeMapping:self.typeMapping
-                                     keyTransformer:self.keyTransformer];
+                                     keyTransformer:self.destinationToSourceKeyTransformer];
     };
 }
 
@@ -180,6 +204,7 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                         onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
                                         typeMapping:self.typeMapping
@@ -212,6 +237,10 @@
             continue;
         }
 
+        if (self.onlyFields.count && ![self.onlyFields containsObject:destinationKey]) {
+            continue;
+        }
+
         if ([self.excludedFields containsObject:destinationKey]) {
             continue;
         }
@@ -223,6 +252,10 @@
 
         results[sourceKey] = HYDMap(mapper, HYDAccessDefault(destinationKey));
     }
+
+    results = [HYDNormalizeKeyValueDictionary(results, ^id<HYDAccessor>(NSArray *fields) {
+        return HYDAccessDefault(fields);
+    }) mutableCopy];
 
     [results addEntriesFromDictionary:self.overriddenMapping];
     return results;

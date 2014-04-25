@@ -8,6 +8,7 @@
 @property (strong, nonatomic) Class destinationClass;
 
 @property (copy, nonatomic) NSSet *optionalFields;
+@property (copy, nonatomic) NSSet *onlyFields;
 @property (copy, nonatomic) NSSet *excludedFields;
 @property (copy, nonatomic) NSDictionary *overriddenMapping;
 @property (copy, nonatomic) NSDictionary *typeMapping;
