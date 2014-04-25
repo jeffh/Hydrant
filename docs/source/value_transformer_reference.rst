@@ -70,12 +70,12 @@ transformer converts:
 The given value transformer should be reversable.
 
 
-.. _HYDSnakeToCamelCaseValueTransformer:
+.. _HYDCamelToSnakeCaseValueTransformer:
 
-HYDSnakeToCamelCaseValueTransformer
+HYDCamelToSnakeCaseValueTransformer
 ===================================
 
-This value transformer converts snake case to camel case. You can optionally
+This value transformer converts camel case to snake case. You can optionally
 specific if it is UpperCamelCase or lowerCamelCase by specifying one of the
 following enums::
 
@@ -87,7 +87,7 @@ This transformer expects ``NSStrings``. This is useful for
 :ref:`HYDMapReflectively` to convert snake-cased JSON keys into the more
 familiar Objective-C style of lower camel-case::
 
-    HYDSnakeToCamelCaseValueTransformer *transformer = [[HYDSnakeToCamelCaseValueTransformer alloc] initWithStyle:HYDCamelCaseUpperStyle];
+    HYDCamelToSnakeCaseValueTransformer *transformer = [[HYDCamelToSnakeCaseValueTransformer alloc] initWithStyle:HYDCamelCaseUpperStyle];
 
     [transformer transformValue:@"foo_bar"] // => @"FooBar"
     [transformer reverseTransformedValue:@"FooBar"] // => @"foo_bar"
