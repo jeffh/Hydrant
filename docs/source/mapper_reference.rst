@@ -608,6 +608,33 @@ returned to the consumer of ``mapper``.
     HYDMapFirstMapperInArray(NSArray *mappers)
 
 
+.. _HYDMapSplit:
+.. _HYDSplitMapper:
+
+HYDMapSplit
+===========
+
+This mapper allows you to replace the reverseMapper of the given mapper. This
+can be useful if a mapper does not provide the reverse mapper implementation
+you prefer, but want its source-to-destination mapping capabilities::
+
+    [HYDMapToString() reverseMapper]; // => raises exception
+
+    id<HYDMapper> mapper = HYDMapSplit(HYDMapToString(), HYDMapIdentity());
+
+    HYDError *err = nil;
+    [mapper objectFromSourceObject:@1 error:&err]; // => @"1"
+
+    [mapper reverseMapper] // => returns HYDMapIdentity()
+
+There is only one helper function::
+
+    HYDMapSplit(id<HYDMapper> originalMapper, id<HYDMapper> reverseMapper);
+
+Internally, Hydrant uses this for :ref:`HYDMapReflectively` to allow basic
+type coercion between strings and numbers.
+
+
 .. _HYDMapNonFatally:
 .. _HYDMapNonFatallyWithDefault:
 .. _HYDMapNonFatallyWithDefaultFactory:
@@ -637,6 +664,7 @@ are received. By default, ``nil`` is returned.
 Also, you might want to use :ref:`HYDMapOptionally`, which composition this
 with :ref:`HYDMapNotNull`.
 
+
 .. _HYDMapNotNull:
 .. _HYDMapNotNullFrom:
 .. _HYDNotNullMapper:
@@ -660,6 +688,7 @@ There are helper functions::
 
 Also, you might want to use :ref:`HYDMapOptionally`, which composition this
 with :ref:`HYDMapNonFatally`.
+
 
 .. _HYDMapOptionally:
 .. _HYDMapOptionallyTo:
