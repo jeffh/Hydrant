@@ -35,7 +35,7 @@
 }
 
 
-#pragma mark - <HYDMapper>
+#pragma mark - HYDMapper
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {

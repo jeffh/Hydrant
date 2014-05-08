@@ -56,7 +56,7 @@
             self.wrappedMapper];
 }
 
-#pragma mark - <HYDMapper>
+#pragma mark - HYDMapper
 
 - (id)objectFromSourceObject:(id)sourceCollection error:(__autoreleasing HYDError **)error
 {

@@ -2,7 +2,7 @@
 #import "HYDIdentityMapper.h"
 
 
-HYD_EXTERN
+HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapOptionally(void)
 {
     return HYDMapOptionallyTo(HYDMapIdentity());

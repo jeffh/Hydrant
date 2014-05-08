@@ -8,8 +8,8 @@
  *
  *  The implementation of this mapper simply uses -[description].
  */
-HYD_EXTERN
-id<HYDMapper> HYDMapToString();
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapToString(void);
 
 
 /*! Constructs a mapper to convert any object into an NSString type.

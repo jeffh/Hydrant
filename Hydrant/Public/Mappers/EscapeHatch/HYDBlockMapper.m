@@ -36,7 +36,7 @@
     return [NSString stringWithFormat:@"<%@>", NSStringFromClass(self.class)];
 }
 
-#pragma mark - <HYDMapper>
+#pragma mark - HYDMapper
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {

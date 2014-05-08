@@ -4,8 +4,8 @@
 #import "HYDIdentityMapper.h"
 
 
-HYD_EXTERN
-id<HYDMapper> HYDMapToString()
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapToString(void)
 {
     return HYDMapToStringFrom(HYDMapIdentity());
 }

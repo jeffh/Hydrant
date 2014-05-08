@@ -42,12 +42,12 @@ describe(@"HYDReflectiveMapper", ^{
 
         mapper = ({
             HYDMapReflectively([HYDSPerson class])
-            .mapClass([NSDate class], HYDMapStringToDate(HYDDateFormatRFC3339))
+            .mapType([NSDate class], HYDMapStringToDate(HYDDateFormatRFC3339))
             .optional(@[@"birthDate", @"homepage", @"siblings"])
             .except(@[@"parent"])
             .customMapping(@{@"first_name": @[childMapper2, @"firstName"],
-                          fakeAccessor: @"age",
-                          @"identifier": @[childMapper1, @"identifier"]})
+                             fakeAccessor: @"age",
+                             @"identifier": @[childMapper1, @"identifier"]})
             .keyTransformer([[HYDBlockValueTransformer alloc] initWithBlock:^id(NSString *property) {
                 NSDictionary *mapping = @{@"lastName": @"last_name",
                                           @"homepage": @"homepage",
@@ -76,6 +76,23 @@ describe(@"HYDReflectiveMapper", ^{
         context(@"when the source object is valid without any missing fields", ^{
             beforeEach(^{
                 sourceObject = validSourceObject;
+            });
+
+            it(@"should parse the object into a valid person", ^{
+                parsedObject should equal(expectedPerson);
+            });
+
+            it(@"should not return an error", ^{
+                error should be_nil;
+            });
+        });
+
+        context(@"when the source object requires coercing types", ^{
+            beforeEach(^{
+                sourceObject = @{@"firstName": @1};
+                mapper = HYDMapReflectively([HYDSPerson class]).only(@[@"firstName"]);
+                expectedPerson = [[HYDSPerson alloc] init];
+                expectedPerson.firstName = @"1";
             });
 
             it(@"should parse the object into a valid person", ^{

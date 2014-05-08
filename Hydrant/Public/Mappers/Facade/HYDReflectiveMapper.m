@@ -19,9 +19,11 @@
 #import "HYDFirstMapper.h"
 #import "HYDToStringMapper.h"
 #import "HYDThreadMapper.h"
+#import "HYDStringToUUIDMapper.h"
 
 #import "HYDReflectiveMapper+Protected.h"
 #import "HYDMapping.h"
+#import "HYDSplitMapper.h"
 
 
 @implementation HYDReflectiveMapper
@@ -33,6 +35,7 @@
 }
 
 - (id)initWithMapper:(id<HYDMapper>)innerMapper
+    innerTypesMapper:(id<HYDMapper>)innerTypesMapper
          sourceClass:(Class)sourceClass
     destinationClass:(Class)destinationClass
 {
@@ -43,9 +46,11 @@
                      onlyFields:[NSSet set]
                  excludedFields:[NSSet set]
               overriddenMapping:@{}
-                    typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURL(),
-                                  NSStringFromClass([NSNumber class]): HYDMapStringToDecimalNumber(),
-                                  NSStringFromClass([NSDate class]): HYDMapStringToAnyDate(HYDMapToString())}
+                    typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURLFrom(innerTypesMapper),
+                                  NSStringFromClass([NSUUID class]): HYDMapStringToUUIDFrom(innerTypesMapper),
+                                  NSStringFromClass([NSNumber class]): HYDMapStringToNumber(innerTypesMapper),
+                                  NSStringFromClass([NSDate class]): HYDMapStringToAnyDate(innerTypesMapper),
+                                  NSStringFromClass([NSString class]): innerTypesMapper}
                  keyTransformer:[HYDIdentityValueTransformer new]];
 }
 
@@ -88,7 +93,7 @@
             NSStringFromClass(self.destinationClass)];
 }
 
-#pragma mark - <HYDMapper>
+#pragma mark - HYDMapper
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
@@ -127,7 +132,7 @@
     };
 }
 
-- (HYDReflectiveMapper *(^)(Class destinationClass, id<HYDMapper> mapper))mapClass
+- (HYDReflectiveMapper *(^)(Class destinationClass, id<HYDMapper> mapper))mapType
 {
     return ^(Class destinationClass, id<HYDMapper> mapper) {
         NSMutableDictionary *newClassMapping = [self.typeMapping mutableCopy];
@@ -273,6 +278,7 @@ HYD_EXTERN_OVERLOADED
 HYDReflectiveMapper *HYDMapReflectively(id<HYDMapper> innerMapper, Class sourceClass, Class destinationClass)
 {
     return [[HYDReflectiveMapper alloc] initWithMapper:innerMapper
+                                      innerTypesMapper:HYDMapSplit(HYDMapToString(), HYDMapIdentity())
                                            sourceClass:sourceClass
                                       destinationClass:destinationClass];
 }

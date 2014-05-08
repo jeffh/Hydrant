@@ -8,10 +8,11 @@ typedef NSString *(^KeyTransformBlock)(NSString *propertyName);
 @interface HYDReflectiveMapper : NSObject <HYDMapper>
 
 - (id)initWithMapper:(id<HYDMapper>)innerMapper
+    innerTypesMapper:(id<HYDMapper>)innerTypesMapper
          sourceClass:(Class)sourceClass
     destinationClass:(Class)destinationClass;
 
-@property (strong, nonatomic, readonly) HYDReflectiveMapper *(^mapClass)(Class destinationClass, id<HYDMapper> mapper);
+@property (strong, nonatomic, readonly) HYDReflectiveMapper *(^mapType)(Class destinationClass, id<HYDMapper> mapper);
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^optional)(NSArray *propertyNames);
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^only)(NSArray *propertyNames);
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^except)(NSArray *propertyNames);

@@ -6,7 +6,7 @@
 
 /*! Constructs a mapper that is the composition of HYDMapNonFatally(HYDMapNotNull(...)).
  */
-HYD_EXTERN
+HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapOptionally(void);
 
 /*! Constructs a mapper that is the composition of HYDMapNonFatally(HYDMapNotNull(...)).

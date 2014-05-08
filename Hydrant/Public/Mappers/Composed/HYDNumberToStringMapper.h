@@ -2,10 +2,10 @@
 
 @protocol HYDMapper;
 
-/*! Constructs a mapper that converts a number to a string.
+/*! Constructs a mapper that converts a decimal number to a string.
  */
-HYD_EXTERN
-id<HYDMapper> HYDMapDecimalNumberToString(void);
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapNumberToString(void);
 
 /*! Constructs a mapper that converts a number to a string.
  *
@@ -47,3 +47,10 @@ HYD_REQUIRE_NON_NIL(1);
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatter *numberFormatter)
 HYD_REQUIRE_NON_NIL(1,2);
+
+#pragma mark - Pending Deprecation
+
+/*! Constructs a mapper that converts a number to a string.
+ */
+HYD_EXTERN
+id<HYDMapper> HYDMapDecimalNumberToString(void);

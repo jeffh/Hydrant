@@ -31,7 +31,7 @@
             self.mapper];
 }
 
-#pragma mark - <HYDMapper>
+#pragma mark - HYDMapper
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
@@ -64,14 +64,20 @@
 
 @end
 
-HYD_EXTERN
+HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapNotNull(void)
 {
-    return HYDMapNotNullFrom(HYDMapIdentity());
+    return HYDMapNotNull(HYDMapIdentity());
 }
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapNotNullFrom(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapNotNullFrom(id<HYDMapper> innerMapper)
 {
-    return [[HYDNotNullMapper alloc] initWithMapper:mapper];
+    return HYDMapNotNull(innerMapper);
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapNotNull(id<HYDMapper> innerMapper)
+{
+    return [[HYDNotNullMapper alloc] initWithMapper:innerMapper];
 }

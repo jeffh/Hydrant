@@ -4,8 +4,8 @@
 #import "HYDIdentityMapper.h"
 
 
-HYD_EXTERN
-id<HYDMapper> HYDMapDecimalNumberToString(void)
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapNumberToString(void)
 {
     return HYDMapNumberToString(NSNumberFormatterDecimalStyle);
 }
@@ -42,3 +42,10 @@ id<HYDMapper> HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatter *numb
     return HYDMapObjectToStringByFormatter(mapper, numberFormatter);
 }
 
+#pragma mark - Pending Deprecation
+
+HYD_EXTERN
+id<HYDMapper> HYDMapDecimalNumberToString(void)
+{
+    return HYDMapNumberToString(NSNumberFormatterDecimalStyle);
+}
