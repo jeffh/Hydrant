@@ -29,5 +29,10 @@
 HYD_EXTERN
 HYDIdentityMapper *HYDMapIdentity(void)
 {
-    return [[HYDIdentityMapper alloc] init];
+    static HYDIdentityMapper *HYDIdentityMapperSharedInstance__;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        HYDIdentityMapperSharedInstance__ = [[HYDIdentityMapper alloc] init];
+    });
+    return HYDIdentityMapperSharedInstance__;
 }

@@ -17,6 +17,8 @@
 #import "HYDStringToDateMapper.h"
 #import "HYDDotNetDateFormatter.h"
 #import "HYDFirstMapper.h"
+#import "HYDToStringMapper.h"
+#import "HYDThreadMapper.h"
 
 #import "HYDReflectiveMapper+Protected.h"
 #import "HYDMapping.h"
@@ -43,17 +45,7 @@
               overriddenMapping:@{}
                     typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURL(),
                                   NSStringFromClass([NSNumber class]): HYDMapStringToDecimalNumber(),
-                                  NSStringFromClass([NSDate class]): HYDMapFirst(HYDMapStringToDate(HYDDateFormatRFC3339_milliseconds),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC3339),
-                                                                                 HYDMapStringToDate([HYDDotNetDateFormatter new]),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC822),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_day),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_day_gmt),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_day_seconds),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_day_seconds_gmt),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_seconds),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_seconds_gmt),
-                                                                                 HYDMapStringToDate(HYDDateFormatRFC822_gmt))}
+                                  NSStringFromClass([NSDate class]): HYDMapStringToAnyDate(HYDMapToString())}
                  keyTransformer:[HYDIdentityValueTransformer new]];
 }
 

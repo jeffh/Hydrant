@@ -231,9 +231,15 @@ The following helper functions are available::
     HYDMapStringToDate(NSDateFormatter *dateFormatter)
     HYDMapStringToDate(id<HYDMapper> innerMapper, NSString *formatString);
     HYDMapStringToDate(id<HYDMapper> innerMapper, NSDateFormatter *dateFormatter)
+    HYDMapStringToAnyDate();
+    HYDMapStringToAnyDate(id<HYDMapper> innerMapper);
 
 Either you can provide date format string (or use one of Hydrant's
 :ref:`DateFormatConstants`) or use a customized ``NSDateFormatter`` instance.
+
+``HYDMapStringToAnyDate`` attempts to parse the given string as any of the
+dates specified in :ref:`DateFormatConstants`. Unsurprisingly, the mapper that
+the function produces will have unreliable results when reversing.
 
 The reverse of this mapper is :ref:`HYDMapDateToString`.
 
@@ -979,10 +985,17 @@ dryest code possible, at the expense of internal complexity. It uses the runtime
 to try and intelligently fill mappings:
 
     - Convert strings to dates with :ref:`HYDMapStringToDate`
-    - Type check incoming values with :ref:`HYDMapType`
+    - Coerces some core types among each other: ``NSString``, ``NSNumber``,
+      c numerics.
+    - Type check incoming values with :ref:`HYDMapType` to match the types
+      of the properties being assigned
+    - Type check the incoming source object before doing any parsing.
 
 Since this mapper cannot determine the intended reverse mapping, you must
 explicitly state them.
+
+.. info:: Currently, this mapper does not support non-numeric c types (structs,
+          C++ classes, etc.).
 
 .. warning:: WIP: Please do not use yet.
 

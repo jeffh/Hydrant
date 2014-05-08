@@ -19,6 +19,7 @@
 #import "HYDIdentityValueTransformer.h"
 #import "HYDBlockValueTransformer.h"
 #import "HYDReversedValueTransformer.h"
+#import "HYDStringValueTransformer.h"
 
 // accessors
 #import "HYDDefaultAccessor.h"
@@ -56,6 +57,7 @@
 #import "HYDUUIDToString.h"
 #import "HYDStringToUUIDMapper.h"
 #import "HYDTypedObjectMapper.h"
+#import "HYDToStringMapper.h"
 
 // facade mappers - mappers that provide easy interfaces to the simple ones above
 #import "HYDReflectiveMapper.h"
