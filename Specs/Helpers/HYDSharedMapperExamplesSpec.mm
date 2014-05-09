@@ -57,7 +57,13 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
 
         if (innerMapper) {
             innerMapper.sourceObjectsReceived should equal(@[objectToGive]);
-            innerMapper.objectsToReturn should equal(reverseInnerMapper.sourceObjectsReceived);
+
+            if (sourceObjectsMatcher) {
+                [innerMapper.objectsToReturn count] should equal([reverseInnerMapper.sourceObjectsReceived count]);
+                sourceObjectsMatcher([innerMapper.objectsToReturn firstObject], [reverseInnerMapper.sourceObjectsReceived firstObject]);
+            } else {
+                innerMapper.objectsToReturn should equal(reverseInnerMapper.sourceObjectsReceived);
+            }
         } else {
             if (sourceObjectsMatcher) {
                 sourceObjectsMatcher(innerMapper.objectsToReturn, reverseInnerMapper.sourceObjectsReceived);
@@ -75,6 +81,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
     __block id expectedParsedObject;
 
     __block HYDSFakeMapper *innerMapper;
+    __block HYDErrorCode errorCode;
     __block id<HYDAccessor> destinationAccessor;
     __block void (^parsedObjectsMatcher)(id actual, id expected);
 
@@ -86,6 +93,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
 
         // optional
         innerMapper = scope[@"innerMapper"];
+        errorCode = scope[@"errorCode"] ? ((HYDErrorCode)[scope[@"errorCode"] integerValue]) : HYDErrorInvalidSourceObjectValue;
         destinationAccessor = scope[@"destinationAccessor"];
         parsedObjectsMatcher = scope[@"parsedObjectsMatcher"];
 
@@ -178,7 +186,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             });
 
             it(@"should provide a fatal error", ^{
-                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(errorCode);
                 if (destinationAccessor) {
                     error.userInfo[HYDDestinationAccessorKey] should equal(destinationAccessor);
                 }
@@ -199,7 +207,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             });
 
             it(@"should produce a fatal error", ^{
-                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectValue);
+                error should be_a_fatal_error.with_code(errorCode);
                 if (destinationAccessor) {
                     error.userInfo[HYDDestinationAccessorKey] should equal(destinationAccessor);
                 }

@@ -2,11 +2,11 @@
 #import "HYDError.h"
 #import "HYDReversedValueTransformerMapper.h"
 #import "HYDIdentityMapper.h"
+#import "HYDThreadMapper.h"
 
 
 @interface HYDValueTransformerMapper ()
 
-@property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) NSValueTransformer *valueTransformer;
 
 @end
@@ -20,11 +20,10 @@
     return nil;
 }
 
-- (id)initWithMapper:(id<HYDMapper>)innerMapper valueTransformer:(NSValueTransformer *)valueTransformer
+- (id)initWithValueTransformer:(NSValueTransformer *)valueTransformer
 {
     self = [super init];
     if (self) {
-        self.innerMapper = innerMapper;
         self.valueTransformer = valueTransformer;
     }
     return self;
@@ -34,10 +33,9 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %@ with %@>",
+    return [NSString stringWithFormat:@"<%@: %@>",
             NSStringFromClass(self.class),
-            self.valueTransformer,
-            self.innerMapper];
+            self.valueTransformer];
 }
 
 #pragma mark - HYDMapper
@@ -49,9 +47,7 @@
 
 - (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapper];
-    return [[HYDReversedValueTransformerMapper alloc] initWithMapper:reversedInnerMapper
-                                                    valueTransformer:self.valueTransformer];
+    return [[HYDReversedValueTransformerMapper alloc] initWithValueTransformer:self.valueTransformer];
 }
 
 @end
@@ -59,30 +55,29 @@
 HYD_EXTERN_OVERLOADED
 HYDValueTransformerMapper *HYDMapValue(id<HYDMapper> mapper, NSValueTransformer *valueTransformer)
 {
-    return [[HYDValueTransformerMapper alloc] initWithMapper:mapper
-                                            valueTransformer:valueTransformer];
+    return HYDMapThread(mapper, HYDMapValue(valueTransformer));
 }
 
 HYD_EXTERN_OVERLOADED
 HYDValueTransformerMapper *HYDMapValue(id<HYDMapper> mapper, NSString *valueTransformerName)
 {
-    NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:valueTransformerName];
-    if (!transformer) {
-        [NSException raise:NSInvalidArgumentException
-                    format:@"No transformer found when doing: [NSValueTransformer: valueTransformerForName:@\"%@\"]",
-                           valueTransformerName];
-    }
-    return HYDMapValue(mapper, transformer);
+    return HYDMapThread(mapper, HYDMapValue(valueTransformerName));
 }
 
 HYD_EXTERN_OVERLOADED
 HYDValueTransformerMapper *HYDMapValue(NSString *valueTransformerName)
 {
-    return HYDMapValue(HYDMapIdentity(), valueTransformerName);
+    NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:valueTransformerName];
+    if (!transformer) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"No transformer found when doing: [NSValueTransformer: valueTransformerForName:@\"%@\"]",
+         valueTransformerName];
+    }
+    return HYDMapValue(transformer);
 }
 
 HYD_EXTERN_OVERLOADED
 HYDValueTransformerMapper *HYDMapValue(NSValueTransformer *valueTransformer)
 {
-    return HYDMapValue(HYDMapIdentity(), valueTransformer);
+    return [[HYDValueTransformerMapper alloc] initWithValueTransformer:valueTransformer];
 }
