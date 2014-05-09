@@ -51,7 +51,7 @@
                                   NSStringFromClass([NSUUID class]): HYDMapStringToUUIDFrom(innerTypesMapper),
                                   NSStringFromClass([NSNumber class]): HYDMapStringToNumber(innerTypesMapper),
                                   NSStringFromClass([NSDate class]): HYDMapFirst(HYDMapStringToAnyDate(innerTypesMapper),
-                                                                                 HYDMapNumberToDateSince1970()),
+                                                                                 HYDMapNumberToDateSince1970(innerTypesMapper)),
                                   NSStringFromClass([NSString class]): innerTypesMapper}
                  keyTransformer:[HYDIdentityValueTransformer new]];
 }

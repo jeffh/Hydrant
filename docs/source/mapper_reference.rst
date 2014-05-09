@@ -1083,9 +1083,9 @@ then store it in a property of the resulting object::
 HYDMapReflectively
 ==================
 
-This builds upon various mappers and the Objective-C runtime to achieve the
-dryest code possible, at the expense of internal complexity (ie - "Magic"). It
-uses the runtime to try and intelligently fill mappings:
+This builds upon various mappers and the Objective-C runtime to in the name of
+dry code at the expense of internal complexity (thus, debuggability). It uses
+the runtime to try and intelligently generate mappings:
 
     - Convert strings to dates with :ref:`HYDMapStringToAnyDate`
     - Convert numbers to dates with :ref:`HYDMapNumberToDateSince1970`
@@ -1103,9 +1103,7 @@ default.
 .. info:: Currently, this mapper does not support non-numeric c types (structs,
           C++ classes, etc.).
 
-.. info:: This mapper manages internal state and is definitely not thread-safe.
-
-.. warning:: WIP: Please do not use yet.
+.. info:: This mapper has mutable internal state and is not thread-safe.
 
 
 .. _HYDMapDispatch:
@@ -1124,3 +1122,4 @@ HYDThreadMapper
 ===============
 
 .. warning:: Experimental: Please do not use yet.
+
