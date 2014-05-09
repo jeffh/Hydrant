@@ -5,9 +5,11 @@
 #import "HYDThreadMapper.h"
 
 
-@interface HYDReversedValueTransformerMapper ()
+@interface HYDReversedValueTransformerMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) NSValueTransformer *valueTransformer;
+
+- (id)initWithValueTransformer:(NSValueTransformer *)valueTransformer;
 
 @end
 
@@ -53,7 +55,7 @@
 
 - (id<HYDMapper>)reverseMapper
 {
-    return [[HYDValueTransformerMapper alloc] initWithValueTransformer:self.valueTransformer];
+    return HYDMapValue(self.valueTransformer);
 }
 
 @end

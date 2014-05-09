@@ -3,13 +3,6 @@
 
 typedef id(^HYDConversionBlock)(id incomingValue, __autoreleasing HYDError **error);
 
-@interface HYDBlockMapper : NSObject <HYDMapper>
-
-- (id)initWithMapper:(id<HYDMapper>)mapper
-        convertBlock:(HYDConversionBlock)convertBlock
-        reverseBlock:(HYDConversionBlock)reverseConvertBlock;
-
-@end
 
 /*! Constructs a HYDBlockMapper that accepts a block to convert a given value to-and-from.
  *  It's worth noting that the given block is also used for reverse mapping.

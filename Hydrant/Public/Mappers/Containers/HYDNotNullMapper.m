@@ -4,9 +4,11 @@
 #import "HYDFunctions.h"
 
 
-@interface HYDNotNullMapper ()
+@interface HYDNotNullMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) id<HYDMapper> mapper;
+
+- (id)initWithMapper:(id<HYDMapper>)mapper;
 
 @end
 

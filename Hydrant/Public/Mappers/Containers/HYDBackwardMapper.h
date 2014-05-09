@@ -1,13 +1,6 @@
 #import "HYDBase.h"
 #import "HYDMapper.h"
 
-@interface HYDBackwardMapper : NSObject <HYDMapper>
-
-- (id)initWithMapper:(id<HYDMapper>)mapper
-        walkAccessor:(id<HYDAccessor>)walkAccessor
-    destinationClass:(Class)destinationClass;
-
-@end
 
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapBackward(id<HYDAccessor> accessor, Class destinationClass, id<HYDMapper> childMapper)

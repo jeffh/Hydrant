@@ -9,7 +9,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDFirstMapperSpec)
 
 describe(@"HYDFirstMapper", ^{
-    __block HYDFirstMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block HYDSFakeMapper *child1;
     __block HYDSFakeMapper *child2;
     __block HYDSFakeMapper *child3;

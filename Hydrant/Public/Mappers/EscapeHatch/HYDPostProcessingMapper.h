@@ -5,13 +5,6 @@
 typedef void(^HYDPostProcessingBlock)(id sourceObject, id resultingObject, __autoreleasing HYDError **error);
 
 
-@interface HYDPostProcessingMapper : NSObject <HYDMapper>
-
-- (id)initWithMapper:(id<HYDMapper>)mapper processBlock:(HYDPostProcessingBlock)block reverseProcessBlock:(HYDPostProcessingBlock)reverseBlock;
-
-@end
-
-
 /*! Constructs a HYDPostProcessingMapper that accepts two blocks to post-mutate the resulting object given the source object.
  *  The second block is used for reverse mapping.
  *

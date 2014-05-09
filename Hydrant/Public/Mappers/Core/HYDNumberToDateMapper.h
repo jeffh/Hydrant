@@ -2,15 +2,6 @@
 #import "HYDMapper.h"
 #import "HYDConstants.h"
 
-
-@interface HYDNumberToDateMapper : NSObject <HYDMapper>
-
-- (id)init;
-- (id)initWithNumericUnit:(HYDDateTimeUnit)unit sinceDate:(NSDate *)sinceDate;
-
-@end
-
-
 /*! Returns a mapper that converts numbers to NSDates.
  *  The number should be seconds relative to 1970.
  */

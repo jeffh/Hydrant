@@ -3,9 +3,11 @@
 #import "HYDError.h"
 
 
-@interface HYDThreadMapper ()
+@interface HYDThreadMapper : NSObject <HYDMapper>
 
 @property (copy, nonatomic) NSArray *mappers;
+
+- (instancetype)initWithMappers:(NSArray *)mappers;
 
 @end
 

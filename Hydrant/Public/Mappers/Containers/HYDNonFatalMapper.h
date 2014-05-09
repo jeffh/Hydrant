@@ -2,8 +2,6 @@
 #import "HYDMapper.h"
 
 
-@class HYDObjectFactory;
-
 typedef id(^HYDValueBlock)();
 
 

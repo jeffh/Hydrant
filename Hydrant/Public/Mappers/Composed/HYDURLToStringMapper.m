@@ -6,26 +6,26 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToString(void)
+id<HYDMapper> HYDMapURLToString(void)
 {
     return HYDMapURLToStringFrom(HYDMapIdentity());
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToStringFrom(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapURLToStringFrom(id<HYDMapper> mapper)
 {
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] init];
     return HYDMapObjectToStringByFormatter(mapper, formatter);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToString(NSArray *allowedSchemes)
+id<HYDMapper> HYDMapURLToString(NSArray *allowedSchemes)
 {
     return HYDMapURLToStringOfScheme(HYDMapIdentity(), allowedSchemes);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToStringFrom(id<HYDMapper> mapper, NSArray *allowedSchemes)
+id<HYDMapper> HYDMapURLToStringFrom(id<HYDMapper> mapper, NSArray *allowedSchemes)
 {
     NSSet *schemes = [NSSet setWithArray:[allowedSchemes valueForKey:@"lowercaseString"]];
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] initWithAllowedSchemes:schemes];
@@ -35,13 +35,13 @@ HYDObjectToStringFormatterMapper *HYDMapURLToStringFrom(id<HYDMapper> mapper, NS
 #pragma mark - Pending Deprecation
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(NSArray *allowedSchemes)
+id<HYDMapper> HYDMapURLToStringOfScheme(NSArray *allowedSchemes)
 {
     return HYDMapURLToStringOfScheme(HYDMapIdentity(), allowedSchemes);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapURLToStringOfScheme(id<HYDMapper> mapper, NSArray *allowedSchemes)
+id<HYDMapper> HYDMapURLToStringOfScheme(id<HYDMapper> mapper, NSArray *allowedSchemes)
 {
     NSSet *schemes = [NSSet setWithArray:[allowedSchemes valueForKey:@"lowercaseString"]];
     HYDURLFormatter *formatter = [[HYDURLFormatter alloc] initWithAllowedSchemes:schemes];

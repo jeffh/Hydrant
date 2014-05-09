@@ -1,14 +1,6 @@
 #import "HYDBase.h"
 #import "HYDMapper.h"
 
-@class HYDURLFormatter;
-
-
-@interface HYDObjectToStringFormatterMapper : NSObject <HYDMapper>
-
-- (id)initWithMapper:(id<HYDMapper>)mapper formatter:(NSFormatter *)formatter;
-
-@end
 
 /*! Constructs a mapper that utilizes the NSFormatter to convert the source object to a string.
  *

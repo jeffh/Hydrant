@@ -12,7 +12,8 @@ NSArray *HYDMappingTuple(NSArray *mappingTuples)
     return mappingTuples;
 }
 
-@interface HYDDispatchMapper ()
+
+@interface HYDDispatchMapper : NSObject <HYDMapper>
 
 @property (nonatomic, copy) NSArray *mappingTuple;
 

@@ -5,6 +5,13 @@
 #import "HYDKeyAccessor.h"
 
 
+@interface HYDIdentityMapper : NSObject <HYDMapper>
+
+- (instancetype)init;
+
+@end
+
+
 @implementation HYDIdentityMapper
 
 - (instancetype)init

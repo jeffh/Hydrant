@@ -8,12 +8,16 @@
 #import "HYDDefaultAccessor.h"
 
 
-@interface HYDBackwardMapper ()
+@interface HYDBackwardMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) id<HYDMapper> childMapper;
 @property (strong, nonatomic) id<HYDAccessor> walkAccessor;
 @property (strong, nonatomic) Class destinationClass;
 @property (strong, nonatomic) id<HYDFactory> factory;
+
+- (id)initWithMapper:(id<HYDMapper>)mapper
+        walkAccessor:(id<HYDAccessor>)walkAccessor
+    destinationClass:(Class)destinationClass;
 
 @end
 
@@ -73,9 +77,7 @@
 - (id<HYDMapper>)reverseMapper
 {
     id<HYDMapper> reversedMapper = [self.childMapper reverseMapper];
-    return [[HYDForwardMapper alloc] initWithMapper:reversedMapper
-                                       walkAccessor:self.walkAccessor
-                                        sourceClass:self.destinationClass];
+    return HYDMapForward(self.walkAccessor, self.destinationClass, reversedMapper);
 }
 
 @end

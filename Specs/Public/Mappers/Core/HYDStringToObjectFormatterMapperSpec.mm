@@ -10,7 +10,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDStringToObjectFormatterMapperSpec)
 
 describe(@"HYDStringToObjectFormatterMapper", ^{
-    __block HYDStringToObjectFormatterMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block HYDSFakeFormatter *formatter;
     __block HYDError *error;
     __block HYDSFakeMapper *innerMapper;

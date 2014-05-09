@@ -2,9 +2,6 @@
 #import "HYDMapper.h"
 
 
-@class HYDClassInspector;
-
-
 @interface HYDObjectMapper : NSObject <HYDMapper>
 
 - (id)initWithMapper:(id<HYDMapper>)mapper

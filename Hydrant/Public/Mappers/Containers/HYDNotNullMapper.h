@@ -2,13 +2,6 @@
 #import "HYDMapper.h"
 
 
-@interface HYDNotNullMapper : NSObject <HYDMapper>
-
-- (id)initWithMapper:(id<HYDMapper>)mapper;
-
-@end
-
-
 /*! Creates a mapper that enforces values that pass through it to not be nil.
  *
  *  This is useful to ensure the given parameter is required to be not-nil.

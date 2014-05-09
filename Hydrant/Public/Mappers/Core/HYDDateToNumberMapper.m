@@ -5,10 +5,13 @@
 #import "HYDThreadMapper.h"
 
 
-@interface HYDDateToNumberMapper ()
+@interface HYDDateToNumberMapper : NSObject <HYDMapper>
 
 @property (assign, nonatomic) HYDDateTimeUnit unit;
 @property (strong, nonatomic) NSDate *sinceDate;
+
+- (id)init;
+- (id)initWithNumericUnit:(HYDDateTimeUnit)unit sinceDate:(NSDate *)sinceDate;
 
 @end
 
@@ -48,7 +51,7 @@
 
 - (id<HYDMapper>)reverseMapper
 {
-    return [[HYDNumberToDateMapper alloc] initWithNumericUnit:self.unit sinceDate:self.sinceDate];
+    return HYDMapNumberToDateSince(self.unit, self.sinceDate);
 }
 
 @end

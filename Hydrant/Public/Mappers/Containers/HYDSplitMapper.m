@@ -1,10 +1,12 @@
 #import "HYDSplitMapper.h"
 
 
-@interface HYDSplitMapper ()
+@interface HYDSplitMapper : NSObject <HYDMapper>
 
 @property (nonatomic, strong) id<HYDMapper> mapper;
 @property (nonatomic, strong) id<HYDMapper> reverseMapper;
+
+- (instancetype)initWithMapper:(id<HYDMapper>)mapper reverseMapper:(id<HYDMapper>)reverseMapper;
 
 @end
 

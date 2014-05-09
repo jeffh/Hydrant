@@ -4,11 +4,14 @@
 #import "HYDFunctions.h"
 
 
-@interface HYDPostProcessingMapper ()
+
+@interface HYDPostProcessingMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) HYDPostProcessingBlock block;
 @property (strong, nonatomic) HYDPostProcessingBlock reverseBlock;
+
+- (id)initWithMapper:(id<HYDMapper>)mapper processBlock:(HYDPostProcessingBlock)block reverseProcessBlock:(HYDPostProcessingBlock)reverseBlock;
 
 @end
 

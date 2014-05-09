@@ -5,13 +5,13 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapDateToString(NSString *formatString)
+id<HYDMapper> HYDMapDateToString(NSString *formatString)
 {
     return HYDMapDateToString(HYDMapIdentity(), formatString);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapDateToString(id<HYDMapper> mapper, NSString *formatString)
+id<HYDMapper> HYDMapDateToString(id<HYDMapper> mapper, NSString *formatString)
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = formatString;
@@ -20,13 +20,13 @@ HYDObjectToStringFormatterMapper *HYDMapDateToString(id<HYDMapper> mapper, NSStr
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapDateToString(NSDateFormatter *dateFormatter)
+id<HYDMapper> HYDMapDateToString(NSDateFormatter *dateFormatter)
 {
     return HYDMapObjectToStringByFormatter(HYDMapIdentity(), dateFormatter);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapDateToString(id<HYDMapper> mapper, NSDateFormatter *dateFormatter)
+id<HYDMapper> HYDMapDateToString(id<HYDMapper> mapper, NSDateFormatter *dateFormatter)
 {
     return HYDMapObjectToStringByFormatter(mapper, dateFormatter);
 }

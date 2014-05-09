@@ -6,13 +6,13 @@
 
 
 HYD_EXTERN
-HYDObjectToStringFormatterMapper *HYDMapUUIDToString()
+id<HYDMapper> HYDMapUUIDToString()
 {
     return HYDMapUUIDToStringFrom(HYDMapIdentity());
 }
 
 HYD_EXTERN_OVERLOADED
-HYDObjectToStringFormatterMapper *HYDMapUUIDToStringFrom(id<HYDMapper> mapper)
+id<HYDMapper> HYDMapUUIDToStringFrom(id<HYDMapper> mapper)
 {
     return HYDMapObjectToStringByFormatter(mapper, [[HYDUUIDFormatter alloc] init]);
 }

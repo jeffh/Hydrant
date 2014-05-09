@@ -5,11 +5,13 @@
 #import "HYDAnyClassSentinel.h"
 
 
-@interface HYDTypedMapper ()
+@interface HYDTypedMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) id<HYDMapper> wrappedMapper;
 @property (copy, nonatomic) NSArray *allowedInputClasses;
 @property (copy, nonatomic) NSArray *allowedOutputClasses;
+
+- (id)initWithMapper:(id<HYDMapper>)mapper inputClasses:(NSArray *)inputClasses outputClasses:(NSArray *)outputClasses;
 
 @end
 

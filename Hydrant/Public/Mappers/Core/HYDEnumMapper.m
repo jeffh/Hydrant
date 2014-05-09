@@ -6,10 +6,12 @@
 #import "HYDIdentityMapper.h"
 
 
-@interface HYDEnumMapper ()
+@interface HYDEnumMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) NSDictionary *mapping;
+
+- (id)initWithMapper:(id<HYDMapper>)mapper mapping:(NSDictionary *)mapping;
 
 @end
 

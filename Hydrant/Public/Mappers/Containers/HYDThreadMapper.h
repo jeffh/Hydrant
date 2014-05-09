@@ -2,13 +2,6 @@
 #import "HYDMapper.h"
 
 
-@interface HYDThreadMapper : NSObject <HYDMapper>
-
-- (instancetype)initWithMappers:(NSArray *)mappers;
-
-@end
-
-
 HYD_EXTERN
 id<HYDMapper> HYDMapThreadMappersInArray(NSArray *mappers);
 

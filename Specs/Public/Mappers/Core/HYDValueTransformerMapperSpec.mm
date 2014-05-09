@@ -8,7 +8,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDValueTransformerMapperSpec)
 
 describe(@"HYDValueTransformerMapper", ^{
-    __block HYDValueTransformerMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block HYDError *error;
     __block id sourceObject;
     __block id parsedObject;

@@ -3,14 +3,6 @@
 #import "HYDConstants.h"
 
 
-@interface HYDDateToNumberMapper : NSObject <HYDMapper>
-
-- (id)init;
-- (id)initWithNumericUnit:(HYDDateTimeUnit)unit sinceDate:(NSDate *)sinceDate;
-
-@end
-
-
 /*! Returns a mapper that converts NSDates to numbers.
  *  The number will be a seconds relative to a given date.
  */

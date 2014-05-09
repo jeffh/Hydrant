@@ -4,11 +4,17 @@
 #import "HYDAccessor.h"
 #import "HYDIdentityMapper.h"
 
-@interface HYDBlockMapper ()
-@property (strong, nonatomic) id<HYDMapper> innerMapper;
+
+@interface HYDBlockMapper : NSObject <HYDMapper>
+
 @property (strong, nonatomic) HYDConversionBlock convertBlock;
 @property (strong, nonatomic) HYDConversionBlock reverseConvertBlock;
+
+- (id)initWithConvertBlock:(HYDConversionBlock)convertBlock
+              reverseBlock:(HYDConversionBlock)reverseConvertBlock;
+
 @end
+
 
 @implementation HYDBlockMapper
 
@@ -18,13 +24,12 @@
     return nil;
 }
 
-- (id)initWithMapper:(id<HYDMapper>)mapper convertBlock:(HYDConversionBlock)convertBlock reverseBlock:(HYDConversionBlock)reverseConvertBlock
+- (id)initWithConvertBlock:(HYDConversionBlock)convertBlock reverseBlock:(HYDConversionBlock)reverseConvertBlock
 {
     self = [super init];
     if (self) {
         self.convertBlock = convertBlock;
         self.reverseConvertBlock = reverseConvertBlock;
-        self.innerMapper = mapper;
     }
     return self;
 }
@@ -57,10 +62,8 @@
 
 - (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapper];
-    return [[[self class] alloc] initWithMapper:reverseInnerMapper
-                                   convertBlock:self.reverseConvertBlock
-                                   reverseBlock:self.convertBlock];
+    return [[[self class] alloc] initWithConvertBlock:self.reverseConvertBlock
+                                         reverseBlock:self.convertBlock];
 }
 
 @end
@@ -75,7 +78,6 @@ HYDBlockMapper *HYDMapWithBlock(HYDConversionBlock convertBlock)
 HYD_EXTERN_OVERLOADED
 HYDBlockMapper *HYDMapWithBlock(HYDConversionBlock convertBlock, HYDConversionBlock reverseConvertBlock)
 {
-    return [[HYDBlockMapper alloc] initWithMapper:HYDMapIdentity()
-                                     convertBlock:convertBlock
-                                     reverseBlock:reverseConvertBlock];
+    return [[HYDBlockMapper alloc] initWithConvertBlock:convertBlock
+                                           reverseBlock:reverseConvertBlock];
 }

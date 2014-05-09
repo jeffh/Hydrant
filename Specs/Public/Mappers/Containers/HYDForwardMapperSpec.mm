@@ -11,7 +11,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDForwardMapperSpec)
 
 describe(@"HYDForwardMapper", ^{
-    __block HYDForwardMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block HYDSFakeMapper *childMapper;
     __block HYDSFakeAccessor *accessor;
     __block id validSourceObject;

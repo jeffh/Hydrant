@@ -9,7 +9,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDObjectToStringFormatterMapperSpec)
 
 describe(@"HYDObjectToStringFormatterMapper", ^{
-    __block HYDObjectToStringFormatterMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block NSFormatter *formatter;
     __block HYDError *error;
     __block HYDSFakeMapper *innerMapper;

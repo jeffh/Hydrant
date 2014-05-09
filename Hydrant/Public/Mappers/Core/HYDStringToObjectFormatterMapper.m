@@ -8,10 +8,12 @@
 #import "HYDIdentityMapper.h"
 
 
-@interface HYDStringToObjectFormatterMapper ()
+@interface HYDStringToObjectFormatterMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) NSFormatter *formatter;
+
+- (id)initWithMapper:(id<HYDMapper>)mapper formatter:(NSFormatter *)formatter;
 
 @end
 
@@ -81,20 +83,19 @@
 - (id<HYDMapper>)reverseMapper
 {
     id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapper];
-    return [[HYDObjectToStringFormatterMapper alloc] initWithMapper:reverseInnerMapper
-                                                          formatter:self.formatter];
+    return HYDMapObjectToStringByFormatter(reverseInnerMapper, self.formatter);
 }
 
 @end
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToObjectByFormatter(NSFormatter *formatter)
+id<HYDMapper> HYDMapStringToObjectByFormatter(NSFormatter *formatter)
 {
     return HYDMapStringToObjectByFormatter(HYDMapIdentity(), formatter);
 }
 
 HYD_EXTERN_OVERLOADED
-HYDStringToObjectFormatterMapper *HYDMapStringToObjectByFormatter(id<HYDMapper> mapper, NSFormatter *formatter)
+id<HYDMapper> HYDMapStringToObjectByFormatter(id<HYDMapper> mapper, NSFormatter *formatter)
 {
     return [[HYDStringToObjectFormatterMapper alloc] initWithMapper:mapper formatter:formatter];
 }

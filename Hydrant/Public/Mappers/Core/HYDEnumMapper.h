@@ -2,13 +2,6 @@
 #import "HYDMapper.h"
 
 
-@interface HYDEnumMapper : NSObject <HYDMapper>
-
-- (id)initWithMapper:(id<HYDMapper>)mapper mapping:(NSDictionary *)mapping;
-
-@end
-
-
 /*! Returns a mapper that converts maps the source values using mapping.
  *
  *  @warning It is assumed that keys and values are one-to-one. Having a key

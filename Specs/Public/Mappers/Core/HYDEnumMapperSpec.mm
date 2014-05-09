@@ -8,7 +8,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDEnumMapperSpec)
 
 describe(@"HYDEnumMapper", ^{
-    __block HYDEnumMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block HYDError *error;
 
     beforeEach(^{

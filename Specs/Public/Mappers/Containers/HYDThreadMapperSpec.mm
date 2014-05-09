@@ -10,7 +10,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDThreadMapperSpec)
 
 describe(@"HYDThreadMapper", ^{
-    __block HYDThreadMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block HYDSFakeMapper *mapper1;
     __block HYDSFakeMapper *mapper2;
 

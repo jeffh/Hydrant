@@ -9,7 +9,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDNotNullMapperSpec)
 
 describe(@"HYDNotNullMapper", ^{
-    __block HYDNotNullMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block HYDSFakeMapper *childMapper;
     __block HYDError *error;
     __block id sourceObject;

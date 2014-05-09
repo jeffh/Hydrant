@@ -2,12 +2,6 @@
 #import "HYDMapper.h"
 
 
-@interface HYDValueTransformerMapper : NSObject <HYDMapper>
-
-- (id)initWithValueTransformer:(NSValueTransformer *)valueTransformer;
-
-@end
-
 /*! Constructs a mapper that uses the transformValue from an NSValueTransformer to map values.
  *
  *  @param mapper The mapper that processes the source value before this mapper.

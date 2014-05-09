@@ -7,7 +7,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDBlockMapperSpec)
 
 describe(@"HYDBlockMapper", ^{
-    __block HYDBlockMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block id objectToReturn;
     __block HYDError *errorToReturn;
 

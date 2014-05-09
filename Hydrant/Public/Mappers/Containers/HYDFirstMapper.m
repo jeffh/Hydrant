@@ -3,9 +3,11 @@
 #import "HYDFunctions.h"
 
 
-@interface HYDFirstMapper ()
+@interface HYDFirstMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) NSArray *mappers;
+
+- (id)initWithMappers:(NSArray *)mappers;
 
 @end
 

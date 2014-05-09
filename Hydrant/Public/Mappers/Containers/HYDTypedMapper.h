@@ -2,12 +2,6 @@
 #import "HYDMapper.h"
 
 
-@interface HYDTypedMapper : NSObject <HYDMapper>
-
-- (id)initWithMapper:(id<HYDMapper>)mapper inputClasses:(NSArray *)inputClasses outputClasses:(NSArray *)outputClasses;
-
-@end
-
 /*! Constructs a mapper that validates the received and output values' types.
  *
  *  @param sourceAndDestinationClass The expected source and destination class.

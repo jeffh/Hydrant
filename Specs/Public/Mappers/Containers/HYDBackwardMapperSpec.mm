@@ -10,7 +10,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDBackwardMapperSpec)
 
 describe(@"HYDBackwardMapper", ^{
-    __block HYDBackwardMapper *mapper;
+    __block id<HYDMapper> mapper;
     __block HYDSFakeMapper *childMapper;
     __block HYDSFakeAccessor *accessor;
     __block id validSourceObject;

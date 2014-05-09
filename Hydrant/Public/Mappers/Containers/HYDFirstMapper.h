@@ -2,13 +2,6 @@
 #import "HYDMapper.h"
 
 
-@interface HYDFirstMapper : NSObject <HYDMapper>
-
-- (id)initWithMappers:(NSArray *)mappers;
-
-@end
-
-
 /*! Creates a mapper that runs through all the given mappers sequentially
  *  until one mapper returns a value object (non-fatal error) or all
  *  possible mappers fail.
