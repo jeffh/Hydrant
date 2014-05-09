@@ -5,6 +5,7 @@
 #import "HYDSFakeMapper.h"
 #import "HYDBlockValueTransformer.h"
 
+
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
@@ -89,10 +90,12 @@ describe(@"HYDReflectiveMapper", ^{
 
         context(@"when the source object requires coercing types", ^{
             beforeEach(^{
-                sourceObject = @{@"firstName": @1};
-                mapper = HYDMapReflectively([HYDSPerson class]).only(@[@"firstName"]);
+                sourceObject = @{@"firstName": @1,
+                                 @"lastName": [@"dough" mutableCopy]};
+                mapper = HYDMapReflectively([HYDSPerson class]).only(@[@"firstName", @"lastName"]);
                 expectedPerson = [[HYDSPerson alloc] init];
                 expectedPerson.firstName = @"1";
+                expectedPerson.lastName = @"dough";
             });
 
             it(@"should parse the object into a valid person", ^{

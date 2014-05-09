@@ -12,6 +12,7 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
     __block NSArray *childMappers;
     __block id sourceObject;
     __block id<HYDAccessor> reverseAccessor;
+    __block void (^sourceObjectsMatcher)(id actual, id expected);
 
     beforeEach(^{
         mapper = scope[@"mapper"];
@@ -19,6 +20,8 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
         childMappers = scope[@"childMappers"];
 
         reverseAccessor = scope[@"reverseAccessor"] ?: HYDAccessDefault(@"otherKey");
+
+        sourceObjectsMatcher = scope[@"sourceObjectsMatcher"];
     });
 
     __block HYDError *error;
@@ -36,7 +39,11 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
         id result = [reverseMapper objectFromSourceObject:parsedObject error:&error];
         error should be_nil;
 
-        result should equal(sourceObject);
+        if (sourceObjectsMatcher) {
+            sourceObjectsMatcher(result, sourceObject);
+        } else {
+            result should equal(sourceObject);
+        }
     });
 });
 
@@ -46,6 +53,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
     __block id invalidSourceObject;
     __block id expectedParsedObject;
     __block id<HYDAccessor> destinationAccessor;
+    __block void (^parsedObjectsMatcher)(id actual, id expected);
 
     beforeEach(^{
         mapper = scope[@"mapper"];
@@ -53,6 +61,13 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
         validSourceObject = scope[@"validSourceObject"];
         invalidSourceObject = scope[@"invalidSourceObject"];
         expectedParsedObject = scope[@"expectedParsedObject"];
+        parsedObjectsMatcher = scope[@"parsedObjectsMatcher"];
+
+        if (!parsedObjectsMatcher) {
+            parsedObjectsMatcher = ^(id actual, id expected) {
+                actual should equal(expected);
+            };
+        }
     });
 
     __block id sourceObject;
@@ -70,7 +85,7 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             });
 
             it(@"should produce a value parsed object", ^{
-                parsedObject should equal(expectedParsedObject);
+                parsedObjectsMatcher(parsedObject, expectedParsedObject);
             });
 
             it(@"should return a nil error", ^{

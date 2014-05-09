@@ -1,5 +1,14 @@
 #import "HYDBase.h"
 
+
+typedef NS_ENUM(NSUInteger, HYDNumberDateUnit) {
+    HYDNumberDateUnitMilliseconds = 1,
+    HYDNumberDateUnitSeconds = 1000,
+    HYDNumberDateUnitMinutes = 1000 * 60,
+    HYDNumberDateUnitHours = 1000 * 60 * 60
+};
+
+
 /*! A constant that provides a convenient way to set an NSDateFormatter style.
  *
  *  It emits and parses datetimes in this style: "2014-01-14T14:35:23-0800"

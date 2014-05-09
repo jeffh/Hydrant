@@ -25,12 +25,13 @@
         (self.siblings == (NSArray *)[object siblings] || [self.siblings isEqual:[object siblings]]) &&
         (self.birthDate == [object birthDate] || [self.birthDate isEqual:[object birthDate]]) &&
         (self.gender == [object gender]) &&
-        (self.homepage == self.homepage || [self.homepage isEqual:[object homepage]]);
+        (self.homepage == self.homepage || [self.homepage isEqual:[object homepage]]) &&
+        (self.incomeInThousands == [object incomeInThousands]);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p fullName=%@ firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%lu homepage=%@>",
+    return [NSString stringWithFormat:@"<%@: %p fullName=%@ firstName=%@ lastName=%@ age=%lu parent=%@ siblings=%@ birthDate=%@ gender=%lu homepage=%@ incomeInThousands=%f>",
             NSStringFromClass([self class]),
             self,
             self.fullName,
@@ -41,7 +42,8 @@
             self.siblings,
             self.birthDate,
             (unsigned long)self.gender,
-            self.homepage];
+            self.homepage,
+            self.incomeInThousands];
 }
 
 @end

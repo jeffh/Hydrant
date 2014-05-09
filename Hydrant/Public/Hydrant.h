@@ -26,6 +26,18 @@
 #import "HYDKeyAccessor.h"
 #import "HYDKeyPathAccessor.h"
 
+// standalone mappers - mappers that don't have to rely on another mapper to function
+#import "HYDStringToObjectFormatterMapper.h"
+#import "HYDObjectToStringFormatterMapper.h"
+#import "HYDEnumMapper.h"
+#import "HYDIdentityMapper.h"
+#import "HYDValueTransformerMapper.h"
+#import "HYDReversedValueTransformerMapper.h"
+#import "HYDForwardMapper.h"
+#import "HYDBackwardMapper.h"
+#import "HYDNumberToDateMapper.h"
+#import "HYDDateToNumberMapper.h"
+
 // container mappers - mappers that require other child mappers to operate
 #import "HYDCollectionMapper.h"
 #import "HYDTypedMapper.h"
@@ -36,16 +48,6 @@
 #import "HYDThreadMapper.h"
 #import "HYDDispatchMapper.h"
 #import "HYDSplitMapper.h"
-
-// standalone mappers - mappers that don't have to rely on another mapper to function
-#import "HYDStringToObjectFormatterMapper.h"
-#import "HYDObjectToStringFormatterMapper.h"
-#import "HYDEnumMapper.h"
-#import "HYDIdentityMapper.h"
-#import "HYDValueTransformerMapper.h"
-#import "HYDReversedValueTransformerMapper.h"
-#import "HYDForwardMapper.h"
-#import "HYDBackwardMapper.h"
 
 // mappers composed from a set of classes from above
 #import "HYDOptionalMapper.h"

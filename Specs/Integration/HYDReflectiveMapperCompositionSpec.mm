@@ -35,6 +35,7 @@ describe(@"HYDReflectiveMapperComposition", ^{
                                                  @"last_name": @"Doe",
                                                  @"age": @"22",
                                                  @"birth_date": @"/Date(1390186634595)/"},
+                                    @"income_in_thousands": @(65.5),
                                     @"homepage": @"http://google.com",
                                     @"identifier": @42,
                                     @"age": @"12",
@@ -44,6 +45,7 @@ describe(@"HYDReflectiveMapperComposition", ^{
         expectedObjectGraph.gender = HYDSPersonGenderMale;
         expectedObjectGraph.homepage = [NSURL URLWithString:@"http://google.com"];
         expectedObjectGraph.age = 12;
+        expectedObjectGraph.incomeInThousands = 65.5;
         expectedObjectGraph.parent = ({
             HYDSPerson *parent = [[HYDSPerson alloc] init];
             parent.identifier = 1;

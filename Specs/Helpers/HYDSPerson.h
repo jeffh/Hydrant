@@ -18,6 +18,7 @@ typedef NS_ENUM(NSUInteger, HYDSPersonGender) {
 @property (strong, nonatomic) NSDate *birthDate;
 @property (assign, nonatomic) HYDSPersonGender gender;
 @property (strong, nonatomic) NSURL *homepage;
+@property (assign, nonatomic) double incomeInThousands;
 
 - (id)initWithFixtureData;
 
