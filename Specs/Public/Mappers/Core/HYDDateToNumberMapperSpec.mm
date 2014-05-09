@@ -1,5 +1,6 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
+#import "HYDSFakeMapper.h"
 
 
 using namespace Cedar::Matchers;
@@ -11,14 +12,17 @@ describe(@"HYDDateToNumberMapper", ^{
     __block id<HYDMapper> mapper;
 
     beforeEach(^{
-        mapper = HYDMapDateToNumberSince1970(HYDDateTimeUnitMilliseconds);
-        [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = [NSDate dateWithTimeIntervalSince1970:1.0001];
-        [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = [NSObject new];
-        [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = @1000.1;
-        [SpecHelper specHelper].sharedExampleContext[@"parsedObjectsMatcher"] = ^(NSNumber *actual, NSNumber *expected) {
-            [actual doubleValue] should be_close_to([expected doubleValue]);
-        };
+        HYDSFakeMapper *innerMapper = [HYDSFakeMapper new];
+        mapper = HYDMapDateToNumberSince1970(innerMapper, HYDDateTimeUnitMilliseconds);
+        NSDictionary *scope = @{@"mapper": mapper,
+                                @"innerMapper": innerMapper,
+                                @"validSourceObject": [NSDate dateWithTimeIntervalSince1970:1.0001],
+                                @"invalidSourceObject": [NSObject new],
+                                @"expectedParsedObject": @1000.1,
+                                @"parsedObjectsMatcher": ^(NSNumber *actual, NSNumber *expected) {
+                                    [actual doubleValue] should be_close_to([expected doubleValue]);
+                                }};
+        [[SpecHelper specHelper].sharedExampleContext addEntriesFromDictionary:scope];
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");

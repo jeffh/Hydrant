@@ -2,6 +2,7 @@
 #import "HYDFunctions.h"
 #import "HYDError.h"
 #import "HYDNumberToDateMapper.h"
+#import "HYDThreadMapper.h"
 
 
 @interface HYDDateToNumberMapper ()
@@ -75,4 +76,28 @@ HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapDateToNumberSince(HYDDateTimeUnit unit, NSDate *sinceDate)
 {
     return [[HYDDateToNumberMapper alloc] initWithNumericUnit:unit sinceDate:sinceDate];
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapDateToNumberSince1970(id<HYDMapper> innerMapper)
+{
+    return HYDMapThread(innerMapper, HYDMapDateToNumberSince1970());
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapDateToNumberSince1970(id<HYDMapper> innerMapper, HYDDateTimeUnit unit)
+{
+    return HYDMapThread(innerMapper, HYDMapDateToNumberSince1970(unit));
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapDateToNumberSince(id<HYDMapper> innerMapper, NSDate *sinceDate)
+{
+    return HYDMapThread(innerMapper, HYDMapDateToNumberSince(sinceDate));
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapDateToNumberSince(id<HYDMapper> innerMapper, HYDDateTimeUnit unit, NSDate *sinceDate)
+{
+    return HYDMapThread(innerMapper, HYDMapDateToNumberSince(unit, sinceDate));
 }

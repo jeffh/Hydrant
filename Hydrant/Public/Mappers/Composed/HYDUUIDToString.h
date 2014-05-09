@@ -9,7 +9,7 @@ id<HYDMapper> HYDMapUUIDToString();
 
 /*! Constructs a mapper to convert UUIDs to strings.
  *
- *  @params mapper The mapper that processes the source value before this mapper.
+ *  @param mapper The mapper that processes the source value before this mapper.
  */
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapUUIDToStringFrom(id<HYDMapper> mapper)
