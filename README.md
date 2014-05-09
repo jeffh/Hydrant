@@ -1,5 +1,8 @@
-Hydrant ([Documentation](http://hydrant.readthedocs.org))
-=========================================================
+Hydrant
+=======
+
+[Documentation](http://hydrant.readthedocs.org)
+[![Build Status](https://travis-ci.org/jeffh/Hydrant.svg?branch=master)](https://travis-ci.org/jeffh/Hydrant)
 
 A [simple](http://www.infoq.com/presentations/Simple-Made-Easy) object data mapper for Objective-C.
 It aims to solve the data mapping problem well with a high degree of flexibility.
