@@ -20,6 +20,7 @@
 #import "HYDToStringMapper.h"
 #import "HYDThreadMapper.h"
 #import "HYDStringToUUIDMapper.h"
+#import "HYDNumberToDateMapper.h"
 
 #import "HYDReflectiveMapper+Protected.h"
 #import "HYDMapping.h"
@@ -49,7 +50,8 @@
                     typeMapping:@{NSStringFromClass([NSURL class]): HYDMapStringToURLFrom(innerTypesMapper),
                                   NSStringFromClass([NSUUID class]): HYDMapStringToUUIDFrom(innerTypesMapper),
                                   NSStringFromClass([NSNumber class]): HYDMapStringToNumber(innerTypesMapper),
-                                  NSStringFromClass([NSDate class]): HYDMapStringToAnyDate(innerTypesMapper),
+                                  NSStringFromClass([NSDate class]): HYDMapFirst(HYDMapStringToAnyDate(innerTypesMapper),
+                                                                                 HYDMapNumberToDateSince1970()),
                                   NSStringFromClass([NSString class]): innerTypesMapper}
                  keyTransformer:[HYDIdentityValueTransformer new]];
 }
@@ -264,7 +266,7 @@
 
     if ([property isObjCObjectType]) {
         Class propertyClass = [property classType];
-        id<HYDMapper> classMapper = self.typeMapping[NSStringFromClass(propertyClass)]; // TODO: repeat for super classes
+        id<HYDMapper> classMapper = self.typeMapping[NSStringFromClass(propertyClass)];
         mapper = HYDMapType(classMapper ?: mapper, nil, propertyClass);
     }
 

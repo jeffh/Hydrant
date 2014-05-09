@@ -6,7 +6,8 @@
 
 @interface HYDDateToNumberMapper ()
 
-@property (nonatomic) HYDNumberDateUnit unit;
+@property (assign, nonatomic) HYDDateTimeUnit unit;
+@property (strong, nonatomic) NSDate *sinceDate;
 
 @end
 
@@ -15,14 +16,15 @@
 
 - (id)init
 {
-    return [self initWithNumericUnit:HYDNumberDateUnitSeconds];
+    return [self initWithNumericUnit:HYDDateTimeUnitSeconds sinceDate:[NSDate dateWithTimeIntervalSince1970:0]];
 }
 
-- (id)initWithNumericUnit:(HYDNumberDateUnit)unit
+- (id)initWithNumericUnit:(HYDDateTimeUnit)unit sinceDate:(NSDate *)sinceDate
 {
     self = [super init];
     if (self) {
         self.unit = unit;
+        self.sinceDate = sinceDate;
     }
     return self;
 }
@@ -40,12 +42,12 @@
                                           underlyingErrors:nil]);
         return nil;
     }
-    return @([sourceObject timeIntervalSince1970] * (1000 / (double)self.unit));
+    return @([sourceObject timeIntervalSinceDate:self.sinceDate] * (1000 / (double)self.unit));
 }
 
 - (id<HYDMapper>)reverseMapper
 {
-    return [[HYDNumberToDateMapper alloc] initWithNumericUnit:self.unit];
+    return [[HYDNumberToDateMapper alloc] initWithNumericUnit:self.unit sinceDate:self.sinceDate];
 }
 
 @end
@@ -54,11 +56,23 @@
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapDateToNumberSince1970(void)
 {
-    return HYDMapDateToNumberSince1970(HYDNumberDateUnitSeconds);
+    return HYDMapDateToNumberSince1970(HYDDateTimeUnitSeconds);
 }
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapDateToNumberSince1970(HYDNumberDateUnit unit)
+id<HYDMapper> HYDMapDateToNumberSince1970(HYDDateTimeUnit unit)
 {
-    return [[HYDDateToNumberMapper alloc] initWithNumericUnit:unit];
+    return HYDMapDateToNumberSince(unit, [NSDate dateWithTimeIntervalSince1970:0]);
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapDateToNumberSince(NSDate *sinceDate)
+{
+    return HYDMapDateToNumberSince(HYDDateTimeUnitSeconds, sinceDate);
+}
+
+HYD_EXTERN_OVERLOADED
+id<HYDMapper> HYDMapDateToNumberSince(HYDDateTimeUnit unit, NSDate *sinceDate)
+{
+    return [[HYDDateToNumberMapper alloc] initWithNumericUnit:unit sinceDate:sinceDate];
 }

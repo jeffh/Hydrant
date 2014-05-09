@@ -19,8 +19,8 @@ sharedExamplesFor(@"a mapper that does the inverse of the original", ^(NSDiction
         sourceObject = scope[@"sourceObject"];
         childMappers = scope[@"childMappers"];
 
+        // optional
         reverseAccessor = scope[@"reverseAccessor"] ?: HYDAccessDefault(@"otherKey");
-
         sourceObjectsMatcher = scope[@"sourceObjectsMatcher"];
     });
 
@@ -61,13 +61,9 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
         validSourceObject = scope[@"validSourceObject"];
         invalidSourceObject = scope[@"invalidSourceObject"];
         expectedParsedObject = scope[@"expectedParsedObject"];
-        parsedObjectsMatcher = scope[@"parsedObjectsMatcher"];
 
-        if (!parsedObjectsMatcher) {
-            parsedObjectsMatcher = ^(id actual, id expected) {
-                actual should equal(expected);
-            };
-        }
+        // optional
+        parsedObjectsMatcher = scope[@"parsedObjectsMatcher"];
     });
 
     __block id sourceObject;
@@ -85,7 +81,11 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
             });
 
             it(@"should produce a value parsed object", ^{
-                parsedObjectsMatcher(parsedObject, expectedParsedObject);
+                if (parsedObjectsMatcher) {
+                    parsedObjectsMatcher(parsedObject, expectedParsedObject);
+                } else {
+                    parsedObject should equal(expectedParsedObject);
+                }
             });
 
             it(@"should return a nil error", ^{

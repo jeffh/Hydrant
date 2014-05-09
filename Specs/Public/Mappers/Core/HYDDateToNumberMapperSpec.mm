@@ -11,7 +11,7 @@ describe(@"HYDDateToNumberMapper", ^{
     __block id<HYDMapper> mapper;
 
     beforeEach(^{
-        mapper = HYDMapDateToNumberSince1970(HYDNumberDateUnitMilliseconds);
+        mapper = HYDMapDateToNumberSince1970(HYDDateTimeUnitMilliseconds);
         [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
         [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = [NSDate dateWithTimeIntervalSince1970:1.0001];
         [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = [NSObject new];

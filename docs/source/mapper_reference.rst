@@ -9,6 +9,14 @@ mappers together provides the ability to (de)serialize for a wide variety of
 use cases. All the functions listed here return objects that conform to the
 :ref:`HYDMapper` protocol.
 
+Thread Safety
+=============
+
+While none of Hydrant's mappers are ensured for thread safety. They are
+**immutable after creation** unless otherwise noted. This doesn't gaurantee
+thread safety since other internal objects can be thread unsafe (eg -
+Formatters, ValueTransformers, etc.).
+
 Constructor Helper Functions
 ============================
 
@@ -196,6 +204,67 @@ internally:
 .. _NSFormatter: https://developer.apple.com/library/mac/documentation/cocoa/reference/foundation/classes/NSFormatter_Class/Reference/Reference.html
 
 
+.. _HYDMapDateToNumberSince1970:
+.. _HYDMapDateToNumberSince:
+.. _HYDMapDateToNumberMapper:
+
+HYDMapDateToNumberSince
+=======================
+
+This converts `NSDates` into `NSNumbers` by using the built-in conversions.
+The mapper will verifying the source object is a valid date before doing the
+conversion.
+
+The following helpers are available::
+
+    HYDMapDateToNumberSince1970();
+    HYDMapDateToNumberSince1970(HYDDateTimeUnit unit);
+    HYDMapDateToNumberSince(NSDate *sinceDate);
+    HYDMapDateToNumberSince(NSDate *sinceDate, HYDDateTimeUnit unit);
+
+Some of these functions allow you specify the units the number is to be emitted
+in. A double in seconds is returned by default, but you can change it to return
+an alternative unit::
+
+    HYDDateTimeUnitMilliseconds
+    HYDDateTimeUnitSeconds
+    HYDDateTimeUnitMinutes
+    HYDDateTimeUnitHours
+
+See :ref:`HYDMapNumberToDateSince` for the reverse of this mapper.
+
+
+.. _HYDMapNumberToDateSince1970:
+.. _HYDMapNumberToDateSince:
+.. _HYDMapNumberToDateMapper:
+
+HYDMapNumberToDateSince
+=======================
+
+This converts `NSNumbers` into `NSDates` by using the built-in conversions.
+The mapper will verifying the source object is a valid number before doing the
+conversion. A reference date can be specified to interpret the source number
+being relative to.
+
+The following helpers are available::
+
+    HYDMapNumberToDateSince1970();
+    HYDMapNumberToDateSince1970(HYDNumberDateUnit unit);
+    HYDMapNumberToDateSince(NSDate *sinceDate);
+    HYDMapNumberToDateSince(NSDate *sinceDate, HYDDateTimeUnit unit);
+
+Some of these functions allow you specify the units the number is to be emitted
+in. A double in seconds is returned by default, but you can change it to return
+an alternative unit::
+
+    HYDDateTimeUnitMilliseconds
+    HYDDateTimeUnitSeconds
+    HYDDateTimeUnitMinutes
+    HYDDateTimeUnitHours
+
+See :ref:`HYDMapDateToNumberSince` for the reverse of this mapper.
+
+
 .. _HYDMapDateToString:
 
 HYDMapDateToString
@@ -215,6 +284,8 @@ Either you can provide date format string (or use one of Hydrant's
 :ref:`DateFormatConstants`) or use a customized ``NSDateFormatter`` instance.
 
 The reverse of this mapper is :ref:`HYDMapStringToDate`.
+
+See :ref:`HYDMapDateToNumberSince` if you're looking to convert dates into numbers
 
 
 .. _HYDMapStringToDate:
@@ -242,6 +313,9 @@ dates specified in :ref:`DateFormatConstants`. Unsurprisingly, the mapper that
 the function produces will have unreliable results when reversing.
 
 The reverse of this mapper is :ref:`HYDMapDateToString`.
+
+See :ref:`HYDMapNumberToDateSince` if you're looking to convert numbers into
+dates.
 
 .. _NSDateFormatter: https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSDateFormatter_Class/Reference/Reference.html
 
@@ -1010,23 +1084,29 @@ HYDMapReflectively
 ==================
 
 This builds upon various mappers and the Objective-C runtime to achieve the
-dryest code possible, at the expense of internal complexity. It uses the runtime
-to try and intelligently fill mappings:
+dryest code possible, at the expense of internal complexity (ie - "Magic"). It
+uses the runtime to try and intelligently fill mappings:
 
-    - Convert strings to dates with :ref:`HYDMapStringToDate`
-    - Coerces some core types among each other: ``NSString``, ``NSNumber``,
-      c numerics.
+    - Convert strings to dates with :ref:`HYDMapStringToAnyDate`
+    - Convert numbers to dates with :ref:`HYDMapNumberToDateSince1970`
+    - Converts numbers to strings and vice versa as needed
+    - Converts objects to strings for NSString properties
+    - Converts objects (to strings, then) to urls for NSURL properties
+    - Converts objects (to strings, then) to uuids for NSUUID properties
     - Type check incoming values with :ref:`HYDMapType` to match the types
       of the properties being assigned
-    - Type check the incoming source object before doing any parsing.
 
 Since this mapper cannot determine the intended reverse mapping, you must
-explicitly state them.
+explicitly state them. The reflective mapper will try and emit strings by
+default.
 
 .. info:: Currently, this mapper does not support non-numeric c types (structs,
           C++ classes, etc.).
 
+.. info:: This mapper manages internal state and is definitely not thread-safe.
+
 .. warning:: WIP: Please do not use yet.
+
 
 .. _HYDMapDispatch:
 .. _HYDDispatchMapper:
@@ -1034,7 +1114,7 @@ explicitly state them.
 HYDMapDispatch
 ==============
 
-.. warning:: WIP: Please do not use yet.
+.. warning:: Experimental: Please do not use yet.
 
 
 .. _HYDMapThread:
@@ -1043,4 +1123,4 @@ HYDMapDispatch
 HYDThreadMapper
 ===============
 
-.. warning:: WIP: Please do not use yet.
+.. warning:: Experimental: Please do not use yet.

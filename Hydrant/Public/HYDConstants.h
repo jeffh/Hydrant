@@ -1,11 +1,16 @@
 #import "HYDBase.h"
 
 
-typedef NS_ENUM(NSUInteger, HYDNumberDateUnit) {
-    HYDNumberDateUnitMilliseconds = 1,
-    HYDNumberDateUnitSeconds = 1000,
-    HYDNumberDateUnitMinutes = 1000 * 60,
-    HYDNumberDateUnitHours = 1000 * 60 * 60
+/*! Units of time. This is used to convert NSTimeInterval values to their
+ *  corresponding values.
+ *
+ *  The values in this enum are represented by the smallest unit (milliseconds).
+ */
+typedef NS_ENUM(NSUInteger, HYDDateTimeUnit) {
+    HYDDateTimeUnitMilliseconds = 1,
+    HYDDateTimeUnitSeconds = 1000,
+    HYDDateTimeUnitMinutes = 1000 * 60,
+    HYDDateTimeUnitHours = 1000 * 60 * 60
 };
 
 
