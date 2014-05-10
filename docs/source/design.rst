@@ -126,7 +126,7 @@ Let's break it down by method -- along with their purposes and expectations::
 
     - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error;
 
-This method is where all the grunt work occurrs. Here a new object is created
+This method is where all the grunt work occurs. Here a new object is created
 from the source object. This also provides a method for returning errors that
 should conform to Hydrant's error handling policies. This includes:
 
