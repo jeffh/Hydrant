@@ -3,10 +3,11 @@
 Installation
 ============
 
-If you're using `CocoaPods`_, you'll currently have to
-pull in this dependency via github::
+If you're using `CocoaPods`_, you can pull in Hydrant by adding this to your
+pod file::
 
-    pod 'Hydrant', :git => 'https://github.com/jeffh/Hydrant.git'
+    # this will pull any patch version with 'pod update'
+    pod "Hydrant", '~>1.0.0'
 
 Or submodule the project into your project::
 

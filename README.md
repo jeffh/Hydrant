@@ -43,11 +43,15 @@ But for developers that need to interact with APIs you don't directly control. H
 Installation
 ============
 
-Due the instability of the library right now, you'll have to pod this git repository:
+Like cocopods? Add this:
+
+    pod "Hydrant", '~>1.0.0'
+
+Or if you prefer living life on the edge:
 
     pod "Hydrant", :git => "https://github.com/jeffh/Hydrant.git"
 
-Alternatively, git submodule add this project and adding it to your XCodeProject.
+Alternatively, git submodule add this project and adding it to your project.
 
 Add the Hydrant static library for your dependencies or use the source directly.
 
