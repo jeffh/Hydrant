@@ -51,6 +51,15 @@
     return [[[self class] alloc] initWithMappers:reversedMappers];
 }
 
+#pragma mark - NSObject
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %@>",
+            NSStringFromClass([self class]),
+            [[self.mappers valueForKey:@"description"] componentsSeparatedByString:@" -> "]];
+}
+
 @end
 
 HYD_EXTERN

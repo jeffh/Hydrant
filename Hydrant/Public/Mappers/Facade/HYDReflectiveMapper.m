@@ -12,7 +12,6 @@
 #import "HYDAccessor.h"
 #import "HYDDefaultAccessor.h"
 #import "HYDFunctions.h"
-#import "HYDReversedReflectiveMapper.h"
 #import "HYDStringToNumberMapper.h"
 #import "HYDStringToDateMapper.h"
 #import "HYDDotNetDateFormatter.h"
@@ -22,9 +21,29 @@
 #import "HYDStringToUUIDMapper.h"
 #import "HYDNumberToDateMapper.h"
 
-#import "HYDReflectiveMapper+Protected.h"
 #import "HYDMapping.h"
 #import "HYDSplitMapper.h"
+
+
+@interface HYDReflectiveMapper ()
+
+@property (strong, nonatomic) id<HYDMapper> innerMapper;
+@property (strong, nonatomic) Class sourceClass;
+@property (strong, nonatomic) Class destinationClass;
+
+@property (copy, nonatomic) NSSet *optionalFields;
+@property (copy, nonatomic) NSSet *onlyFields;
+@property (copy, nonatomic) NSSet *excludedFields;
+@property (copy, nonatomic) NSDictionary *overriddenMapping;
+@property (copy, nonatomic) NSDictionary *typeMapping;
+@property (strong, nonatomic) NSValueTransformer *destinationToSourceKeyTransformer;
+
+@property (strong, nonatomic) id<HYDMapper> internalMapper;
+
+- (NSDictionary *)buildMapping;
+- (id<HYDMapper>)mapperForProperty:(HYDProperty *)property;
+
+@end
 
 
 @implementation HYDReflectiveMapper
@@ -104,17 +123,7 @@
 
 - (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapper];
-
-    return [[HYDReversedReflectiveMapper alloc] initWithMapper:reversedInnerMapper
-                                                   sourceClass:self.destinationClass
-                                              destinationClass:self.sourceClass
-                                                optionalFields:self.optionalFields
-                                                    onlyFields:self.onlyFields
-                                                excludedFields:self.excludedFields
-                                             overriddenMapping:HYDReversedKeyValueDictionary(self.overriddenMapping)
-                                                   typeMapping:self.typeMapping
-                                                keyTransformer:self.destinationToSourceKeyTransformer];
+    return [self.internalMapper reverseMapper];
 }
 
 #pragma mark - Public
@@ -184,13 +193,15 @@
 - (HYDReflectiveMapper *(^)(NSDictionary *))customMapping
 {
     return ^(NSDictionary *overriddenMapping) {
+        NSMutableDictionary *mapping = [NSMutableDictionary dictionaryWithDictionary:self.overriddenMapping];
+        [mapping addEntriesFromDictionary:overriddenMapping];
         return [[[self class] alloc] initWithMapper:self.innerMapper
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
                                          onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
-                                  overriddenMapping:overriddenMapping
+                                  overriddenMapping:mapping
                                         typeMapping:self.typeMapping
                                      keyTransformer:self.destinationToSourceKeyTransformer];
     };

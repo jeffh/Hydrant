@@ -8,14 +8,15 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDReflectiveMapperCompositionSpec)
 
 describe(@"HYDReflectiveMapperComposition", ^{
-    __block id<HYDMapper> mapper;
+    __block HYDReflectiveMapper *mapper;
+    __block HYDReflectiveMapper *parentMapper;
     __block HYDSPerson *expectedObjectGraph;
     __block NSDictionary *expectedObjectStructure;
     __block HYDError *error;
     __block id parsedObject;
 
     beforeEach(^{
-        id<HYDMapper> parentMapper = HYDMapReflectively([HYDSPerson class])
+        parentMapper = HYDMapReflectively([HYDSPerson class])
             .keyTransformer([HYDCamelToSnakeCaseValueTransformer new])
             .only(@[@"identifier", @"firstName", @"lastName", @"birthDate"]);
 
@@ -27,18 +28,17 @@ describe(@"HYDReflectiveMapperComposition", ^{
                                                        @"male" : @(HYDSPersonGenderMale),
                                                        @"female" : @(HYDSPersonGenderFemale)}),
                                           @"gender"],
-                             @"age": @[HYDMapStringToDecimalNumber(), @"age"],
+                             @"human_age": @[HYDMapStringToDecimalNumber(), @"age"],
                              @"parent": @[parentMapper, @"parent"]});
 
         expectedObjectStructure = @{@"parent": @{@"identifier": @1,
                                                  @"first_name": @"John",
                                                  @"last_name": @"Doe",
-                                                 @"age": @"22",
                                                  @"birth_date": @"/Date(1390186634595)/"},
                                     @"income_in_thousands": @(65.5),
                                     @"homepage": @"http://google.com",
                                     @"identifier": @42,
-                                    @"age": @"12",
+                                    @"human_age": @"12",
                                     @"gender": @"male"};
         expectedObjectGraph = [[HYDSPerson alloc] init];
         expectedObjectGraph.identifier = 42;
@@ -70,14 +70,16 @@ describe(@"HYDReflectiveMapperComposition", ^{
         });
     });
 
-    xdescribe(@"mapping from object graph to dictionaries using the reverse mapper", ^{
+    describe(@"mapping from object graph to dictionaries using the reverse mapper", ^{
         beforeEach(^{
+            parentMapper = parentMapper.customMapping(@{@"birth_date": @[HYDMapStringToDate([HYDDotNetDateFormatter new]), @"birthDate"]});
+            mapper = mapper.customMapping(@{@"parent": @[parentMapper, @"parent"]});
             id<HYDMapper> reverseMapper = [mapper reverseMapper];
             parsedObject = [reverseMapper objectFromSourceObject:expectedObjectGraph error:&error];
         });
 
-        it(@"should not error", ^{
-            error should be_nil;
+        it(@"should not fatally error", ^{
+            error should_not be_a_fatal_error;
         });
 
         it(@"should build the json correctly", ^{
