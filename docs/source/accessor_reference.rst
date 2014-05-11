@@ -10,7 +10,7 @@ abstract the details of getting and setting values from objects so that each
 listed here return objects that conform to the :ref:`HYDAccessor` protocol.
 
 You might be thinking the overload functions listed require Objective-C++, but
-:ref:`you'd be wrong <FunctionOverloading>`.
+:ref:`clang supports function overloading <FunctionOverloading>`.
 
 
 .. _HYDAccessKeyPath:
@@ -75,6 +75,37 @@ The macro is based off of the c function::
 As the name suggests, accepts an explicit array of keys.
 
 
+.. _HYDAccessIndex:
+.. _HYDIndexAccessor:
+
+HYDAccessIndex
+==============
+
+.. warning:: This is WIP, please don't use yet.
+
+This accessor provides index access to objects. This is useful for extracting
+values from an array where the order has a specific, known meaning.
+
+If given ``[NSNull null]`` values, when setting values, then that **assignment
+is valid**. This is unlike the other mappers. Also, this accessor will place
+add ``[NSNull null]`` instances to arrays if they do not meet the size
+requirement that the accessor expects to update indicies.
+
+There is a macro to create this accessor:
+
+    HYDAccessIndex(...)
+
+Which takes a variatic sequence of NSNumbers that represent the indicies to
+read. Giving multiple indicies will generate a large array value and the
+expected input values when setting it too.
+
+The macro is based off of the c function::
+
+    HYDAccessIndiciesInArray(NSArray *indicies)
+
+As the name suggests, accepts an explicit array of indicies (NSNumbers).
+
+
 .. _HYDAccessDefault:
 
 HYDAccessDefault
@@ -90,3 +121,4 @@ There are two variants::
     HYDAccessDefault(NSArray *fields)
 
 Which currently ties to the same behavior as ``HYDAccessKeyPath``.
+
