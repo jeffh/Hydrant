@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, HYDCamelCaseStyle) {
  */
 @interface HYDCamelToSnakeCaseValueTransformer : NSValueTransformer
 
-- (id)init;
-- (id)initWithCamelCaseStyle:(HYDCamelCaseStyle)camelCaseStyle;
+- (instancetype)init;
+- (instancetype)initWithCamelCaseStyle:(HYDCamelCaseStyle)camelCaseStyle;
 
 @end

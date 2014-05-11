@@ -9,13 +9,13 @@
 
 @implementation HYDBlockValueTransformer
 
-- (id)init
+- (instancetype)init
 {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
-- (id)initWithBlock:(id(^)(id value))block reversedBlock:(id (^)(id))reversedBlock
+- (instancetype)initWithBlock:(id(^)(id value))block reversedBlock:(id (^)(id))reversedBlock
 {
     self = [super init];
     if (self) {

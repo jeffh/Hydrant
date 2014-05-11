@@ -5,6 +5,14 @@
 #import "HYDIndexSetter.h"
 
 
+@protocol HYDIndexAccessorSourceObject
+
+- (id)objectAtIndex:(NSUInteger)index;
+- (NSUInteger)count;
+
+@end
+
+
 @interface HYDIndexAccessor : NSObject <HYDAccessor>
 
 @property (nonatomic, copy) NSArray *indicies;
@@ -31,15 +39,15 @@
 
 - (NSArray *)valuesFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    if (![sourceObject respondsToSelector:@selector(objectAtIndex:)] ||
-            ![sourceObject respondsToSelector:@selector(count)]) {
+    NSError *doesNotConformError = HYDWeaklyConformsToProtocol(sourceObject, @protocol(HYDIndexAccessorSourceObject));
+    if (doesNotConformError) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorGetViaAccessorFailed
                                               sourceObject:sourceObject
                                             sourceAccessor:self
                                          destinationObject:nil
                                        destinationAccessor:nil
                                                    isFatal:YES
-                                          underlyingErrors:nil]);
+                                          underlyingErrors:@[doesNotConformError]]);
         return nil;
     }
 

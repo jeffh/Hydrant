@@ -18,6 +18,6 @@
  *
  *  @param valueTransformer The instance of the value transformer to reverse. It must be reverseable.
  */
-- (id)initWithValueTransformer:(NSValueTransformer *)valueTransformer;
+- (instancetype)initWithValueTransformer:(NSValueTransformer *)valueTransformer;
 
 @end

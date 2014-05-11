@@ -10,7 +10,7 @@
 
 @implementation HYDReversedValueTransformer
 
-- (id)initWithValueTransformer:(NSValueTransformer *)valueTransformer
+- (instancetype)initWithValueTransformer:(NSValueTransformer *)valueTransformer
 {
     if (![[valueTransformer class] allowsReverseTransformation]) {
         [NSException raise:NSInvalidArgumentException format:@"Provided value transformer (%@) does not support reverse transformations",

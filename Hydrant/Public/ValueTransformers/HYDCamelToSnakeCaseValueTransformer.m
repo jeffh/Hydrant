@@ -10,12 +10,12 @@
 
 @implementation HYDCamelToSnakeCaseValueTransformer
 
-- (id)init
+- (instancetype)init
 {
     return [self initWithCamelCaseStyle:HYDCamelCaseLowerStyle];
 }
 
-- (id)initWithCamelCaseStyle:(HYDCamelCaseStyle)camelCaseStyle
+- (instancetype)initWithCamelCaseStyle:(HYDCamelCaseStyle)camelCaseStyle
 {
     self = [super init];
     if (self) {
