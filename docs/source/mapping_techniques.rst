@@ -20,9 +20,9 @@ Use the :ref:`HYDMapOptionally` mapper::
     id<HYDMapper> mapper2 = HYDMapOptionallyTo(HYDMapStringToURL());
 
 ``mapper1`` one will produce a fatal error if given a value like ``@1`` but
-the ``mapper211 will return a non-fatal error with ``nil``.
+``mapper2`` will return a non-fatal error with ``nil``.
 
-Using it with :ref:`HYDMapObject`, to optionally map properties.
+Use it with :ref:`HYDMapObject`, to optionally map properties.
 
 
 How do I return a source object's value unchanged?

@@ -26,7 +26,7 @@ details, :ref:`HYDMapReflectively` and :ref:`HYDMapObject` both compose
 other mappers to achieve their work.
 
 Type-checking (via ``-[isKindOfClass:]``) is a bit more sensitive. You should
-do type checking to avoid crashing, but string type checks to specific concrete
+do type checking to avoid crashing, but strict type checks to specific concrete
 classes should be considered carefully, because :ref:`HYDMapType` can cover
 those use cases.
 
