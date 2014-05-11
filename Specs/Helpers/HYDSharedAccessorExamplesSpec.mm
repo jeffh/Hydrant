@@ -80,16 +80,6 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
             it(@"should not return an error", ^{
                 values should be_nil;
             });
-
-            xcontext(@"(changes for the next major release)", ^{
-                it(@"should return nil", ^{
-                    values should be_nil;
-                });
-
-                it(@"should return a fatal error", ^{
-                    error should be_a_fatal_error.with_code(HYDErrorGetViaAccessorFailed);
-                });
-            });
         });
 
         context(@"when the source object is nil", ^{
@@ -110,23 +100,6 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
     describe(@"setting values to a given object", ^{
         subjectAction(^{
             error = [accessor setValues:values onObject:target];
-        });
-
-        xcontext(@"for the next major release", ^{
-            context(@"when the destination class requires NSNull and everything else is valid", ^{
-                beforeEach(^{
-                    target = [NSMutableDictionary dictionary];
-                    values = expectedValuesWithNulls;
-                });
-
-                it(@"should update the given object with nulls", ^{
-                    target should equal(expectedValuesWithNulls);
-                });
-
-                it(@"should not return an error", ^{
-                    error should be_nil;
-                });
-            });
         });
 
         context(@"when the destination object is valid and it allows nil fields", ^{
