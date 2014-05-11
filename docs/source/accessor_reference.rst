@@ -30,7 +30,7 @@ is considered a no-op**, not assigning to nil. This is because the accessor
 cannot safely assign ``nil`` vs ``[NSNull null]`` (eg - property vs dictionary
 key).
 
-There is a macro to create this accessor:
+There is a macro to create this accessor::
 
     HYDAccessKeyPath(...)
 
@@ -60,7 +60,7 @@ is considered a no-op**, not assigning to nil. This is because the accessor
 cannot safely assign ``nil`` vs ``[NSNull null]`` (eg - property vs dictionary
 key).
 
-There is a macro to create this accessor:
+There is a macro to create this accessor::
 
     HYDAccessKey(...)
 
@@ -81,7 +81,9 @@ As the name suggests, accepts an explicit array of keys.
 HYDAccessIndex
 ==============
 
-.. warning:: This is WIP, please don't use yet.
+.. warning:: This is feature alpha. It's API and capabilities may change
+             between versions. Please avoid use if you can't accept
+             instability.
 
 This accessor provides index access to objects. This is useful for extracting
 values from an array where the order has a specific, known meaning.
@@ -91,7 +93,7 @@ is valid**. This is unlike the other mappers. Also, this accessor will place
 add ``[NSNull null]`` instances to arrays if they do not meet the size
 requirement that the accessor expects to update indicies.
 
-There is a macro to create this accessor:
+There is a macro to create this accessor::
 
     HYDAccessIndex(...)
 
