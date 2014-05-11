@@ -1,7 +1,6 @@
 #import "HYDValueTransformerMapper.h"
 #import "HYDError.h"
 #import "HYDReversedValueTransformerMapper.h"
-#import "HYDIdentityMapper.h"
 #import "HYDThreadMapper.h"
 
 

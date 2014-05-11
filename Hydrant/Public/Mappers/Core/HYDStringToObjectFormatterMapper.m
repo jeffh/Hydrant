@@ -2,18 +2,15 @@
 #import "HYDError.h"
 #import "HYDFunctions.h"
 #import "HYDObjectToStringFormatterMapper.h"
-#import "HYDURLFormatter.h"
-#import "HYDUUIDFormatter.h"
-#import "HYDKeyAccessor.h"
 #import "HYDIdentityMapper.h"
+#import "HYDThreadMapper.h"
 
 
 @interface HYDStringToObjectFormatterMapper : NSObject <HYDMapper>
 
-@property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) NSFormatter *formatter;
 
-- (id)initWithMapper:(id<HYDMapper>)mapper formatter:(NSFormatter *)formatter;
+- (id)initWithFormatter:(NSFormatter *)formatter;
 
 @end
 
@@ -26,11 +23,10 @@
     return nil;
 }
 
-- (id)initWithMapper:(id<HYDMapper>)mapper formatter:(NSFormatter *)formatter
+- (id)initWithFormatter:(NSFormatter *)formatter
 {
     self = [super init];
     if (self) {
-        self.innerMapper = mapper;
         self.formatter = formatter;
     }
     return self;
@@ -41,14 +37,6 @@
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDError *err = nil;
-
-    sourceObject = [self.innerMapper objectFromSourceObject:sourceObject error:&err];
-    HYDSetObjectPointer(error, err);
-    if ([err isFatal]) {
-        return nil;
-    }
-
     BOOL success = NO;
     id resultingObject = nil;
     NSString *errorDescription = nil;
@@ -82,8 +70,7 @@
 
 - (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapper];
-    return HYDMapObjectToStringByFormatter(reverseInnerMapper, self.formatter);
+    return HYDMapObjectToStringByFormatter(self.formatter);
 }
 
 @end
@@ -91,11 +78,11 @@
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapStringToObjectByFormatter(NSFormatter *formatter)
 {
-    return HYDMapStringToObjectByFormatter(HYDMapIdentity(), formatter);
+    return [[HYDStringToObjectFormatterMapper alloc] initWithFormatter:formatter];
 }
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapStringToObjectByFormatter(id<HYDMapper> mapper, NSFormatter *formatter)
+id<HYDMapper> HYDMapStringToObjectByFormatter(id<HYDMapper> innerMapper, NSFormatter *formatter)
 {
-    return [[HYDStringToObjectFormatterMapper alloc] initWithMapper:mapper formatter:formatter];
+    return HYDMapThread(innerMapper, HYDMapStringToObjectByFormatter(formatter));
 }

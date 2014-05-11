@@ -25,6 +25,7 @@
 #import "HYDDefaultAccessor.h"
 #import "HYDKeyAccessor.h"
 #import "HYDKeyPathAccessor.h"
+#import "HYDIndexAccessor.h"
 
 // standalone mappers - mappers that don't have to rely on another mapper to function
 #import "HYDStringToObjectFormatterMapper.h"

@@ -10,7 +10,7 @@ SPEC_BEGIN(HYDPostProcessingMapperSpec)
 
 describe(@"HYDPostProcessingMapper", ^{
     __block id<HYDMapper> mapper;
-    __block HYDSFakeMapper *childMapper;
+    __block HYDSFakeMapper *innerMapper;
     __block id parsedObject;
     __block id sourceObject;
     __block HYDError *error;
@@ -26,8 +26,8 @@ describe(@"HYDPostProcessingMapper", ^{
         setOutgoingError = NO;
         blockWasCalled = NO;
         reversedBlockWasCalled = NO;
-        childMapper = [[HYDSFakeMapper alloc] init];
-        mapper = HYDMapWithPostProcessing(childMapper, ^(id theSourceObject, id resultingObject, __autoreleasing HYDError **theError) {
+        innerMapper = [[HYDSFakeMapper alloc] init];
+        mapper = HYDMapWithPostProcessing(innerMapper, ^(id theSourceObject, id resultingObject, __autoreleasing HYDError **theError) {
             incomingSourceObject = theSourceObject;
             incomingResultingObject = resultingObject;
             incomingError = *theError;
@@ -43,8 +43,8 @@ describe(@"HYDPostProcessingMapper", ^{
     describe(@"parsing an object", ^{
         subjectAction(^{
             sourceObject = @"HI";
-            childMapper.objectsToReturn = @[@1];
-            childMapper.errorsToReturn = @[[HYDError nonFatalError]];
+            innerMapper.objectsToReturn = @[@1];
+            innerMapper.errorsToReturn = @[[HYDError nonFatalError]];
             parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
         });
 
@@ -98,7 +98,7 @@ describe(@"HYDPostProcessingMapper", ^{
         beforeEach(^{
             HYDSFakeMapper *reverseChildMapper = [[HYDSFakeMapper alloc] init];
             reverseChildMapper.objectsToReturn = @[@"LOL"];
-            childMapper.reverseMapperToReturn = reverseChildMapper;
+            innerMapper.reverseMapperToReturn = reverseChildMapper;
 
             [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
             [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"LOL";

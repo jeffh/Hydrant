@@ -2,19 +2,14 @@
 #import "HYDFunctions.h"
 #import "HYDError.h"
 #import "HYDStringToObjectFormatterMapper.h"
-#import "HYDURLFormatter.h"
-#import "HYDUUIDFormatter.h"
-#import "HYDKeyAccessor.h"
-#import "HYDIdentityMapper.h"
-
+#import "HYDThreadMapper.h"
 
 
 @interface HYDObjectToStringFormatterMapper : NSObject <HYDMapper>
 
 @property (strong, nonatomic) NSFormatter *formatter;
-@property (strong, nonatomic) id<HYDMapper> innerMapper;
 
-- (id)initWithMapper:(id<HYDMapper>)mapper formatter:(NSFormatter *)formatter;
+- (id)initWithFormatter:(NSFormatter *)formatter;
 
 @end
 
@@ -27,11 +22,10 @@
     return nil;
 }
 
-- (id)initWithMapper:(id<HYDMapper>)mapper formatter:(NSFormatter *)formatter
+- (id)initWithFormatter:(NSFormatter *)formatter
 {
     self = [super init];
     if (self) {
-        self.innerMapper = mapper;
         self.formatter = formatter;
     }
     return self;
@@ -41,24 +35,15 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %@ with %@>",
+    return [NSString stringWithFormat:@"<%@: %@>",
             NSStringFromClass(self.class),
-            self.formatter,
-            self.innerMapper];
+            self.formatter];
 }
 
 #pragma mark - HYDMapper
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDError *err = nil;
-    sourceObject = [self.innerMapper objectFromSourceObject:sourceObject error:&err];
-
-    HYDSetObjectPointer(error, err);
-    if ([err isFatal]) {
-        return nil;
-    }
-
     id resultingObject = nil;
     if (sourceObject) {
         resultingObject = [self.formatter stringForObjectValue:sourceObject];
@@ -78,8 +63,7 @@
 
 - (id<HYDMapper>)reverseMapper
 {
-    id<HYDMapper> reverseInnerMapper = [self.innerMapper reverseMapper];
-    return HYDMapStringToObjectByFormatter(reverseInnerMapper, self.formatter);
+    return HYDMapStringToObjectByFormatter(self.formatter);
 }
 
 @end
@@ -88,12 +72,12 @@
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapObjectToStringByFormatter(NSFormatter *formatter)
 {
-    return HYDMapObjectToStringByFormatter(HYDMapIdentity(), formatter);
+    return [[HYDObjectToStringFormatterMapper alloc] initWithFormatter:formatter];
 }
 
 
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapObjectToStringByFormatter(id<HYDMapper> mapper, NSFormatter *formatter)
+id<HYDMapper> HYDMapObjectToStringByFormatter(id<HYDMapper> innerMapper, NSFormatter *formatter)
 {
-    return [[HYDObjectToStringFormatterMapper alloc] initWithMapper:mapper formatter:formatter];
+    return HYDMapThread(innerMapper, HYDMapObjectToStringByFormatter(formatter));
 }

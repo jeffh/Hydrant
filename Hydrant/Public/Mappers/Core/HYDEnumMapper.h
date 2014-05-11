@@ -22,11 +22,11 @@ HYD_REQUIRE_NON_NIL(1);
  *           map to many values or vice-versa will break the reverse mapping
  *           capabilities of this mapper.
  *
- *  @param mapper The inner mapper to extract the value from. The inner mapper also
- *                stores destination accessor.
+ *  @param innerMapper The inner mapper to extract the value from. The inner mapper also
+ *                     stores destination accessor.
  *  @param mapping A dictionary of mapping @{ sourceValue: destinationValue }. Must be one-to-one.
  *  @returns a HYDEnumMapper that using the given dictionary to map between values
  */
 HYD_EXTERN_OVERLOADED
-id<HYDMapper> HYDMapEnum(id<HYDMapper> mapper, NSDictionary *mapping)
+id<HYDMapper> HYDMapEnum(id<HYDMapper> innerMapper, NSDictionary *mapping)
 HYD_REQUIRE_NON_NIL(1,2);

@@ -11,7 +11,8 @@
 @property (strong, nonatomic) HYDPostProcessingBlock block;
 @property (strong, nonatomic) HYDPostProcessingBlock reverseBlock;
 
-- (id)initWithMapper:(id<HYDMapper>)mapper processBlock:(HYDPostProcessingBlock)block reverseProcessBlock:(HYDPostProcessingBlock)reverseBlock;
+- (id)initWithMapper:(id<HYDMapper>)innerMapper
+        processBlock:(HYDPostProcessingBlock)block reverseProcessBlock:(HYDPostProcessingBlock)reverseBlock;
 
 @end
 
@@ -24,11 +25,12 @@
     return nil;
 }
 
-- (id)initWithMapper:(id<HYDMapper>)mapper processBlock:(HYDPostProcessingBlock)block reverseProcessBlock:(HYDPostProcessingBlock)reverseBlock
+- (id)initWithMapper:(id<HYDMapper>)innerMapper
+        processBlock:(HYDPostProcessingBlock)block reverseProcessBlock:(HYDPostProcessingBlock)reverseBlock
 {
     self = [super init];
     if (self) {
-        self.innerMapper = mapper;
+        self.innerMapper = innerMapper;
         self.block = [block copy];
         self.reverseBlock = [reverseBlock copy];
     }

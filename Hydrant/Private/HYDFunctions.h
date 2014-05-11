@@ -72,3 +72,14 @@ BOOL HYDIsSubclassOrConformsToProtocol(id object, id classOrProtocol)
 {
     return [object isKindOfClass:classOrProtocol] || (HYDIsProtocol(classOrProtocol) && [object conformsToProtocol:classOrProtocol]);
 }
+
+HYD_INLINE
+BOOL HYDIsArrayOf(NSArray *collection, Class aClass)
+{
+    for (id object in collection) {
+        if (![object isKindOfClass:aClass]) {
+            return NO;
+        }
+    }
+    return YES;
+}

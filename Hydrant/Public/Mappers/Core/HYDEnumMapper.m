@@ -2,16 +2,15 @@
 #import "HYDError.h"
 #import "HYDFunctions.h"
 #import "HYDAccessor.h"
-#import "HYDKeyAccessor.h"
 #import "HYDIdentityMapper.h"
+#import "HYDThreadMapper.h"
 
 
 @interface HYDEnumMapper : NSObject <HYDMapper>
 
-@property (strong, nonatomic) id<HYDMapper> innerMapper;
 @property (strong, nonatomic) NSDictionary *mapping;
 
-- (id)initWithMapper:(id<HYDMapper>)mapper mapping:(NSDictionary *)mapping;
+- (id)initWithMapping:(NSDictionary *)mapping;
 
 @end
 
@@ -24,11 +23,10 @@
     return nil;
 }
 
-- (id)initWithMapper:(id<HYDMapper>)mapper mapping:(NSDictionary *)mapping
+- (id)initWithMapping:(NSDictionary *)mapping
 {
     self = [super init];
     if (self) {
-        self.innerMapper = mapper;
         self.mapping = mapping;
     }
     return self;
@@ -38,26 +36,15 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %@ with %@>",
+    return [NSString stringWithFormat:@"<%@: %@>",
             NSStringFromClass(self.class),
-            self.mapping,
-            self.innerMapper];
+            self.mapping];
 }
 
 #pragma mark - HYDMapper
 
 - (id)objectFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    HYDSetObjectPointer(error, nil);
-
-    HYDError *innerError = nil;
-    sourceObject = [self.innerMapper objectFromSourceObject:sourceObject error:&innerError];
-    HYDSetObjectPointer(error, innerError);
-
-    if ([innerError isFatal]) {
-        return nil;
-    }
-
     id result = self.mapping[sourceObject];
     if (!result) {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
@@ -79,9 +66,7 @@
         id value = self.mapping[key];
         reverseMapping[value] = key;
     }
-    id<HYDMapper> reversedInnerMapper = [self.innerMapper reverseMapper];
-    return [[HYDEnumMapper alloc] initWithMapper:reversedInnerMapper
-                                         mapping:reverseMapping];
+    return [[HYDEnumMapper alloc] initWithMapping:reverseMapping];
 }
 
 @end
@@ -90,11 +75,11 @@
 HYD_EXTERN_OVERLOADED
 HYDEnumMapper *HYDMapEnum(NSDictionary *mapping)
 {
-    return HYDMapEnum(HYDMapIdentity(), mapping);
+    return [[HYDEnumMapper alloc] initWithMapping:mapping];
 }
 
 HYD_EXTERN_OVERLOADED
-HYDEnumMapper *HYDMapEnum(id<HYDMapper> mapper, NSDictionary *mapping)
+HYDEnumMapper *HYDMapEnum(id<HYDMapper> innerMapper, NSDictionary *mapping)
 {
-    return [[HYDEnumMapper alloc] initWithMapper:mapper mapping:mapping];
+    return HYDMapThread(innerMapper, HYDMapEnum(mapping));
 }

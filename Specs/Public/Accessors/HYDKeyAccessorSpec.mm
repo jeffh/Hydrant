@@ -8,7 +8,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDKeyAccessorSpec)
 
 describe(@"HYDKeyAccessor", ^{
-    __block HYDKeyAccessor *accessor;
+    __block id<HYDAccessor> accessor;
 
     beforeEach(^{
         accessor = HYDAccessKey(@"firstName");
@@ -54,6 +54,7 @@ describe(@"HYDKeyAccessor", ^{
                 person;
             });
             [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @{@"firstName": @"lastName"};
+            [SpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [HYDSPerson new]; };
             [SpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"firstName", @"lastName"];
             [SpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"John", @"Doe"];
             [SpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] = @{@"firstName": [NSNull null], @"lastName": @"Doe"};
@@ -72,6 +73,7 @@ describe(@"HYDKeyAccessor", ^{
                 person;
             });
             [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @{};
+            [SpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [HYDSPerson new]; };
             [SpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"firstName"];
             [SpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"John"];
             [SpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] = @{@"firstName": [NSNull null]};

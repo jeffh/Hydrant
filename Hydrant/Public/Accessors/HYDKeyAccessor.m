@@ -1,13 +1,16 @@
 #import "HYDKeyAccessor.h"
+#import "HYDAccessor.h"
 #import "HYDClassInspector.h"
 #import "HYDProperty.h"
 #import "HYDError.h"
 #import "HYDFunctions.h"
 
 
-@interface HYDKeyAccessor ()
+@interface HYDKeyAccessor : NSObject <HYDAccessor>
 
 @property (strong, nonatomic) NSArray *keys;
+
+- (id)initWithKeys:(NSArray *)keys;
 
 @end
 

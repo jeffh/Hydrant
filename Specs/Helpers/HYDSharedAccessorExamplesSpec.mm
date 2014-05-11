@@ -1,6 +1,5 @@
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
-#import "HYDSPerson.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -9,6 +8,7 @@ SHARED_EXAMPLE_GROUPS_BEGIN(HYDSharedAccessorExamplesSpec)
 
 sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
     __block id<HYDAccessor> accessor;
+    __block id(^createTargetObject)();
     __block id validSourceObject;
     __block id validSourceObjectWithNulls;
     __block id invalidSourceObject;
@@ -18,6 +18,7 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
 
     beforeEach(^{
         accessor = scope[@"accessor"];
+        createTargetObject = scope[@"createTargetObject"];
         validSourceObject = scope[@"validSourceObject"];
         validSourceObjectWithNulls = scope[@"validSourceObjectWithNulls"];
         invalidSourceObject = scope[@"invalidSourceObject"];
@@ -130,7 +131,7 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
 
         context(@"when the destination object is valid and it allows nil fields", ^{
             beforeEach(^{
-                target = [[HYDSPerson alloc] init];
+                target = createTargetObject();
             });
 
             context(@"and given values are valid", ^{
@@ -153,7 +154,7 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
                 });
 
                 it(@"should not update the given object", ^{
-                    target should equal([[HYDSPerson alloc] init]);
+                    target should equal(createTargetObject());
                 });
 
                 it(@"should return a fatal error", ^{
@@ -167,7 +168,7 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
                 });
 
                 it(@"should not update the given object", ^{
-                    target should equal([[HYDSPerson alloc] init]);
+                    target should equal(createTargetObject());
                 });
 
                 it(@"should return a fatal error", ^{

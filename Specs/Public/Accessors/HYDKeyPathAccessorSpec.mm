@@ -34,6 +34,7 @@ describe(@"HYDKeyPathAccessor", ^{
             accessor = HYDAccessKeyPath(@"parent.firstName", @"parent.lastName");
 
             [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
+            [SpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [HYDSPerson new]; };
             [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
                 HYDSPerson *child = [[HYDSPerson alloc] init];
                 child.parent = [[HYDSPerson alloc] init];
@@ -54,6 +55,7 @@ describe(@"HYDKeyPathAccessor", ^{
     context(@"with one key", ^{
         beforeEach(^{
             [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
+            [SpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [HYDSPerson new]; };
             [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
                 HYDSPerson *child = [[HYDSPerson alloc] init];
                 child.parent = [[HYDSPerson alloc] init];
