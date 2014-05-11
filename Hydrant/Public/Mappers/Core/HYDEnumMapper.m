@@ -73,13 +73,13 @@
 
 
 HYD_EXTERN_OVERLOADED
-HYDEnumMapper *HYDMapEnum(NSDictionary *mapping)
+id<HYDMapper> HYDMapEnum(NSDictionary *mapping)
 {
     return [[HYDEnumMapper alloc] initWithMapping:mapping];
 }
 
 HYD_EXTERN_OVERLOADED
-HYDEnumMapper *HYDMapEnum(id<HYDMapper> innerMapper, NSDictionary *mapping)
+id<HYDMapper> HYDMapEnum(id<HYDMapper> innerMapper, NSDictionary *mapping)
 {
     return HYDMapThread(innerMapper, HYDMapEnum(mapping));
 }

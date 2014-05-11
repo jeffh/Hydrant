@@ -1097,13 +1097,36 @@ the runtime to try and intelligently generate mappings:
       of the properties being assigned
 
 Since this mapper cannot determine the intended reverse mapping, you must
-explicitly state them. The reflective mapper will try and emit strings by
-default.
+explicitly state them if they differ from its configuration.
 
 .. info:: Currently, this mapper does not support non-numeric c types (structs,
           C++ classes, etc.).
 
-.. info:: This mapper has mutable internal state and is not thread-safe.
+.. info:: This mapper has mutable internal state and is not thread-safe during
+          its usage.
+
+
+.. _HYDMapThread:
+.. _HYDThreadMapper:
+
+HYDMapThread
+============
+
+This mapper simply calls its given mappers in-order until one emits an error.
+It's inspired from the LISP's threading macro, ``->`` except errors are
+returned without any subsequent mapper from knowing. Hydrant uses this
+internally to provide the convienence of accepting an inner mapper argument::
+
+    id<HYDMapper> HYDMapEnum(id<HYDMapper> innerMapper, NSDictionary *mapping) {
+        return HYDMapThread(innerMapper, HYDMapEnum(mapping));
+    }
+
+Like the accessors, HYDMapThread is a macro that accepts a variadic set of
+mappers to process in-order. The macro based off of the function::
+
+    HYDMapThreadMappersInArray(NSArray *mappers);
+
+Where ``mappers`` is an array of mappers.
 
 
 .. _HYDMapDispatch:
@@ -1112,14 +1135,6 @@ default.
 HYDMapDispatch
 ==============
 
-.. warning:: Experimental: Please do not use yet.
-
-
-.. _HYDMapThread:
-.. _HYDThreadMapper:
-
-HYDThreadMapper
-===============
-
-.. warning:: Experimental: Please do not use yet.
+.. warning:: Alpha - This API may change at any point. Please avoid using when
+             possible.
 
