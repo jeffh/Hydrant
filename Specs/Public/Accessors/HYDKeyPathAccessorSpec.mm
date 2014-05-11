@@ -71,12 +71,6 @@ describe(@"HYDKeyPathAccessor", ^{
 
         itShouldBehaveLike(@"an accessor");
     });
-
-    context(@"with no keys", ^{
-        it(@"should return nil", ^{
-            HYDAccessKey(nil) should be_nil;
-        });
-    });
 });
 
 SPEC_END

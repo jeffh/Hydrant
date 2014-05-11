@@ -140,26 +140,17 @@
     return NO;
 }
 
-- (BOOL)requiresNSNullForClass:(Class)theClass
-{
-    NSArray *nullableClasses = @[[NSDictionary class], [NSHashTable class], [NSArray class], [NSOrderedSet class]];
-    for (Class nullableClass in nullableClasses) {
-        if ([theClass isSubclassOfClass:nullableClass]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 @end
 
 
 HYD_EXTERN
 HYDKeyAccessor *HYDAccessKeyFromArray(NSArray *fields)
 {
-    if (fields.count == 0) {
-        return nil;
-    }
+    NSCAssert([fields firstObject], @"%s expects at least one field. Are you missing a string?", __PRETTY_FUNCTION__);
+    NSCAssert(HYDIsArrayOf(fields, [NSString class]),
+              @"%s expected fields to be an array of strings: got %@",
+              __PRETTY_FUNCTION__, [fields valueForKey:@"class"]);
+
     return [[HYDKeyAccessor alloc] initWithKeys:fields];
 }
 

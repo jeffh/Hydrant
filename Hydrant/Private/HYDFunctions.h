@@ -83,3 +83,6 @@ BOOL HYDIsArrayOf(NSArray *collection, Class aClass)
     }
     return YES;
 }
+
+HYD_EXTERN
+NSError *HYDWeaklyConformsToProtocol(id object, id protocol);

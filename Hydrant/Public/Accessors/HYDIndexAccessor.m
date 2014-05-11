@@ -144,7 +144,7 @@ id<HYDAccessor> HYDAccessIndiciesFromArray(NSArray *indicies)
 {
     NSCAssert([indicies firstObject], @"Got nil instead of an NSNumber. Did you mean @0?");
     NSCAssert(HYDIsArrayOf(indicies, [NSNumber class]), @"%s expected argument to be an array of NSNumbers, got: %@",
-             __PRETTY_FUNCTION__, indicies);
+              __PRETTY_FUNCTION__, [indicies valueForKey:@"class"]);
 
     return [[HYDIndexAccessor alloc] initWithIndicies:indicies setter:[HYDIndexSetter new]];
 }

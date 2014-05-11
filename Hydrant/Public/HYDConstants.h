@@ -83,9 +83,11 @@ HYD_EXTERN NSString *HYDDateFormatRFC822;
  *  @warning Deprecated. Do not use anymore.
  *
  */
-DEPRECATED_ATTRIBUTE HYD_EXTERN id HYDRootMapper;
+HYD_EXTERN id HYDRootMapper DEPRECATED_MSG_ATTRIBUTE("This is no longer supported with the rewritten mapper system.");
 
 /*! The error domain that all Hydrant mappers emit.
+ *
+ *  @warning Deprecated. Please use HYDMapperErrorDomain.
  */
 HYD_EXTERN NSString *HYDErrorDomain;
 
@@ -120,6 +122,10 @@ typedef NS_ENUM(NSInteger, HYDErrorCode) {
      *  of fields to update.
      */
     HYDErrorSetViaAccessorFailed = 6,
+    /*! The code is for other errors. Errors with this code may not even be a HYDError instance.
+     *  This code is used more generically in non-mapper scenarios
+     */
+    HYDErrorGenericFailure = 100,
 };
 
 /*! The HYDError's userInfo key used to store the fact if this error is fatal.

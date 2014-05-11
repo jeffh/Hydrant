@@ -179,25 +179,16 @@
     return NO;
 }
 
-- (BOOL)requiresNSNullForClass:(Class)theClass
-{
-    NSArray *nullableClasses = @[[NSDictionary class], [NSHashTable class], [NSArray class], [NSOrderedSet class]];
-    for (Class nullableClass in nullableClasses) {
-        if ([theClass isSubclassOfClass:nullableClass]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 @end
 
 
 HYD_EXTERN
 HYDKeyPathAccessor *HYDAccessKeyPathFromArray(NSArray *keyPaths)
 {
-    if (keyPaths.count == 0) {
-        return nil;
-    }
+    NSCAssert([keyPaths firstObject],
+              @"%s expects at least one keyPath. Are you missing a string?", __PRETTY_FUNCTION__);
+    NSCAssert(HYDIsArrayOf(keyPaths, [NSString class]),
+              @"%s expected keyPaths to be an array of strings: got %@",
+              __PRETTY_FUNCTION__, [keyPaths valueForKey:@"class"]);
     return [[HYDKeyPathAccessor alloc] initWithKeyPaths:keyPaths];
 }
