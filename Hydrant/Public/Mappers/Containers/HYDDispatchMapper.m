@@ -5,10 +5,12 @@
 HYD_INLINE
 NSArray *HYDMappingTuple(NSArray *mappingTuples)
 {
+#if !defined(NS_BLOCK_ASSERTIONS)
     for (NSArray *mappingTuple in mappingTuples) {
         NSCAssert(mappingTuple.count == 3, @"Mapping tuple should have EXACTLY three items [sourceClass, mapper, destinationClass]");
         NSCAssert([mappingTuple[1] conformsToProtocol:@protocol(HYDMapper)], @"the second element of the mapping tuple should be a HYDMapper (got %@)", mappingTuple[1]);
     }
+#endif
     return mappingTuples;
 }
 
