@@ -80,4 +80,4 @@ task :lint do
 end
 
 task :default => [:clean, :osx_specs, :specs71_suite, :specs61_suite]
-task :ci => [:clean, :osx_specs, :specs70_suite, :specs61_suite, :lint]
+task :ci => [:clean, :osx_specs, :specs71_suite, :specs61_suite, :lint]
