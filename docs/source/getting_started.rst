@@ -321,8 +321,8 @@ So now we have this::
 
 But we can do even better.
 
-Using Reflection to all the Boilerplate
----------------------------------------
+Using Reflection to Remove the Boilerplate
+------------------------------------------
 
 If your JSON is well formed and just requires a little processing to map
 directly to your objects, you can use :ref:`HYDMapReflectively`, which will use

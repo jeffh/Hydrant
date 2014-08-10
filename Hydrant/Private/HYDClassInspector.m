@@ -15,36 +15,29 @@
 @implementation HYDClassInspector
 
 static NSMutableDictionary *inspectors__;
-static dispatch_queue_t singletonQueue__;
+
++ (void)clearInstanceCache
+{
+    inspectors__ = [NSMutableDictionary new];
+}
 
 + (void)initialize
 {
-    static BOOL wasInitialized;
-    if (!wasInitialized) {
-        singletonQueue__ = dispatch_queue_create("net.jeffhui.hydrant.singleton", DISPATCH_QUEUE_SERIAL);
-        inspectors__ = [NSMutableDictionary dictionary];
-        wasInitialized = YES;
-    }
+    [super initialize];
+    [self clearInstanceCache];
 }
 
 + (instancetype)inspectorForClass:(Class)aClass
 {
     NSString *key = NSStringFromClass(aClass);
-    __block HYDClassInspector *inspector = nil;
-    dispatch_sync(singletonQueue__, ^{
-        inspector = inspectors__[key];
-        if (!inspector) {
-            inspectors__[key] = inspector = [[self alloc] initWithClass:aClass];
+    @synchronized (inspectors__) {
+        HYDClassInspector *instance = [inspectors__ objectForKey:key];
+        if (!instance) {
+            instance = [[self alloc] initWithClass:aClass];
+            [inspectors__ setObject:instance forKey:key];
         }
-    });
-    return inspector;
-}
-
-+ (void)clearInstanceCache
-{
-    dispatch_sync(singletonQueue__, ^{
-        [inspectors__ removeAllObjects];
-    });
+        return instance;
+    }
 }
 
 - (id)initWithClass:(Class)aClass
