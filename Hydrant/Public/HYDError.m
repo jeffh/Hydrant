@@ -22,6 +22,8 @@
     NSDictionary *_userInfo;
 }
 
+@synthesize localizedDescription = _localizedDescription;
+
 + (instancetype)errorWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict
 {
     HYDError *error = [super errorWithDomain:domain code:code userInfo:dict];

@@ -1211,7 +1211,7 @@
 			name = HydrantSpecsBundle;
 			productName = SpecsBundle;
 			productReference = 1FA35AC118E5380100D99840 /* HydrantSpecsBundle.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -1220,7 +1220,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = HYD;
-				LastTestingUpgradeCheck = 0510;
+				LastTestingUpgradeCheck = 0600;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Jeff Hui";
 				TargetAttributes = {

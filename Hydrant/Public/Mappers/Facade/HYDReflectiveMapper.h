@@ -2,9 +2,6 @@
 #import "HYDMapper.h"
 
 
-typedef NSString *(^KeyTransformBlock)(NSString *propertyName);
-
-
 @interface HYDReflectiveMapper : NSObject <HYDMapper>
 
 - (id)initWithMapper:(id<HYDMapper>)innerMapper
