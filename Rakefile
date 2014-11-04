@@ -51,13 +51,13 @@ end
 
 task :specs71_bundle do
   Simulator.quit
-  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone Retina (4-inch),OS=7.1' SYMROOT=#{BUILD_DIR.inspect}")
+  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone 5s,OS=7.1' SYMROOT=#{BUILD_DIR.inspect}")
   puts
 end
 
-task :specs61_bundle do
+task :specs81_bundle do
   Simulator.quit
-  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone Retina (4-inch),OS=6.1' SYMROOT=#{BUILD_DIR.inspect}")
+  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone 5s,OS=8.1' SYMROOT=#{BUILD_DIR.inspect}")
   puts
 end
 
@@ -68,10 +68,10 @@ task :specs71_suite do
   puts
 end
 
-task :specs61_suite do
+task :specs81_suite do
   Simulator.quit
   xcbuild("clean build -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} SYMROOT=#{BUILD_DIR.inspect}")
-  Simulator.launch("#{BUILD_DIR}/Debug-iphonesimulator/HydrantSpecs.app", '6.1')
+  Simulator.launch("#{BUILD_DIR}/Debug-iphonesimulator/HydrantSpecs.app", '8.1')
   puts
 end
 
@@ -79,5 +79,5 @@ task :lint do
   system_or_exit('pod spec lint Hydrant.podspec')
 end
 
-task :default => [:clean, :osx_specs, :specs71_suite, :specs61_suite]
-task :ci => [:clean, :osx_specs, :specs71_suite, :specs61_suite, :lint]
+task :default => [:clean, :osx_specs, :specs71_suite, :specs81_suite]
+task :ci => [:clean, :osx_specs, :specs71_suite, :specs81_suite, :lint]

@@ -81,25 +81,18 @@
 		1F357E5E18C3086C004C4CBA /* HYDStringToUUIDMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E5D18C3086C004C4CBA /* HYDStringToUUIDMapper.m */; };
 		1F357E5F18C3086C004C4CBA /* HYDStringToUUIDMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E5D18C3086C004C4CBA /* HYDStringToUUIDMapper.m */; };
 		1F357E6018C3086C004C4CBA /* HYDStringToUUIDMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E5D18C3086C004C4CBA /* HYDStringToUUIDMapper.m */; };
-		1F357E6918C31960004C4CBA /* HYDDateToStringMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6218C31960004C4CBA /* HYDDateToStringMapperSpec.mm */; };
 		1F357E6A18C31960004C4CBA /* HYDDateToStringMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6218C31960004C4CBA /* HYDDateToStringMapperSpec.mm */; };
 		1F357E6B18C31960004C4CBA /* HYDDateToStringMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6218C31960004C4CBA /* HYDDateToStringMapperSpec.mm */; };
-		1F357E6C18C31960004C4CBA /* HYDNumberToStringMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6318C31960004C4CBA /* HYDNumberToStringMapperSpec.mm */; };
 		1F357E6D18C31960004C4CBA /* HYDNumberToStringMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6318C31960004C4CBA /* HYDNumberToStringMapperSpec.mm */; };
 		1F357E6E18C31960004C4CBA /* HYDNumberToStringMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6318C31960004C4CBA /* HYDNumberToStringMapperSpec.mm */; };
-		1F357E6F18C31960004C4CBA /* HYDStringToDateMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6418C31960004C4CBA /* HYDStringToDateMapperSpec.mm */; };
 		1F357E7018C31960004C4CBA /* HYDStringToDateMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6418C31960004C4CBA /* HYDStringToDateMapperSpec.mm */; };
 		1F357E7118C31960004C4CBA /* HYDStringToDateMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6418C31960004C4CBA /* HYDStringToDateMapperSpec.mm */; };
-		1F357E7218C31960004C4CBA /* HYDStringToNumberMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6518C31960004C4CBA /* HYDStringToNumberMapperSpec.mm */; };
 		1F357E7318C31960004C4CBA /* HYDStringToNumberMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6518C31960004C4CBA /* HYDStringToNumberMapperSpec.mm */; };
 		1F357E7418C31960004C4CBA /* HYDStringToNumberMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6518C31960004C4CBA /* HYDStringToNumberMapperSpec.mm */; };
-		1F357E7518C31960004C4CBA /* HYDStringToURLMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6618C31960004C4CBA /* HYDStringToURLMapperSpec.mm */; };
 		1F357E7618C31960004C4CBA /* HYDStringToURLMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6618C31960004C4CBA /* HYDStringToURLMapperSpec.mm */; };
 		1F357E7718C31960004C4CBA /* HYDStringToURLMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6618C31960004C4CBA /* HYDStringToURLMapperSpec.mm */; };
-		1F357E7818C31960004C4CBA /* HYDStringToUUIDFormatterSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6718C31960004C4CBA /* HYDStringToUUIDFormatterSpec.mm */; };
 		1F357E7918C31960004C4CBA /* HYDStringToUUIDFormatterSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6718C31960004C4CBA /* HYDStringToUUIDFormatterSpec.mm */; };
 		1F357E7A18C31960004C4CBA /* HYDStringToUUIDFormatterSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6718C31960004C4CBA /* HYDStringToUUIDFormatterSpec.mm */; };
-		1F357E7B18C31960004C4CBA /* HYDUUIDToStringFormatterSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6818C31960004C4CBA /* HYDUUIDToStringFormatterSpec.mm */; };
 		1F357E7C18C31960004C4CBA /* HYDUUIDToStringFormatterSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6818C31960004C4CBA /* HYDUUIDToStringFormatterSpec.mm */; };
 		1F357E7D18C31960004C4CBA /* HYDUUIDToStringFormatterSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F357E6818C31960004C4CBA /* HYDUUIDToStringFormatterSpec.mm */; };
 		1F39975A18C5AD66002FF753 /* HYDTypedObjectMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F39975918C5AD66002FF753 /* HYDTypedObjectMapper.m */; };
@@ -152,7 +145,6 @@
 		1FA35AF418E53B9200D99840 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A847F183B48DD00EAA4E0 /* Cedar.framework */; };
 		1FA99484183B49FA001E9F2E /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0A8485183B48DD00EAA4E0 /* libCedar-StaticLib.a */; };
 		1FA9948A183B4A20001E9F2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA99489183B4A20001E9F2E /* Foundation.framework */; };
-		1FA994A4183C97A8001E9F2E /* HYDBase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F06C040181A2DC90017FDB4 /* HYDBase.h */; };
 		1FB0F6611883DCDD00120ABC /* HYDError.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6601883DCDD00120ABC /* HYDError.m */; };
 		1FB0F6621883DCDD00120ABC /* HYDError.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6601883DCDD00120ABC /* HYDError.m */; };
 		1FB0F6631883DCDD00120ABC /* HYDError.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0F6601883DCDD00120ABC /* HYDError.m */; };
@@ -363,13 +355,6 @@
 			remoteGlobalIDString = 1F45A3DD180E4796003C1E36;
 			remoteInfo = XCUnitAppTests;
 		};
-		1F0A848E183B48DD00EAA4E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 96158A86144A915E005895CE;
-			remoteInfo = OCUnitAppLogicTests;
-		};
 		1F3D81601883CDC3006C0CC4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
@@ -398,20 +383,28 @@
 			remoteGlobalIDString = AEEE222811DC2B0600029872;
 			remoteInfo = "Cedar-StaticLib";
 		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		1F1E3F6D180392ED00801509 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-				1FA994A4183C97A8001E9F2E /* HYDBase.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
+		1FC22A0F1A08BE42007B52D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AE248F9819DCD52500092C14;
+			remoteInfo = "Cedar OS X Host App";
 		};
-/* End PBXCopyFilesBuildPhase section */
+		1FC22A111A08BE42007B52D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AE248FAA19DCD52500092C14;
+			remoteInfo = "Cedar OS X Host AppTests";
+		};
+		1FC22A131A08BE42007B52D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F0A8471183B48DC00EAA4E0 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEB8818719DCD62D00F081BA;
+			remoteInfo = "Cedar OS X Failing Test Bundle";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1F06C040181A2DC90017FDB4 /* HYDBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDBase.h; sourceTree = "<group>"; };
@@ -667,15 +660,17 @@
 			isa = PBXGroup;
 			children = (
 				1F0A847F183B48DD00EAA4E0 /* Cedar.framework */,
-				1F0A8481183B48DD00EAA4E0 /* Specs */,
-				1F0A8483183B48DD00EAA4E0 /* FocusedSpecs */,
+				1F0A8481183B48DD00EAA4E0 /* Cedar OS X Specs */,
+				1F0A8483183B48DD00EAA4E0 /* Cedar OS X FocusedSpecs */,
 				1F0A8485183B48DD00EAA4E0 /* libCedar-StaticLib.a */,
-				1F0A8487183B48DD00EAA4E0 /* iOSSpecs.app */,
-				1F3D81611883CDC3006C0CC4 /* iOSFrameworkSpecs.app */,
-				1F0A8489183B48DD00EAA4E0 /* OCUnitApp.app */,
-				1F0A848B183B48DD00EAA4E0 /* OCUnitAppTests.octest */,
+				1F0A8487183B48DD00EAA4E0 /* Cedar iOS Specs.app */,
+				1F3D81611883CDC3006C0CC4 /* Cedar iOS FrameworkSpecs.app */,
+				1F0A8489183B48DD00EAA4E0 /* Cedar iOS Host App.app */,
+				1F0A848B183B48DD00EAA4E0 /* Cedar iOS SenTestingKit Tests.octest */,
 				1F0A848D183B48DD00EAA4E0 /* XCUnitAppTests.xctest */,
-				1F0A848F183B48DD00EAA4E0 /* OCUnitAppLogicTests.octest */,
+				1FC22A101A08BE42007B52D6 /* Cedar OS X Host App.app */,
+				1FC22A121A08BE42007B52D6 /* Cedar OS X Host AppTests.xctest */,
+				1FC22A141A08BE42007B52D6 /* Cedar OS X Failing Test Bundle.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1149,7 +1144,6 @@
 			buildPhases = (
 				1F1E3F6B180392ED00801509 /* Sources */,
 				1F1E3F6C180392ED00801509 /* Frameworks */,
-				1F1E3F6D180392ED00801509 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1220,7 +1214,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = HYD;
-				LastTestingUpgradeCheck = 0600;
+				LastTestingUpgradeCheck = 0610;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Jeff Hui";
 				TargetAttributes = {
@@ -1263,17 +1257,17 @@
 			remoteRef = 1F0A847E183B48DD00EAA4E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1F0A8481183B48DD00EAA4E0 /* Specs */ = {
+		1F0A8481183B48DD00EAA4E0 /* Cedar OS X Specs */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
-			path = Specs;
+			path = "Cedar OS X Specs";
 			remoteRef = 1F0A8480183B48DD00EAA4E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1F0A8483183B48DD00EAA4E0 /* FocusedSpecs */ = {
+		1F0A8483183B48DD00EAA4E0 /* Cedar OS X FocusedSpecs */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
-			path = FocusedSpecs;
+			path = "Cedar OS X FocusedSpecs";
 			remoteRef = 1F0A8482183B48DD00EAA4E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1284,24 +1278,24 @@
 			remoteRef = 1F0A8484183B48DD00EAA4E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1F0A8487183B48DD00EAA4E0 /* iOSSpecs.app */ = {
+		1F0A8487183B48DD00EAA4E0 /* Cedar iOS Specs.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = iOSSpecs.app;
+			path = "Cedar iOS Specs.app";
 			remoteRef = 1F0A8486183B48DD00EAA4E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1F0A8489183B48DD00EAA4E0 /* OCUnitApp.app */ = {
+		1F0A8489183B48DD00EAA4E0 /* Cedar iOS Host App.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = OCUnitApp.app;
+			path = "Cedar iOS Host App.app";
 			remoteRef = 1F0A8488183B48DD00EAA4E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1F0A848B183B48DD00EAA4E0 /* OCUnitAppTests.octest */ = {
+		1F0A848B183B48DD00EAA4E0 /* Cedar iOS SenTestingKit Tests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OCUnitAppTests.octest;
+			path = "Cedar iOS SenTestingKit Tests.octest";
 			remoteRef = 1F0A848A183B48DD00EAA4E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1312,18 +1306,32 @@
 			remoteRef = 1F0A848C183B48DD00EAA4E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1F0A848F183B48DD00EAA4E0 /* OCUnitAppLogicTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OCUnitAppLogicTests.octest;
-			remoteRef = 1F0A848E183B48DD00EAA4E0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1F3D81611883CDC3006C0CC4 /* iOSFrameworkSpecs.app */ = {
+		1F3D81611883CDC3006C0CC4 /* Cedar iOS FrameworkSpecs.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = iOSFrameworkSpecs.app;
+			path = "Cedar iOS FrameworkSpecs.app";
 			remoteRef = 1F3D81601883CDC3006C0CC4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FC22A101A08BE42007B52D6 /* Cedar OS X Host App.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Cedar OS X Host App.app";
+			remoteRef = 1FC22A0F1A08BE42007B52D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FC22A121A08BE42007B52D6 /* Cedar OS X Host AppTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Cedar OS X Host AppTests.xctest";
+			remoteRef = 1FC22A111A08BE42007B52D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FC22A141A08BE42007B52D6 /* Cedar OS X Failing Test Bundle.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Cedar OS X Failing Test Bundle.octest";
+			remoteRef = 1FC22A131A08BE42007B52D6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1369,26 +1377,21 @@
 				1FD4F99818A3776600DA1AD3 /* HYDFirstMapper.m in Sources */,
 				1F26F33118C2F299003A7FB9 /* HYDUUIDToString.m in Sources */,
 				1FEC76541891B5D6003687EF /* HYDObjectFactory.m in Sources */,
-				1F357E6918C31960004C4CBA /* HYDDateToStringMapperSpec.mm in Sources */,
 				1FDAC11D18121F6900846B44 /* HYDProperty.m in Sources */,
 				1FD4F9B618A3776600DA1AD3 /* HYDStringToObjectFormatterMapper.m in Sources */,
 				1FB0F6611883DCDD00120ABC /* HYDError.m in Sources */,
 				1F1217B4188CC5D700B1CBD1 /* HYDDotNetDateFormatter.m in Sources */,
 				1FD4F9A718A3776600DA1AD3 /* HYDTypedMapper.m in Sources */,
 				1F7EFA16191B563A0074B028 /* HYDSplitMapper.m in Sources */,
-				1F357E7218C31960004C4CBA /* HYDStringToNumberMapperSpec.mm in Sources */,
 				1F1BB7281910B01C003D8C7E /* HYDStringValueTransformer.m in Sources */,
 				1FD4F96018A35DE500DA1AD3 /* HYDCollection.m in Sources */,
-				1F357E7518C31960004C4CBA /* HYDStringToURLMapperSpec.mm in Sources */,
 				1FDAC11A18121F6900846B44 /* HYDClassInspector.m in Sources */,
 				1F88089A18A60F3800CE4C3F /* HYDKeyPathAccessor.m in Sources */,
 				1FE4B27618CEBC5F00144A98 /* HYDMapping.m in Sources */,
 				1F357E5918C30805004C4CBA /* HYDStringToURLMapper.m in Sources */,
-				1F357E6F18C31960004C4CBA /* HYDStringToDateMapperSpec.mm in Sources */,
 				1FD4F9B018A3776600DA1AD3 /* HYDObjectToStringFormatterMapper.m in Sources */,
 				1FD4F9BC18A3776600DA1AD3 /* HYDBlockMapper.m in Sources */,
 				1FD4F9A418A3776600DA1AD3 /* HYDNotNullMapper.m in Sources */,
-				1F357E7818C31960004C4CBA /* HYDStringToUUIDFormatterSpec.mm in Sources */,
 				1F26F32718C2F1CB003A7FB9 /* HYDDateToStringMapper.m in Sources */,
 				1F1217C6188E615200B1CBD1 /* HYDFunctions.m in Sources */,
 				1FB7B1B919048628006834E5 /* HYDForwardMapper.m in Sources */,
@@ -1397,12 +1400,10 @@
 				1F357E5418C307B5004C4CBA /* HYDStringToDateMapper.m in Sources */,
 				1FB7B1B619048628006834E5 /* HYDBackwardMapper.m in Sources */,
 				31B738701E5C1FD1663E86ED /* HYDConstants.m in Sources */,
-				1F357E6C18C31960004C4CBA /* HYDNumberToStringMapperSpec.mm in Sources */,
 				1FC3B99B191C9C2B00AA359B /* HYDNumberToDateMapper.m in Sources */,
 				1FF0EA3018BB280F00ED3021 /* HYDIdentityValueTransformer.m in Sources */,
 				31B73F5CAE5FD7BEC85F161C /* HYDURLFormatter.m in Sources */,
 				1F88089718A60F3800CE4C3F /* HYDKeyAccessor.m in Sources */,
-				1F357E7B18C31960004C4CBA /* HYDUUIDToStringFormatterSpec.mm in Sources */,
 				1FF0EA4118BB428200ED3021 /* HYDAnyClassSentinel.m in Sources */,
 				1F357E5E18C3086C004C4CBA /* HYDStringToUUIDMapper.m in Sources */,
 				1F26F30D18C28BC6003A7FB9 /* HYDReversedValueTransformer.m in Sources */,
@@ -1715,6 +1716,7 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1765,6 +1767,7 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;

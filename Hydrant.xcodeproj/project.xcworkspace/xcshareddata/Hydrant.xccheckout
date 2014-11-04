@@ -10,33 +10,33 @@
 	<string>Hydrant</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>546A7B11-7550-4B2F-8B3C-FE277795B7A7</key>
-		<string>ssh://github.com/jeffh/Hydrant.git</string>
-		<key>7AF7BE56-1A74-4652-B086-F41BE6BF1396</key>
+		<key>3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6</key>
+		<string>https://github.com/jeffh/Hydrant.git</string>
+		<key>9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D</key>
 		<string>https://github.com/pivotal/cedar.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Hydrant.xcodeproj/project.xcworkspace</string>
+	<string>Hydrant.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>546A7B11-7550-4B2F-8B3C-FE277795B7A7</key>
+		<key>3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6</key>
 		<string>../..</string>
-		<key>7AF7BE56-1A74-4652-B086-F41BE6BF1396</key>
-		<string>../../Externals/cedar</string>
+		<key>9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D</key>
+		<string>../../Externals/cedar/</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/jeffh/Hydrant.git</string>
+	<string>https://github.com/jeffh/Hydrant.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>546A7B11-7550-4B2F-8B3C-FE277795B7A7</string>
+	<string>3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>7AF7BE56-1A74-4652-B086-F41BE6BF1396</string>
+			<string>9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>cedar</string>
 		</dict>
@@ -44,7 +44,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>546A7B11-7550-4B2F-8B3C-FE277795B7A7</string>
+			<string>3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Hydrant</string>
 		</dict>
