@@ -22,7 +22,7 @@
 		<key>3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6</key>
 		<string>../..</string>
 		<key>9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D</key>
-		<string>../../Externals/cedar/</string>
+		<string>../../Externals/cedar</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/jeffh/Hydrant.git</string>
