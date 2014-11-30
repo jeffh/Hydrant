@@ -12,7 +12,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(HYDReflectiveMapperSpec)
 
 describe(@"HYDReflectiveMapper", ^{
-    __block HYDReflectiveMapper *mapper;
+    __block HYDReflectiveMapper *mapper, *mapperWithoutOptional;
     __block HYDSFakeAccessor *fakeAccessor;
     __block HYDSFakeMapper *childMapper1;
     __block HYDSFakeMapper *childMapper2;
@@ -41,10 +41,9 @@ describe(@"HYDReflectiveMapper", ^{
         childMapper2 = [[HYDSFakeMapper alloc] init];
         childMapper2.objectsToReturn = @[@"John"];
 
-        mapper = ({
+        mapperWithoutOptional = ({
             HYDMapReflectively([HYDSPerson class])
             .mapType([NSDate class], HYDMapStringToDate(HYDDateFormatRFC3339))
-            .optional(@[@"birthDate", @"homepage", @"siblings"])
             .except(@[@"parent"])
             .customMapping(@{@"first_name": @[childMapper2, @"firstName"],
                              fakeAccessor: @"age",
@@ -65,115 +64,340 @@ describe(@"HYDReflectiveMapper", ^{
         });
     });
 
-    describe(@"parsing a source object", ^{
-        __block id parsedObject;
-        __block id sourceObject;
-        __block HYDError *error;
-
-        subjectAction(^{
-            parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+    context(@"configured with no required fields", ^{
+        beforeEach(^{
+            mapper = mapperWithoutOptional.required(@[]);
         });
 
-        context(@"when the source object is valid without any missing fields", ^{
-            beforeEach(^{
-                sourceObject = validSourceObject;
+        describe(@"parsing a source object", ^{
+            __block id parsedObject;
+            __block id sourceObject;
+            __block HYDError *error;
+
+            subjectAction(^{
+                parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
             });
 
-            it(@"should parse the object into a valid person", ^{
-                parsedObject should equal(expectedPerson);
+            context(@"when the source object is valid without any missing fields", ^{
+                beforeEach(^{
+                    sourceObject = validSourceObject;
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return an error", ^{
+                    error should be_nil;
+                });
             });
 
-            it(@"should not return an error", ^{
-                error should be_nil;
+            context(@"when the source object requires coercing types", ^{
+                beforeEach(^{
+                    sourceObject = @{@"firstName": @1,
+                                     @"lastName": [@"dough" mutableCopy]};
+                    mapper = HYDMapReflectively([HYDSPerson class]).only(@[@"firstName", @"lastName"]);
+                    expectedPerson = [[HYDSPerson alloc] init];
+                    expectedPerson.firstName = @"1";
+                    expectedPerson.lastName = @"dough";
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return an error", ^{
+                    error should be_nil;
+                });
+            });
+
+            context(@"when the source object is missing optional fields", ^{
+                beforeEach(^{
+                    NSMutableDictionary *source = [validSourceObject mutableCopy];
+                    [source removeObjectForKey:@"homepage"];
+                    sourceObject = source;
+
+                    expectedPerson.homepage = nil;
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return a fatal error", ^{
+                    error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
+                });
+            });
+
+            context(@"when the source object is an incorrect type", ^{
+                beforeEach(^{
+                    sourceObject = @"No Beef here";
+                });
+
+                it(@"should return nil", ^{
+                    parsedObject should be_nil;
+                });
+
+                it(@"should return a fatal type error", ^{
+                    error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
+                });
             });
         });
 
-        context(@"when the source object requires coercing types", ^{
+        describe(@"reverse mapping", ^{
             beforeEach(^{
-                sourceObject = @{@"firstName": @1,
-                                 @"lastName": [@"dough" mutableCopy]};
-                mapper = HYDMapReflectively([HYDSPerson class]).only(@[@"firstName", @"lastName"]);
-                expectedPerson = [[HYDSPerson alloc] init];
-                expectedPerson.firstName = @"1";
-                expectedPerson.lastName = @"dough";
-            });
+                HYDSFakeMapper *reverseChildMapper1 = [[HYDSFakeMapper alloc] init];
+                childMapper1.reverseMapperToReturn = reverseChildMapper1;
+                reverseChildMapper1.objectsToReturn = @[@"transforms"];
 
-            it(@"should parse the object into a valid person", ^{
-                parsedObject should equal(expectedPerson);
-            });
+                HYDSFakeMapper *reverseChildMapper2 = [[HYDSFakeMapper alloc] init];
+                childMapper2.reverseMapperToReturn = reverseChildMapper2;
+                reverseChildMapper2.objectsToReturn = @[@"John"];
 
-            it(@"should not return an error", ^{
-                error should be_nil;
+                [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+                [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
+                    NSMutableDictionary *sourceObject = [validSourceObject mutableCopy];
+                    [sourceObject removeObjectsForKeys:@[@"parent", @"siblings"]];
+                    sourceObject;
+                });
             });
-        });
-
-        context(@"when the source object is missing required fields", ^{
-            beforeEach(^{
-                sourceObject = @{};
-            });
-
-            it(@"should return nil", ^{
-                parsedObject should be_nil;
-            });
-
-            it(@"should return a fatal error", ^{
-                error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
-            });
-        });
-
-        context(@"when the source object is missing optional fields", ^{
-            beforeEach(^{
-                NSMutableDictionary *source = [validSourceObject mutableCopy];
-                [source removeObjectForKey:@"homepage"];
-                sourceObject = source;
-
-                expectedPerson.homepage = nil;
-            });
-
-            it(@"should parse the object into a valid person", ^{
-                parsedObject should equal(expectedPerson);
-            });
-
-            it(@"should not return a fatal error", ^{
-                error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
-            });
-        });
-
-        context(@"when the source object is an incorrect type", ^{
-            beforeEach(^{
-                sourceObject = @"No Beef here";
-            });
-
-            it(@"should return nil", ^{
-                parsedObject should be_nil;
-            });
-
-            it(@"should return a fatal type error", ^{
-                error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
-            });
+            
+            itShouldBehaveLike(@"a mapper that does the inverse of the original");
         });
     });
 
-    describe(@"reverse mapping", ^{
+    context(@"configured with required fields", ^{
         beforeEach(^{
-            HYDSFakeMapper *reverseChildMapper1 = [[HYDSFakeMapper alloc] init];
-            childMapper1.reverseMapperToReturn = reverseChildMapper1;
-            reverseChildMapper1.objectsToReturn = @[@"transforms"];
+            mapper = mapperWithoutOptional.required(@[@"firstName", @"lastName", @"fullName"]);
+        });
 
-            HYDSFakeMapper *reverseChildMapper2 = [[HYDSFakeMapper alloc] init];
-            childMapper2.reverseMapperToReturn = reverseChildMapper2;
-            reverseChildMapper2.objectsToReturn = @[@"John"];
+        describe(@"parsing a source object", ^{
+            __block id parsedObject;
+            __block id sourceObject;
+            __block HYDError *error;
 
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
-                NSMutableDictionary *sourceObject = [validSourceObject mutableCopy];
-                [sourceObject removeObjectsForKeys:@[@"parent", @"siblings"]];
-                sourceObject;
+            subjectAction(^{
+                parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+            });
+
+            context(@"when the source object is valid without any missing fields", ^{
+                beforeEach(^{
+                    sourceObject = validSourceObject;
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return an error", ^{
+                    error should be_nil;
+                });
+            });
+
+            context(@"when the source object requires coercing types", ^{
+                beforeEach(^{
+                    sourceObject = @{@"firstName": @1,
+                                     @"lastName": [@"dough" mutableCopy]};
+                    mapper = HYDMapReflectively([HYDSPerson class]).only(@[@"firstName", @"lastName"]);
+                    expectedPerson = [[HYDSPerson alloc] init];
+                    expectedPerson.firstName = @"1";
+                    expectedPerson.lastName = @"dough";
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return an error", ^{
+                    error should be_nil;
+                });
+            });
+
+            context(@"when the source object is missing required fields", ^{
+                beforeEach(^{
+                    sourceObject = @{};
+                });
+
+                it(@"should return nil", ^{
+                    parsedObject should be_nil;
+                });
+
+                it(@"should return a fatal error", ^{
+                    error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
+                });
+            });
+
+            context(@"when the source object is missing optional fields", ^{
+                beforeEach(^{
+                    NSMutableDictionary *source = [validSourceObject mutableCopy];
+                    [source removeObjectForKey:@"homepage"];
+                    sourceObject = source;
+
+                    expectedPerson.homepage = nil;
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return a fatal error", ^{
+                    error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
+                });
+            });
+
+            context(@"when the source object is an incorrect type", ^{
+                beforeEach(^{
+                    sourceObject = @"No Beef here";
+                });
+
+                it(@"should return nil", ^{
+                    parsedObject should be_nil;
+                });
+
+                it(@"should return a fatal type error", ^{
+                    error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
+                });
             });
         });
 
-        itShouldBehaveLike(@"a mapper that does the inverse of the original");
+        describe(@"reverse mapping", ^{
+            beforeEach(^{
+                HYDSFakeMapper *reverseChildMapper1 = [[HYDSFakeMapper alloc] init];
+                childMapper1.reverseMapperToReturn = reverseChildMapper1;
+                reverseChildMapper1.objectsToReturn = @[@"transforms"];
+
+                HYDSFakeMapper *reverseChildMapper2 = [[HYDSFakeMapper alloc] init];
+                childMapper2.reverseMapperToReturn = reverseChildMapper2;
+                reverseChildMapper2.objectsToReturn = @[@"John"];
+
+                [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+                [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
+                    NSMutableDictionary *sourceObject = [validSourceObject mutableCopy];
+                    [sourceObject removeObjectsForKeys:@[@"parent", @"siblings"]];
+                    sourceObject;
+                });
+            });
+            
+            itShouldBehaveLike(@"a mapper that does the inverse of the original");
+        });
+    });
+
+    context(@"with a mapper that is configured with optional fields", ^{
+        beforeEach(^{
+            mapper = mapperWithoutOptional.optional(@[@"birthDate", @"homepage", @"siblings"]);
+        });
+        describe(@"parsing a source object", ^{
+            __block id parsedObject;
+            __block id sourceObject;
+            __block HYDError *error;
+
+            subjectAction(^{
+                parsedObject = [mapper objectFromSourceObject:sourceObject error:&error];
+            });
+
+            context(@"when the source object is valid without any missing fields", ^{
+                beforeEach(^{
+                    sourceObject = validSourceObject;
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return an error", ^{
+                    error should be_nil;
+                });
+            });
+
+            context(@"when the source object requires coercing types", ^{
+                beforeEach(^{
+                    sourceObject = @{@"firstName": @1,
+                                     @"lastName": [@"dough" mutableCopy]};
+                    mapper = HYDMapReflectively([HYDSPerson class]).only(@[@"firstName", @"lastName"]);
+                    expectedPerson = [[HYDSPerson alloc] init];
+                    expectedPerson.firstName = @"1";
+                    expectedPerson.lastName = @"dough";
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return an error", ^{
+                    error should be_nil;
+                });
+            });
+
+            context(@"when the source object is missing required fields", ^{
+                beforeEach(^{
+                    sourceObject = @{};
+                });
+
+                it(@"should return nil", ^{
+                    parsedObject should be_nil;
+                });
+
+                it(@"should return a fatal error", ^{
+                    error should be_a_fatal_error.with_code(HYDErrorMultipleErrors);
+                });
+            });
+
+            context(@"when the source object is missing optional fields", ^{
+                beforeEach(^{
+                    NSMutableDictionary *source = [validSourceObject mutableCopy];
+                    [source removeObjectForKey:@"homepage"];
+                    sourceObject = source;
+
+                    expectedPerson.homepage = nil;
+                });
+
+                it(@"should parse the object into a valid person", ^{
+                    parsedObject should equal(expectedPerson);
+                });
+
+                it(@"should not return a fatal error", ^{
+                    error should be_a_non_fatal_error.with_code(HYDErrorMultipleErrors);
+                });
+            });
+
+            context(@"when the source object is an incorrect type", ^{
+                beforeEach(^{
+                    sourceObject = @"No Beef here";
+                });
+
+                it(@"should return nil", ^{
+                    parsedObject should be_nil;
+                });
+
+                it(@"should return a fatal type error", ^{
+                    error should be_a_fatal_error.with_code(HYDErrorInvalidSourceObjectType);
+                });
+            });
+        });
+
+        describe(@"reverse mapping", ^{
+            beforeEach(^{
+                HYDSFakeMapper *reverseChildMapper1 = [[HYDSFakeMapper alloc] init];
+                childMapper1.reverseMapperToReturn = reverseChildMapper1;
+                reverseChildMapper1.objectsToReturn = @[@"transforms"];
+
+                HYDSFakeMapper *reverseChildMapper2 = [[HYDSFakeMapper alloc] init];
+                childMapper2.reverseMapperToReturn = reverseChildMapper2;
+                reverseChildMapper2.objectsToReturn = @[@"John"];
+                
+                [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+                [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
+                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
+                    NSMutableDictionary *sourceObject = [validSourceObject mutableCopy];
+                    [sourceObject removeObjectsForKeys:@[@"parent", @"siblings"]];
+                    sourceObject;
+                });
+            });
+            
+            itShouldBehaveLike(@"a mapper that does the inverse of the original");
+        });
     });
 });
 

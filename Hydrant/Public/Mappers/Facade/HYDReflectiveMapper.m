@@ -20,7 +20,6 @@
 #import "HYDThreadMapper.h"
 #import "HYDStringToUUIDMapper.h"
 #import "HYDNumberToDateMapper.h"
-
 #import "HYDMapping.h"
 #import "HYDSplitMapper.h"
 
@@ -32,6 +31,7 @@
 @property (strong, nonatomic) Class destinationClass;
 
 @property (copy, nonatomic) NSSet *optionalFields;
+@property (copy, nonatomic) NSSet *requiredFields;
 @property (copy, nonatomic) NSSet *onlyFields;
 @property (copy, nonatomic) NSSet *excludedFields;
 @property (copy, nonatomic) NSDictionary *overriddenMapping;
@@ -63,6 +63,7 @@
                     sourceClass:sourceClass
                destinationClass:destinationClass
                  optionalFields:[NSSet set]
+                 requiredFields:nil // setting to non-nil will indicate all other fields are optional.
                      onlyFields:[NSSet set]
                  excludedFields:[NSSet set]
               overriddenMapping:@{}
@@ -79,6 +80,7 @@
          sourceClass:(Class)sourceClass
     destinationClass:(Class)destinationClass
       optionalFields:(NSSet *)optionalFields
+      requiredFields:(NSSet *)requiredFields
           onlyFields:(NSSet *)onlyFields
       excludedFields:(NSSet *)excludedFields
    overriddenMapping:(NSDictionary *)overriddenMapping
@@ -86,12 +88,14 @@
       keyTransformer:(NSValueTransformer *)keyTransformer
 {
     NSAssert(!(onlyFields.count && excludedFields.count), @"Ambigious mapping. Cannot have only(%@) and exclude(%@) specified.", onlyFields, excludedFields);
+    NSAssert(!(optionalFields.count && requiredFields.count), @"Ambigious mapping. Cannot have optional(%@) and required(%@) specified.", optionalFields, requiredFields);
     self = [super init];
     if (self) {
         self.innerMapper = innerMapper;
         self.sourceClass = sourceClass;
         self.destinationClass = destinationClass;
         self.optionalFields = optionalFields;
+        self.requiredFields = requiredFields;
         self.onlyFields = onlyFields;
         self.excludedFields = excludedFields;
         self.typeMapping = typeMapping;
@@ -135,6 +139,7 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                     requiredFields:self.requiredFields
                                          onlyFields:[NSSet setWithArray:propertyNames]
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
@@ -152,6 +157,7 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                     requiredFields:self.requiredFields
                                          onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
@@ -167,12 +173,34 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:[NSSet setWithArray:optionalFields]
+                                     requiredFields:self.requiredFields
                                          onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
                                         typeMapping:self.typeMapping
                                      keyTransformer:self.destinationToSourceKeyTransformer];
     };
+}
+
+- (HYDReflectiveMapper *(^)(NSArray *))required
+{
+    return ^(NSArray *requiredFields) {
+        return [[[self class] alloc] initWithMapper:self.innerMapper
+                                        sourceClass:self.sourceClass
+                                   destinationClass:self.destinationClass
+                                     optionalFields:self.optionalFields
+                                     requiredFields:[NSSet setWithArray:requiredFields]
+                                         onlyFields:self.onlyFields
+                                     excludedFields:self.excludedFields
+                                  overriddenMapping:self.overriddenMapping
+                                        typeMapping:self.typeMapping
+                                     keyTransformer:self.destinationToSourceKeyTransformer];
+    };
+}
+
+- (HYDReflectiveMapper *)withNoRequiredFields
+{
+    return self.required(@[]);
 }
 
 - (HYDReflectiveMapper *(^)(NSArray *))except
@@ -182,6 +210,7 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                     requiredFields:self.requiredFields
                                          onlyFields:self.onlyFields
                                      excludedFields:[NSSet setWithArray:excludedFields]
                                   overriddenMapping:self.overriddenMapping
@@ -199,6 +228,7 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                     requiredFields:self.requiredFields
                                          onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:mapping
@@ -214,6 +244,7 @@
                                         sourceClass:self.sourceClass
                                    destinationClass:self.destinationClass
                                      optionalFields:self.optionalFields
+                                     requiredFields:self.requiredFields
                                          onlyFields:self.onlyFields
                                      excludedFields:self.excludedFields
                                   overriddenMapping:self.overriddenMapping
@@ -256,7 +287,7 @@
         }
 
         id<HYDMapper> mapper = HYDMapNotNullFrom([self mapperForProperty:property]);
-        if ([self.optionalFields containsObject:destinationKey]) {
+        if ([self fieldShouldBeOptional:destinationKey]) {
             mapper = HYDMapNonFatally(mapper);
         }
 
@@ -282,6 +313,17 @@
     }
 
     return mapper;
+}
+
+- (BOOL)fieldShouldBeOptional:(NSString *)field
+{
+    if (self.optionalFields.count && [self.optionalFields containsObject:field]) {
+        return YES;
+    }
+    if (self.requiredFields && ![self.requiredFields containsObject:field]) {
+        return YES;
+    }
+    return NO;
 }
 
 @end
