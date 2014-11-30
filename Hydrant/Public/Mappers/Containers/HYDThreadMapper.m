@@ -57,7 +57,7 @@
 {
     return [NSString stringWithFormat:@"<%@: %@>",
             NSStringFromClass([self class]),
-            [[self.mappers valueForKey:@"description"] componentsSeparatedByString:@" -> "]];
+            [[self.mappers valueForKey:@"description"] componentsJoinedByString:@" -> "]];
 }
 
 @end

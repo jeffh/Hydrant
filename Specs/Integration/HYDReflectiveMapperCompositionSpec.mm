@@ -39,6 +39,7 @@ describe(@"HYDReflectiveMapperComposition", ^{
                                     @"homepage": @"http://google.com",
                                     @"identifier": @42,
                                     @"human_age": @"12",
+                                    @"registered": @YES,
                                     @"gender": @"male"};
         expectedObjectGraph = [[HYDSPerson alloc] init];
         expectedObjectGraph.identifier = 42;
@@ -54,6 +55,12 @@ describe(@"HYDReflectiveMapperComposition", ^{
             parent.birthDate = [NSDate dateWithTimeIntervalSince1970:1390186634.595];
             parent;
         });
+        expectedObjectGraph.registered = YES;
+    });
+
+    it(@"should not crash when using description", ^{
+        [mapper description];
+        [[mapper reverseMapper] description];
     });
 
     describe(@"mapping from dictionaries to an object graph", ^{
