@@ -1084,7 +1084,7 @@ HYDMapReflectively
 ==================
 
 This builds upon various mappers and the Objective-C runtime to in the name of
-dry code at the expense of internal complexity (thus, debuggability). It uses
+dry code at the expense of internal complexity (thus, debug-ability). It uses
 the runtime to try and intelligently generate mappings:
 
     - Convert strings to dates with :ref:`HYDMapStringToAnyDate`
@@ -1105,6 +1105,95 @@ explicitly state them if they differ from its configuration.
 .. info:: This mapper has mutable internal state and is not thread-safe during
           its usage.
 
+Unlike most mappers, this accepts optional configuration as property-blocks:
+
+
+mapType(Class, id<HYDMapper>)
+-----------------------------
+
+This allows you to always map a given objective-c class using a particular
+mapper::
+
+    // All properties of Person of type MyClass will use MyCustomMapper
+    HYDMapReflectively([Person class])
+        .mapType([MyClass class], [MyCustomMapper new]);
+
+optional(NSArray *propertyNames)
+--------------------------------
+
+This allows you to easily specify optional fields. Accepts an array of property
+names (strings)::
+
+    // firstName and lastName properties are optional. They can be nil.
+    HYDMapReflectively([Person class])
+        .optional(@[@"firstName", @"lastName"]);
+
+Optional and required cannot be used simultaneously.
+
+required(NSArray *propertyNames)
+--------------------------------
+
+This allows you to easily specify required fields. All other fields will be
+marked as optional. Accepts an array of property names (strings)::
+
+    // firstName and lastName properties are required. They can be not nil.
+    // All other fields are optional.
+    HYDMapReflectively([Person class])
+        .required(@[@"firstName", @"lastName"]);
+
+Optional and required cannot be used simultaneously.
+
+withNoRequiredFields
+--------------------
+
+Alias to doing ``required(@[])``::
+
+    // All fields are optional instead of the default of required.
+    HYDMapReflectively([Person class]).withNoRequiredFields
+
+Optional and withNoRequiredFields cannot be used simultaneously.
+
+only(NSArray *propertyNames)
+----------------------------
+
+This allows you to easily specify fields the reflective mapper will map.
+Accepts an array of property names (strings)::
+
+    // firstName and lastName are the only fields set.
+    // All other fields are nil.
+    HYDMapReflectively([Person class])
+        .only(@[@"firstName", @"lastName"]);
+
+except(NSArray *propertyNames)
+----------------------------
+
+This allows you to easily exclude specific fields the reflective mapper should
+map.  Accepts an array of property names (strings)::
+
+    // firstName and lastName are the excluded from mapping.
+    // All other fields are still mapped.
+    HYDMapReflectively([Person class])
+        .except(@[@"firstName", @"lastName"]);
+
+customMapping(NSDictionary *mappingOverrides)
+---------------------------------------------
+
+This allows you to specify custom mappings for particular fields. Accepts a
+dictionary like :ref:`HYDMapObject`::
+
+    // firstName property will map using MyCustomMapper.
+    HYDMapReflectively([Person class])
+        .customMapping(@{@"firstName": @[[MyCustomMapper class], @"firstName"]});
+
+keyTransformer(NSValueTransformer *keyTransformer)
+---------------------------------------------
+
+This allows you to specify a value transformer that will convert destination keys
+to source keys. (eg - property names to JSON keys)::
+
+    // Will map source object's first_name to Person's firstName property
+    HYDMapReflectively([Person class])
+        .keyTransformer([HYDCamelToSnakeCaseValueTransformer new]);
 
 .. _HYDMapThread:
 .. _HYDThreadMapper:
