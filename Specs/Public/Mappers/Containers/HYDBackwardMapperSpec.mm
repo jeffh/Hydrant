@@ -1,3 +1,4 @@
+#import <Cedar/Cedar.h>
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
 #import "HYDSFakeMapper.h"
@@ -31,6 +32,7 @@ describe(@"HYDBackwardMapper", ^{
         __block HYDError *error;
 
         subjectAction(^{
+            error = [HYDError dummyError];
             resultingObject = [mapper objectFromSourceObject:sourceObject error:&error];
         });
 

@@ -1,5 +1,7 @@
+#import <Cedar/Cedar.h>
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
+#import "HYDError+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -32,6 +34,7 @@ sharedExamplesFor(@"an accessor", ^(NSDictionary *scope) {
     __block id target;
 
     it(@"should list all the fields it was given", ^{
+        error = [HYDError dummyError];
         [accessor fieldNames] should equal(expectedFieldNames);
     });
 

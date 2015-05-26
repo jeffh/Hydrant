@@ -56,6 +56,8 @@
                                      andDestinationAccessor:self.walkAccessor
                                     replacementSourceObject:sourceObject
                                                     isFatal:[err isFatal]]);
+    } else {
+        HYDSetObjectPointer(error, nil);
     }
 
     if ([err isFatal]) {

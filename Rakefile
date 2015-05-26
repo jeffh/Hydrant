@@ -51,33 +51,17 @@ task :osx_specs do
   system_or_exit("env DYLD_FRAMEWORK_PATH=build/Debug/ build/Debug/HydrantOSXSpecs")
 end
 
-desc 'Runs iOS 7.1 test bundles'
-task :specs71_bundle do
+desc 'Runs iOS 8 test bundles'
+task :specs_ios do
   Simulator.quit
-  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone 5s,OS=7.1' SYMROOT=#{BUILD_DIR.inspect}")
+  xcbuild("test -scheme Hydrant-iOS -workspace Hydrant.xcworkspace -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone 5s,OS=8.3' SYMROOT=#{BUILD_DIR.inspect}")
   puts
 end
 
-desc 'Runs iOS 8.1 test bundles'
-task :specs81_bundle do
+desc 'Runs OSX test bundles'
+task :specs_osx do
   Simulator.quit
-  xcbuild("test -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone 5s,OS=8.1' SYMROOT=#{BUILD_DIR.inspect}")
-  puts
-end
-
-desc 'Runs iOS 7.1 test suites'
-task :specs71_suite do
-  Simulator.quit
-  xcbuild("clean build -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} SYMROOT=#{BUILD_DIR.inspect}")
-  Simulator.launch("#{BUILD_DIR}/Debug-iphonesimulator/HydrantSpecs.app", '7.1')
-  puts
-end
-
-desc 'Runs iOS 8.1 test suites'
-task :specs81_suite do
-  Simulator.quit
-  xcbuild("clean build -scheme HydrantSpecs -sdk iphonesimulator#{SDK_BUILD_VERSION} SYMROOT=#{BUILD_DIR.inspect}")
-  Simulator.launch("#{BUILD_DIR}/Debug-iphonesimulator/HydrantSpecs.app", '8.1')
+  xcbuild("test -scheme Hydrant-OSX -workspace Hydrant.xcworkspace -sdk macosx SYMROOT=#{BUILD_DIR.inspect}")
   puts
 end
 
@@ -86,6 +70,6 @@ task :lint do
   system_or_exit('pod spec lint Hydrant.podspec')
 end
 
-task :default => [:clean, :osx_specs, :specs71_suite, :specs81_suite]
+task :default => [:clean, :specs_osx, :specs_ios]
 desc 'Runs the task CI would run'
-task :ci => [:clean, :osx_specs, :specs71_suite, :specs81_suite, :lint]
+task :ci => [:default, :lint]

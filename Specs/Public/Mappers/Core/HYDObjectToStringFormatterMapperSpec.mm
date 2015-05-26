@@ -1,3 +1,4 @@
+#import <Cedar/Cedar.h>
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
 #import "HYDError+Spec.h"
@@ -15,6 +16,7 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
     __block HYDSFakeMapper *innerMapper;
 
     beforeEach(^{
+        error = [HYDError dummyError];
         innerMapper = [[HYDSFakeMapper alloc] init];
         formatter = nice_fake_for([NSFormatter class]);
         mapper = HYDMapObjectToStringByFormatter(innerMapper, formatter);

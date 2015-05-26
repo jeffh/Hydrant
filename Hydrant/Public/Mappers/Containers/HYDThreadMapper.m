@@ -29,6 +29,8 @@
 {
     id resultingObject = sourceObject;
 
+    HYDSetObjectPointer(error, nil);
+
     for (id<HYDMapper> innerMapper in self.mappers) {
         HYDError *err = nil;
         resultingObject = [innerMapper objectFromSourceObject:resultingObject error:&err];

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0630"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1F1E3F9B1803931D00801509"
-               BuildableName = "HydrantSpecs.app"
-               BlueprintName = "HydrantSpecs"
-               ReferencedContainer = "container:Hydrant.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1FA35AC018E5380100D99840"
-               BuildableName = "HydrantSpecsBundle.octest"
-               BlueprintName = "HydrantSpecsBundle"
+               BlueprintIdentifier = "1F54472B1B13A0F6003C1FFC"
+               BuildableName = "Hydrant.framework"
+               BlueprintName = "Hydrant-iOS"
                ReferencedContainer = "container:Hydrant.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1FA35AC018E5380100D99840"
-               BuildableName = "HydrantSpecsBundle.octest"
-               BlueprintName = "HydrantSpecsBundle"
+               BlueprintIdentifier = "1F5447351B13A0F6003C1FFC"
+               BuildableName = "Hydrant-iOSTests.xctest"
+               BlueprintName = "Hydrant-iOSTests"
                ReferencedContainer = "container:Hydrant.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -56,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1F1E3F9B1803931D00801509"
-            BuildableName = "HydrantSpecs.app"
-            BlueprintName = "HydrantSpecs"
+            BlueprintIdentifier = "1F54472B1B13A0F6003C1FFC"
+            BuildableName = "Hydrant.framework"
+            BlueprintName = "Hydrant-iOS"
             ReferencedContainer = "container:Hydrant.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -72,15 +58,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1F1E3F9B1803931D00801509"
-            BuildableName = "HydrantSpecs.app"
-            BlueprintName = "HydrantSpecs"
+            BlueprintIdentifier = "1F54472B1B13A0F6003C1FFC"
+            BuildableName = "Hydrant.framework"
+            BlueprintName = "Hydrant-iOS"
             ReferencedContainer = "container:Hydrant.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -90,15 +76,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1F1E3F9B1803931D00801509"
-            BuildableName = "HydrantSpecs.app"
-            BlueprintName = "HydrantSpecs"
+            BlueprintIdentifier = "1F54472B1B13A0F6003C1FFC"
+            BuildableName = "Hydrant.framework"
+            BlueprintName = "Hydrant-iOS"
             ReferencedContainer = "container:Hydrant.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

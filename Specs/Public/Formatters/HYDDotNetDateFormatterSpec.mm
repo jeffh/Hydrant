@@ -1,3 +1,4 @@
+#import <Cedar/Cedar.h>
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
 
@@ -14,6 +15,7 @@ describe(@"HYDDotNetDateFormatter", ^{
     __block BOOL success;
 
     beforeEach(^{
+        errorDescription = nil;
         formatter = [[HYDDotNetDateFormatter alloc] init];
     });
 
@@ -34,10 +36,6 @@ describe(@"HYDDotNetDateFormatter", ^{
     void (^itShouldSucceedAsString)(NSString *) = ^(NSString *expectedString) {
         it(@"should work", ^{
             parsedObject should equal(expectedString);
-        });
-
-        it(@"should be successful", ^{
-            success should be_truthy;
         });
 
         it(@"should no emit any error", ^{

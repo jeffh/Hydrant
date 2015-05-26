@@ -65,7 +65,9 @@
 
 - (NSArray *)valuesFromSourceObject:(id)sourceObject error:(__autoreleasing HYDError **)error
 {
-    if (!sourceObject) {
+    if (sourceObject) {
+        HYDSetObjectPointer(error, nil);
+    } else {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorGetViaAccessorFailed
                                               sourceObject:sourceObject
                                             sourceAccessor:self
@@ -90,6 +92,7 @@
                                                        isFatal:YES
                                               underlyingErrors:nil]);
              */
+            HYDSetObjectPointer(error, nil);
             return nil;
         }
     }
@@ -99,6 +102,16 @@
 - (HYDError *)setValues:(NSArray *)values onObject:(id)destinationObject
 {
     if (values.count != self.fieldNames.count) {
+        return [HYDError errorWithCode:HYDErrorSetViaAccessorFailed
+                          sourceObject:nil
+                        sourceAccessor:nil
+                     destinationObject:destinationObject
+                   destinationAccessor:self
+                               isFatal:YES
+                      underlyingErrors:nil];
+    }
+
+    if (!destinationObject) {
         return [HYDError errorWithCode:HYDErrorSetViaAccessorFailed
                           sourceObject:nil
                         sourceAccessor:nil

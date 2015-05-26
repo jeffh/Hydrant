@@ -49,6 +49,8 @@
                                                    isFatal:YES
                                           underlyingErrors:@[doesNotConformError]]);
         return nil;
+    } else {
+        HYDSetObjectPointer(error, nil);
     }
 
     NSUInteger count = [sourceObject count];

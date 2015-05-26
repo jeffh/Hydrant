@@ -26,4 +26,15 @@
               underlyingErrors:nil];
 }
 
++ (instancetype)dummyError
+{
+    return [self errorWithCode:HYDErrorInvalidSourceObjectValue
+                  sourceObject:@"sourceObject"
+                sourceAccessor:HYDAccessKey(@"dummyError.did.you.forget.to.set.nil?")
+             destinationObject:nil
+           destinationAccessor:HYDAccessKey(@"dummyError.did.you.forget.to.set.nil?")
+                       isFatal:NO
+              underlyingErrors:nil];
+}
+
 @end

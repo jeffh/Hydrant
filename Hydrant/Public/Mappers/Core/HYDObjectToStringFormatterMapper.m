@@ -49,7 +49,9 @@
         resultingObject = [self.formatter stringForObjectValue:sourceObject];
     }
 
-    if (!resultingObject) {
+    if (resultingObject) {
+        HYDSetObjectPointer(error, nil);
+    } else {
         HYDSetObjectPointer(error, [HYDError errorWithCode:HYDErrorInvalidSourceObjectValue
                                               sourceObject:sourceObject
                                             sourceAccessor:nil

@@ -1,3 +1,4 @@
+#import <Cedar/Cedar.h>
 #import "Hydrant.h"
 #import "HYDSFakeMapper.h"
 #import "HYDDefaultAccessor.h"
@@ -103,6 +104,10 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
     __block id sourceObject;
     __block id parsedObject;
     __block HYDError *error;
+
+    beforeEach(^{
+        error = [HYDError dummyError];
+    });
 
     describe(@"parsing the source object", ^{
         __block id objectToGive;

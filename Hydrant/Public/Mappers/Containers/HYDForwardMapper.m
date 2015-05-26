@@ -65,6 +65,8 @@
                                      andDestinationAccessor:nil
                                     replacementSourceObject:sourceObject
                                                     isFatal:[err isFatal]]);
+    } else {
+        HYDSetObjectPointer(error, nil);
     }
 
     if ([err isFatal]) {

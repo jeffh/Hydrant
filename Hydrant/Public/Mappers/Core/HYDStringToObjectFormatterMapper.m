@@ -47,7 +47,9 @@
                                 errorDescription:&errorDescription];
     }
 
-    if (!success) {
+    if (success) {
+        HYDSetObjectPointer(error, nil);
+    } else {
         if (!errorDescription) {
             errorDescription = HYDLocalizedStringFormat(@"Failed to format string into object: %@",
                                                         sourceObject);
