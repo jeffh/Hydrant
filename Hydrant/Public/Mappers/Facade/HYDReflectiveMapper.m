@@ -132,6 +132,11 @@
 
 #pragma mark - Public
 
+- (void)reflect
+{
+    [self internalMapper];
+}
+
 - (HYDReflectiveMapper *(^)(NSArray *propertyNames))only
 {
     return ^(NSArray *propertyNames) {

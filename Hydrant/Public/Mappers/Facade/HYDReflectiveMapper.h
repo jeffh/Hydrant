@@ -9,34 +9,54 @@
          sourceClass:(Class)sourceClass
     destinationClass:(Class)destinationClass;
 
-/// A factory that returns a new mapper that maps a given class using a specified mapper.
+/*! A method that eagarly performs HYDReflectiveMapper's lazy reflection on
+ * the destination class. This allows the reflector to know the types and
+ * propery names to map from the source object.
+ *
+ * Causes mutation.
+ *
+ * This is useful if you want to create a singleton of a special reflective
+ * mapper instance and want it to pay the initialization cost upfront instead
+ * of first mapping.
+ */
+- (void)reflect;
+
+/*! A factory that returns a new mapper that maps a given class using a specified mapper.
+ */
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^mapType)(Class destinationClass, id<HYDMapper> mapper);
 
-/// A factory that returns a new mapper that makes the destination properties optional.
-/// It cannot be used with required. By default reflective mappers require all fields.
+/*! A factory that returns a new mapper that makes the destination properties optional.
+ * It cannot be used with required. By default reflective mappers require all fields.
+ */
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^optional)(NSArray *propertyNames);
 
-/// A factory that returns a new mapper that makes the destination properties required.
-/// It cannot be used with optional. By default reflective mappers require all fields.
-/// Passing an empty array will make all fields optional
+/*! A factory that returns a new mapper that makes the destination properties required.
+ * It cannot be used with optional. By default reflective mappers require all fields.
+ * Passing an empty array will make all fields optional
+ */
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^required)(NSArray *propertyNames);
 
-/// Alias to doing required(@[])
+/*! Alias to doing required(@[])
+ */
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *withNoRequiredFields;
 
-/// A factory that returns a new mapper that maps only the specified destination properties. Cannot be used with except().
+/*! A factory that returns a new mapper that maps only the specified destination properties. Cannot be used with except().
+ */
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^only)(NSArray *propertyNames);
 
-/// A factory that returns a new mapper that does not map the specified properties. Cannot be used with only().
+/*! A factory that returns a new mapper that does not map the specified properties. Cannot be used with only().
+ */
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^except)(NSArray *propertyNames);
 
-/// A factory that returns a new mapper that allows you to specify custom mapping for given properties.
-/// This is equivalent to using HYDMapObject.
+/*! A factory that returns a new mapper that allows you to specify custom mapping for given properties.
+ * This is equivalent to using HYDMapObject.
+ */
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^customMapping)(NSDictionary *mappingOverrides);
 
-/// A factory that returns a new mapper that uses the given value transformer.
-/// The value transformer is given the destination key and excepts the source key to read from.
-/// (eg - it uses the property name to figure out the JSON key to read from).
+/*! A factory that returns a new mapper that uses the given value transformer.
+ * The value transformer is given the destination key and excepts the source key to read from.
+ * (eg - it uses the property name to figure out the JSON key to read from).
+ */
 @property (strong, nonatomic, readonly) HYDReflectiveMapper *(^keyTransformer)(NSValueTransformer *keyTransformer);
 
 @end
