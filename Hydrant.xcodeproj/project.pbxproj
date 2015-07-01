@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F29ED3D1B14280600513B62 /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F29ED3C1B14280600513B62 /* libCedar-StaticLib.a */; };
+		1F0B581A1B439FFE0063EE46 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0B58191B439FFE0063EE46 /* Cedar.framework */; };
 		1F5447191B13A0EC003C1FFC /* Hydrant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F54470E1B13A0EC003C1FFC /* Hydrant.framework */; };
 		1F5447371B13A0F6003C1FFC /* Hydrant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F54472C1B13A0F6003C1FFC /* Hydrant.framework */; };
 		1F5447451B13A119003C1FFC /* HYDClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* HYDClassInspector.m */; };
@@ -374,6 +374,7 @@
 
 /* Begin PBXFileReference section */
 		1F06C040181A2DC90017FDB4 /* HYDBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDBase.h; sourceTree = "<group>"; };
+		1F0B58191B439FFE0063EE46 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = "Externals/cedar/build/Debug-iphoneos/Cedar.framework"; sourceTree = "<group>"; };
 		1F12175B188B9BDF00B1CBD1 /* HYDSFakeMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDSFakeMapper.h; sourceTree = "<group>"; };
 		1F12175C188B9BDF00B1CBD1 /* HYDSFakeMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HYDSFakeMapper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1F121771188BF3DA00B1CBD1 /* HYDMutableCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDMutableCollection.h; sourceTree = "<group>"; };
@@ -601,7 +602,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F29ED3D1B14280600513B62 /* libCedar-StaticLib.a in Frameworks */,
+				1F0B581A1B439FFE0063EE46 /* Cedar.framework in Frameworks */,
 				1F5447371B13A0F6003C1FFC /* Hydrant.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -691,6 +692,7 @@
 		1F1E3F71180392ED00801509 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1F0B58191B439FFE0063EE46 /* Cedar.framework */,
 				1F29ED3C1B14280600513B62 /* libCedar-StaticLib.a */,
 				1F29ED3A1B1427F500513B62 /* Cedar.framework */,
 				1F5448A11B13A583003C1FFC /* libCedar-StaticLib.a */,
@@ -1275,7 +1277,7 @@
 			attributes = {
 				CLASSPREFIX = HYD;
 				LastTestingUpgradeCheck = 0610;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Jeff Hui";
 				TargetAttributes = {
 					1F54470D1B13A0EC003C1FFC = {
@@ -1644,6 +1646,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
@@ -1739,6 +1742,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.jeffhui.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hydrant;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1768,6 +1772,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.jeffhui.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hydrant;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1797,6 +1802,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.jeffhui.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -1824,6 +1830,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.jeffhui.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -1852,6 +1859,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.jeffhui.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hydrant;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1880,6 +1888,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.jeffhui.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hydrant;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1918,6 +1927,7 @@
 					"$(PROJECT_DIR)/Externals/cedar/build/Debug-iphoneos",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.jeffhui.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1953,6 +1963,7 @@
 					"$(PROJECT_DIR)/Externals/cedar/build/Debug-iphoneos",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.jeffhui.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
