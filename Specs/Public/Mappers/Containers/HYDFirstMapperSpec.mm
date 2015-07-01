@@ -123,8 +123,8 @@ describe(@"HYDFirstMapper", ^{
             child1.objectsToReturn = @[@1];
             reversedChild1.objectsToReturn = @[@"LOL"];
 
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"LOL";
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"LOL";
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

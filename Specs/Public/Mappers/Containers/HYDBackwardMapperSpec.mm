@@ -122,10 +122,10 @@ describe(@"HYDBackwardMapper", ^{
             reverseChildMapper.objectsToReturn = @[@"me"];
             childMapper.reverseMapperToReturn = reverseChildMapper;
 
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = validSourceObject;
-            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper];
-            [SpecHelper specHelper].sharedExampleContext[@"reverseAccessor"] = HYDAccessDefault(@"walk.to");
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = validSourceObject;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"reverseAccessor"] = HYDAccessDefault(@"walk.to");
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

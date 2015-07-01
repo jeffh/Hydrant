@@ -219,9 +219,9 @@ describe(@"HYDCollectionMapper", ^{
             childMapper.objectsToReturn = @[@2];
             reverseChildMapper.objectsToReturn = @[@1];
 
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @[@1];
-            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @[@1];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper];
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

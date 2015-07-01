@@ -107,9 +107,9 @@ describe(@"HYDThreadMapper", ^{
             mapper2.reverseMapperToReturn = reverseChildMapper2;
             mapper2.objectsToReturn = @[@3];
 
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @1;
-            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[mapper1, mapper2];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @1;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[mapper1, mapper2];
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

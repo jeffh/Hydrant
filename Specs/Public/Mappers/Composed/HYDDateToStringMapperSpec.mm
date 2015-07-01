@@ -24,10 +24,10 @@ describe(@"HYDDateToStringMapper", ^{
         NSString *dateString = @"2012-02-01 at 14:30:45";
 
         mapper = HYDMapDateToString(@"yyyy-MM-dd 'at' HH:mm:ss");
-        [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = date;
-        [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
-        [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = dateString;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = date;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
+        [CDRSpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = dateString;
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");

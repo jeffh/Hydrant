@@ -17,10 +17,10 @@ describe(@"HYDStringToNumberMapper", ^{
         NSString *numberString = [formatter stringFromNumber:number];
 
         mapper = HYDMapStringToNumber(NSNumberFormatterDecimalStyle);
-        [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = numberString;
-        [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = [NSDate date];
-        [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = number;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = numberString;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = [NSDate date];
+        [CDRSpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = number;
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");

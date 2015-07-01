@@ -14,10 +14,10 @@ describe(@"HYDUUIDToStringFormatter", ^{
     beforeEach(^{
         uuid = [NSUUID UUID];
         mapper = HYDMapUUIDToString();
-        [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = uuid;
-        [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @1;
-        [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = [uuid UUIDString];
+        [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = uuid;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @1;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = [uuid UUIDString];
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");

@@ -34,20 +34,20 @@ describe(@"HYDKeyPathAccessor", ^{
         beforeEach(^{
             accessor = HYDAccessKeyPath(@"parent.firstName", @"parent.lastName");
 
-            [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
-            [SpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [HYDSPerson new]; };
-            [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
+            [CDRSpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [HYDSPerson new]; };
+            [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
                 HYDSPerson *child = [[HYDSPerson alloc] init];
                 child.parent = [[HYDSPerson alloc] init];
                 child.parent.firstName = @"John";
                 child.parent.lastName = @"Doe";
                 child;
             });
-            [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @{@"parent": @{@"firstName": @"John"}};
-            [SpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"parent.firstName", @"parent.lastName"];
-            [SpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"John", @"Doe"];
-            [SpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] = @{@"parent": @{@"firstName": [NSNull null], @"lastName": @"Doe"}};
-            [SpecHelper specHelper].sharedExampleContext[@"expectedValuesWithNulls"] = @[[NSNull null], @"Doe"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @{@"parent": @{@"firstName": @"John"}};
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"parent.firstName", @"parent.lastName"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"John", @"Doe"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] = @{@"parent": @{@"firstName": [NSNull null], @"lastName": @"Doe"}};
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedValuesWithNulls"] = @[[NSNull null], @"Doe"];
         });
 
         itShouldBehaveLike(@"an accessor");
@@ -55,19 +55,19 @@ describe(@"HYDKeyPathAccessor", ^{
 
     context(@"with one key", ^{
         beforeEach(^{
-            [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
-            [SpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [HYDSPerson new]; };
-            [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
+            [CDRSpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [HYDSPerson new]; };
+            [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = ({
                 HYDSPerson *child = [[HYDSPerson alloc] init];
                 child.parent = [[HYDSPerson alloc] init];
                 child.parent.firstName = @"John";
                 child;
             });
-            [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @{};
-            [SpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"parent.firstName"];
-            [SpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"John"];
-            [SpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] = @{@"parent": @{@"firstName": [NSNull null]}};
-            [SpecHelper specHelper].sharedExampleContext[@"expectedValuesWithNulls"] = @[[NSNull null]];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @{};
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"parent.firstName"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"John"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] = @{@"parent": @{@"firstName": [NSNull null]}};
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedValuesWithNulls"] = @[[NSNull null]];
         });
 
         itShouldBehaveLike(@"an accessor");

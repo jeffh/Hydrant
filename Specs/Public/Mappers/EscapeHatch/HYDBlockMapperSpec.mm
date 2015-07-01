@@ -34,10 +34,10 @@ describe(@"HYDBlockMapper", ^{
             return @1;
         });
 
-        [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @1;
-        [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
-        [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = @"parsedObject";
+        [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @1;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @"HI";
+        [CDRSpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = @"parsedObject";
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");

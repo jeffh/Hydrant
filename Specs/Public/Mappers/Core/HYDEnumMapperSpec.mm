@@ -74,12 +74,12 @@ describe(@"HYDEnumMapper", ^{
 
     describe(@"reverse mapper", ^{
         beforeEach(^{
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
         });
 
         context(@"with a female value", ^{
             beforeEach(^{
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderFemale);
+                [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderFemale);
             });
 
             itShouldBehaveLike(@"a mapper that does the inverse of the original");
@@ -87,7 +87,7 @@ describe(@"HYDEnumMapper", ^{
 
         context(@"with a male value", ^{
             beforeEach(^{
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderMale);
+                [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderMale);
             });
 
             itShouldBehaveLike(@"a mapper that does the inverse of the original");
@@ -95,7 +95,7 @@ describe(@"HYDEnumMapper", ^{
 
         context(@"with an unknown value", ^{
             beforeEach(^{
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderUnknown);
+                [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @(HYDSPersonGenderUnknown);
             });
 
             itShouldBehaveLike(@"a mapper that does the inverse of the original");

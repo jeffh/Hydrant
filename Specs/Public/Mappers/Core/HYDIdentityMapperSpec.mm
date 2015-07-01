@@ -32,8 +32,8 @@ describe(@"HYDIdentityMapper", ^{
 
     describe(@"reverse mapper", ^{
         beforeEach(^{
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @1;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @1;
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

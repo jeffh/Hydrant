@@ -23,7 +23,7 @@ describe(@"HYDDateToNumberMapper", ^{
                                 @"parsedObjectsMatcher": ^(NSNumber *actual, NSNumber *expected) {
                                     [actual doubleValue] should be_close_to([expected doubleValue]);
                                 }};
-        [[SpecHelper specHelper].sharedExampleContext addEntriesFromDictionary:scope];
+        [[CDRSpecHelper specHelper].sharedExampleContext addEntriesFromDictionary:scope];
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");

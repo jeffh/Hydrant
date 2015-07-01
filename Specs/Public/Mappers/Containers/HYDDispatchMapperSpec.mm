@@ -153,9 +153,9 @@ describe(@"HYDDispatchMapper", ^{
             HYDSFakeMapper *reverseMapper3 = [[HYDSFakeMapper alloc] init];
             childMapper3.reverseMapperToReturn = reverseMapper3;
 
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = placeholderValue;
-            [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2, childMapper3];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = placeholderValue;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2, childMapper3];
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

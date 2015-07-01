@@ -12,10 +12,10 @@ describe(@"HYDStringToURLMapper", ^{
 
     beforeEach(^{
         mapper = HYDMapStringToURL();
-        [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-        [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @"http://jeffhui.net";
-        [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @1;
-        [SpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = [NSURL URLWithString:@"http://jeffhui.net"];
+        [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @"http://jeffhui.net";
+        [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @1;
+        [CDRSpecHelper specHelper].sharedExampleContext[@"expectedParsedObject"] = [NSURL URLWithString:@"http://jeffhui.net"];
     });
 
     itShouldBehaveLike(@"a mapper that converts from one value to another");

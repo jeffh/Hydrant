@@ -101,8 +101,8 @@ describe(@"HYDPostProcessingMapper", ^{
             reverseChildMapper.objectsToReturn = @[@"LOL"];
             innerMapper.reverseMapperToReturn = reverseChildMapper;
 
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"LOL";
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @"LOL";
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

@@ -41,14 +41,14 @@ describe(@"HYDIndexAccessor", ^{
         beforeEach(^{
             accessor = HYDAccessIndex(@0, @2);
 
-            [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
-            [SpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [NSMutableArray array]; };
-            [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @[@"hi", [NSNull null], @"bob"];
-            [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = [NSNull null];
-            [SpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"0", @"2"];
-            [SpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"hi", @"bob"];
-            [SpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] = @[[NSNull null], @"pi", @"pizza"];
-            [SpecHelper specHelper].sharedExampleContext[@"expectedValuesWithNulls"] = @[[NSNull null], @"pizza"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [NSMutableArray array]; };
+            [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @[@"hi", [NSNull null], @"bob"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = [NSNull null];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"0", @"2"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"hi", @"bob"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] = @[[NSNull null], @"pi", @"pizza"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedValuesWithNulls"] = @[[NSNull null], @"pizza"];
         });
 
         itShouldBehaveLike(@"an accessor");
@@ -56,14 +56,14 @@ describe(@"HYDIndexAccessor", ^{
 
     context(@"with one key", ^{
         beforeEach(^{
-            [SpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
-            [SpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [NSMutableArray array]; };
-            [SpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @[@"Jesse"];
-            [SpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @{};
-            [SpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"0"];
-            [SpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"Jesse"];
-            [SpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] =  @[[NSNull null]];
-            [SpecHelper specHelper].sharedExampleContext[@"expectedValuesWithNulls"] = @[[NSNull null]];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"accessor"] = accessor;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"createTargetObject"] = ^{ return [NSMutableArray array]; };
+            [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObject"] = @[@"Jesse"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"invalidSourceObject"] = @{};
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedFieldNames"] = @[@"0"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedValues"] = @[@"Jesse"];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"validSourceObjectWithNulls"] =  @[[NSNull null]];
+            [CDRSpecHelper specHelper].sharedExampleContext[@"expectedValuesWithNulls"] = @[[NSNull null]];
         });
 
         itShouldBehaveLike(@"an accessor");

@@ -133,8 +133,8 @@ describe(@"HYDObjectToStringFormatterMapper", ^{
     describe(@"reverse mapper", ^{
         beforeEach(^{
             mapper = HYDMapObjectToStringByFormatter([[NSNumberFormatter alloc] init]);
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @1;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = @1;
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

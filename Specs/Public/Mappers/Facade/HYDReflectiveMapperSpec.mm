@@ -155,9 +155,9 @@ describe(@"HYDReflectiveMapper", ^{
                 childMapper2.reverseMapperToReturn = reverseChildMapper2;
                 reverseChildMapper2.objectsToReturn = @[@"John"];
 
-                [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-                [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
+                [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+                [CDRSpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
+                [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
                     NSMutableDictionary *sourceObject = [validSourceObject mutableCopy];
                     [sourceObject removeObjectsForKeys:@[@"parent", @"siblings"]];
                     sourceObject;
@@ -272,9 +272,9 @@ describe(@"HYDReflectiveMapper", ^{
                 childMapper2.reverseMapperToReturn = reverseChildMapper2;
                 reverseChildMapper2.objectsToReturn = @[@"John"];
 
-                [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-                [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
+                [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+                [CDRSpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
+                [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
                     NSMutableDictionary *sourceObject = [validSourceObject mutableCopy];
                     [sourceObject removeObjectsForKeys:@[@"parent", @"siblings"]];
                     sourceObject;
@@ -388,9 +388,9 @@ describe(@"HYDReflectiveMapper", ^{
                 childMapper2.reverseMapperToReturn = reverseChildMapper2;
                 reverseChildMapper2.objectsToReturn = @[@"John"];
                 
-                [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-                [SpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
-                [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
+                [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+                [CDRSpecHelper specHelper].sharedExampleContext[@"childMappers"] = @[childMapper1, childMapper2];
+                [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = ({
                     NSMutableDictionary *sourceObject = [validSourceObject mutableCopy];
                     [sourceObject removeObjectsForKeys:@[@"parent", @"siblings"]];
                     sourceObject;
