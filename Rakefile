@@ -1,5 +1,5 @@
 BUILD_DIR=File.absolute_path('build')
-SDK_BUILD_VERSION=ENV["SDK_BUILD_VERSION"] || ""
+SDK_BUILD_VERSION=ENV["SDK_BUILD_VERSION"] || "8.4"
 
 def system_or_exit(cmd, log=nil)
   puts "\033[32m==>\033[0m #{cmd}"
@@ -61,7 +61,7 @@ end
 desc 'Runs OSX test bundles'
 task :specs_osx do
   Simulator.quit
-  xcbuild("test -scheme Hydrant-OSX -workspace Hydrant.xcworkspace -sdk macosx SYMROOT=#{BUILD_DIR.inspect}")
+  xcbuild("test -scheme Hydrant-OSX -workspace Hydrant.xcworkspace SYMROOT=#{BUILD_DIR.inspect}")
   puts
 end
 

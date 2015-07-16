@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F0B581A1B439FFE0063EE46 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0B58191B439FFE0063EE46 /* Cedar.framework */; };
+		1F36DEC81B576B5C0015CB22 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F54489D1B13A226003C1FFC /* Cedar.framework */; };
+		1F36DEC91B576DB10015CB22 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F54489D1B13A226003C1FFC /* Cedar.framework */; };
 		1F5447191B13A0EC003C1FFC /* Hydrant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F54470E1B13A0EC003C1FFC /* Hydrant.framework */; };
 		1F5447371B13A0F6003C1FFC /* Hydrant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F54472C1B13A0F6003C1FFC /* Hydrant.framework */; };
 		1F5447451B13A119003C1FFC /* HYDClassInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAC11718121F6900846B44 /* HYDClassInspector.m */; };
@@ -352,7 +353,6 @@
 		1F5448981B13A1FB003C1FFC /* HYDErrorSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F12179A188C94FF00B1CBD1 /* HYDErrorSpec.mm */; };
 		1F5448991B13A1FC003C1FFC /* HYDReflectiveMapperSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F7BA21518BAB257009686C5 /* HYDReflectiveMapperSpec.mm */; };
 		1F54489A1B13A1FC003C1FFC /* HYDErrorSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F12179A188C94FF00B1CBD1 /* HYDErrorSpec.mm */; };
-		1F54489E1B13A226003C1FFC /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F54489D1B13A226003C1FFC /* Cedar.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -374,7 +374,6 @@
 
 /* Begin PBXFileReference section */
 		1F06C040181A2DC90017FDB4 /* HYDBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDBase.h; sourceTree = "<group>"; };
-		1F0B58191B439FFE0063EE46 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = "Externals/cedar/build/Debug-iphoneos/Cedar.framework"; sourceTree = "<group>"; };
 		1F12175B188B9BDF00B1CBD1 /* HYDSFakeMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDSFakeMapper.h; sourceTree = "<group>"; };
 		1F12175C188B9BDF00B1CBD1 /* HYDSFakeMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HYDSFakeMapper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1F121771188BF3DA00B1CBD1 /* HYDMutableCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYDMutableCollection.h; sourceTree = "<group>"; };
@@ -420,8 +419,6 @@
 		1F28C7AD189E0E8F0083E2D5 /* HYDUUIDFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDUUIDFormatter.h; sourceTree = "<group>"; };
 		1F28C7AE189E0E8F0083E2D5 /* HYDUUIDFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDUUIDFormatter.m; sourceTree = "<group>"; };
 		1F28C7B2189E0ED10083E2D5 /* HYDUUIDFormatterSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDUUIDFormatterSpec.mm; sourceTree = "<group>"; };
-		1F29ED3A1B1427F500513B62 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = Externals/cedar/build/Debug/Cedar.framework; sourceTree = "<group>"; };
-		1F29ED3C1B14280600513B62 /* libCedar-StaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCedar-StaticLib.a"; path = "Externals/cedar/build/Debug-iphoneos/libCedar-StaticLib.a"; sourceTree = "<group>"; };
 		1F2FDD8E190A2454008717A7 /* HYDReflectiveMapperCompositionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDReflectiveMapperCompositionSpec.mm; sourceTree = "<group>"; };
 		1F357E4418C30768004C4CBA /* HYDStringToNumberMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDStringToNumberMapper.h; sourceTree = "<group>"; };
 		1F357E4518C30768004C4CBA /* HYDStringToNumberMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDStringToNumberMapper.m; sourceTree = "<group>"; };
@@ -438,6 +435,7 @@
 		1F357E6618C31960004C4CBA /* HYDStringToURLMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDStringToURLMapperSpec.mm; sourceTree = "<group>"; };
 		1F357E6718C31960004C4CBA /* HYDStringToUUIDFormatterSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDStringToUUIDFormatterSpec.mm; sourceTree = "<group>"; };
 		1F357E6818C31960004C4CBA /* HYDUUIDToStringFormatterSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDUUIDToStringFormatterSpec.mm; sourceTree = "<group>"; };
+		1F36DECB1B576E3C0015CB22 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1F39975818C5AD66002FF753 /* HYDTypedObjectMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDTypedObjectMapper.h; sourceTree = "<group>"; };
 		1F39975918C5AD66002FF753 /* HYDTypedObjectMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDTypedObjectMapper.m; sourceTree = "<group>"; };
 		1F39976618C5AE28002FF753 /* HYDTypedObjectMapperSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDTypedObjectMapperSpec.mm; sourceTree = "<group>"; };
@@ -447,7 +445,6 @@
 		1F54472C1B13A0F6003C1FFC /* Hydrant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hydrant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F5447361B13A0F6003C1FFC /* Hydrant-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Hydrant-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F54489D1B13A226003C1FFC /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = "../../Library/Developer/Xcode/DerivedData/Hydrant-fmfysfxwdiatefeyzkirpepwgbhe/Build/Products/Debug/Cedar.framework"; sourceTree = "<group>"; };
-		1F5448A11B13A583003C1FFC /* libCedar-StaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCedar-StaticLib.a"; path = "Externals/cedar/build/Debug-iphoneos/libCedar-StaticLib.a"; sourceTree = "<group>"; };
 		1F5448A31B13A5B4003C1FFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F5AEFF519027B9C007F2358 /* HYDDispatchMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDDispatchMapper.h; sourceTree = "<group>"; };
 		1F5AEFF619027B9C007F2358 /* HYDDispatchMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDDispatchMapper.m; sourceTree = "<group>"; };
@@ -474,9 +471,6 @@
 		1F88089518A60F3800CE4C3F /* HYDKeyPathAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDKeyPathAccessor.h; sourceTree = "<group>"; };
 		1F88089618A60F3800CE4C3F /* HYDKeyPathAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDKeyPathAccessor.m; sourceTree = "<group>"; };
 		1FA35AA618E3CC2600D99840 /* HYDMapperPerformanceSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDMapperPerformanceSpec.mm; sourceTree = "<group>"; };
-		1FA35AC518E5380200D99840 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		1FA35AED18E53A8600D99840 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		1FA99489183B4A20001E9F2E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		1FB0F65F1883DCDD00120ABC /* HYDError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDError.h; sourceTree = "<group>"; };
 		1FB0F6601883DCDD00120ABC /* HYDError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDError.m; sourceTree = "<group>"; };
 		1FB7B1B219048628006834E5 /* HYDBackwardMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDBackwardMapper.h; sourceTree = "<group>"; };
@@ -586,7 +580,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F54489E1B13A226003C1FFC /* Cedar.framework in Frameworks */,
+				1F36DEC91B576DB10015CB22 /* Cedar.framework in Frameworks */,
 				1F5447191B13A0EC003C1FFC /* Hydrant.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -602,7 +596,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F0B581A1B439FFE0063EE46 /* Cedar.framework in Frameworks */,
+				1F36DEC81B576B5C0015CB22 /* Cedar.framework in Frameworks */,
 				1F5447371B13A0F6003C1FFC /* Hydrant.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,16 +686,10 @@
 		1F1E3F71180392ED00801509 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1F0B58191B439FFE0063EE46 /* Cedar.framework */,
-				1F29ED3C1B14280600513B62 /* libCedar-StaticLib.a */,
-				1F29ED3A1B1427F500513B62 /* Cedar.framework */,
-				1F5448A11B13A583003C1FFC /* libCedar-StaticLib.a */,
+				1F36DECB1B576E3C0015CB22 /* UIKit.framework */,
 				1F54489D1B13A226003C1FFC /* Cedar.framework */,
-				1FA35AED18E53A8600D99840 /* Foundation.framework */,
-				1FA99489183B4A20001E9F2E /* Foundation.framework */,
 				1F1E3F72180392ED00801509 /* Foundation.framework */,
 				1F1E3F9F1803931D00801509 /* CoreGraphics.framework */,
-				1FA35AC518E5380200D99840 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

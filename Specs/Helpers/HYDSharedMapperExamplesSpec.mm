@@ -229,8 +229,8 @@ sharedExamplesFor(@"a mapper that converts from one value to another", ^(NSDicti
 
     describe(@"reverse mapper", ^{
         beforeEach(^{
-            [SpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
-            [SpecHelper specHelper].sharedExampleContext[@"sourceObject"] = validSourceObject;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"mapper"] = mapper;
+            [CDRSpecHelper specHelper].sharedExampleContext[@"sourceObject"] = validSourceObject;
         });
 
         itShouldBehaveLike(@"a mapper that does the inverse of the original");

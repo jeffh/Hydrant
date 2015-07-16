@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D" : 0,
+    "3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "41A2AE20-8338-42BF-9DE9-0993F7A1ABF0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D" : "HydrantExternals\/cedar",
+    "3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6" : "Hydrant"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Hydrant",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Hydrant.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jeffh\/Hydrant.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3EF31CA9F0DC693F8569859F3F5BE1DADD5174F6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/pivotal\/cedar.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D"
+    }
+  ]
+}

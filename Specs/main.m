@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Jeff Hui. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import <Cedar-iOS.h>
 
 int main(int argc, char ** argv)
