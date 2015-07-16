@@ -1,5 +1,6 @@
 BUILD_DIR=File.absolute_path('build')
-SDK_BUILD_VERSION=ENV["SDK_BUILD_VERSION"] || "8.4"
+LATEST_SDK_VERSION=`xcodebuild -showsdks | grep iphonesimulator | cut -d ' ' -f 4`.chomp.split("\n").last
+SDK_BUILD_VERSION=ENV["SDK_BUILD_VERSION"] || LATEST_SDK_VERSION
 
 def system_or_exit(cmd, log=nil)
   puts "\033[32m==>\033[0m #{cmd}"
