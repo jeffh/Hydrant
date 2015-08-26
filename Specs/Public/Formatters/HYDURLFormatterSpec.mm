@@ -145,6 +145,21 @@ describe(@"HYDURLFormatter", ^{
             });
         });
 
+        context(@"when the url string is valid, but contains non-ascii characters", ^{
+            beforeEach(^{
+                sourceObject = @"https://www.mydomain.com/01-Coupé-400x300.png";
+            });
+
+            it(@"should return a percent-escaped url", ^{
+                parsedObject should equal([NSURL URLWithString:@"https://www.mydomain.com/01-Coup%C3%A9-400x300.png"]);
+            });
+
+            it(@"should not report an error", ^{
+                success should be_truthy;
+                errorDescription should be_nil;
+            });
+        });
+
         context(@"when not given a string", ^{
             beforeEach(^{
                 sourceObject = [NSNull null];

@@ -29,6 +29,10 @@
     }
 
     NSURL *url = [NSURL URLWithString:string];
+    if (!url) {
+        url = [NSURL URLWithString:[string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }
+
     if (!url.scheme) {
         HYDSetObjectPointer(error, HYDLocalizedStringFormat(@"The value '%@' is not a valid URL", string));
         return NO;
