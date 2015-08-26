@@ -55,8 +55,8 @@ end
 desc 'Runs iOS 8 test bundles'
 task :specs_ios do
   Simulator.quit
-  xcbuild("test -scheme Hydrant-iOS -workspace Hydrant.xcworkspace -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone 5s,OS=8.3' SYMROOT=#{BUILD_DIR.inspect}")
-  puts
+  xcbuild("test -scheme Hydrant-iOS -workspace Hydrant.xcworkspace -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'name=iPhone 5s,OS=#{LATEST_SDK_VERSION}' SYMROOT=#{BUILD_DIR.inspect}")
+  puts 
 end
 
 desc 'Runs OSX test bundles'
