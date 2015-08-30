@@ -84,7 +84,7 @@ end
 
 desc 'Runs cocoapod spec lint'
 task :lint do
-  system_or_exit('pod spec lint Hydrant.podspec')
+  system_or_exit('pod spec lint Hydrant.podspec --verbose')
 end
 
 task :default => [:clean, :specs_osx, :specs_ios]
