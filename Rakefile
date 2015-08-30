@@ -41,6 +41,21 @@ def xcbuild(cmd)
   end
 end
 
+def device_id_for(name)
+  # Xcode final + beta tends to produce multiple device ids for the same OS +
+  # name. Since device_ids aren't always the same across OSes, we need to
+  # manually parse for one.
+  contents = `xcodebuild test -scheme Hydrant-iOS -workspace Hydrant.xcworkspace -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'help=me' 2>&1 | grep 'iOS Simulator' | grep 'OS:#{SDK_BUILD_VERSION}' | grep 'name:#{name}'`
+  line = contents.split("\n").first
+  match = /id:([a-zA-Z0-9-]+), /.match(line)
+  unless match
+    puts "[Failed] Cannot determine device id"
+    exit(1)
+  end
+
+  match[1]
+end
+
 desc 'Cleans build dir'
 task :clean do
   system_or_exit("rm -rf #{BUILD_DIR.inspect} || true")
@@ -55,8 +70,7 @@ end
 desc 'Runs iOS 8 test bundles'
 task :specs_ios do
   Simulator.quit
-  # iOS 8.4, iPhone 5s
-  device_id = "DA8DFC99-4F2F-46B1-83E1-3FFC48B55A94"
+  device_id = device_id_for('iPhone 5s')
   xcbuild("test -scheme Hydrant-iOS -workspace Hydrant.xcworkspace -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'id=#{device_id}' SYMROOT=#{BUILD_DIR.inspect}")
   puts 
 end
