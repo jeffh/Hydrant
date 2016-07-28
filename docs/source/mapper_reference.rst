@@ -271,7 +271,7 @@ HYDMapDateToString
 ==================
 
 This wraps around :ref:`HYDMapObjectToStringByFormatter` and provides
-conviences for using an `NSDateFormatter`_ to map a date to a string.
+conveniences for using an `NSDateFormatter`_ to map a date to a string.
 
 The following helper functions are available::
 
@@ -294,7 +294,7 @@ HYDMapStringToDate
 ==================
 
 This wraps around :ref:`HYDMapStringToObjectByFormatter` and provides
-conviences for using an `NSDateFormatter`_ to map a string to a date.
+conveniences for using an `NSDateFormatter`_ to map a string to a date.
 
 The following helper functions are available::
 
@@ -325,7 +325,7 @@ dates.
 HYDMapStringToNumber
 ====================
 
-This provides conviences to :ref:`HYDMapStringToObjectByFormatter` by using
+This provides conveniences to :ref:`HYDMapStringToObjectByFormatter` by using
 `NSNumberFormatter`_ to convert a string to an `NSNumber`_.
 
 The following helper functions are available::
@@ -348,7 +348,7 @@ responsibility of this mapper, that is what :ref:`HYDMapKVCObject` does.
 HYDMapNumberToString
 ====================
 
-This provides conviences to :ref:`HYDMapStringToObjectByFormatter` by using
+This provides conveniences to :ref:`HYDMapStringToObjectByFormatter` by using
 `NSNumberFormatter`_ to convert an `NSNumber`_ to a string.
 
 The following helper functions are available::
@@ -373,7 +373,7 @@ responsibility of this mapper, that is what :ref:`HYDMapKVCObject` does.
 HYDMapURLToString
 =================
 
-This provides conviences to :ref:`HYDMapObjectToStringByFormatter` by using
+This provides conveniences to :ref:`HYDMapObjectToStringByFormatter` by using
 :ref:`HYDURLFormatter` to convert an `NSURL` to a string.
 
 The following helper functions are available::
@@ -396,7 +396,7 @@ The reverse of this mapper is :ref:`HYDMapStringToDate`.
 HYDMapStringToURL
 =================
 
-This provides conviences to :ref:`HYDMapStringToObjectByFormatter` by using
+This provides conveniences to :ref:`HYDMapStringToObjectByFormatter` by using
 :ref:`HYDURLFormatter` to convert a string to an `NSURL`_.
 
 The following helper functions are available::
@@ -421,7 +421,7 @@ The reverse of this mapper is :ref:`HYDMapDateToString`.
 HYDMapUUIDToString
 ==================
 
-This provides conviences to :ref:`HYDMapObjectToStringByFormatter` by using
+This provides conveniences to :ref:`HYDMapObjectToStringByFormatter` by using
 :ref:`HYDUUIDFormatter` to convert an `NSUUID`_ to a string.
 
 The following helper functions are available::
@@ -437,7 +437,7 @@ The reverse of this mapper is :ref:`HYDMapStringToUUID`.
 HYDMapStringToUUID
 ==================
 
-This provides conviences to :ref:`HYDMapStringToObjectByFormatter` by using
+This provides conveniences to :ref:`HYDMapStringToObjectByFormatter` by using
 :ref:`HYDUUIDFormatter` to convert a string to an `NSUUID`_.
 
 The following helper functions are available::
@@ -640,8 +640,8 @@ The helper functions available for this mapper::
     HYDMapArrayOfObjects(Class sourceItemClass, Class destinationItemClass, NSDictionary *mapping)
     HYDMapArrayOfObjects(Class destinationItemClass, NSDictionary *mapping)
 
-``HYDMapArrayOf`` are a set of convience functions that assume the source
-and destination collection to be NSArrays. Further conviences are built
+``HYDMapArrayOf`` are a set of convenience functions that assume the source
+and destination collection to be NSArrays. Further convenience are built
 on top that to convert an array of objects into another array of objects.
 
 ``HYDMapArrayOfObjects`` is simply the composition::
@@ -968,7 +968,7 @@ functionality, use the lower-level :ref:`HYDMapKVCObject` instead.
 HYDMapWithBlock
 ===============
 
-.. note:: This is a convience to create custom Hydrant mappers. Blocks
+.. note:: This is a convenience to create custom Hydrant mappers. Blocks
           that execute custom code are subject to the same error handling that
           Hydrant expects for mappers to conform to :ref:`HYDMapper`
           in order to be exception-free.
@@ -1017,7 +1017,7 @@ the created mapper.
 HYDMapWithPostProcessing
 ========================
 
-.. note:: This is a convience to create custom Hydrant mappers. Blocks
+.. note:: This is a convenience to create custom Hydrant mappers. Blocks
           that execute custom code are subject to the same error handling that
           Hydrant expects for mappers to conform to :ref:`HYDMapper`
           in order to be exception-free.

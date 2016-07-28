@@ -5,7 +5,7 @@ Formatter Reference
 ===================
 
 This is the reference documentation for all the `NSFormatters`_ that
-Hydrant implements as conviences for you. When using mappers that utilize
+Hydrant implements as conveniences for you. When using mappers that utilize
 formatters:
 
     - :ref:`HYDMapObjectToStringByFormatter`

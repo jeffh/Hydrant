@@ -5,7 +5,7 @@ Value Transformer Reference
 ===========================
 
 This is the reference documentation for all the `NSValueTransformers`_ that
-Hydrant implements as conviences for you. Currently, these transformers are
+Hydrant implements as conveniences for you. Currently, these transformers are
 intended to be used with :ref:`HYDMapReflectively`.
 
 They are also publicly exposed if you need or prefer to use these classes

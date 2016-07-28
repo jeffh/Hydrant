@@ -75,7 +75,7 @@ Have Small Abstractions
 -----------------------
 
 The best abstractions are as narrow as possible, to allow the most flexibility
-of an implementation. Conviences should be built on top of them but not be
+of an implementation. Conveniences should be built on top of them but not be
 included into the abstraction.
 
 A large abstraction is usually indicative of multiple abstractions that need
@@ -105,8 +105,8 @@ fixed with associated tests that verify the bug.
 
 .. _HYDMapper:
 
-Mapper Protocol
-===============
+Mapper
+======
 
 Let's look at the mapper protocol which is the foundation to Hydrant's design::
 
@@ -169,8 +169,8 @@ exists for syntactic reasons of the DSL.
 
 .. _HYDAccessor:
 
-Accessor Protocol
-=================
+Accessor
+========
 
 Some mappers use a smaller abstraction called accessors. Accessors describe
 how to set and get values. Surprisingly, they are larger than the :ref:`HYDMapper`

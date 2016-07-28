@@ -5,6 +5,7 @@ v2.0.0
 ------
 
  - Updated compatibility for latest stable iOS SDKs (9.0 - Xcode 7.3.1)
+ - Minor documentation fixes
 
 v2.0.0-alpha.2
 --------------
