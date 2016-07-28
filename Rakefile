@@ -28,17 +28,11 @@ class Simulator
     system("osascript -e 'tell app \"iPhone Simulator\" to quit' > /dev/null")
     sleep(1)
   end
-
-  def self.launch(app, sdk)
-    quit
-    system_or_exit("ios-sim launch #{app.inspect} --tall --retina --sdk #{sdk.inspect} 2>&1 | tee -a /dev/stdout /dev/stderr | grep -q ', 0 failures'")
-  end
 end
 
 def xcbuild(cmd)
   Simulator.quit
-  unless system_or_exit("xcodebuild #{cmd}", "build.txt")
-  end
+  system_or_exit("xcodebuild #{cmd}", "build.txt")
 end
 
 def device_id_for(name)
