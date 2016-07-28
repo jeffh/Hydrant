@@ -279,7 +279,7 @@ describe(@"HYDError", ^{
             it(@"should have a pretty recursive description that includes fatal errors", ^{
                 NSString *format = @"HYDErrorDomain code=%lu isFatal=YES reason=\"Multiple parsing errors occurred (fatal=1, total=2)\" underlyingFatalErrors=(\n"
                 @"  - HYDErrorDomain code=1 isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor': got a type of __NSCFNumber\" underlyingFatalErrors=(\n"
-                @"      - Error Domain=NSCocoaErrorDomain Code=2 \"The operation couldn’t be completed. (Cocoa error 2.)\"\n"
+                @"      - Error Domain=NSCocoaErrorDomain Code=2 \"(null)\"\n"
                 @"    )\n"
                 @")";
                 [errorContainer recursiveDescription] should equal([NSString stringWithFormat:format,
@@ -308,7 +308,7 @@ describe(@"HYDError", ^{
         it(@"should have a pretty recursive description with all errors", ^{
             NSString *format = @"HYDErrorDomain code=%lu isFatal=NO reason=\"Multiple parsing errors occurred (fatal=1, total=2)\" underlyingErrors=(\n"
             @"  - HYDErrorDomain code=1 isFatal=YES reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor': got a type of __NSCFNumber\" underlyingErrors=(\n"
-            @"      - Error Domain=NSCocoaErrorDomain Code=2 \"The operation couldn’t be completed. (Cocoa error 2.)\"\n"
+            @"      - Error Domain=NSCocoaErrorDomain Code=2 \"(null)\"\n"
             @"    )\n"
             @"  - HYDErrorDomain code=1 isFatal=NO reason=\"Could not map from 'sourceAccessor' to 'destinationAccessor': got a type of __NSCFConstantString\"\n"
             @")";
