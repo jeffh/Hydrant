@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = "Hydrant"
-  s.version               = "2.0.0-alpha.2"
+  s.version               = "2.0.0"
   s.summary               = "A simple data mapper / object serializer for objective-c"
 
   s.description           = <<-DESC
