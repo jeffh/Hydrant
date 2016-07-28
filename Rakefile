@@ -64,7 +64,7 @@ end
 desc 'Runs iOS 8 test bundles'
 task :specs_ios do
   Simulator.quit
-  device_id = device_id_for('iPhone 5s')
+  device_id = device_id_for('iPhone 6s Plus')
   xcbuild("test -scheme Hydrant-iOS -workspace Hydrant.xcworkspace -sdk iphonesimulator#{SDK_BUILD_VERSION} -destination 'id=#{device_id}' SYMROOT=#{BUILD_DIR.inspect}")
   puts 
 end
