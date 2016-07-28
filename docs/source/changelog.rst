@@ -9,6 +9,11 @@ Here lists all the changes that have occurred in Hydrant from version to
 version. They are ordered by version, then by significance of change (from
 breaking changes to minor bug fixes).
 
+v2.0.0
+======
+
+ - Updated compatibility for latest stable iOS SDKs (9.0 - Xcode 7.3.1)
+
 v2.0.0-alpha.2
 ==============
 

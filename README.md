@@ -45,7 +45,7 @@ Installation
 
 Like cocopods? Add this:
 
-    pod "Hydrant", '~>1.0.0'
+    pod "Hydrant", '~>2.0.0'
 
 Or if you prefer living life on the edge:
 

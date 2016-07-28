@@ -7,7 +7,7 @@ If you're using `CocoaPods`_, you can pull in Hydrant by adding this to your
 pod file::
 
     # this will pull any patch version with 'pod update'
-    pod "Hydrant", '~>1.0.0'
+    pod "Hydrant", '~>2.0.0'
 
 Or submodule the project into your project::
 
