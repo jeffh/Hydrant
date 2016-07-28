@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
                             Automated mapping of NSDictionaries/NSArrays to Value Objects with
                             the goal of being exception-free and support graceful error handling.
 
-                            Read up the documentation at http://hydrant.readthedocs.org/.
+                            Read up the documentation at http://hydrant.readthedocs.io/.
                             DESC
 
   s.homepage              = "https://github.com/jeffh/Hydrant"

@@ -2,7 +2,7 @@ Hydrant
 =======
 
 [![Build Status](https://travis-ci.org/jeffh/Hydrant.svg?branch=master)](https://travis-ci.org/jeffh/Hydrant)
-[Documentation](http://hydrant.readthedocs.org)
+[Documentation](http://hydrant.readthedocs.io)
 
 A [simple](http://www.infoq.com/presentations/Simple-Made-Easy) object data mapper for Objective-C.
 It aims to solve the data mapping problem well with a high degree of flexibility.
@@ -58,5 +58,5 @@ Add the Hydrant static library for your dependencies or use the source directly.
 Usage
 =====
 
-Read [Getting Started](http://hydrant.readthedocs.org/en/latest/getting_started.html).
+Read [Getting Started](http://hydrant.readthedocs.io/en/latest/getting_started.html).
 
