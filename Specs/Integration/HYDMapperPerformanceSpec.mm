@@ -212,7 +212,7 @@ describe(@"HYDMapperPerformance", ^{
             numberOfAllocationsOf("NSString", ^{
                 HYDError *error = nil;
                 [nonFatalMapper objectFromSourceObject:sourceObject error:&error];
-            }) should equal(1); // 1 comes from +[HYDClassInspector inspectorForClass:]
+            }) should be_less_than_or_equal_to(1); // 1 comes from +[HYDClassInspector inspectorForClass:]
         });
     });
 
@@ -242,7 +242,7 @@ describe(@"HYDMapperPerformance", ^{
                 HYDError *error = nil;
                 [mapper objectFromSourceObject:sourceObject error:&error];
                 [error description];
-            }) should be_less_than(sourceObject.count * invalidObject.count + 1);
+            }) should be_less_than_or_equal_to(sourceObject.count * invalidObject.count + 1);
             // 1 comes from +[HYDClassInspector inspectorForClass:]
         });
     });
