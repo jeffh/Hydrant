@@ -8,7 +8,7 @@ A [simple](http://www.infoq.com/presentations/Simple-Made-Easy) object data mapp
 It aims to solve the data mapping problem well with a high degree of flexibility.
 
 Mapping NSDictionaries to [Value Objects](https://github.com/jeffh/JKVValue) is boring
-work! A lot of the work usually gets spread around in -[initWithDictionary:] methods
+work! A lot of the work usually gets spread around in `-[initWithDictionary:]` methods
 which has a few drawbacks:
 
  - They tightly couple your deserialization process to the value object. This can be extra confusing for deserializing the same object with a not-so-consistent backend API (which you may not control).
