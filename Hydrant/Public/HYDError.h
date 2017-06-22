@@ -96,8 +96,6 @@
  *  @param destinationAccessor the target property/key that this resulting object would be store in. Return nil if not known.
  *  @param isFatal the bool that indicates if this error is fatal. It is still the mapper's responsibility to
  *                 return a nil resulting object if the error was fatal.
- *  @param underlyingErrors An error of any kind of NSErrors that contributed to this error. Return nil if there
- *                          are no underlying errors.
  *  @returns a new HYDError instance
  */
 + (instancetype)errorFromErrors:(NSArray *)errors

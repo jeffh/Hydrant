@@ -35,11 +35,9 @@ id<HYDMapper> HYDMapCollectionOf(id<HYDMapper> itemMapper, Class sourceCollectio
 HYD_REQUIRE_NON_NIL(1,2,3);
 
 
-/*! Returns a mapper from two collections where itemMapper can map each element between
- *  the two collections.
+/*! Returns a mapper from two identically typed collections.
  *
- *  @param sourceCollectionClass the incoming collection source type
- *  @param destinationCollectionClass the resulting collection type generated
+ *  @param collectionClass the input and resulting collection type generated
  *  @returns A HYDCollectionMapper that can do the conversion.
  */
 HYD_EXTERN_OVERLOADED

@@ -38,9 +38,6 @@ HYD_REQUIRE_NON_NIL(2);
  *  this one will attempt any method that works.
  *
  *  @warning Reversing this mapper may produce unexpected results.
- *
- *  @param innerMapper The mapper that processes the source value before this mapper.
- *  @param dateFormatter The date formatter instance to use to parse date strings.
  */
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapStringToAnyDate(void);
@@ -51,7 +48,6 @@ id<HYDMapper> HYDMapStringToAnyDate(void);
  *  @warning Reversing this mapper may produce unexpected results.
  *
  *  @param innerMapper The mapper that processes the source value before this mapper.
- *  @param dateFormatter The date formatter instance to use to parse date strings.
  */
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapStringToAnyDate(id<HYDMapper> innerMapper)

@@ -17,7 +17,6 @@ HYD_REQUIRE_NON_NIL(1);
 
 /*! Constructs a mapper that maps strings to URLs.
  *
- *  @param destinationKey The property hint to where the place the mapped value to for other mappers.
  *  @param allowedSchemes The set of allowed schemes for this mapper to accept.
  */
 HYD_EXTERN_OVERLOADED
@@ -37,7 +36,6 @@ HYD_REQUIRE_NON_NIL(1,2);
 
 /*! Constructs a mapper that maps strings to URLs.
  *
- *  @param destinationKey The property hint to where the place the mapped value to for other mappers.
  *  @param allowedSchemes The set of allowed schemes for this mapper to accept.
  */
 HYD_EXTERN_OVERLOADED

@@ -48,8 +48,6 @@
  *  This provides a handy way to reverse a mapping operation. Parent mappers can
  *  call this method on all its children to build a reversed-parent mapper.
  *
- *  @param destinationAccessor The new destination key path-compatible string representing
- *                             the property name to assign to for the reverse mapper.
  *  @returns A HYDMapper conforming object that can perform the inverse conversion of
  *           the current mapper.
  */

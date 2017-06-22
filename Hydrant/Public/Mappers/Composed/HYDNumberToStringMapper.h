@@ -33,7 +33,7 @@ HYD_REQUIRE_NON_NIL(1);
 
 /*! Constructs a mapper that converts a number to a string.
  *
- *  @param NSNumberFormatter A custom number formatter instance to use.
+ *  @param numberFormatter A custom number formatter instance to use.
  */
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapNumberToString(NSNumberFormatter *numberFormatter)
@@ -42,7 +42,7 @@ HYD_REQUIRE_NON_NIL(1);
 /*! Constructs a mapper that converts a number to a string.
  *
  *  @param mapper The mapper that processes the source value before this mapper.
- *  @param NSNumberFormatter A custom number formatter instance to use.
+ *  @param numberFormatter A custom number formatter instance to use.
  */
 HYD_EXTERN_OVERLOADED
 id<HYDMapper> HYDMapNumberToString(id<HYDMapper> mapper, NSNumberFormatter *numberFormatter)
