@@ -30,7 +30,12 @@
 
     NSURL *url = [NSURL URLWithString:string];
     if (!url) {
+#if TARGET_OS_TV
+        url = [NSURL URLWithString:[string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]]];
+#else
+        // backwards compatibility
         url = [NSURL URLWithString:[string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+#endif
     }
 
     if (!url.scheme) {

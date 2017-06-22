@@ -1,4 +1,5 @@
 #import <Hydrant/Hydrant.h>
+#import "HYDSCedarMatchers.h"
 
 @interface HYDError (Spec)
 

@@ -1,6 +1,7 @@
 #import <Cedar/Cedar.h>
 // DO NOT include any other library headers here to simulate an API user.
 #import "Hydrant.h"
+#import "HYDSCedarMatchers.h"
 #import "HYDSPerson.h"
 #import "HYDSFakeAccessor.h"
 #import "HYDSFakeMapper.h"
